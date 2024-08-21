@@ -1,0 +1,7 @@
+{
+  "name": "suravic-integrity-frontend",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
