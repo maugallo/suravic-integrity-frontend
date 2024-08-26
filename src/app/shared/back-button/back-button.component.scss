@@ -1,0 +1,15 @@
+@import '../../../theme/variables.scss';
+
+.back-button {
+    position: fixed;
+    top: 3rem;
+    left: 1.25rem;
+}
+
+.back-button:hover {
+    cursor: pointer;
+}
+
+.fa-solid {
+    color: #{$primary-color};
+}

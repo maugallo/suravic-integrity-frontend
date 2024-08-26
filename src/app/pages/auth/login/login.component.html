@@ -1,5 +1,7 @@
 <ion-content>
+  <app-back-button url="welcome" ></app-back-button>
   <div class="login-container p-10">
+    <!-- Login title -->
     <div>
       <p class="login-title m-0">Ingresar como</p>
       @if (path === 'dueno-login') { <p class="login-title mt-1 mb-5">Dueño</p> }
@@ -19,10 +21,11 @@
         <ion-input #passwordInput="ngModel" name="passwordInput" id="passwordInput" [(ngModel)]="user.password" class="mb-10" type="password" label="Contraseña" label-placement="floating" fill="outline" placeholder="Ingrese su contraseña"
           required [errorText]="errorHandlerService.getErrorMessage(passwordInput.errors)"></ion-input>
       </div>
+
       <div>
         <!-- Submit button -->
         <ion-button type="submit" expand="block">Ingresar</ion-button>
-        @if (path === 'encargado-login') { <p class="forgot-password" (click)="router.navigate(['forgot-password'])">¿Olvidaste tu contraseña?</p> }
+        @if (path === 'encargado-login') { <p class="forgot-password mb-0" (click)="router.navigate(['forgot-password'])">¿Olvidaste tu contraseña?</p> }
       </div>
     </form>
   </div>

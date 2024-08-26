@@ -3,13 +3,14 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { IonInput, IonContent, IonIcon, IonButton } from "@ionic/angular/standalone";
 import { ErrorHandlerService } from 'src/app/core/services/error-handler.service';
+import { BackButtonComponent } from "../../../shared/back-button/back-button.component";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   standalone: true,
-  imports: [IonButton, IonIcon, IonContent, IonInput, FormsModule, RouterLink]
+  imports: [IonButton, IonIcon, IonContent, IonInput, FormsModule, RouterLink, BackButtonComponent]
 })
 export class LoginComponent implements OnInit {
   
@@ -18,7 +19,6 @@ export class LoginComponent implements OnInit {
 
   path: String = '';
 
-  
   user: any = {
     username: '',
     password: '',

@@ -1,0 +1,42 @@
+@import '/src/theme/variables.scss';
+
+ion-content {
+    --background: #{$primary-color};
+}
+
+.welcome-container {
+    text-align: center;
+}
+
+img {
+    height: 16rem;
+}
+
+.app-title {
+    font-size: 2.7rem;
+    font-weight: bold;
+    color: white;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+ion-button {
+    --background: white;
+    --border-radius: 4px;
+    --box-shadow: 0 5px 6px 0 rgb(0, 0, 0, 0.25);
+    color: #{$primary-color};
+    height: 8rem;
+    width: 10rem;
+}
+
+.button-label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: large;
+    font-weight: 600;
+}
