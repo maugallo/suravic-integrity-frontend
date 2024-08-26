@@ -1,0 +1,60 @@
+@import '/src/theme/variables.scss';
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.login-container .login-title {
+  font-weight: bold;
+  color: $primary-color;
+  font-size: 2rem;
+}
+
+.circle-container {
+  width: 10rem;
+  height: 10rem;
+  background-color: #{$primary-color-lighter};
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.circle-container .fa-solid {
+  color: $primary-color;
+}
+
+ion-input {
+  --color: #{$secondary-color-darker};
+  --placeholder-color: #{$secondary-color-darker};
+  --border-color: #{$secondary-color} !important;
+  --border-width: 0.10rem;
+  --highlight-color-valid: #{$primary-color};
+}
+
+ion-input.has-focus {
+  --highlight-color-focused: #{$primary-color};
+  --border-color: #{$primary-color} !important;
+}
+
+ion-button {
+  --background: #{$primary-color};
+  --border-radius: 4px;
+  height: 3.3rem;
+}
+
+.forgot-password {
+  text-align: left;
+  font-weight: bold;
+  color: #{$primary-color};
+  text-decoration: none;
+}
+
+.forgot-password:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}

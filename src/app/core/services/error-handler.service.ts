@@ -1,0 +1,17 @@
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ErrorHandlerService {
+
+  public getErrorMessage(errors: any) {
+    if (!errors) return '';
+    if (errors.required) return 'Este campo es obligatorio';
+    if (errors.minlength) return `Debe tener al menos ${errors.minlength.requiredLength} caracteres`;
+    if (errors.maxlength) return `No deben haber más de ${errors.minlength.requiredLength} caracteres`;
+
+    return '';
+  }
+
+}

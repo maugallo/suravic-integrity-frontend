@@ -1,0 +1,29 @@
+<ion-content>
+  <div class="login-container p-10">
+    <div>
+      <p class="login-title m-0">Ingresar como</p>
+      @if (path === 'dueno-login') { <p class="login-title mt-1 mb-5">Dueño</p> }
+      @if (path === 'encargado-login') { <p class="login-title mt-1 mb-5">Encargado</p> }
+      <div class="circle-container">
+        @if (path === 'dueno-login') { <i class="fa-solid fa-user-tie fa-5x"></i> }
+        @if (path === 'encargado-login') { <i class="fa-solid fa-user fa-5x"></i> }
+      </div>
+    </div>
+
+    <form #loginForm="ngForm" id="loginForm" (ngSubmit)="onSubmit(loginForm)">
+      <div>
+        <!-- Username input -->
+        <ion-input #usernameInput="ngModel" name="usernameInput" id="usernameInput" [(ngModel)]="user.username" class="my-10" type="text" label="Usuario" label-placement="floating" fill="outline" placeholder="Ingrese su usuario"
+          required [errorText]="errorHandlerService.getErrorMessage(usernameInput.errors)"></ion-input>
+        <!-- Password input -->
+        <ion-input #passwordInput="ngModel" name="passwordInput" id="passwordInput" [(ngModel)]="user.password" class="mb-10" type="password" label="Contraseña" label-placement="floating" fill="outline" placeholder="Ingrese su contraseña"
+          required [errorText]="errorHandlerService.getErrorMessage(passwordInput.errors)"></ion-input>
+      </div>
+      <div>
+        <!-- Submit button -->
+        <ion-button type="submit" expand="block">Ingresar</ion-button>
+        @if (path === 'encargado-login') { <p class="forgot-password" (click)="router.navigate(['forgot-password'])">¿Olvidaste tu contraseña?</p> }
+      </div>
+    </form>
+  </div>
+</ion-content>
