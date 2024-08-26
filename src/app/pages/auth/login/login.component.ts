@@ -2,8 +2,8 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { IonInput, IonContent, IonIcon, IonButton } from "@ionic/angular/standalone";
-import { ErrorHandlerService } from 'src/app/core/services/error-handler.service';
 import { BackButtonComponent } from "../../../shared/back-button/back-button.component";
+import { ValidationService } from 'src/app/core/services/validation.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +15,7 @@ import { BackButtonComponent } from "../../../shared/back-button/back-button.com
 export class LoginComponent implements OnInit {
   
   router = inject(Router);
-  errorHandlerService = inject(ErrorHandlerService);
+  errorHandlerService = inject(ValidationService);
 
   path: String = '';
 
