@@ -10,6 +10,7 @@ export class ValidationService {
     if (errors.required) return 'Este campo es obligatorio';
     if (errors.minlength) return `Debe tener al menos ${errors.minlength.requiredLength} caracteres`;
     if (errors.maxlength) return `No deben haber más de ${errors.minlength.requiredLength} caracteres`;
+    if (errors.loginError) return errors.loginError;
 
     return '';
   }

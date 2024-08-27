@@ -12,5 +12,6 @@ export interface UserRegisterRequest {
 export interface UserResponse {
     id: number,
     username: string,
-    role: string
+    role: string,
+    isEnabled: boolean
 }

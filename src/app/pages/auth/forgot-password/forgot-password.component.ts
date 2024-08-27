@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonButton, IonContent } from "@ionic/angular/standalone";
-import { BackButtonComponent } from "../../../shared/back-button/back-button.component";
+import { BackButtonComponent } from "../../../shared/components/back-button/back-button.component";
 
 @Component({
   selector: 'app-forgot-password',

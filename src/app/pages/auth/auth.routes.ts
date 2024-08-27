@@ -5,7 +5,6 @@ import { WelcomeComponent } from "./welcome/welcome.component";
 
 export const AUTH_ROUTES: Routes = [
     { path: 'welcome', component: WelcomeComponent },
-    { path: 'dueno-login', component: LoginComponent },
-    { path: 'encargado-login', component: LoginComponent },
+    { path: 'login', component: LoginComponent },
     { path: 'forgot-password', component: ForgotPasswordComponent }
 ]

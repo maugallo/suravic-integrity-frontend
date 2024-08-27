@@ -1,9 +1,12 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
+import { Component, inject, ViewChild } from '@angular/core';
+import { FormsModule, NgForm, NgModel } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { IonInput, IonContent, IonIcon, IonButton } from "@ionic/angular/standalone";
-import { BackButtonComponent } from "../../../shared/back-button/back-button.component";
+import { BackButtonComponent } from "../../../shared/components/back-button/back-button.component";
 import { ValidationService } from 'src/app/core/services/validation.service';
+import { UserLoginRequest } from 'src/app/core/models/user.model';
+import { TokenStorageService } from 'src/app/core/services/token-storage.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -12,40 +15,41 @@ import { ValidationService } from 'src/app/core/services/validation.service';
   standalone: true,
   imports: [IonButton, IonIcon, IonContent, IonInput, FormsModule, RouterLink, BackButtonComponent]
 })
-export class LoginComponent implements OnInit {
-  
+export class LoginComponent {
+
   router = inject(Router);
-  errorHandlerService = inject(ValidationService);
 
-  path: String = '';
+  validationService = inject(ValidationService);
+  authService = inject(AuthService);
+  tokenStorageService = inject(TokenStorageService);
 
-  user: any = {
+  @ViewChild('passwordInput', { static: false }) passwordInput!: NgModel;
+  @ViewChild('usernameInput', { static: false }) usernameInput!: NgModel;
+
+  user: UserLoginRequest = {
     username: '',
     password: '',
-    role: ''
-  }
-
-  ngOnInit(): void {
-    this.path = this.getCurrentRoute();
-
-    if (this.path === 'dueno-login') this.user.role = 'DUENO';
-    if (this.path === 'encargado-login') this.user.role = 'ENCARGADO';
-
-    
-
-  }
-
-  private getCurrentRoute() {
-    const urlSegments = this.router.url.split('/');
-    return urlSegments[urlSegments.length - 1];
   }
 
   public onSubmit(loginForm: NgForm) {
-    if (loginForm.valid) {
-
+    if (loginForm.valid){
+      this.handleLogin();
     } else {
       loginForm.form.markAllAsTouched();
     }
+  }
+
+  private handleLogin() {
+    this.authService.login(this.user).subscribe({
+      next: (response) => {
+        const token = response.headers.get('Authorization')!;
+        this.tokenStorageService.setToken(token);
+      },
+      error: (error) => {
+        this.usernameInput.control.setErrors({ loginError: error.message });
+        this.passwordInput.control.setErrors({ loginError: error.message });
+      }
+    });
   }
 
 }

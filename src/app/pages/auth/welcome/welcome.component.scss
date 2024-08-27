@@ -13,15 +13,9 @@ img {
 }
 
 .app-title {
-    font-size: 2.7rem;
+    font-size: 2.5rem;
     font-weight: bold;
     color: white;
-}
-
-.button-container {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
 }
 
 ion-button {
@@ -29,14 +23,13 @@ ion-button {
     --border-radius: 4px;
     --box-shadow: 0 5px 6px 0 rgb(0, 0, 0, 0.25);
     color: #{$primary-color};
-    height: 8rem;
-    width: 10rem;
+    height: 9.5rem;
 }
 
 .button-label {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    font-size: large;
+    gap: 1rem;
+    font-size: x-large;
     font-weight: 600;
 }
