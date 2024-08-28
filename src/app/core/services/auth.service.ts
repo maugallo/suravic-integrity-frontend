@@ -16,9 +16,15 @@ export class AuthService {
     const headers = new HttpHeaders({ 'Authorization': 'Basic ' + btoa(`${user.username}:${user.password}`) });
 
     return this.http.get(`${this.apiUrl}/auth/login`, { headers, observe: 'response' })
-      .pipe(
+/*       .pipe(
         catchError(this.handleError)
-      );
+      ); */
+  }
+
+  public refresh(token: string) {
+    const headers = new HttpHeaders({ 'Authorization': token });
+
+    return this.http.get(`${this.apiUrl}/auth/refresh`, { headers, observe: 'response' });
   }
 
   private handleError(error: HttpErrorResponse) {

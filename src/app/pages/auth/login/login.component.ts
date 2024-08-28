@@ -5,8 +5,8 @@ import { IonInput, IonContent, IonIcon, IonButton } from "@ionic/angular/standal
 import { BackButtonComponent } from "../../../shared/components/back-button/back-button.component";
 import { ValidationService } from 'src/app/core/services/validation.service';
 import { UserLoginRequest } from 'src/app/core/models/user.model';
-import { TokenStorageService } from 'src/app/core/services/token-storage.service';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { TokenService } from 'src/app/core/services/token.service';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +21,7 @@ export class LoginComponent {
 
   validationService = inject(ValidationService);
   authService = inject(AuthService);
-  tokenStorageService = inject(TokenStorageService);
+  tokenService = inject(TokenService);
 
   @ViewChild('passwordInput', { static: false }) passwordInput!: NgModel;
   @ViewChild('usernameInput', { static: false }) usernameInput!: NgModel;
@@ -32,7 +32,7 @@ export class LoginComponent {
   }
 
   public onSubmit(loginForm: NgForm) {
-    if (loginForm.valid){
+    if (loginForm.valid) {
       this.handleLogin();
     } else {
       loginForm.form.markAllAsTouched();
@@ -42,8 +42,10 @@ export class LoginComponent {
   private handleLogin() {
     this.authService.login(this.user).subscribe({
       next: (response) => {
-        const token = response.headers.get('Authorization')!;
-        this.tokenStorageService.setToken(token);
+        const token: string = response.headers.get('Authorization')!;
+
+        this.tokenService.setToken(token);
+        this.router.navigate(['home']);
       },
       error: (error) => {
         this.usernameInput.control.setErrors({ loginError: error.message });
