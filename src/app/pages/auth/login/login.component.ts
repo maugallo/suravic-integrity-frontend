@@ -43,9 +43,8 @@ export class LoginComponent {
     this.authService.login(this.user).subscribe({
       next: (response) => {
         const token: string = response.headers.get('Authorization')!;
-
         this.tokenService.setToken(token);
-        this.router.navigate(['home']);
+        this.router.navigate(['tabs/home']);
       },
       error: (error) => {
         this.usernameInput.control.setErrors({ loginError: error.message });

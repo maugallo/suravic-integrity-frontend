@@ -1,8 +1,13 @@
-@if (role) {
-  @if (role === 'ROLE_DUENO') {
-    home role dueno!!
-  }
-  @if (role === 'ROLE_ENCARGADO') {
-    home role encargado!!
-  }
-}
+<ion-content>
+<div class="home-container">
+  <div>
+    <h2 class="home-title">Panel de {{ (role && role === 'ROLE_DUENO') ? 'Dueño' : 'Encargado' }}</h2>
+  </div>
+
+  <div class="options-container">
+    
+  </div>
+</div>
+</ion-content>
+
+<app-footer></app-footer>

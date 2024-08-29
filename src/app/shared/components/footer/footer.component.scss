@@ -1,0 +1,19 @@
+@import '../../../../theme/variables.scss';
+
+ion-tab-bar {
+    --background: #{$primary-color};
+}
+
+ion-tab-bar .tab-selected .fa-solid {
+    border-bottom: 3px solid #ffffff;
+    transition: border-bottom 0.08s ease-in-out;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.fa-solid {
+    color: white;
+}

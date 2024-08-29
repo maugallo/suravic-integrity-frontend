@@ -1,0 +1,11 @@
+@import '../../../../theme/variables.scss';
+
+.home-container {
+    text-align: center;
+}
+
+.home-container .home-title {
+    font-weight: bold;
+    color: $primary-color;
+    font-size: 2rem;
+}

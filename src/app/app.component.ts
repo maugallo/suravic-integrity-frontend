@@ -9,11 +9,13 @@ import { TokenService } from './core/services/token.service';
   imports: [IonContent, IonApp, IonRouterOutlet],
 })
 export class AppComponent implements OnInit {
-
+  
   tokenService = inject(TokenService);
 
   ngOnInit(): void {
     
   }
+
+
 
 }
