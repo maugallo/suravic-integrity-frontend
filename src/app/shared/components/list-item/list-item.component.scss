@@ -1,0 +1,14 @@
+@import '/src/theme/variables.scss';
+
+ion-item-option {
+    border-bottom: 1px #{$secondary-color-lighter} solid;
+}
+
+ion-label {
+    font-weight: bold;
+    --color: #{$primary-color} !important;
+}
+
+.fa-solid {
+    color: #{$primary-color};
+}

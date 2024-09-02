@@ -1,4 +1,4 @@
-@import '../../../../theme/variables.scss';
+@import '/src/theme/variables.scss';
 
 .home-container {
     text-align: center;
@@ -8,4 +8,11 @@
     font-weight: bold;
     color: $primary-color;
     font-size: 2rem;
+}
+
+.options-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
 }

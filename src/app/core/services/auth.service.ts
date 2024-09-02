@@ -1,8 +1,9 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { UserLoginRequest } from '../models/user.model';
 import { catchError, throwError } from 'rxjs';
+import { HeadersService } from './headers.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,19 +11,18 @@ import { catchError, throwError } from 'rxjs';
 export class AuthService {
 
   private http = inject(HttpClient);
+  private headersService = inject(HeadersService);
   private apiUrl = environment.apiUrl;
 
   public login(user: UserLoginRequest) {
-    const headers = new HttpHeaders({ 'Authorization': 'Basic ' + btoa(`${user.username}:${user.password}`) });
+    const headers = this.headersService.getBasicAuthHeader(user.username, user.password);
 
     return this.http.get(`${this.apiUrl}/auth/login`, { headers, observe: 'response' })
-      .pipe(
-        catchError(this.handleError)
-      );
+      .pipe(catchError(this.handleError));
   }
 
-  public refresh(token: string) {
-    const headers = new HttpHeaders({ 'Authorization': token });
+  public refresh() {
+    const headers = this.headersService.getTokenHeader();
 
     return this.http.get(`${this.apiUrl}/auth/refresh`, { headers, observe: 'response' });
   }
@@ -30,7 +30,7 @@ export class AuthService {
   private handleError(error: HttpErrorResponse) {
     switch (error.status) {
       case 401:
-        return throwError(() => new Error("El usuario o la contraseña son incorrectos"));
+        return throwError(() => new Error("Usuario o contraseña incorrectos"));
       case 500:
         return throwError(() => new Error("Ocurrió un error en el servidor"));
       default:

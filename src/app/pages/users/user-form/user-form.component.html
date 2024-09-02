@@ -1,0 +1,30 @@
+<app-header title="AGREGAR USUARIO" titleSize="title-medium" icon="fa-solid fa-user-plus fa-2x"></app-header>
+
+<ion-content>
+    <div class="px-10">
+        <form #userForm="ngForm" id="userForm" (ngSubmit)="onSubmit(userForm)">
+            <div>
+              <!-- Username input -->
+              <ion-input #usernameInput="ngModel" name="usernameInput" id="usernameInput" [(ngModel)]="user.username" class="my-10" type="text" label="Usuario" label-placement="floating" fill="outline" placeholder="Ingrese su usuario"
+                required [errorText]="validationService.getErrorMessage(usernameInput.errors)"></ion-input>
+              <!-- Password input -->
+              <ion-input #passwordInput="ngModel" name="passwordInput" id="passwordInput" [(ngModel)]="user.password" class="mb-10" type="password" label="Contraseña" label-placement="floating" fill="outline" placeholder="Ingrese su contraseña"
+                required [errorText]="validationService.getErrorMessage(passwordInput.errors)"></ion-input>
+              <!-- Confirm password input -->
+              <ion-input #confirmPasswordInput="ngModel" name="confirmPasswordInput" id="confirmPasswordInput" [(ngModel)]="confirmPassword" class="mb-10" type="password" label="Confirmar contraseña" label-placement="floating" fill="outline" placeholder="Confirme la contraseña"
+              required [errorText]="validationService.getErrorMessage(passwordInput.errors)"></ion-input>
+              <!-- Role selector input -->
+              <ion-select label="Rol" label-placement="floating" fill="outline">
+                <ion-select-option value="apple">Dueño</ion-select-option>
+                <ion-select-option value="banana">Encargado</ion-select-option>
+              </ion-select>
+            </div>
+      
+            <div class="form-buttons-container">
+              <!-- Submit button -->
+               <ion-button>Cancelar</ion-button>
+              <ion-button type="submit">Crear</ion-button>
+            </div>
+        </form>
+    </div>
+</ion-content>

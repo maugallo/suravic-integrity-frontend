@@ -8,15 +8,33 @@ export const tokenInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next:
   const tokenService = inject(TokenService);
   const authService = inject(AuthService);
 
+  if (req.url.includes('/refresh')) {
+    console.log("Interceptor: SE DETECTÓ QUE SE QUIERE LLAMAR A REFRESH")
+    const token$ = from(tokenService.getToken());
+    return token$.pipe(
+      switchMap(token => {
+        if (token) {
+          req = req.clone({
+            setHeaders: {
+              Authorization: token
+            }
+          });
+        }
+        return next(req);
+      })
+    );
+  }
+
   console.log("Interceptor: Llamando a get token");
   const token$ = from(tokenService.getToken()); // Transformamos la promise en un observable.
   console.log("token$")
   return from(token$).pipe( // Usamos pipe para aplicar métodos.
     switchMap((token) => { // Obtenemos el valor que devuelve el observable token$.
       if (token) {
-        console.log("token valido")
+        console.log("Interceptor: Hay un token almacenado")
         if (tokenService.isTokenExpired(token)) { // Si el token expiró llamamos al siguiente Observable con el valor del primer observable token$.
-          const refresh$ = from(authService.refresh(token)); // Antes de llamarlo, transformamos la promise en el observable.
+          console.log("Interceptor: Se detectó que el token expiró");
+          const refresh$ = from(authService.refresh()); // Antes de llamarlo, transformamos la promise en el observable.
           return refresh$.pipe(
             switchMap((response) => { // Aplicamos otro switchMap más, para obtener el valor del observable.
 
@@ -36,7 +54,7 @@ export const tokenInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next:
               return next(req);
             }),
             catchError(() => {
-              console.log("se detecto un error en el interceptor")
+              console.log("Interceptor: Se detecto un error en el interceptor")
               tokenService.clearToken();
               return next(req);
             })
@@ -52,7 +70,6 @@ export const tokenInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next:
           });
         }
       }
-      console.log("Interceptor: Todavia no se detectó un token")
       return next(req);
     })
   )

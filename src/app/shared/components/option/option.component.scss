@@ -1,0 +1,27 @@
+@import '/src/theme/variables.scss';
+
+ion-button {
+    --background: white;
+    --border-radius: 30px;
+    --border-style: solid;
+    --border-color: #{$secondary-color-lighter};
+    --border-width: 2px !important;
+    --box-shadow: 0;
+}
+
+.option-container {
+    display: flex;               
+    flex-direction: column;      
+    align-items: center;         
+    justify-content: center;    
+}
+
+.icon, .label{
+    color: #{$primary-color};
+}
+
+.label {
+    font-weight: 700;
+    font-size: large;
+}
+

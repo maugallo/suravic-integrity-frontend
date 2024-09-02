@@ -1,0 +1,37 @@
+@import '/src/theme/variables.scss';
+
+ion-toolbar {
+    --background: #{$primary-color};
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+}
+
+.title-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.title-container .title {
+    font-weight: bold;
+    color: white;
+}
+
+.title-container .title-large {
+    font-size: xx-large;
+}
+
+.title-container .title-medium {
+    font-size: x-large;
+}
+
+.title-container i {
+    color: white;
+}

@@ -1,13 +1,17 @@
 <ion-content>
 <div class="home-container">
   <div>
-    <h2 class="home-title">Panel de {{ (role && role === 'ROLE_DUENO') ? 'Dueño' : 'Encargado' }}</h2>
+    <h2 class="home-title my-10">PANEL DE {{ (role && role === 'ROLE_DUENO') ? 'DUEÑO' : 'ENCARGADO' }}</h2>
   </div>
 
-  <div class="options-container">
-    
+  <div class="options-container mb-4">
+      @for (option of options; track $index) {
+        <app-option [icon]="option.icon"  [label]="option.label" [url]="option.url"></app-option>
+      }
   </div>
 </div>
 </ion-content>
 
-<app-footer></app-footer>
+<!-- Los elementos que formen parte del tab no necesitan incluir <app-footer></app-footer> -->
+
+

@@ -1,0 +1,40 @@
+@import '/src/theme/variables.scss';
+
+ion-input {
+    --color: #{$secondary-color-darker};
+    --placeholder-color: #{$secondary-color-darker};
+    --border-color: #{$secondary-color} !important;
+    --border-width: 0.10rem;
+    --highlight-color-valid: #{$primary-color};
+}
+
+ion-select {
+    --color: #{$secondary-color-darker};
+    --placeholder-color: #{$secondary-color-darker};
+    --border-color: #{$secondary-color} !important;
+    --border-width: 0.10rem;
+    --highlight-color-valid: #{$primary-color};
+}
+
+ion-input.has-focus {
+    --highlight-color-focused: #{$primary-color};
+    --border-color: #{$primary-color} !important;
+}
+
+ion-select.has-focus {
+    --highlight-color-focused: #{$primary-color};
+    --border-color: #{$primary-color} !important;
+}
+
+ion-button {
+    --background: #{$primary-color};
+    --border-radius: 4px;
+    height: 3.3rem;
+    width: 10rem;
+}
+
+.form-buttons-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+}

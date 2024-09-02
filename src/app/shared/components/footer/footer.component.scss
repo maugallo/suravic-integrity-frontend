@@ -1,4 +1,4 @@
-@import '../../../../theme/variables.scss';
+@import '/src/theme/variables.scss';
 
 ion-tab-bar {
     --background: #{$primary-color};
@@ -7,6 +7,10 @@ ion-tab-bar {
 ion-tab-bar .tab-selected .fa-solid {
     border-bottom: 3px solid #ffffff;
     transition: border-bottom 0.08s ease-in-out;
+}
+
+ion-tab-button {
+    --color-selected: transparent;
 }
 
 .footer-container {

@@ -1,0 +1,34 @@
+<app-header title="USUARIOS" titleSize="title-large" icon="fa-solid fa-user fa-2x"></app-header>
+
+<ion-content>
+  <div class="p-3">
+    <div class="search-and-add mb-2 mx-2">
+      <!-- Search Bar -->
+      <ion-searchbar [debounce]="250" (ionInput)="searchForUsers($event)"></ion-searchbar>
+      <!-- Add User Button -->
+      <ion-button (click)="router.navigate(['users', 'form'])"><i class="fa-solid fa-user-plus fa-2x py-0"></i></ion-button>
+    </div>
+
+    @if (searchBarResult$ | async; as users) {
+      <ion-list>
+        @for (user of users; track $index) {
+          <app-list-item [username]="user.username"></app-list-item>
+        }
+      </ion-list>
+    } @else {
+      <ion-progress-bar type="indeterminate"></ion-progress-bar>
+    }
+    
+
+  </div>
+</ion-content>
+
+<!-- <ion-item [button]="true">
+  <ion-label>Rick Astley</ion-label>
+  <ion-button slot="end" color="white">
+    <i class="fa-solid fa-user-pen fa-2x m-2"></i>
+  </ion-button>
+  <ion-button slot="end" color="white">
+    <i class="fa-solid fa-trash fa-2x m-2"></i>
+  </ion-button>
+</ion-item> -->

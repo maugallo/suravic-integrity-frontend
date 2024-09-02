@@ -1,18 +1,16 @@
-<ion-content>
-  <ion-tabs>
-    <ion-tab-bar slot="bottom">
-      <ion-tab-button tab="home" href="/tabs/home">
-        <i name="home" class="fa-solid fa-house fa-3x pb-1"></i>
-      </ion-tab-button>
-      <!-- <ion-tab-button tab="notifications">
-          <i name="notifications" class="fa-solid fa-bell fa-3x"></i>
-        </ion-tab-button> -->
-      <ion-tab-button tab="profile" href="/tabs/profile">
-        <i name="profile" class="fa-solid fa-circle-user fa-3x pb-1"></i>
-      </ion-tab-button>
-      <!-- <ion-tab-button tab="configuration">
-          <i name="configuration" class="fa-solid fa-gear fa-3x"></i>
-        </ion-tab-button> -->
-    </ion-tab-bar>
-  </ion-tabs>
-</ion-content>
+<ion-tabs>
+  <ion-tab-bar class="py-4" slot="bottom">
+    <ion-tab-button tab="home" href="/tabs/home">
+      <i name="home" class="fa-solid fa-house fa-3x pb-1"></i>
+    </ion-tab-button>
+    <ion-tab-button tab="profile" href="/tabs/profile">
+      <i name="profile" class="fa-solid fa-circle-user fa-3x pb-1"></i>
+    </ion-tab-button>
+    <ion-tab-button>
+      <i name="configuration" class="fa-solid fa-gear fa-3x"></i>
+    </ion-tab-button>
+    <ion-tab-button (click)="logout()">
+      <i name="logout" class="fa-solid fa-right-from-bracket fa-3x"></i>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
