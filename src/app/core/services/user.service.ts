@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { UserResponse } from '../models/user.model';
+import { UserRegisterRequest, UserResponse } from '../models/user.model';
 import { HeadersService } from './headers.service';
 
 @Injectable({
@@ -11,13 +11,28 @@ import { HeadersService } from './headers.service';
 export class UserService {
 
   private http = inject(HttpClient);
-  private headersService = inject(HeadersService);
   private apiUrl = environment.apiUrl;
 
   public getUsers(): Observable<UserResponse[]> {
-    const headers = this.headersService.getTokenHeader();
+    return this.http.get<UserResponse[]>(`${this.apiUrl}/users`);
+  }
 
-    return this.http.get<UserResponse[]>(`${this.apiUrl}/users`, { headers });
+  public createUser(user: UserRegisterRequest): Observable<string> {
+    return this.http.post(`${this.apiUrl}/users`, user, { responseType: 'text' })
+      .pipe(catchError(this.handleError));
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    switch (error.status) {
+      case 400:
+        return throwError(() => new Error(error.message));
+      case 403:
+        return throwError(() => new Error("No tienes los permisos para realizar esta acción"));
+      case 500:
+        return throwError(() => new Error("Ocurrió un error en el servidor"));
+      default:
+        return throwError(() => new Error("Error"));
+    }
   }
 
 }

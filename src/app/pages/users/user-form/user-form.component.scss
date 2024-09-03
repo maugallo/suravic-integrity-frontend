@@ -12,7 +12,7 @@ ion-input.has-focus {
 }
 
 ion-select {
-  --placeholder-color: #{$secondary-color-lighter} !important;
+  --placeholder-color: #{$secondary-color};
   --border-width: 0.10rem;
   --highlight-color: #{$primary-color};
 }
@@ -25,7 +25,7 @@ ion-button {
   --background: #{$primary-color};
   --border-radius: 4px;
   height: 3.3rem;
-  width: 10rem;
+  font-size: large;
 }
 
 ion-note {
@@ -35,10 +35,4 @@ ion-note {
   justify-content: space-between;
   font-size: 0.75rem;
   padding-inline-start: 16px;
-}
-
-.form-buttons-container {
-  display: flex;
-  justify-content: space-around;
-  gap: 20px;
 }

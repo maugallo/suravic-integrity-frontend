@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { UserLoginRequest } from '../models/user.model';
@@ -11,20 +11,17 @@ import { HeadersService } from './headers.service';
 export class AuthService {
 
   private http = inject(HttpClient);
-  private headersService = inject(HeadersService);
   private apiUrl = environment.apiUrl;
 
   public login(user: UserLoginRequest) {
-    const headers = this.headersService.getBasicAuthHeader(user.username, user.password);
+    const headers = new HttpHeaders({ 'Authorization': 'Basic ' + btoa(`${user.username}:${user.password}`) });
 
     return this.http.get(`${this.apiUrl}/auth/login`, { headers, observe: 'response' })
       .pipe(catchError(this.handleError));
   }
 
-  public refresh() {
-    const headers = this.headersService.getTokenHeader();
-
-    return this.http.get(`${this.apiUrl}/auth/refresh`, { headers, observe: 'response' });
+  public refresh() { // Pendiente
+    return this.http.get(`${this.apiUrl}/auth/refresh`);
   }
 
   private handleError(error: HttpErrorResponse) {

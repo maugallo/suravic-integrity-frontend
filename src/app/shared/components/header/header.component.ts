@@ -1,5 +1,5 @@
 import { Component, input, OnInit } from '@angular/core';
-import { IonHeader, IonTitle, IonToolbar } from "@ionic/angular/standalone";
+import { IonHeader, IonTitle, IonToolbar, IonBackButton, IonButtons } from "@ionic/angular/standalone";
 import { BackButtonComponent } from "../back-button/back-button.component";
 
 @Component({
@@ -7,7 +7,7 @@ import { BackButtonComponent } from "../back-button/back-button.component";
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   standalone: true,
-  imports: [IonToolbar, IonTitle, IonHeader, BackButtonComponent]
+  imports: [IonButtons, IonBackButton, IonToolbar, IonTitle, IonHeader, BackButtonComponent]
 })
 export class HeaderComponent {
 
