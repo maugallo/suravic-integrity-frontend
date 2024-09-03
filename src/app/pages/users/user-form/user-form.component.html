@@ -6,18 +6,21 @@
             <div>
               <!-- Username input -->
               <ion-input #usernameInput="ngModel" name="usernameInput" id="usernameInput" [(ngModel)]="user.username" class="my-10" type="text" label="Usuario" label-placement="floating" fill="outline" placeholder="Ingrese su usuario"
-                required [errorText]="validationService.getErrorMessage(usernameInput.errors)"></ion-input>
+                required maxlength="40" [errorText]="validationService.getErrorMessage(usernameInput.errors)"></ion-input>
               <!-- Password input -->
               <ion-input #passwordInput="ngModel" name="passwordInput" id="passwordInput" [(ngModel)]="user.password" class="mb-10" type="password" label="Contraseña" label-placement="floating" fill="outline" placeholder="Ingrese su contraseña"
-                required [errorText]="validationService.getErrorMessage(passwordInput.errors)"></ion-input>
+                required minlength="6" maxlength="60" [errorText]="validationService.getErrorMessage(passwordInput.errors)"></ion-input>
               <!-- Confirm password input -->
               <ion-input #confirmPasswordInput="ngModel" name="confirmPasswordInput" id="confirmPasswordInput" [(ngModel)]="confirmPassword" class="mb-10" type="password" label="Confirmar contraseña" label-placement="floating" fill="outline" placeholder="Confirme la contraseña"
-              required [errorText]="validationService.getErrorMessage(passwordInput.errors)"></ion-input>
+              required [errorText]="validationService.getErrorMessage(confirmPasswordInput.errors)"></ion-input>
               <!-- Role selector input -->
-              <ion-select label="Rol" label-placement="floating" fill="outline">
-                <ion-select-option value="apple">Dueño</ion-select-option>
-                <ion-select-option value="banana">Encargado</ion-select-option>
-              </ion-select>
+              <div class="mb-10">
+                <ion-select #roleSelect="ngModel" name="roleSelect" id="roleSelect" [class]="(isSelectValid()) ? 'select-invalid' : ''" [(ngModel)]="user.role" [interfaceOptions]="customInterfaceOptions" label="Rol" label-placement="floating" fill="outline" required>
+                  <ion-select-option value="dueno">Dueño</ion-select-option>
+                  <ion-select-option value="encargado">Encargado</ion-select-option>
+                </ion-select>
+                @if (isSelectValid()) { <ion-note color="danger">Este campo es obligatorio</ion-note> <!-- Manejo manual de errorText hasta que Ionic lo incluya para el ion-select --> }
+              </div>
             </div>
       
             <div class="form-buttons-container">

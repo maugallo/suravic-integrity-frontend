@@ -35,3 +35,24 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+@import './theme/variables.scss';
+
+/* Select options style */
+.custom-select-options .select-interface-option[aria-checked="true"] .alert-radio-icon,
+.custom-select-options .select-interface-option[aria-checked="false"] .alert-radio-icon {
+    border-color: $primary-color;
+}
+
+.custom-select-options .select-interface-option[aria-checked="true"] .alert-radio-inner,
+.custom-select-options .select-interface-option[aria-checked="false"] .alert-radio-inner {
+    background-color: $primary-color;
+}
+
+.custom-select-options .alert-button {
+    color: $primary-color;
+}
+
+.custom-select-options .alert-title {
+    color: $primary-color;
+}

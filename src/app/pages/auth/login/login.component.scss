@@ -31,14 +31,12 @@
 ion-input {
   --color: #{$secondary-color-darker};
   --placeholder-color: #{$secondary-color-darker};
-  --border-color: #{$secondary-color} !important;
   --border-width: 0.10rem;
   --highlight-color-valid: #{$primary-color};
 }
 
 ion-input.has-focus {
   --highlight-color-focused: #{$primary-color};
-  --border-color: #{$primary-color} !important;
 }
 
 ion-button {

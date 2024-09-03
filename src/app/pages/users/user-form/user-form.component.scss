@@ -1,40 +1,44 @@
 @import '/src/theme/variables.scss';
 
 ion-input {
-    --color: #{$secondary-color-darker};
-    --placeholder-color: #{$secondary-color-darker};
-    --border-color: #{$secondary-color} !important;
-    --border-width: 0.10rem;
-    --highlight-color-valid: #{$primary-color};
-}
-
-ion-select {
-    --color: #{$secondary-color-darker};
-    --placeholder-color: #{$secondary-color-darker};
-    --border-color: #{$secondary-color} !important;
-    --border-width: 0.10rem;
-    --highlight-color-valid: #{$primary-color};
+  --color: #{$secondary-color-darker};
+  --placeholder-color: #{$secondary-color-darker};
+  --border-width: 0.10rem;
+  --highlight-color-valid: #{$primary-color};
 }
 
 ion-input.has-focus {
-    --highlight-color-focused: #{$primary-color};
-    --border-color: #{$primary-color} !important;
+  --highlight-color-focused: #{$primary-color};
 }
 
-ion-select.has-focus {
-    --highlight-color-focused: #{$primary-color};
-    --border-color: #{$primary-color} !important;
+ion-select {
+  --placeholder-color: #{$secondary-color-lighter} !important;
+  --border-width: 0.10rem;
+  --highlight-color: #{$primary-color};
+}
+
+ion-select.select-invalid {
+  --highlight-color: #c5000f;
 }
 
 ion-button {
-    --background: #{$primary-color};
-    --border-radius: 4px;
-    height: 3.3rem;
-    width: 10rem;
+  --background: #{$primary-color};
+  --border-radius: 4px;
+  height: 3.3rem;
+  width: 10rem;
+}
+
+ion-note {
+  padding-top: 5px;
+  padding-bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  padding-inline-start: 16px;
 }
 
 .form-buttons-container {
-    display: flex;
-    justify-content: space-around;
-    gap: 20px;
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
 }
