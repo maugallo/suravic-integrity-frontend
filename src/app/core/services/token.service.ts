@@ -1,31 +1,31 @@
 import { Injectable } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
+import { from, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TokenService {
 
-  async setToken(token: string): Promise<void> {
-    await Preferences.set({
+  public setToken(token: string): Observable<void> {
+    return from(Preferences.set({
       key: 'jwt',
       value: token
-    });
+    }));
   }
 
-  async getToken(): Promise<string> {
-    const { value } = await Preferences.get({ key: 'jwt' });
-    return value ? value : '';
+  public getToken(): Observable<string> {
+    return from(Preferences.get({ key: 'jwt' }).then(({ value }) => value ? value : ''));
   }
 
-  async clearToken(): Promise<void> {
-    await Preferences.remove({ key: 'jwt' });
+  public clearToken(): Observable<void> {
+    return from(Preferences.remove({ key: 'jwt' }));
   }
 
   public getRoleFromToken(token: string): string {
     const decodedToken = this.decodeToken(token);
-    const role = decodedToken.authorities[0]; // Array of 1 element
-    return role ? role : ''; // Should have [ROLE_DUENO] or [ROLE_ENCARGADO]
+    const role = decodedToken.authorities[0];
+    return role ? role : ''; // Debería retornar [ ROLE_DUENO ] o [ ROLE_ENCARGADO ]
   }
 
   public isTokenExpired(token: string) {
@@ -39,7 +39,7 @@ export class TokenService {
     const decodedToken = this.decodeToken(token);
     const exp = decodedToken.exp;
 
-    return new Date(exp * 1000); // Convert Unix timestamp to JavaScript Date object
+    return new Date(exp * 1000);
   }
 
   private decodeToken(token: string): any {

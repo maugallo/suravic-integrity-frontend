@@ -1,4 +1,8 @@
-<app-header title="AGREGAR USUARIO" titleSize="title-medium" icon="fa-solid fa-user-plus fa-2x"></app-header>
+@if (areThereValidParams()) {
+  <app-header title="MODIFICAR USUARIO" titleSize="title-medium" icon="fa-solid fa-user-pen fa-2x"></app-header>
+} @else {
+  <app-header title="AGREGAR USUARIO" titleSize="title-medium" icon="fa-solid fa-user-plus fa-2x"></app-header>
+}
 
 <ion-content>
     <div class="px-10">
@@ -23,7 +27,11 @@
               </div>
             </div>
       
-            <ion-button type="submit" expand="block">Crear</ion-button>
+            @if (areThereValidParams()) {
+              <ion-button type="submit" expand="block">Modificar</ion-button>
+            } @else {
+              <ion-button type="submit" expand="block">Crear</ion-button>
+            }
         </form>
     </div>
 </ion-content>

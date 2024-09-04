@@ -1,9 +1,8 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { UserRegisterRequest, UserResponse } from '../models/user.model';
-import { HeadersService } from './headers.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +12,26 @@ export class UserService {
   private http = inject(HttpClient);
   private apiUrl = environment.apiUrl;
 
-  public getUsers(): Observable<UserResponse[]> {
-    return this.http.get<UserResponse[]>(`${this.apiUrl}/users`);
+  public getUsers(isEnabled: boolean): Observable<UserResponse[]> {
+    let params = new HttpParams();
+
+    params = params.append('isEnabled', isEnabled);
+
+    return this.http.get<UserResponse[]>(`${this.apiUrl}/users`, { params });
+  }
+
+  public getUserById(id: number) {
+    return this.http.get<UserResponse>(`${this.apiUrl}/users/${id}`)
+      .pipe(catchError(this.handleError));
   }
 
   public createUser(user: UserRegisterRequest): Observable<string> {
     return this.http.post(`${this.apiUrl}/users`, user, { responseType: 'text' })
+      .pipe(catchError(this.handleError));
+  }
+
+  public deleteUser(id: number): Observable<string> {
+    return this.http.delete(`${this.apiUrl}/users/${id}`, { responseType: 'text' })
       .pipe(catchError(this.handleError));
   }
 

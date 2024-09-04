@@ -1,5 +1,7 @@
-import { Component, inject, input, OnInit } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
+import { Router } from '@angular/router';
 import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from "@ionic/angular/standalone";
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-list-item',
@@ -10,6 +12,18 @@ import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from
 })
 export class ListItemComponent {
 
-  username = input();
+  router = inject(Router);
+  userService = inject(UserService);
+
+  user: any = input();
+  userDeleted = output<boolean>();
+  
+  public deleteUser(id: number) {
+    this.userService.deleteUser(id).subscribe({
+      next: (response) => alert(response),
+      error: (error) => console.log(error),
+      complete: () => this.userDeleted.emit(true)
+    });
+  }
 
 }

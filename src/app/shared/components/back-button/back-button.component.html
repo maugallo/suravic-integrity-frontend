@@ -1,3 +1,7 @@
 <div [class]="class()">
   <i (click)="navigateBack()" class="fa-solid fa-circle-left fa-2x"></i>
 </div>
+
+<ion-alert class="ion-alert" [isOpen]="isAlertOpen" header="¿Estás seguro de volver?"
+  subHeader="Perderás toda la información ingresada" [buttons]="alertButtons"
+  (didDismiss)="setAlertOpen(false)"></ion-alert>

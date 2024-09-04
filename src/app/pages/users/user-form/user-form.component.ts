@@ -4,9 +4,10 @@ import { IonContent, IonButton, IonInput, IonSelect, IonSelectOption, IonNote } 
 import { FormsModule, NgForm, NgModel } from '@angular/forms';
 import { UserRegisterRequest } from 'src/app/core/models/user.model';
 import { ValidationService } from 'src/app/core/services/validation.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EqualPasswordsDirective } from 'src/app/shared/validators/equal-passwords.directive';
 import { UserService } from 'src/app/core/services/user.service';
+import { addIcons } from "ionicons";
 
 @Component({
   selector: 'app-user-form',
@@ -18,6 +19,8 @@ import { UserService } from 'src/app/core/services/user.service';
 export class UserFormComponent  implements OnInit {
 
   router = inject(Router);
+  activatedRoute = inject(ActivatedRoute);
+
   validationService = inject(ValidationService);
   userService = inject(UserService);
 
@@ -35,18 +38,35 @@ export class UserFormComponent  implements OnInit {
   @ViewChild('confirmPasswordInput', { static: false }) confirmPasswordInput!: NgModel;
   @ViewChild('roleSelect', { static: false }) roleSelect!: NgModel;
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.handleUserForm();
+  }
+
+  ionViewWillEnter() {
+    this.handleUserForm();
+  }
+
+  private handleUserForm() {
+    if (this.areThereValidParams()) {
+      this.userService.getUserById(this.getUrlParameter()).subscribe({
+        next: (response) => {
+          this.user.username = response.username;
+          this.user.role = response.role;
+        }
+      })
+    }
+  }
 
   public onSubmit(userForm: NgForm) {
     if (userForm.valid) {
-      this.handleUserCreation();
-      
+      if (this.areThereValidParams()) this.handleUserCreate();
+      else this.handleUserEdit();
     } else {
       userForm.form.markAllAsTouched();
     }
   }
 
-  private handleUserCreation() {
+  private handleUserCreate() {
     this.userService.createUser(this.user).subscribe({
       next: (response) => {
         alert(response);
@@ -58,8 +78,28 @@ export class UserFormComponent  implements OnInit {
     })
   }
 
+  private handleUserEdit() {
+    this.userService.createUser(this.user).subscribe({
+      next: (response) => {
+        alert(response);
+        this.router.navigate(['users', 'dashboard']);
+      },
+      error: (error) => {
+        console.log(error.message);
+      }
+    });
+  }
+
   public isSelectValid() {
     return (this.roleSelect && this.roleSelect.touched && this.user.role === '');
+  }
+
+  public areThereValidParams() {
+    return !isNaN(this.getUrlParameter());
+  }
+
+  private getUrlParameter() {
+    return Number(this.activatedRoute.snapshot.params['id']);
   }
 
 }

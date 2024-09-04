@@ -8,6 +8,7 @@ import { UserResponse } from 'src/app/core/models/user.model';
 import { Router } from '@angular/router';
 import { map, Observable, shareReplay } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+import { addIcons } from "ionicons";
 
 @Component({
   selector: 'app-user-dashboard',
@@ -25,13 +26,25 @@ export class UserDashboardComponent implements OnInit {
   searchBarResult$!: Observable<UserResponse[]>;
 
   ngOnInit(): void {
-    this.users$ = this.userService.getUsers().pipe(shareReplay(1)); 
-    this.searchBarResult$ = this.users$;
+    this.handleUsersLoad();
+  }
+
+  ionViewWillEnter() {
+    this.handleUsersLoad();
   }
 
   searchForUsers(event: any) {
     const query = event.target.value.toLowerCase();
     this.searchBarResult$ = this.users$.pipe(map(user => user.filter(data => data.username.toLowerCase().indexOf(query) > -1)));
+  }
+
+  isUserDeleted(isDeleted: boolean) {
+    if (isDeleted) this.handleUsersLoad();
+  }
+
+  private handleUsersLoad() {
+    this.users$ = this.userService.getUsers(true).pipe(shareReplay(1)); 
+    this.searchBarResult$ = this.users$;
   }
 
 }

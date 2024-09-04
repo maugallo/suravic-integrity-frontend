@@ -56,3 +56,17 @@
 .custom-select-options .alert-title {
     color: $primary-color;
 }
+
+/* Alert style */
+.ion-alert .alert-wrapper .alert-head .alert-title {
+    color: $secondary-color-darker;
+}
+
+.ion-alert .alert-wrapper .alert-head .alert-sub-title {
+    margin-top: 25px;
+    color: $secondary-color-darker;
+}
+
+.ion-alert .alert-button {
+    color: $primary-color;
+}

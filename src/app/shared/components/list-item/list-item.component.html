@@ -1,15 +1,15 @@
 <ion-item-sliding>
   <ion-item detail="true">
-    <ion-label>{{ username() }}</ion-label>
+    <ion-label>{{ user().username }}</ion-label>
   </ion-item>
   <ion-item-options slot="end">
     <ion-item-option color="white">
       <i class="fa-solid fa-eye fa-2x mx-2"></i>
     </ion-item-option>
-    <ion-item-option color="white">
+    <ion-item-option (click)="router.navigate(['users','form',user().id])" color="white">
       <i class="fa-solid fa-user-pen fa-2x mx-2"></i>
     </ion-item-option>
-    <ion-item-option color="white">
+    <ion-item-option (click)="deleteUser(user().id)" color="white">
       <i class="fa-solid fa-trash fa-2x mx-2"></i>
     </ion-item-option>
   </ion-item-options>

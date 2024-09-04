@@ -12,7 +12,7 @@
     @if (searchBarResult$ | async; as users) {
       <ion-list>
         @for (user of users; track $index) {
-          <app-list-item [username]="user.username"></app-list-item>
+          <app-list-item (userDeleted)="isUserDeleted($event)" [user]="user"></app-list-item>
         }
       </ion-list>
     } @else {
