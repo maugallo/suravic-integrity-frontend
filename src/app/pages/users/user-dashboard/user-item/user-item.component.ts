@@ -4,13 +4,13 @@ import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from
 import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
-  selector: 'app-list-item',
-  templateUrl: './list-item.component.html',
-  styleUrls: ['./list-item.component.scss'],
+  selector: 'app-user-item',
+  templateUrl: './user-item.component.html',
+  styleUrls: ['./user-item.component.scss'],
   standalone: true,
   imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, ]
 })
-export class ListItemComponent {
+export class UserItemComponent {
 
   router = inject(Router);
   userService = inject(UserService);

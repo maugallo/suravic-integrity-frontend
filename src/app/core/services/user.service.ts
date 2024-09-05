@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 import { inject, Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { UserRegisterRequest, UserResponse } from '../models/user.model';
+import { UserRequest, UserResponse } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +25,13 @@ export class UserService {
       .pipe(catchError(this.handleError));
   }
 
-  public createUser(user: UserRegisterRequest): Observable<string> {
+  public createUser(user: UserRequest): Observable<string> {
     return this.http.post(`${this.apiUrl}/users`, user, { responseType: 'text' })
+      .pipe(catchError(this.handleError));
+  }
+
+  public editUser(id: number, user: UserRequest): Observable<string> {
+    return this.http.put(`${this.apiUrl}/users/${id}`, user, { responseType: 'text' })
       .pipe(catchError(this.handleError));
   }
 

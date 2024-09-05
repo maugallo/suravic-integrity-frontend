@@ -1,12 +1,12 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { IonContent, IonSearchbar, IonList, IonLabel, IonItem, IonItemSliding, IonIcon, IonAvatar, IonItemOptions, IonItemOption, IonButton, IonProgressBar } from "@ionic/angular/standalone";
 import { HeaderComponent } from "../../../shared/components/header/header.component";
 import { FooterComponent } from "../../../shared/components/footer/footer.component";
-import { ListItemComponent } from "../../../shared/components/list-item/list-item.component";
+import { UserItemComponent } from "./user-item/user-item.component";
 import { UserService } from 'src/app/core/services/user.service';
 import { UserResponse } from 'src/app/core/models/user.model';
 import { Router } from '@angular/router';
-import { map, Observable, shareReplay } from 'rxjs';
+import { map, Observable, shareReplay, Subject, takeUntil } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { addIcons } from "ionicons";
 
@@ -15,19 +15,17 @@ import { addIcons } from "ionicons";
   templateUrl: './user-dashboard.component.html',
   styleUrls: ['./user-dashboard.component.scss'],
   standalone: true,
-  imports: [IonProgressBar, IonButton, IonItemOption, IonItemOptions, IonAvatar, IonIcon, IonItemSliding, IonItem, IonLabel, IonList, IonSearchbar, IonContent, HeaderComponent, FooterComponent, ListItemComponent, AsyncPipe]
+  imports: [IonProgressBar, IonButton, IonItemOption, IonItemOptions, IonAvatar, IonIcon, IonItemSliding, IonItem, IonLabel, IonList, IonSearchbar, IonContent, HeaderComponent, FooterComponent, UserItemComponent, AsyncPipe]
 })
-export class UserDashboardComponent implements OnInit {
+export class UserDashboardComponent implements OnDestroy {
 
   router = inject(Router);
   userService = inject(UserService);
 
-  users$!: Observable<UserResponse[]>;
-  searchBarResult$!: Observable<UserResponse[]>;
+  private destroy$ = new Subject<void>();
 
-  ngOnInit(): void {
-    this.handleUsersLoad();
-  }
+  users$: Observable<UserResponse[]> = this.userService.getUsers(true).pipe(shareReplay(1), takeUntil(this.destroy$));
+  searchBarResult$: Observable<UserResponse[]> = this.users$;
 
   ionViewWillEnter() {
     this.handleUsersLoad();
@@ -43,8 +41,13 @@ export class UserDashboardComponent implements OnInit {
   }
 
   private handleUsersLoad() {
-    this.users$ = this.userService.getUsers(true).pipe(shareReplay(1)); 
+    this.users$ = this.userService.getUsers(true).pipe(shareReplay(1), takeUntil(this.destroy$)); 
     this.searchBarResult$ = this.users$;
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 }

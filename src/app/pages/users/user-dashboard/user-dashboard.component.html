@@ -12,23 +12,12 @@
     @if (searchBarResult$ | async; as users) {
       <ion-list>
         @for (user of users; track $index) {
-          <app-list-item (userDeleted)="isUserDeleted($event)" [user]="user"></app-list-item>
+          <app-user-item (userDeleted)="isUserDeleted($event)" [user]="user"></app-user-item>
         }
       </ion-list>
     } @else {
       <ion-progress-bar type="indeterminate"></ion-progress-bar>
     }
     
-
   </div>
 </ion-content>
-
-<!-- <ion-item [button]="true">
-  <ion-label>Rick Astley</ion-label>
-  <ion-button slot="end" color="white">
-    <i class="fa-solid fa-user-pen fa-2x m-2"></i>
-  </ion-button>
-  <ion-button slot="end" color="white">
-    <i class="fa-solid fa-trash fa-2x m-2"></i>
-  </ion-button>
-</ion-item> -->

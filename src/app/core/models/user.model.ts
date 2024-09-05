@@ -3,7 +3,7 @@ export interface UserLoginRequest {
     password: string
 }
 
-export interface UserRegisterRequest {
+export interface UserRequest {
     username: string,
     password: string,
     role: string

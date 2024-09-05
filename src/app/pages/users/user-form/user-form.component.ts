@@ -2,7 +2,7 @@ import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { HeaderComponent } from "../../../shared/components/header/header.component";
 import { IonContent, IonButton, IonInput, IonSelect, IonSelectOption, IonNote } from "@ionic/angular/standalone";
 import { FormsModule, NgForm, NgModel } from '@angular/forms';
-import { UserRegisterRequest } from 'src/app/core/models/user.model';
+import { UserRequest } from 'src/app/core/models/user.model';
 import { ValidationService } from 'src/app/core/services/validation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EqualPasswordsDirective } from 'src/app/shared/validators/equal-passwords.directive';
@@ -24,7 +24,7 @@ export class UserFormComponent  implements OnInit {
   validationService = inject(ValidationService);
   userService = inject(UserService);
 
-  user: UserRegisterRequest = {
+  user: UserRequest = {
     username: '',
     password: '',
     role: ''
@@ -42,10 +42,6 @@ export class UserFormComponent  implements OnInit {
     this.handleUserForm();
   }
 
-  ionViewWillEnter() {
-    this.handleUserForm();
-  }
-
   private handleUserForm() {
     if (this.areThereValidParams()) {
       this.userService.getUserById(this.getUrlParameter()).subscribe({
@@ -59,8 +55,8 @@ export class UserFormComponent  implements OnInit {
 
   public onSubmit(userForm: NgForm) {
     if (userForm.valid) {
-      if (this.areThereValidParams()) this.handleUserCreate();
-      else this.handleUserEdit();
+      if (this.areThereValidParams()) this.handleUserEdit();
+      else this.handleUserCreate();
     } else {
       userForm.form.markAllAsTouched();
     }
@@ -79,7 +75,7 @@ export class UserFormComponent  implements OnInit {
   }
 
   private handleUserEdit() {
-    this.userService.createUser(this.user).subscribe({
+    this.userService.editUser(this.getUrlParameter(), this.user).subscribe({
       next: (response) => {
         alert(response);
         this.router.navigate(['users', 'dashboard']);
