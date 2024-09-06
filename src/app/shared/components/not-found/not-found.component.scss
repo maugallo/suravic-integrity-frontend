@@ -1,0 +1,26 @@
+@import '/src/global.scss';
+
+.not-found-container {
+    text-align: center;
+}
+
+.circle-container {
+    width: 10rem;
+    height: 10rem;
+    background-color: #{$primary-color-lighter};
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.fa-regular {
+    color: #{$primary-color};
+}
+
+.title {
+    font-weight: bold;
+    color: $primary-color;
+    font-size: 2rem;
+}

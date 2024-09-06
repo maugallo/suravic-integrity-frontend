@@ -7,7 +7,7 @@ import { ValidationService } from 'src/app/core/services/utils/validation.servic
 import { ActivatedRoute, Router } from '@angular/router';
 import { EqualPasswordsDirective } from 'src/app/shared/validators/equal-passwords.directive';
 import { UserService } from 'src/app/core/services/user.service';
-import { tap } from 'rxjs';
+import { catchError, of, switchMap, tap, throwError } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -17,7 +17,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   standalone: true,
   imports: [IonNote, IonButton, IonContent, HeaderComponent, FormsModule, IonInput, IonSelect, IonSelectOption, EqualPasswordsDirective]
 })
-export class UserFormComponent  implements OnInit {
+export class UserFormComponent implements OnInit {
 
   private router = inject(Router);
   public validationService = inject(ValidationService);
@@ -33,82 +33,68 @@ export class UserFormComponent  implements OnInit {
   public confirmPassword: string = '';
   public customInterfaceOptions: any = { cssClass: 'custom-select-options' } // Clase necesaria para customizar alert de options.
 
+  public isUserEdit!: boolean;
+  private userId!: number;
+
   @ViewChild('usernameInput', { static: false }) usernameInput!: NgModel;
   @ViewChild('passwordInput', { static: false }) passwordInput!: NgModel;
   @ViewChild('confirmPasswordInput', { static: false }) confirmPasswordInput!: NgModel;
   @ViewChild('roleSelect', { static: false }) roleSelect!: NgModel;
 
   ngOnInit() {
-    this.handleUserForm();
-  }
-
-  private handleUserForm() {
-    if (this.areThereValidParams()) {
-      this.userService.getUserById(this.getUrlParameter()).subscribe({
-        next: (response) => {
-          this.user.username = response.username;
-          this.user.role = response.role;
+    this.activatedRoute.paramMap.pipe(
+      switchMap((params) => {
+        const userId = params.get('id');
+        if (this.isParameterValid(userId)) {
+          return this.userService.getUserById(Number(userId)).pipe(
+            tap((response) => {
+              this.user.username = response.username;
+              this.user.role = response.role;
+              this.isUserEdit = true;
+              this.userId = Number(userId);
+            }),
+            catchError((error) => {
+              console.log(error.message);
+              return of(null);
+            })
+          )
+        } else {
+          this.isUserEdit = false;
+          return of(null);
         }
-      })
-    }
+      }),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe();
   }
 
   public onSubmit(userForm: NgForm) {
     if (userForm.valid) {
-      if (this.areThereValidParams()) this.handleUserEdit();
-      else this.handleUserCreate();
+      of(this.isUserEdit).pipe(
+        switchMap((isEdit) => {
+          if (isEdit) return this.userService.editUser(this.userId, this.user);
+          else return this.userService.createUser(this.user);
+        }),
+        tap((response) => {
+          alert(response);
+          this.router.navigate(['users', 'dashboard']);
+        }),
+        catchError((error) => {
+          console.log(error.message);
+          return of(null);
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      ).subscribe()
     } else {
       userForm.form.markAllAsTouched();
     }
-  }
-
-  private handleUserCreate() {
-    this.userService.createUser(this.user).subscribe({
-      next: (response) => {
-        alert(response);
-        this.router.navigate(['users', 'dashboard']);
-      },
-      error: (error) => {
-        console.log(error.message);
-      }
-    })
-  }
-
-  private handleUserEdit() {
-    this.userService.editUser(this.getUrlParameter(), this.user).subscribe({
-      next: (response) => {
-        alert(response);
-        this.router.navigate(['users', 'dashboard']);
-      },
-      error: (error) => {
-        console.log(error.message);
-      }
-    });
   }
 
   public isSelectValid() {
     return (this.roleSelect && this.roleSelect.touched && this.user.role === '');
   }
 
-  public areThereValidParams() {
-    return !isNaN(this.getUrlParameter());
+  private isParameterValid(param: string | null) {
+    return !isNaN(Number(param)) && Number(param);
   }
-
-  private getUrlParameter() {
-    return Number(this.activatedRoute.snapshot.params['id']);
-  }
-
-  
-  /* public test() {
-    if (this.areThereValidParams()){
-      this.userService.getUserById(this.getUrlParameter()).pipe(
-        tap((response) => {
-          this.user.username = response.username;
-          this.user.role = response.role;
-        }),
-        takeUntilDestroyed(this.destroyRef)
-      ).subscribe();
-    }
-  } */
 
 }

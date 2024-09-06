@@ -4,4 +4,5 @@
 
 <ion-alert class="ion-alert" [isOpen]="isAlertOpen" header="¿Estás seguro de volver?"
   subHeader="Perderás toda la información ingresada" [buttons]="alertButtons"
-  (didDismiss)="setAlertOpen(false)"></ion-alert>
+  (didDismiss)="isAlertOpen = false"></ion-alert>
+  

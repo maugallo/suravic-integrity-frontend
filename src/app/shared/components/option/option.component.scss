@@ -1,4 +1,4 @@
-@import '/src/theme/variables.scss';
+@import '/src/global.scss';
 
 ion-button {
     --background: white;
@@ -13,7 +13,8 @@ ion-button {
     display: flex;               
     flex-direction: column;      
     align-items: center;         
-    justify-content: center;    
+    justify-content: center;
+    width: 7.5rem;
 }
 
 .icon, .label{
@@ -22,6 +23,6 @@ ion-button {
 
 .label {
     font-weight: 700;
-    font-size: large;
+    font-size: 650;
 }
 

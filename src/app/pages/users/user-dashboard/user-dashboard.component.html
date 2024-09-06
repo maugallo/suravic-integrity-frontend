@@ -4,15 +4,16 @@
   <div class="p-3">
     <div class="search-and-add mb-2 mx-2">
       <!-- Search Bar -->
-      <ion-searchbar [debounce]="250" (ionInput)="searchForUsers($event)"></ion-searchbar>
+      <ion-searchbar placeholder="Buscar" [debounce]="250" (ionInput)="searchForUsers($event)"></ion-searchbar>
       <!-- Add User Button -->
       <ion-button (click)="router.navigate(['users', 'form'])"><i class="fa-solid fa-user-plus fa-2x py-0"></i></ion-button>
     </div>
 
     @if (searchBarResult$ | async; as users) {
+      @if (users.length === 0) { <app-not-found></app-not-found> }
       <ion-list>
         @for (user of users; track $index) {
-          <app-user-item (userDeleted)="isUserDeleted($event)" [user]="user"></app-user-item>
+          <app-user-item (userDeleted)="userWasDeleted()" [user]="user"></app-user-item>
         }
       </ion-list>
     } @else {

@@ -1,8 +1,6 @@
 // For information on how to create your own theme, please see:
 // http://ionicframework.com/docs/theming/
 
-@import './utilities.scss';
-
 $primary-color: #e77624;
 $primary-color-darker: darken($primary-color, 10%);
 $primary-color-lighter: lighten($primary-color, 40%);

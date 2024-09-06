@@ -36,7 +36,14 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
 
-@import './theme/variables.scss';
+/* Custom styles */
+@import '/src/theme/variables.scss';
+
+/* Custom utilities */
+@import '/src/theme/utilities.scss';
+
+/* Font Awesome Icons */
+ @import '/src/theme/icons.css';
 
 /* Select options style */
 .custom-select-options .select-interface-option[aria-checked="true"] .alert-radio-icon,

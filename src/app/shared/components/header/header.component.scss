@@ -1,4 +1,4 @@
-@import '/src/theme/variables.scss';
+@import '/src/global.scss';
 
 ion-toolbar {
     --background: #{$primary-color};
@@ -29,7 +29,7 @@ ion-toolbar {
 }
 
 .title-container .title-medium {
-    font-size: 2rem;
+    font-size: 1.9rem;
 }
 
 .title-container i {

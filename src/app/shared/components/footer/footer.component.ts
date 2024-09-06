@@ -1,7 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonFooter, IonToolbar, IonTabButton, IonTabs, IonIcon, IonTabBar, IonContent } from "@ionic/angular/standalone";
-import { Subscription } from 'rxjs';
 import { TokenService } from 'src/app/core/services/utils/token.service';
 
 @Component({
@@ -13,10 +12,8 @@ import { TokenService } from 'src/app/core/services/utils/token.service';
 })
 export class FooterComponent {
 
-  router = inject(Router);
-  tokenService = inject(TokenService);
-
-  suscription!: Subscription;
+  private router = inject(Router);
+  private tokenService = inject(TokenService);
 
   public logout() {
     this.tokenService.clearToken();

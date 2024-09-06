@@ -1,6 +1,8 @@
-import { Component, inject, input, output } from '@angular/core';
+import { Component, DestroyRef, inject, input, output } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from "@ionic/angular/standalone";
+import { catchError, of, tap } from 'rxjs';
 import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
@@ -12,18 +14,25 @@ import { UserService } from 'src/app/core/services/user.service';
 })
 export class UserItemComponent {
 
-  router = inject(Router);
-  userService = inject(UserService);
+  public router = inject(Router);
+  private userService = inject(UserService);
+  private destroyRef = inject(DestroyRef);
 
-  user: any = input();
-  userDeleted = output<boolean>();
+  public user: any = input();
+  public userDeleted = output<void>();
   
   public deleteUser(id: number) {
-    this.userService.deleteUser(id).subscribe({
-      next: (response) => alert(response),
-      error: (error) => console.log(error),
-      complete: () => this.userDeleted.emit(true)
-    });
+    this.userService.deleteUser(id).pipe(
+      tap((response) => {
+        alert(response);
+        this.userDeleted.emit();
+      }),
+      catchError((error) => {
+        console.log(error);
+        return of(null);
+      }),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe();
   }
 
 }

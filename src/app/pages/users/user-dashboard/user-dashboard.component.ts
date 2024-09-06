@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { IonContent, IonSearchbar, IonList, IonLabel, IonItem, IonItemSliding, IonIcon, IonAvatar, IonItemOptions, IonItemOption, IonButton, IonProgressBar } from "@ionic/angular/standalone";
 import { HeaderComponent } from "../../../shared/components/header/header.component";
 import { FooterComponent } from "../../../shared/components/footer/footer.component";
@@ -6,48 +6,57 @@ import { UserItemComponent } from "./user-item/user-item.component";
 import { UserService } from 'src/app/core/services/user.service';
 import { UserResponse } from 'src/app/core/models/user.model';
 import { Router } from '@angular/router';
-import { map, Observable, shareReplay, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Observable, shareReplay } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
-import { addIcons } from "ionicons";
+import { NotFoundComponent } from 'src/app/shared/components/not-found/not-found.component';
 
 @Component({
   selector: 'app-user-dashboard',
   templateUrl: './user-dashboard.component.html',
   styleUrls: ['./user-dashboard.component.scss'],
   standalone: true,
-  imports: [IonProgressBar, IonButton, IonItemOption, IonItemOptions, IonAvatar, IonIcon, IonItemSliding, IonItem, IonLabel, IonList, IonSearchbar, IonContent, HeaderComponent, FooterComponent, UserItemComponent, AsyncPipe]
+  imports: [IonProgressBar, IonButton, IonItemOption, IonItemOptions, IonAvatar, IonIcon, IonItemSliding, IonItem, IonLabel, IonList, IonSearchbar, IonContent, HeaderComponent, FooterComponent, UserItemComponent, AsyncPipe, NotFoundComponent]
 })
-export class UserDashboardComponent implements OnDestroy {
+export class UserDashboardComponent {
 
-  router = inject(Router);
-  userService = inject(UserService);
+  public router = inject(Router);
+  private userService = inject(UserService);
 
-  private destroy$ = new Subject<void>();
-
-  users$: Observable<UserResponse[]> = this.userService.getUsers(true).pipe(shareReplay(1), takeUntil(this.destroy$));
-  searchBarResult$: Observable<UserResponse[]> = this.users$;
+  private searchQuery$ = new BehaviorSubject('');
+  // Observable que obtiene los usuarios y los almacena para evitar múltiples llamadas.
+  private users$: Observable<UserResponse[]> = this.userService.getUsers(true).pipe(
+    shareReplay(1)
+  );
+  // Observable que combina usuarios y la búsqueda para generar el resultado filtrado.
+  public searchBarResult$: Observable<UserResponse[]> = combineLatest([this.users$, this.searchQuery$]).pipe(
+    map(([users, query]) => {
+      return users.filter(user => user.username.toLowerCase().indexOf(query) > -1);
+    })
+  );
 
   ionViewWillEnter() {
-    this.handleUsersLoad();
+    this.refreshDashboard();
   }
 
   searchForUsers(event: any) {
     const query = event.target.value.toLowerCase();
-    this.searchBarResult$ = this.users$.pipe(map(user => user.filter(data => data.username.toLowerCase().indexOf(query) > -1)));
+    this.searchQuery$.next(query);
   }
 
-  isUserDeleted(isDeleted: boolean) {
-    if (isDeleted) this.handleUsersLoad();
+  userWasDeleted() {
+    this.refreshDashboard();
   }
 
-  private handleUsersLoad() {
-    this.users$ = this.userService.getUsers(true).pipe(shareReplay(1), takeUntil(this.destroy$)); 
-    this.searchBarResult$ = this.users$;
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+  // Refrescar la lista de usuarios cada vez que se vuelve al componente.
+  private refreshDashboard() {
+    this.users$ = this.userService.getUsers(true).pipe(
+      shareReplay(1)
+    );
+    this.searchBarResult$ = combineLatest([this.users$, this.searchQuery$]).pipe(
+      map(([users, query]) => {
+        return users.filter(user => user.username.toLowerCase().indexOf(query) > -1);
+      })
+    );
   }
 
 }

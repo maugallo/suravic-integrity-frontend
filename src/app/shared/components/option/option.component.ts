@@ -11,10 +11,10 @@ import { IonButton, IonContent } from "@ionic/angular/standalone";
 })
 export class OptionComponent {
 
-  router = inject(Router);
+  public router = inject(Router);
 
-  icon = input();
-  label = input();
-  url = input();
+  public icon = input();
+  public label = input();
+  public url = input();
 
 }

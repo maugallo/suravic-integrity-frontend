@@ -2,7 +2,6 @@ import { Component, inject, input } from '@angular/core';
 import { Location } from '@angular/common';
 import { IonButton, IonAlert } from "@ionic/angular/standalone";
 import { Router } from '@angular/router';
-import { addIcons } from "ionicons";
 
 @Component({
   selector: 'app-back-button',
@@ -13,12 +12,12 @@ import { addIcons } from "ionicons";
 })
 export class BackButtonComponent {
 
-  location = inject(Location);
-  router = inject(Router);
+  private location = inject(Location);
+  private router = inject(Router);
 
-  class = input();
-  isAlertOpen = false;
+  public class = input();
 
+  public isAlertOpen = false;
   public alertButtons = [
     {
       text: 'Cancelar',
@@ -35,12 +34,8 @@ export class BackButtonComponent {
 
   public navigateBack() {
     if (this.location.path().includes('dashboard')) this.router.navigate(['tabs', 'home']);
-    else if (this.location.path().includes('form')) this.setAlertOpen(true);
+    else if (this.location.path().includes('form')) this.isAlertOpen =  true;
     else this.location.back();
-  }
-
-  public setAlertOpen(bool: boolean) {
-    this.isAlertOpen = bool;
   }
 
 }

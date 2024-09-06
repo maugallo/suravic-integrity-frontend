@@ -1,7 +1,7 @@
-@if (areThereValidParams()) {
-  <app-header title="MODIFICAR USUARIO" titleSize="title-medium" icon="fa-solid fa-user-pen fa-2x"></app-header>
+@if (isUserEdit) {
+  <app-header title="MODIFICAR USUARIO" titleSize="title-large" icon="fa-solid fa-user-pen fa-2x"></app-header>
 } @else {
-  <app-header title="AGREGAR USUARIO" titleSize="title-medium" icon="fa-solid fa-user-plus fa-2x"></app-header>
+  <app-header title="AGREGAR USUARIO" titleSize="title-large" icon="fa-solid fa-user-plus fa-2x"></app-header>
 }
 
 <ion-content>
@@ -27,7 +27,7 @@
               </div>
             </div>
       
-            @if (areThereValidParams()) {
+            @if (isUserEdit) {
               <ion-button type="submit" expand="block">Modificar</ion-button>
             } @else {
               <ion-button type="submit" expand="block">Crear</ion-button>
