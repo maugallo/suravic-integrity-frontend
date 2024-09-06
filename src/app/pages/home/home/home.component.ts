@@ -1,10 +1,12 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { TokenService } from 'src/app/core/services/token.service';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { TokenService } from 'src/app/core/services/utils/token.service';
 import { FooterComponent } from "../../../shared/components/footer/footer.component";
 import { IonContent } from "@ionic/angular/standalone";
 import { OptionComponent } from "../../../shared/components/option/option.component";
 import { DUENO_OPTIONS, ENCARGADO_OPTIONS, Option } from './options.constants';
 import { NavigationEnd, Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -15,27 +17,26 @@ import { NavigationEnd, Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  tokenService = inject(TokenService);
-  router = inject(Router);
+  private router = inject(Router);
+  private tokenService = inject(TokenService);
+  private destroyRef = inject(DestroyRef);
 
-  role: string = '';
-  options: Option[] = [];
+  public role: string = '';
+  public options: Option[] = [];
 
   ngOnInit() { // Necesario usar un routerEvents para renderizar bien los roles en un componente que forma parte del tab. (ionViwWillEnter no funciona para este caso)
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd && event.url === '/tabs/home'){
-        this.handleUserRole();
-      }
-    });
-  }
+    this.router.events.pipe(
+      filter((event) => (event instanceof NavigationEnd && event.url == '/tabs/home')),
+      switchMap(() => this.tokenService.getToken().pipe(
+        tap((token) => {
+          this.role = this.tokenService.getRoleFromToken(token);
 
-  private handleUserRole() {
-    this.tokenService.getToken().subscribe((token) => {
-      this.role = this.tokenService.getRoleFromToken(token);
-      
-      if (this.role === 'ROLE_DUENO') this.options = DUENO_OPTIONS;
-      if (this.role === 'ROLE_ENCARGADO') this.options = ENCARGADO_OPTIONS;
-    });
+          if (this.role === 'ROLE_DUENO') this.options = DUENO_OPTIONS;
+          if (this.role === 'ROLE_ENCARGADO') this.options = ENCARGADO_OPTIONS;
+        })
+      )),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe();
   }
 
 }

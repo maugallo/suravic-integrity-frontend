@@ -1,5 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 import { IonButton, IonContent } from "@ionic/angular/standalone";
 import { BackButtonComponent } from "../../../shared/components/back-button/back-button.component";
 
@@ -11,7 +10,5 @@ import { BackButtonComponent } from "../../../shared/components/back-button/back
   imports: [IonContent, IonButton, BackButtonComponent]
 })
 export class ForgotPasswordComponent {
-
-  router = inject(Router);
 
 }

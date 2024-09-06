@@ -1,13 +1,14 @@
-import { Component, inject, OnDestroy, ViewChild } from '@angular/core';
+import { Component, DestroyRef, inject, ViewChild } from '@angular/core';
 import { FormsModule, NgForm, NgModel } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { IonInput, IonContent, IonIcon, IonButton } from "@ionic/angular/standalone";
 import { BackButtonComponent } from "../../../shared/components/back-button/back-button.component";
-import { ValidationService } from 'src/app/core/services/validation.service';
+import { ValidationService } from 'src/app/core/services/utils/validation.service';
 import { UserLoginRequest } from 'src/app/core/models/user.model';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { TokenService } from 'src/app/core/services/token.service';
-import { catchError, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { TokenService } from 'src/app/core/services/utils/token.service';
+import { catchError, of, switchMap, tap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-login',
@@ -16,23 +17,21 @@ import { catchError, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
   standalone: true,
   imports: [IonButton, IonIcon, IonContent, IonInput, FormsModule, RouterLink, BackButtonComponent]
 })
-export class LoginComponent implements OnDestroy {
+export class LoginComponent {
 
-  router = inject(Router);
-
-  validationService = inject(ValidationService);
+  public router = inject(Router);
+  public validationService = inject(ValidationService);
   private authService = inject(AuthService);
   private tokenService = inject(TokenService);
+  private destroyRef = inject(DestroyRef);
 
-  @ViewChild('passwordInput', { static: false }) passwordInput!: NgModel;
-  @ViewChild('usernameInput', { static: false }) usernameInput!: NgModel;
-
-  user: UserLoginRequest = {
+  public user: UserLoginRequest = {
     username: '',
     password: '',
   }
 
-  private destroy$ = new Subject<void>();
+  @ViewChild('passwordInput', { static: false }) passwordInput!: NgModel;
+  @ViewChild('usernameInput', { static: false }) usernameInput!: NgModel;
 
   public onSubmit(loginForm: NgForm) {
     if (loginForm.valid) {
@@ -55,13 +54,8 @@ export class LoginComponent implements OnDestroy {
         this.passwordInput.control.setErrors({ loginError: error.message });
         return of(null);
       }),
-      takeUntil(this.destroy$) // Cuando destroy$ emite un valor, takeUntil se desuscribe del componente.
+      takeUntilDestroyed(this.destroyRef)
     ).subscribe();
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(); // Emitimos un valor, avisando que hay que desuscribirse ya que el componente se destruirá.
-    this.destroy$.complete(); // Marcamos el subject como complete.
   }
 
 }

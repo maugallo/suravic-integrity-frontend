@@ -1,13 +1,14 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, ViewChild } from '@angular/core';
 import { HeaderComponent } from "../../../shared/components/header/header.component";
 import { IonContent, IonButton, IonInput, IonSelect, IonSelectOption, IonNote } from "@ionic/angular/standalone";
 import { FormsModule, NgForm, NgModel } from '@angular/forms';
 import { UserRequest } from 'src/app/core/models/user.model';
-import { ValidationService } from 'src/app/core/services/validation.service';
+import { ValidationService } from 'src/app/core/services/utils/validation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EqualPasswordsDirective } from 'src/app/shared/validators/equal-passwords.directive';
 import { UserService } from 'src/app/core/services/user.service';
-import { addIcons } from "ionicons";
+import { tap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-user-form',
@@ -18,20 +19,19 @@ import { addIcons } from "ionicons";
 })
 export class UserFormComponent  implements OnInit {
 
-  router = inject(Router);
-  activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
+  public validationService = inject(ValidationService);
+  private activatedRoute = inject(ActivatedRoute);
+  private userService = inject(UserService);
+  private destroyRef = inject(DestroyRef);
 
-  validationService = inject(ValidationService);
-  userService = inject(UserService);
-
-  user: UserRequest = {
+  public user: UserRequest = {
     username: '',
     password: '',
     role: ''
   }
-  confirmPassword: string = '';
-
-  customInterfaceOptions: any = { cssClass: 'custom-select-options' } // Clase necesaria para customizar alert de options.
+  public confirmPassword: string = '';
+  public customInterfaceOptions: any = { cssClass: 'custom-select-options' } // Clase necesaria para customizar alert de options.
 
   @ViewChild('usernameInput', { static: false }) usernameInput!: NgModel;
   @ViewChild('passwordInput', { static: false }) passwordInput!: NgModel;
@@ -97,5 +97,18 @@ export class UserFormComponent  implements OnInit {
   private getUrlParameter() {
     return Number(this.activatedRoute.snapshot.params['id']);
   }
+
+  
+  /* public test() {
+    if (this.areThereValidParams()){
+      this.userService.getUserById(this.getUrlParameter()).pipe(
+        tap((response) => {
+          this.user.username = response.username;
+          this.user.role = response.role;
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      ).subscribe();
+    }
+  } */
 
 }

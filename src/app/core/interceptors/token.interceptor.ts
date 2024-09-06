@@ -1,5 +1,5 @@
 import { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
-import { TokenService } from '../services/token.service';
+import { TokenService } from '../services/utils/token.service';
 import { catchError, from, Observable, switchMap, tap, throwError } from 'rxjs';
 import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
@@ -38,7 +38,8 @@ export const tokenInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next:
                   req = req.clone({
                     setHeaders: {
                       Authorization: newToken  // Asegúrate de que el nuevo token se use correctamente
-                    }
+                    },
+                    withCredentials: true
                   });
 
                   // Reintentar la solicitud original con el nuevo token
@@ -59,7 +60,8 @@ export const tokenInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next:
           req = req.clone({
             setHeaders: {
               Authorization: token  // Asegúrate de usar el formato correcto
-            }
+            },
+            withCredentials: true
           });
           return next(req);
         }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FooterComponent } from "../../../shared/components/footer/footer.component";
 import { IonContent } from "@ionic/angular/standalone";
 
@@ -9,10 +9,6 @@ import { IonContent } from "@ionic/angular/standalone";
   standalone: true,
   imports: [IonContent, FooterComponent]
 })
-export class ProfileComponent  implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {}
+export class ProfileComponent {
 
 }

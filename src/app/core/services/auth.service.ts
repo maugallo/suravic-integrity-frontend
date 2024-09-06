@@ -15,7 +15,7 @@ export class AuthService {
   public login(user: UserLoginRequest) {
     const headers = new HttpHeaders({ 'Authorization': 'Basic ' + btoa(`${user.username}:${user.password}`) });
 
-    return this.http.get(`${this.apiUrl}/auth/login`, { headers, observe: 'response' })
+    return this.http.get(`${this.apiUrl}/auth/login`, { headers, withCredentials: true, observe: 'response' })
       .pipe(catchError(this.handleError));
   }
 
