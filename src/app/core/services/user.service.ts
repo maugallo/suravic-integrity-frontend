@@ -43,7 +43,7 @@ export class UserService {
   private handleError(error: HttpErrorResponse) {
     switch (error.status) {
       case 400:
-        return throwError(() => new Error(error.message));
+        return throwError(() => new Error(error.error));
       case 403:
         return throwError(() => new Error("No tienes los permisos para realizar esta acción"));
       case 500:

@@ -11,6 +11,7 @@ export class ValidationService {
     if (errors.minlength) return `Debe tener al menos ${errors.minlength.requiredLength} caracteres`;
     if (errors.maxlength) return `No deben haber más de ${errors.minlength.requiredLength} caracteres`;
     if (errors.loginError) return errors.loginError;
+    if (errors.userCreation) return errors.userCreation;
     if (errors.equalPasswords) return 'Las contraseñas no coinciden';
 
     return '';
