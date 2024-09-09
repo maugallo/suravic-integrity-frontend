@@ -1,0 +1,29 @@
+@import '/src/global.scss';
+
+.search-and-add {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+ion-searchbar {
+    --box-shadow: none;
+    border: 1px #{$secondary-color} solid;
+    border-radius: 5px;
+    height: 2.8rem;
+}
+
+ion-button {
+    --box-shadow: none;
+    --background: white;
+    --ripple-color: #{$secondary-color-darker};
+}
+
+.fa-solid {
+    color: #{$primary-color};
+}
+
+ion-progress-bar {
+    --background: #{$secondary-color-lighter};
+    --progress-background: #{$primary-color};
+}

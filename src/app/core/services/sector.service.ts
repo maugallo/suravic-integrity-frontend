@@ -2,41 +2,36 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 import { inject, Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { UserRequest, UserResponse } from '../models/user.model';
+import { SectorRequest, SectorResponse } from '../models/sector.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class SectorService {
 
   private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/users`;
+  private apiUrl = `${environment.apiUrl}/sectors`;
 
-  public getUsers(isEnabled: boolean): Observable<UserResponse[]> {
+  public getSectors(isEnabled: boolean): Observable<SectorResponse[]> {
     let params = new HttpParams();
 
     params = params.append('isEnabled', isEnabled);
 
-    return this.http.get<UserResponse[]>(this.apiUrl, { params })
+    return this.http.get<SectorResponse[]>(this.apiUrl, { params })
       .pipe(catchError(this.handleError));
   }
 
-  public getUserById(id: number) {
-    return this.http.get<UserResponse>(`${this.apiUrl}/${id}`)
+  public createSector(sector: SectorRequest): Observable<string> {
+    return this.http.post(this.apiUrl, sector, { responseType: 'text' })
       .pipe(catchError(this.handleError));
   }
 
-  public createUser(user: UserRequest): Observable<string> {
-    return this.http.post(this.apiUrl, user, { responseType: 'text' })
+  public editSector(id: number, sector: SectorRequest): Observable<string> {
+    return this.http.put(`${this.apiUrl}/${id}`, sector, { responseType: 'text' })
       .pipe(catchError(this.handleError));
   }
 
-  public editUser(id: number, user: UserRequest): Observable<string> {
-    return this.http.put(`${this.apiUrl}/${id}`, user, { responseType: 'text' })
-      .pipe(catchError(this.handleError));
-  }
-
-  public deleteUser(id: number): Observable<string> {
+  public deleteOrRecoverSector(id: number): Observable<string> {
     return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' })
       .pipe(catchError(this.handleError));
   }

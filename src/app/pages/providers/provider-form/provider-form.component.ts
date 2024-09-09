@@ -4,6 +4,8 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-provider-form',
   templateUrl: './provider-form.component.html',
   styleUrls: ['./provider-form.component.scss'],
+  standalone: true,
+  imports: []
 })
 export class ProviderFormComponent  implements OnInit {
 

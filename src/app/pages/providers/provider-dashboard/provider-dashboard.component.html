@@ -5,13 +5,16 @@
     <div class="search-and-add mb-2 mx-2">
       <!-- Search Bar -->
       <ion-searchbar placeholder="Buscar" [debounce]="250" (ionInput)="searchForProviders($event)"></ion-searchbar>
-      <!-- Add User Button -->
+      <!-- Filter Button -->
       <ion-button><i class="fa-solid fa-filter fa-2x py-0"></i></ion-button>
     </div>
     
     <div>
+      <!-- Add Provider Button -->
       <ion-button (click)="router.navigate(['providers', 'form'])"><i class="fa-solid fa-user-group fa-2x py-0"></i></ion-button>
-      <ion-button (click)="router.navigate(['providers', 'form'])"><i class="fa-solid fa-grid-2 fa-2x py-0"></i></ion-button>
+      <!-- Sector Dashboard Button -->
+      <ion-button id="open-sector-modal"><i class="fa-solid fa-grid-2 fa-2x py-0"></i></ion-button>
+      <app-sector-dashboard></app-sector-dashboard>
     </div>
 
     <!-- @if (searchBarResult$ | async; as users) {

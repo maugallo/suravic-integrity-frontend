@@ -14,5 +14,6 @@ export class HeaderComponent {
   public icon = input();
   public title = input();
   public titleSize = input();
+  public modalHeader = input(false);
 
 }
