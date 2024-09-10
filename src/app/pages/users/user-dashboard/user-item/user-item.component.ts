@@ -19,13 +19,13 @@ export class UserItemComponent {
   private destroyRef = inject(DestroyRef);
 
   public user: any = input();
-  public userDeleted = output<void>();
+  public refreshDashboard = output<void>();
   
   public deleteUser(id: number) {
     this.userService.deleteUser(id).pipe(
       tap((response) => {
         alert(response);
-        this.userDeleted.emit();
+        this.refreshDashboard.emit();
       }),
       catchError((error) => {
         console.log(error);

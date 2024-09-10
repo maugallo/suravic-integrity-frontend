@@ -2,14 +2,14 @@
 <div class="p-3">
   <div class="add-container mb-2 mx-2">
     <!-- Add Sector Button -->
-    <ion-button ><i class="fa-solid fa-grid-2-plus fa-2x py-0"></i></ion-button>
+    <ion-button (click)="openAddSectorAlert()"><i class="fa-solid fa-grid-2-plus fa-2x py-0"></i></ion-button>
   </div>
 
   @if (sectors$ | async; as sectors) {
     @if (sectors.length === 0) { <app-not-found></app-not-found> }
     <ion-list>
       @for (sector of sectors; track $index) {
-        <p>{{ sector.name }}</p>
+        <app-sector-item (turnInert)="turnInert.emit($event)" (refreshDashboard)="refreshDashboard()" [sector]="sector" ></app-sector-item>
       }
     </ion-list>
   } @else {

@@ -13,7 +13,7 @@
       @if (users.length === 0) { <app-not-found></app-not-found> }
       <ion-list>
         @for (user of users; track $index) {
-          <app-user-item (userDeleted)="userWasDeleted()" [user]="user"></app-user-item>
+          <app-user-item (refreshDashboard)="refreshDashboard()" [user]="user"></app-user-item>
         }
       </ion-list>
     } @else {

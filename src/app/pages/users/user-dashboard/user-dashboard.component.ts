@@ -43,12 +43,7 @@ export class UserDashboardComponent {
     this.searchQuery$.next(query);
   }
 
-  userWasDeleted() {
-    this.refreshDashboard();
-  }
-
-  // Refrescar la lista de usuarios cada vez que se vuelve al componente.
-  private refreshDashboard() {
+  public refreshDashboard() {
     this.users$ = this.userService.getUsers(true).pipe(
       shareReplay(1)
     );

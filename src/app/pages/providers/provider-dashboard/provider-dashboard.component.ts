@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { HeaderComponent } from "../../../shared/components/header/header.component";
 import { IonContent, IonSearchbar, IonButton, IonList, IonProgressBar, IonModal, IonHeader, IonButtons, IonToolbar, IonTitle, IonItem, IonInput } from "@ionic/angular/standalone";
 import { Router } from '@angular/router';
-import { SectorModalComponent } from "../sectors/sector-modal/sector-modal.component";
+import { SectorModalComponent } from '../../sectors/sector-modal/sector-modal.component';
 
 @Component({
   selector: 'app-provider-dashboard',
