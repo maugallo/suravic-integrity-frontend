@@ -1,30 +1,19 @@
-<ion-modal
-trigger="open-sector-modal"
-[initialBreakpoint]="1"
-[breakpoints]="[0, 1]"
-handleBehavior="cycle"
->
-<ng-template>
-  <ion-content>
-      <app-header title="RUBROS" titleSize="title-large" icon="fa-solid fa-grid-2 fa-2x" [modalHeader]="true"></app-header>
-      <div class="p-3">
-        <div class="search-and-add mb-2 mx-2">
-          <!-- Add Sector Button -->
-          <ion-button><i class="fa-solid fa-grid-2-plus fa-2x py-0"></i></ion-button>
-        </div>
-    
-        <!-- @if (searchBarResult$ | async; as users) {
-          @if (users.length === 0) { <app-not-found></app-not-found> }
-          <ion-list>
-            @for (user of users; track $index) {
-              <app-user-item (userDeleted)="userWasDeleted()" [user]="user"></app-user-item>
-            }
-          </ion-list>
-        } @else {
-          <ion-progress-bar type="indeterminate"></ion-progress-bar>
-        } -->
-        
-      </div>
-  </ion-content>
-</ng-template>
-</ion-modal>
+<app-header title="RUBROS" titleSize="title-large" icon="fa-solid fa-grid-2 fa-2x" [modalHeader]="true"></app-header>
+<div class="p-3">
+  <div class="add-container mb-2 mx-2">
+    <!-- Add Sector Button -->
+    <ion-button ><i class="fa-solid fa-grid-2-plus fa-2x py-0"></i></ion-button>
+  </div>
+
+  @if (sectors$ | async; as sectors) {
+    @if (sectors.length === 0) { <app-not-found></app-not-found> }
+    <ion-list>
+      @for (sector of sectors; track $index) {
+        <p>{{ sector.name }}</p>
+      }
+    </ion-list>
+  } @else {
+    <ion-progress-bar type="indeterminate"></ion-progress-bar>
+  }
+
+</div>

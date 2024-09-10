@@ -1,16 +1,10 @@
 @import '/src/global.scss';
 
-.search-and-add {
+.add-container {
     display: flex;
     align-items: center;
     justify-content: end;
-}
-
-ion-searchbar {
-    --box-shadow: none;
-    border: 1px #{$secondary-color} solid;
-    border-radius: 5px;
-    height: 2.8rem;
+    border-bottom: 1px solid #{$secondary-color-lighter};
 }
 
 ion-button {

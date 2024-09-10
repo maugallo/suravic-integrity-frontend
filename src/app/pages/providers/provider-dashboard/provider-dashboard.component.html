@@ -1,20 +1,20 @@
-<app-header title="PROVEEDORES" titleSize="title-medium" icon="fa-solid fa-user-group fa-2x" ></app-header>
+<app-header title="PROVEEDORES" titleSize="title-medium" icon="fa-solid fa-users fa-2x" ></app-header>
 
 <ion-content>
   <div class="py-3 px-2">
-    <div class="search-and-add mb-2 mx-2">
+    <div class="search-and-add-container mb-2 mx-2">
       <!-- Search Bar -->
       <ion-searchbar placeholder="Buscar" [debounce]="250" (ionInput)="searchForProviders($event)"></ion-searchbar>
       <!-- Filter Button -->
       <ion-button><i class="fa-solid fa-filter fa-2x py-0"></i></ion-button>
     </div>
     
-    <div>
+    <div class="options-container">
       <!-- Add Provider Button -->
-      <ion-button (click)="router.navigate(['providers', 'form'])"><i class="fa-solid fa-user-group fa-2x py-0"></i></ion-button>
+      <ion-button (click)="router.navigate(['providers', 'form'])"><i class="fa-solid fa-users-medical fa-2x py-0"></i></ion-button>
       <!-- Sector Dashboard Button -->
       <ion-button id="open-sector-modal"><i class="fa-solid fa-grid-2 fa-2x py-0"></i></ion-button>
-      <app-sector-dashboard></app-sector-dashboard>
+      <app-sector-modal></app-sector-modal>
     </div>
 
     <!-- @if (searchBarResult$ | async; as users) {
