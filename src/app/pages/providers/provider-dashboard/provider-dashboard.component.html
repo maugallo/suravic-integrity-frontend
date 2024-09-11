@@ -17,16 +17,16 @@
       <app-sector-modal></app-sector-modal>
     </div>
 
-    <!-- @if (searchBarResult$ | async; as users) {
-      @if (users.length === 0) { <app-not-found></app-not-found> }
+    @if (searchBarResult$ | async; as providers) {
+      @if (providers.length === 0) { <app-not-found></app-not-found> }
       <ion-list>
-        @for (user of users; track $index) {
-          <app-user-item (userDeleted)="userWasDeleted()" [user]="user"></app-user-item>
+        @for (provider of providers; track $index) {
+          <app-provider-item [provider]="provider"></app-provider-item>
         }
       </ion-list>
     } @else {
       <ion-progress-bar type="indeterminate"></ion-progress-bar>
-    } -->
+    }
     
   </div>
 </ion-content>

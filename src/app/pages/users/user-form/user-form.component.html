@@ -19,11 +19,11 @@
               required minlength="6" maxlength="60" equalPasswords [equalTo]="user.password" [errorText]="validationService.getErrorMessage(confirmPasswordInput.errors)"></ion-input>
               <!-- Role selector input -->
               <div class="mb-10">
-                <ion-select #roleSelect="ngModel" name="roleSelect" id="roleSelect" [class]="(isSelectValid()) ? 'select-invalid' : ''" [(ngModel)]="user.role" [interfaceOptions]="customInterfaceOptions" label="Rol" label-placement="floating" fill="outline" required>
+                <ion-select #roleSelect="ngModel" name="roleSelect" id="roleSelect" [class]="(isSelectNotValid()) ? 'select-invalid' : ''" [(ngModel)]="user.role" [interfaceOptions]="customInterfaceOptions" label="Rol" label-placement="floating" fill="outline" required>
                   <ion-select-option value="DUENO">Dueño</ion-select-option>
                   <ion-select-option value="ENCARGADO">Encargado</ion-select-option>
                 </ion-select>
-                @if (isSelectValid()) { <ion-note color="danger">Este campo es obligatorio</ion-note> <!-- Manejo manual de errorText hasta que Ionic lo incluya para el ion-select --> }
+                @if (isSelectNotValid()) { <ion-note color="danger">Este campo es obligatorio</ion-note> <!-- Manejo manual de errorText hasta que Ionic lo incluya para el ion-select --> }
               </div>
             </div>
       

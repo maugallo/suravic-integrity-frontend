@@ -1,10 +1,10 @@
 export interface PercentagesRequest {
-    vatPercentage: number,
-    profitPercentage: number
+    vatPercentage: string,
+    profitPercentage: string
 }
 
 export interface PercentagesResponse {
     id: number,
-    vatPercentage: number,
-    profitPercentage: number
+    vatPercentage: string,
+    profitPercentage: string
 }

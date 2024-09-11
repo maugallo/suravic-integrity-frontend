@@ -9,6 +9,7 @@ import { EqualPasswordsDirective } from 'src/app/shared/validators/equal-passwor
 import { UserService } from 'src/app/core/services/user.service';
 import { catchError, of, switchMap, tap, throwError } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AlertService } from 'src/app/core/services/utils/alert.service';
 
 @Component({
   selector: 'app-user-form',
@@ -22,8 +23,9 @@ export class UserFormComponent implements OnInit {
   private router = inject(Router);
   public validationService = inject(ValidationService);
   private activatedRoute = inject(ActivatedRoute);
-  private userService = inject(UserService);
   private destroyRef = inject(DestroyRef);
+  private userService = inject(UserService);
+  private alertService = inject(AlertService);
 
   public user: UserRequest = {
     username: '',
@@ -75,7 +77,7 @@ export class UserFormComponent implements OnInit {
           else return this.userService.createUser(this.user);
         }),
         tap((response) => {
-          alert(response);
+          this.alertService.getSuccessToast(response).fire();
           this.router.navigate(['users', 'dashboard']);
         }),
         catchError((error) => {
@@ -90,8 +92,8 @@ export class UserFormComponent implements OnInit {
     }
   }
 
-  public isSelectValid() {
-    return (this.roleSelect && this.roleSelect.touched && this.user.role === '');
+  public isSelectNotValid() {
+    return (this.roleSelect && this.roleSelect.touched && !this.user.role);
   }
 
   private isParameterValid(param: string | null) {

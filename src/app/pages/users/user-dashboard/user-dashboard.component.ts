@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { IonContent, IonSearchbar, IonList, IonLabel, IonItem, IonItemSliding, IonIcon, IonAvatar, IonItemOptions, IonItemOption, IonButton, IonProgressBar } from "@ionic/angular/standalone";
 import { HeaderComponent } from "../../../shared/components/header/header.component";
 import { FooterComponent } from "../../../shared/components/footer/footer.component";
-import { UserItemComponent } from "./user-item/user-item.component";
+import { UserItemComponent } from './user-item/user-item.component';
 import { UserService } from 'src/app/core/services/user.service';
 import { UserResponse } from 'src/app/core/models/user.model';
 import { Router } from '@angular/router';

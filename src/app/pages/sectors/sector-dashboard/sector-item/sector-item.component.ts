@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
   templateUrl: './sector-item.component.html',
   styleUrls: ['./sector-item.component.scss'],
   standalone: true,
-  imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, ]
+  imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding,]
 })
 export class SectorItemComponent {
 
@@ -69,7 +69,7 @@ export class SectorItemComponent {
   }
 
   // Delete sector.
-  public openDeleteSectorAlert(){
+  public openDeleteSectorAlert() {
     this.alertService.getWarningConfirmationAlert('¿Estás seguro que deseas eliminar el rubro?')
       .fire()
       .then((result) => {

@@ -68,7 +68,7 @@ export class AlertService {
         position: 'top-end',
         title: titleMessage,
         showConfirmButton: false,
-        timer: 15000000,
+        timer: 1250,
         customClass: {
           title: ''
         }
