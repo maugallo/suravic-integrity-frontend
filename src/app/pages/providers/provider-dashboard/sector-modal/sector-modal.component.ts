@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonModal, IonHeader, IonToolbar, IonButtons, IonButton, IonTitle, IonContent, IonLabel, IonList, IonProgressBar, IonSearchbar } from "@ionic/angular/standalone";
-import { SectorDashboardComponent } from "../sector-dashboard/sector-dashboard.component";
+import { SectorDashboardComponent } from './sector-dashboard/sector-dashboard.component';
 import { HeaderComponent } from 'src/app/shared/components/header/header.component';
 
 @Component({

@@ -14,14 +14,15 @@
       <ion-button (click)="router.navigate(['providers', 'form'])"><i class="fa-solid fa-users-medical fa-2x py-0"></i></ion-button>
       <!-- Sector Dashboard Button -->
       <ion-button id="open-sector-modal"><i class="fa-solid fa-grid-2 fa-2x py-0"></i></ion-button>
+      <!-- Sector Modal -->
       <app-sector-modal></app-sector-modal>
     </div>
 
-    @if (searchBarResult$ | async; as providers) {
+    @if (searchBarResult() | async; as providers) {
       @if (providers.length === 0) { <app-not-found></app-not-found> }
       <ion-list>
         @for (provider of providers; track $index) {
-          <app-provider-item [provider]="provider"></app-provider-item>
+          <app-provider-item (refreshDashboard)="renderDashboard()" [provider]="provider"></app-provider-item>
         }
       </ion-list>
     } @else {

@@ -61,7 +61,15 @@ export class AlertService {
     });
   }
 
-  getSuccessToast(titleMessage: string){
+  public getErrorAlert(text: string) {
+    return Swal.mixin({
+      icon: "error",
+      title: "Error",
+      text: text,
+  });
+  }
+
+  public getSuccessToast(titleMessage: string){
     return Swal.mixin({
         toast: true,
         icon: 'success',

@@ -1,5 +1,5 @@
-import { ContactRequest } from "./contact.model";
-import { PercentagesRequest } from "./percentages.model";
+import { ContactRequest, ContactResponse } from "./contact.model";
+import { PercentagesRequest, PercentagesResponse } from "./percentages.model";
 import { SectorResponse } from "./sector.model";
 
 export interface ProviderRequest {
@@ -16,8 +16,8 @@ export interface ProviderRequest {
 export interface ProviderResponse {
     id: number,
     sector: SectorResponse,
-    contact: ContactRequest,
-    percentages: PercentagesRequest,
+    contact: ContactResponse,
+    percentages: PercentagesResponse,
     vatCondition: string,
     companyName: string,
     firstName: string,

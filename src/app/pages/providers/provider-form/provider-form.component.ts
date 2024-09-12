@@ -13,7 +13,7 @@ import { SectorService } from 'src/app/core/services/sector.service';
 import { AsyncPipe } from '@angular/common';
 import { MaskitoElementPredicate } from '@maskito/core';
 import { cuitMask } from 'src/app/core/masks/cuit.mask';
-import { MaskitoDirective} from '@maskito/angular';
+import { MaskitoDirective } from '@maskito/angular';
 import { VAT_CONDITIONS, VatCondition } from 'src/app/core/constants/vat-conditions.constants';
 import { telephoneMask } from 'src/app/core/masks/telephone.mask';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
@@ -25,7 +25,7 @@ import { AlertService } from 'src/app/core/services/utils/alert.service';
   standalone: true,
   imports: [IonButton, IonNote, IonInput, IonContent, HeaderComponent, FormsModule, IonSelectOption, AsyncPipe, IonSelect, MaskitoDirective]
 })
-export class ProviderFormComponent  implements OnInit {
+export class ProviderFormComponent implements OnInit {
 
   readonly cuitMask = cuitMask;
   readonly telephoneMask = telephoneMask;
@@ -41,8 +41,8 @@ export class ProviderFormComponent  implements OnInit {
 
   public provider: ProviderRequest = {
     sector: { id: 0, name: '' },
-    contact: { email: '', telephone: ''},
-    percentages: { profitPercentage: '', vatPercentage: ''},
+    contact: { email: '', telephone: '' },
+    percentages: { profitPercentage: '', vatPercentage: '' },
     vatCondition: '',
     companyName: '',
     firstName: '',
@@ -51,19 +51,13 @@ export class ProviderFormComponent  implements OnInit {
   }
   public providerId!: number;
 
-  public isProviderEdit!: boolean;
-
-  public customInterfaceOptions: any = { cssClass: 'custom-select-options' } // Clase necesaria para customizar alert de options.
-  @ViewChild('sectorSelect', { static: false }) sectorSelect!: NgModel;
-  @ViewChild('vatConditionSelect', { static: false }) vatConditionSelect!: NgModel;
   public sectors$: Observable<SectorResponse[]> = this.sectorService.getSectors(true).pipe(
-    tap((sectors) => {
-      if (this.providerId) {
-        this.provider.sector = sectors.find(sector => sector.id === this.provider.sector.id)!;
-      }
-    })
-  ); 
+    tap((sectors) => this.providerId ? this.provider.sector = sectors.find(sector => sector.id === this.provider.sector.id)! : '' )
+  );
   public vatConditions: VatCondition[] = VAT_CONDITIONS;
+  public customInterfaceOptions: any = { cssClass: 'custom-select-options' } // Clase necesaria para customizar alert de options.
+
+  public isProviderEdit!: boolean;
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.pipe(
@@ -73,17 +67,16 @@ export class ProviderFormComponent  implements OnInit {
           this.providerId = Number(providerId);
           return this.providerService.getProviderById(this.providerId).pipe(
             tap((response) => {
-              this.provider.sector = response.sector;
-              this.provider.contact.email = response.contact.email;
-              this.provider.contact.telephone = response.contact.telephone;
-              this.provider.percentages.vatPercentage = response.percentages.vatPercentage;
-              this.provider.percentages.profitPercentage = response.percentages.profitPercentage;
-
-              this.provider.vatCondition = response.vatCondition;
-              this.provider.companyName = response.companyName;
-              this.provider.firstName = response.firstName;
-              this.provider.lastName = response.lastName;
-              this.provider.cuit = response.cuit;
+              this.provider = {
+                sector: response.sector,
+                contact: { email: response.contact.email, telephone: response.contact.telephone },
+                percentages: { profitPercentage: response.percentages.profitPercentage, vatPercentage: response.percentages.vatPercentage },
+                vatCondition: response.vatCondition,
+                companyName: response.companyName,
+                firstName: response.firstName,
+                lastName: response.lastName,
+                cuit: response.cuit
+              }
 
               this.isProviderEdit = true;
             }),
@@ -101,18 +94,19 @@ export class ProviderFormComponent  implements OnInit {
     ).subscribe();
   }
 
-  public onSubmit(providerForm: NgForm){
+  public onSubmit(providerForm: NgForm) {
     if (providerForm.valid) {
-      of(this.isProviderEdit).pipe(
-        switchMap((isEdit) => {
-          if (isEdit) return this.providerService.editProvider(this.providerId, this.provider);
-          else return this.providerService.createProvider(this.provider);
-        }),
+      const operation$ = this.isProviderEdit
+      ? this.providerService.editProvider(this.providerId, this.provider)
+      : this.providerService.createProvider(this.provider);
+      
+      operation$.pipe(
         tap((response) => {
           this.alertService.getSuccessToast(response).fire();
           this.router.navigate(['providers', 'dashboard']);
         }),
         catchError((error) => {
+          console.error(error);
           // Marcar errores de validación en inputs (valores únicos ya ingresados por ejemplo).
           return of(null);
         }),
@@ -123,7 +117,7 @@ export class ProviderFormComponent  implements OnInit {
     }
   }
 
-  public isSelectNotValid(select: NgModel, connectedValue: SectorResponse | string) {
+  public isSelectNotValid(select: NgModel, connectedValue: string) {
     return (select && select.touched && !connectedValue);
   }
 
@@ -131,4 +125,4 @@ export class ProviderFormComponent  implements OnInit {
     return !isNaN(Number(param)) && Number(param);
   }
 
-}
+} 

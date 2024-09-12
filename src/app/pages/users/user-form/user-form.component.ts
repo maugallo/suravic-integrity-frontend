@@ -81,7 +81,8 @@ export class UserFormComponent implements OnInit {
           this.router.navigate(['users', 'dashboard']);
         }),
         catchError((error) => {
-          this.usernameInput.control.setErrors({ userCreation: error.message })
+          this.usernameInput.control.setErrors({ userCreation: error.message });
+          this.alertService.getErrorAlert(error.message).fire();
           console.log(error.message);
           return of(null);
         }),
