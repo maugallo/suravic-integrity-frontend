@@ -1,3 +1,91 @@
-<p>
-  provider-detail works!
-</p>
+<ion-content>
+  <app-back-button class="back-button-fixed back-button-primary"></app-back-button>
+
+  @if (provider$ | async; as provider) {
+  <div class="mt-20">
+    <div class="circle-container">
+      <i class="fa-solid fa-user-tie fa-5x"></i>
+    </div>
+    <p class="detail-title mt-3">{{ provider.companyName }}</p>
+  </div>
+
+  <div class="detail-container">
+    <ion-card>
+      <ion-card-header>
+        <div class="card-header">
+          <i class="fa-regular fa-address-card fa-2x"></i>
+          <p class="card-title">Titular</p>
+        </div>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p class="card-content">{{ provider.firstName }} {{ provider.lastName }}</p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <div class="card-header">
+          <i class="fa-regular fa-phone fa-2x"></i>
+          <p class="card-title">Contacto</p>
+        </div>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p class="card-content">{{ provider.contact.telephone }}</p>
+        @if (provider.contact.email) { <p class="card-content">{{ provider.contact.email }}</p> }
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <div class="card-header">
+          <i class="fa-regular fa-file-invoice fa-2x"></i>
+          <p class="card-title">Fiscales</p>
+        </div>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p class="card-content">{{ provider.vatCondition | formatEnum }}</p>
+        <p class="card-content">{{ provider.cuit }}</p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <div class="card-header">
+          <i class="fa-solid fa-percentage fa-2x"></i>
+          <p class="card-title">Porcentajes</p>
+        </div>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div class="percentages-container">
+          <p class="card-content">IVA:</p>
+          <p class="card-content">%{{ provider.percentages.vatPercentage }}</p>
+        </div>
+        <div class="percentages-container">
+          <p class="card-content">Ganancia:</p>
+          <p class="card-content">%{{ provider.percentages.profitPercentage }}</p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <div class="card-header">
+          <i class="fa-regular fa-grid-2 fa-2x"></i>
+          <p class="card-title">Rubro</p>
+        </div>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p class="card-content">{{ provider.sector.name }}</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  } @else {
+  <app-not-found></app-not-found>
+  }
+
+</ion-content>

@@ -1,14 +1,17 @@
 import { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { TokenService } from '../services/utils/token.service';
-import { catchError, from, Observable, switchMap, tap, throwError } from 'rxjs';
+import { catchError, Observable, switchMap, tap, throwError } from 'rxjs';
 import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { AlertService } from '../services/utils/alert.service';
 
 export const tokenInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
+  const router = inject(Router);
+
   const tokenService = inject(TokenService);
   const authService = inject(AuthService);
-  const router = inject(Router);
+  const alertService = inject(AlertService);
 
   // Excluir las solicitudes de login y refresh del interceptor para evitar bucles infinitos
   if (req.url.includes('/auth/login') || req.url.includes('/auth/refresh')) {
@@ -49,6 +52,7 @@ export const tokenInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next:
             }),
             catchError((err) => {
               console.error("Interceptor: Error al refrescar el token, redirigiendo al login");
+              alertService.getErrorAlert("Sesión expirada, porfavor ingresa de nuevo");
               return tokenService.clearToken().pipe(
                 tap(() => router.navigate(['/login'])),  // Redirigir al login
                 switchMap(() => throwError(() => new Error(err)))

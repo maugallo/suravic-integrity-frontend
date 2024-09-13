@@ -20,10 +20,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class LoginComponent {
 
   public router = inject(Router);
+  private destroyRef = inject(DestroyRef);
+  
   public validationService = inject(ValidationService);
   private authService = inject(AuthService);
   private tokenService = inject(TokenService);
-  private destroyRef = inject(DestroyRef);
 
   public user: UserLoginRequest = {
     username: '',

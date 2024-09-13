@@ -16,9 +16,10 @@ import Swal from 'sweetalert2';
 })
 export class SectorItemComponent {
 
+  private destroyRef = inject(DestroyRef);
+  
   private sectorService = inject(SectorService);
   private alertService = inject(AlertService);
-  private destroyRef = inject(DestroyRef);
 
   public sector = input<SectorResponse>();
 

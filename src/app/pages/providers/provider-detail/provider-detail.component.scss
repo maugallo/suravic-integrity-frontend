@@ -1,0 +1,77 @@
+@import '/src/global.scss';
+
+.detail-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.detail-title {
+  font-weight: bold;
+  color: $primary-color;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  gap: 10px;
+  color: $primary-color;
+}
+
+.card-header .card-title {
+  font-size: large;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.circle-container {
+  width: 10rem;
+  height: 10rem;
+  background-color: #{$primary-color-lighter};
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.circle-container .fa-solid {
+  color: $primary-color;
+}
+
+.percentages-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-content {
+  font-size: medium;
+  font-weight: bold;
+  color: $tertiary-color;
+}
+
+ion-card {
+  width: 10rem;
+}
+
+ion-card-header {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+ion-card-title {
+  --color: #{$primary-color};
+}
+
+ion-card-subtitle {
+  --color: #{$primary-color};
+}
+
+ion-card-content {
+  text-align: center;
+  padding-left: 5px;
+  padding-right: 5px;
+}

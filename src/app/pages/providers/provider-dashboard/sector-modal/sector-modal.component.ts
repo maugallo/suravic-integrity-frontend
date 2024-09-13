@@ -12,7 +12,7 @@ import { HeaderComponent } from 'src/app/shared/components/header/header.compone
 })
 export class SectorModalComponent {
 
-  isInert = false;
+  isInert = false; // Propiedad necesaria para que los alert se puedan mostrar sobre el modal.
 
   public setInert(value: boolean) {
     this.isInert = value;

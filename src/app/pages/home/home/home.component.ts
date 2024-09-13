@@ -18,8 +18,9 @@ import { filter, switchMap, tap } from 'rxjs';
 export class HomeComponent implements OnInit {
 
   private router = inject(Router);
-  private tokenService = inject(TokenService);
   private destroyRef = inject(DestroyRef);
+  
+  private tokenService = inject(TokenService);
 
   public role: string = '';
   public options: Option[] = [];

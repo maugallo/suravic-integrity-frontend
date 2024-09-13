@@ -48,24 +48,24 @@
 /* Select options style */
 .custom-select-options .select-interface-option[aria-checked="true"] .alert-radio-icon,
 .custom-select-options .select-interface-option[aria-checked="false"] .alert-radio-icon {
-    border-color: $primary-color;
+    border-color: $primary-color !important;
 }
 
 .custom-select-options .select-interface-option[aria-checked="true"] .alert-radio-inner,
 .custom-select-options .select-interface-option[aria-checked="false"] .alert-radio-inner {
-    background-color: $primary-color;
+    background-color: $primary-color !important;
 }
 
 .custom-select-options .alert-button {
-    color: $primary-color;
+    color: $primary-color !important;
 }
 
 .custom-select-options .alert-title {
-    color: $primary-color;
+    color: $primary-color !important;
 }
 
 /* Alert style */
-.ion-alert .alert-wrapper .alert-head .alert-title {
+/* .ion-alert .alert-wrapper .alert-head .alert-title {
     color: $secondary-color-darker;
 }
 
@@ -76,7 +76,7 @@
 
 .ion-alert .alert-button {
     color: $primary-color !important;
-}
+} */
 
 /* Sweet Alert 2 modal style */
 .sweet-modal-title {

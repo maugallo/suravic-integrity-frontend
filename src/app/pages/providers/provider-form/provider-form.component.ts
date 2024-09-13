@@ -34,9 +34,10 @@ export class ProviderFormComponent implements OnInit {
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
   private destroyRef = inject(DestroyRef);
+
+  public validationService = inject(ValidationService);
   private providerService = inject(ProviderService);
   private sectorService = inject(SectorService);
-  public validationService = inject(ValidationService);
   private alertService = inject(AlertService);
 
   public provider: ProviderRequest = {
@@ -117,8 +118,8 @@ export class ProviderFormComponent implements OnInit {
     }
   }
 
-  public isSelectNotValid(select: NgModel, connectedValue: string) {
-    return (select && select.touched && !connectedValue);
+  public isSelectNotValid(select: NgModel, selectedValue: string) {
+    return (select && select.touched && !selectedValue);
   }
 
   private isParameterValid(param: string | null) {

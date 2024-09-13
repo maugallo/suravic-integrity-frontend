@@ -66,17 +66,36 @@ export class AlertService {
       icon: "error",
       title: "Error",
       text: text,
+      heightAuto: false,
+      customClass: {
+        title: 'sweet-modal-title',
+        confirmButton: 'sweet-modal-button',
+      }
   });
   }
 
-  public getSuccessToast(titleMessage: string){
+  public getSuccessToast(title: string){
     return Swal.mixin({
         toast: true,
         icon: 'success',
         position: 'top-end',
-        title: titleMessage,
+        title: title,
         showConfirmButton: false,
         timer: 1250,
+        customClass: {
+          title: ''
+        }
+    });
+  }
+
+  public getErrorToast(title: string){
+    return Swal.mixin({
+        toast: true,
+        icon: 'error',
+        position: 'top-end',
+        title: title,
+        showConfirmButton: false,
+        timer: 1500,
         customClass: {
           title: ''
         }
