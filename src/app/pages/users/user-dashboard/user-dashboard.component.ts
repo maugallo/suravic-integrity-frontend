@@ -23,7 +23,6 @@ export class UserDashboardComponent {
 
   private searchQuery: WritableSignal<string> = signal('');
   private users: Signal<UserResponse[]> = this.userService.users;
-
   public searchBarResult: Signal<UserResponse[]> = computed(() => {
     return this.users().filter(user => user.username.toLowerCase().indexOf(this.searchQuery()) > -1);
   });

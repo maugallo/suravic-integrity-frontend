@@ -7,7 +7,7 @@ import { ValidationService } from 'src/app/core/services/utils/validation.servic
 import { ActivatedRoute, Router } from '@angular/router';
 import { EqualPasswordsDirective } from 'src/app/shared/validators/equal-passwords.directive';
 import { UserService } from 'src/app/core/services/user.service';
-import { catchError, of, switchMap, tap } from 'rxjs';
+import { catchError, of, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
 
@@ -41,24 +41,16 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.paramMap.pipe(
-      switchMap((params) => {
+      tap((params) => {
         const userId = params.get('id');
         if (this.isParameterValid(userId)) {
-          return this.userService.getUserById(Number(userId)).pipe(
-            tap((response) => {
-              this.user.username = response.username;
-              this.user.role = response.role;
-              this.isUserEdit = true;
-              this.userId = Number(userId);
-            }),
-            catchError((error) => {
-              console.log(error.message);
-              return of(null);
-            })
-          )
+          const user = this.userService.getUserById(Number(userId));
+          this.user.username = user!.username;
+          this.user.role = user!.role;
+          this.isUserEdit = true;
+          this.userId = user!.id;
         } else {
           this.isUserEdit = false;
-          return of(null);
         }
       }),
       takeUntilDestroyed(this.destroyRef)

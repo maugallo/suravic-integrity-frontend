@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { inject, Injectable, Signal } from '@angular/core';
-import { catchError, Observable, share, shareReplay, throwError } from 'rxjs';
+import { catchError, Observable, Subject, switchMap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { UserRequest, UserResponse } from '../models/user.model';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -13,7 +13,15 @@ export class UserService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/users`;
 
-  public users: Signal<UserResponse[]> = toSignal(this.getUsers(true).pipe(shareReplay(1)), { initialValue: [] });
+  private refreshUsers$ = new Subject<void>();
+
+  public refreshUsers() {
+    this.refreshUsers$.next();
+  }
+
+  public users: Signal<UserResponse[]> = toSignal(this.refreshUsers$.pipe(
+    switchMap(() => this.getUsers(true))), { initialValue: [] });
+
   private getUsers(isEnabled: boolean): Observable<UserResponse[]> {
     let params = new HttpParams();
 
@@ -22,13 +30,9 @@ export class UserService {
     return this.http.get<UserResponse[]>(this.apiUrl, { params })
       .pipe(catchError(this.handleError));
   }
-  public refreshUsers() {
-    // Repetir el llamado http de alguna forma...
-  }
 
   public getUserById(id: number) {
-    return this.http.get<UserResponse>(`${this.apiUrl}/${id}`)
-      .pipe(catchError(this.handleError));
+    return this.users().find((user) => user.id === id);
   }
 
   public createUser(user: UserRequest): Observable<string> {
