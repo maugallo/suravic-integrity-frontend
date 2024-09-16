@@ -1,8 +1,9 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
+import { inject, Injectable, Signal } from '@angular/core';
+import { catchError, Observable, share, shareReplay, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { UserRequest, UserResponse } from '../models/user.model';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +13,17 @@ export class UserService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/users`;
 
-  public getUsers(isEnabled: boolean): Observable<UserResponse[]> {
+  public users: Signal<UserResponse[]> = toSignal(this.getUsers(true).pipe(shareReplay(1)), { initialValue: [] });
+  private getUsers(isEnabled: boolean): Observable<UserResponse[]> {
     let params = new HttpParams();
 
     params = params.append('isEnabled', isEnabled);
 
     return this.http.get<UserResponse[]>(this.apiUrl, { params })
       .pipe(catchError(this.handleError));
+  }
+  public refreshUsers() {
+    // Repetir el llamado http de alguna forma...
   }
 
   public getUserById(id: number) {

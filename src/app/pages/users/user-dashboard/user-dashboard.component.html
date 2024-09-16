@@ -9,11 +9,11 @@
       <ion-button (click)="router.navigate(['users', 'form'])"><i class="fa-solid fa-user-plus fa-2x py-0"></i></ion-button>
     </div>
 
-    @if (searchBarResult$ | async; as users) {
+    @if (searchBarResult(); as users) {
       @if (users.length === 0) { <app-not-found></app-not-found> }
       <ion-list>
         @for (user of users; track $index) {
-          <app-user-item (refreshDashboard)="refreshDashboard()" [user]="user"></app-user-item>
+          <app-user-item (refreshDashboard)="renderDashboard()" [user]="user"></app-user-item>
         }
       </ion-list>
     } @else {
