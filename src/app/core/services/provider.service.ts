@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { catchError, Observable, Subject, switchMap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, switchMap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ProviderRequest, ProviderResponse } from '../models/provider.model';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -13,7 +13,7 @@ export class ProviderService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/providers`;
 
-  private refreshProviders$ = new Subject<void>();
+  private refreshProviders$ = new BehaviorSubject<void>(undefined);
 
   public refreshProviders() {
     this.refreshProviders$.next();
@@ -31,8 +31,8 @@ export class ProviderService {
       .pipe(catchError(this.handleError));
   }
 
-  public getProviderById(id: number): ProviderResponse | undefined {
-    return this.providers().find(provider => provider.id === id);
+  public getProviderById(id: number) {
+    return this.providers().find(provider => provider.id === id)!;
   }
 
   public createProvider(provider: ProviderRequest): Observable<string> {

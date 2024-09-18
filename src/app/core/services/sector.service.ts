@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { catchError, Observable, Subject, switchMap, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, switchMap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { SectorRequest, SectorResponse } from '../models/sector.model';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -13,7 +13,7 @@ export class SectorService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/sectors`;
 
-  private refreshSectors$ = new Subject<void>();
+  private refreshSectors$ = new BehaviorSubject<void>(undefined);
 
   public refreshSectors() {
     this.refreshSectors$.next();

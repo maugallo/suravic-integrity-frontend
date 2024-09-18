@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { inject, Injectable, Signal } from '@angular/core';
-import { catchError, Observable, Subject, switchMap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, switchMap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { UserRequest, UserResponse } from '../models/user.model';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -13,7 +13,7 @@ export class UserService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/users`;
 
-  private refreshUsers$ = new Subject<void>();
+  private refreshUsers$ = new BehaviorSubject<void>(undefined);
 
   public refreshUsers() {
     this.refreshUsers$.next();

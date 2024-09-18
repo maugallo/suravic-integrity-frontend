@@ -39,6 +39,7 @@ export class UserFormComponent {
       const userId = params!.get('id');
       if (this.isParameterValid(userId)) {
         const user = this.userService.getUserById(Number(userId));
+        if (!user) this.router.navigate(['providers', 'dashboard']);
         this.isUserEdit = true;
         this.userId = user.id;
         return of({

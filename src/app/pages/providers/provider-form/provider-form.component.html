@@ -10,60 +10,58 @@
           <div class="section-container">
             <p class="section-title pb-2 mt-6">INFORMACIÓN DE PROVEEDOR</p>
             <!-- Company Name Input -->
-            <ion-input #companyNameInput="ngModel" name="companyNameInput" id="companyNameInput" [(ngModel)]="provider.companyName" class="mb-10" type="text" label="Razón Social" label-placement="floating" fill="outline" placeholder="Ingrese la razón social"
+            <ion-input #companyNameInput="ngModel" name="companyNameInput" id="companyNameInput" [(ngModel)]="provider()!.companyName" class="mb-10" type="text" label="Razón Social" label-placement="floating" fill="outline" placeholder="Ingrese la razón social"
               required maxlength="100" pattern="^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$" [errorText]="validationService.getErrorMessage(companyNameInput.errors)" ></ion-input>
             <!-- First Name Input -->
-            <ion-input #firstNameInput="ngModel" name="firstNameInput" id="firstNameInput" [(ngModel)]="provider.firstName" class="mb-10" type="text" label="Nombre" label-placement="floating" fill="outline" placeholder="Ingrese el nombre"
+            <ion-input #firstNameInput="ngModel" name="firstNameInput" id="firstNameInput" [(ngModel)]="provider()!.firstName" class="mb-10" type="text" label="Nombre" label-placement="floating" fill="outline" placeholder="Ingrese el nombre"
             required maxlength="40" pattern="^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$" [errorText]="validationService.getErrorMessage(firstNameInput.errors)" ></ion-input>
             <!-- Last Name Input -->
-            <ion-input #lastNameInput="ngModel" name="lastNameInput" id="lastNameInput" [(ngModel)]="provider.lastName" class="mb-10" type="text" label="Apellido" label-placement="floating" fill="outline" placeholder="Ingrese el apellido"
+            <ion-input #lastNameInput="ngModel" name="lastNameInput" id="lastNameInput" [(ngModel)]="provider()!.lastName" class="mb-10" type="text" label="Apellido" label-placement="floating" fill="outline" placeholder="Ingrese el apellido"
             required maxlength="40" pattern="^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$" [errorText]="validationService.getErrorMessage(lastNameInput.errors)" ></ion-input>
             <!-- Telephone Input -->
-            <ion-input [maskito]="telephoneMask" [maskitoElement]="maskPredicate" #telephoneInput="ngModel" name="telephoneInput" id="telephoneInput" [(ngModel)]="provider.contact.telephone" class="mb-10" type="text" label="Teléfono" label-placement="floating" fill="outline" placeholder="1234567890"
+            <ion-input [maskito]="telephoneMask" [maskitoElement]="maskPredicate" #telephoneInput="ngModel" name="telephoneInput" id="telephoneInput" [(ngModel)]="provider()!.contact.telephone" class="mb-10" type="text" label="Teléfono" label-placement="floating" fill="outline" placeholder="1234567890"
             required minlength="7" maxlength="12" [errorText]="validationService.getErrorMessage(telephoneInput.errors)" ></ion-input>
             <!-- Email Input --> 
-            <ion-input #emailInput="ngModel" name="emailInput" id="emailInput" [(ngModel)]="provider.contact.email" class="mb-10" type="text" label="Email (Opcional)" label-placement="floating" fill="outline" placeholder="example@gmail.com"
+            <ion-input #emailInput="ngModel" name="emailInput" id="emailInput" [(ngModel)]="provider()!.contact.email" class="mb-10" type="text" label="Email (Opcional)" label-placement="floating" fill="outline" placeholder="example@gmail.com"
             email maxlength="40" [errorText]="validationService.getErrorMessage(emailInput.errors)" ></ion-input>
             <!-- Sector Select Input -->
             <div class="mb-10">
-              <ion-select #sectorSelect="ngModel" name="sectorSelect" id="sectorSelect" [class]="(isSelectNotValid(sectorSelect, provider.sector.name)) ? 'select-invalid' : ''" [(ngModel)]="provider.sector" [interfaceOptions]="customInterfaceOptions" label="Rubro" label-placement="floating" fill="outline" required>
+              <ion-select #sectorSelect="ngModel" name="sectorSelect" id="sectorSelect" (ngModelChange)="onSectorChange($event)" [class]="(isSectorSelectNotValid(vatConditionSelect, provider()!.sector.id)) ? 'select-invalid' : ''" [(ngModel)]="provider()!.sector.id" [interfaceOptions]="customInterfaceOptions" [disabled]="sectors().length > 0 ? false : true" [label]="sectors().length > 0 ? 'Rubro' : 'Todavía no cuentas con rubros'" label-placement="floating" fill="outline" required>
                   @if (sectors(); as sectors) {
                     @if (sectors.length > 0) {
                       @for (sector of sectors; track $index) {
-                        <ion-select-option [value]="sector">{{ sector.name }}</ion-select-option>
+                        <ion-select-option [value]="sector.id">{{ sector.name }}</ion-select-option>
                       }
-                    } @else {
-                      <ion-select-option>Todavía no cuentas con rubros</ion-select-option>
                     }
                   }
               </ion-select>
-              @if (isSelectNotValid(sectorSelect, provider.sector.name)) { <ion-note color="danger">Este campo es obligatorio</ion-note> <!-- Manejo manual de errorText hasta que Ionic lo incluya para el ion-select --> }
+              @if (isSectorSelectNotValid(sectorSelect, provider()!.sector.id)) { <ion-note color="danger">Este campo es obligatorio</ion-note> <!-- Manejo manual de errorText hasta que Ionic lo incluya para el ion-select --> }
             </div>
           </div>
 
           <div class="section-container">
             <p class="section-title pb-2 mt-6">INFORMACIÓN FISCAL</p>
             <!-- Cuit Input -->
-            <ion-input [maskito]="cuitMask" [maskitoElement]="maskPredicate" #cuitInput="ngModel" name="cuitInput" id="cuitInput" [(ngModel)]="provider.cuit" class="mb-10" type="text" label="CUIT" label-placement="floating" fill="outline" placeholder="00-00000000-0"
+            <ion-input [maskito]="cuitMask" [maskitoElement]="maskPredicate" #cuitInput="ngModel" name="cuitInput" id="cuitInput" [(ngModel)]="provider()!.cuit" class="mb-10" type="text" label="CUIT" label-placement="floating" fill="outline" placeholder="00-00000000-0"
               required pattern="^[0-9]{2}-[0-9]{8}-[0-9]$" [errorText]="validationService.getErrorMessage(companyNameInput.errors)" ></ion-input>
             <!-- Vat Condition Select Input -->
             <div class="mb-10">
-              <ion-select #vatConditionSelect="ngModel" name="vatConditionSelect" id="vatConditionSelect" [class]="(isSelectNotValid(vatConditionSelect, provider.vatCondition)) ? 'select-invalid' : ''" [(ngModel)]="provider.vatCondition" [interfaceOptions]="customInterfaceOptions" label="Condición IVA" label-placement="floating" fill="outline" required>
+              <ion-select #vatConditionSelect="ngModel" name="vatConditionSelect" id="vatConditionSelect" [class]="(isSelectNotValid(vatConditionSelect, provider()!.vatCondition)) ? 'select-invalid' : ''" [(ngModel)]="provider()!.vatCondition" [interfaceOptions]="customInterfaceOptions" label="Condición IVA" label-placement="floating" fill="outline" required>
                 @for (condition of vatConditions; track $index) {
                   <ion-select-option [value]="condition.value">{{ condition.title }}</ion-select-option>
                 }
               </ion-select>
-              @if (isSelectNotValid(vatConditionSelect, provider.vatCondition)) { <ion-note color="danger">Este campo es obligatorio</ion-note> <!-- Manejo manual de errorText hasta que Ionic lo incluya para el ion-select --> }
+              @if (isSelectNotValid(vatConditionSelect, provider()!.vatCondition)) { <ion-note color="danger">Este campo es obligatorio</ion-note> <!-- Manejo manual de errorText hasta que Ionic lo incluya para el ion-select --> }
             </div>
           </div>
 
           <div class="section-container">
             <p class="section-title pb-2 mt-6">INFORMACIÓN FINANCIERA</p>
             <!-- Vat Percentage Input -->
-            <ion-input #vatPercentageInput="ngModel" name="vatPercentageInput" id="vatPercentageInput" [(ngModel)]="provider.percentages.vatPercentage" class="mb-10" type="number" label="Porcentaje de IVA" label-placement="floating" fill="outline" placeholder="0,12"
+            <ion-input #vatPercentageInput="ngModel" name="vatPercentageInput" id="vatPercentageInput" [(ngModel)]="provider()!.percentages.vatPercentage" class="mb-10" type="number" label="Porcentaje de IVA" label-placement="floating" fill="outline" placeholder="0,12"
             required [errorText]="validationService.getErrorMessage(vatPercentageInput.errors)" ></ion-input>
             <!-- Profit Percentage Input -->
-            <ion-input #profitPercentageInput="ngModel" name="profitPercentageInput" id="profitPercentageInput" [(ngModel)]="provider.percentages.profitPercentage" class="mb-10" type="number" label="Porcentaje de Ganancia" label-placement="floating" fill="outline" placeholder="0,12"
+            <ion-input #profitPercentageInput="ngModel" name="profitPercentageInput" id="profitPercentageInput" [(ngModel)]="provider()!.percentages.profitPercentage" class="mb-10" type="number" label="Porcentaje de Ganancia" label-placement="floating" fill="outline" placeholder="0,12"
             required [errorText]="validationService.getErrorMessage(profitPercentageInput.errors)" ></ion-input>
           </div>
     
