@@ -32,7 +32,7 @@ export class UserService {
   }
 
   public getUserById(id: number) {
-    return this.users().find((user) => user.id === id);
+    return this.users().find((user) => user.id === id)!;
   }
 
   public createUser(user: UserRequest): Observable<string> {

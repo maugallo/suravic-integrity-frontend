@@ -27,15 +27,15 @@
             <!-- Sector Select Input -->
             <div class="mb-10">
               <ion-select #sectorSelect="ngModel" name="sectorSelect" id="sectorSelect" [class]="(isSelectNotValid(sectorSelect, provider.sector.name)) ? 'select-invalid' : ''" [(ngModel)]="provider.sector" [interfaceOptions]="customInterfaceOptions" label="Rubro" label-placement="floating" fill="outline" required>
-                @if (sectors$ | async; as sectors) {
-                  @if (sectors.length > 0) {
-                    @for (sector of sectors; track $index) {
-                      <ion-select-option [value]="sector">{{ sector.name }}</ion-select-option>
+                  @if (sectors(); as sectors) {
+                    @if (sectors.length > 0) {
+                      @for (sector of sectors; track $index) {
+                        <ion-select-option [value]="sector">{{ sector.name }}</ion-select-option>
+                      }
+                    } @else {
+                      <ion-select-option>Todavía no cuentas con rubros</ion-select-option>
                     }
-                  }  @else {
-                    <ion-select-option>Todavía no cuentas con rubros</ion-select-option>
                   }
-                }
               </ion-select>
               @if (isSelectNotValid(sectorSelect, provider.sector.name)) { <ion-note color="danger">Este campo es obligatorio</ion-note> <!-- Manejo manual de errorText hasta que Ionic lo incluya para el ion-select --> }
             </div>

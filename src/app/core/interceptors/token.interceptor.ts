@@ -52,7 +52,7 @@ export const tokenInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next:
             }),
             catchError((err) => {
               console.error("Interceptor: Error al refrescar el token, redirigiendo al login");
-              alertService.getErrorAlert("Sesión expirada, porfavor ingresa de nuevo");
+              alertService.getErrorAlert("Sesión expirada, porfavor ingresa de nuevo").fire();
               return tokenService.clearToken().pipe(
                 tap(() => router.navigate(['/login'])),  // Redirigir al login
                 switchMap(() => throwError(() => new Error(err)))

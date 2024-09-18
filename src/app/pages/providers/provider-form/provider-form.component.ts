@@ -1,14 +1,13 @@
-import { Component, DestroyRef, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonContent, IonInput, IonNote, IonButton, IonSelectOption, IonSelect } from "@ionic/angular/standalone";
-import { catchError, Observable, of, switchMap, tap } from 'rxjs';
+import { catchError, of, switchMap, tap } from 'rxjs';
 import { ProviderRequest } from 'src/app/core/models/provider.model';
 import { ProviderService } from 'src/app/core/services/provider.service';
 import { ValidationService } from 'src/app/core/services/utils/validation.service';
 import { HeaderComponent } from "../../../shared/components/header/header.component";
 import { FormsModule, NgForm, NgModel } from '@angular/forms';
-import { SectorResponse } from 'src/app/core/models/sector.model';
 import { SectorService } from 'src/app/core/services/sector.service';
 import { AsyncPipe } from '@angular/common';
 import { MaskitoElementPredicate } from '@maskito/core';
@@ -52,9 +51,12 @@ export class ProviderFormComponent implements OnInit {
   }
   public providerId!: number;
 
-  public sectors$: Observable<SectorResponse[]> = this.sectorService.getSectors(true).pipe(
-    tap((sectors) => this.providerId ? this.provider.sector = sectors.find(sector => sector.id === this.provider.sector.id)! : '' )
-  );
+  public sectors = computed(() => {
+    const sectors = this.sectorService.sectors();
+    this.providerId ? this.provider.sector = sectors.find(sector => sector.id === this.provider.sector.id)! : '';
+    return sectors;
+  });
+
   public vatConditions: VatCondition[] = VAT_CONDITIONS;
   public customInterfaceOptions: any = { cssClass: 'custom-select-options' } // Clase necesaria para customizar alert de options.
 
@@ -62,33 +64,23 @@ export class ProviderFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.pipe(
-      switchMap((params) => {
+      tap((params) => {
         const providerId = params.get('id');
         if (this.isParameterValid(providerId)) {
-          this.providerId = Number(providerId);
-          return this.providerService.getProviderById(this.providerId).pipe(
-            tap((response) => {
-              this.provider = {
-                sector: response.sector,
-                contact: { email: response.contact.email, telephone: response.contact.telephone },
-                percentages: { profitPercentage: response.percentages.profitPercentage, vatPercentage: response.percentages.vatPercentage },
-                vatCondition: response.vatCondition,
-                companyName: response.companyName,
-                firstName: response.firstName,
-                lastName: response.lastName,
-                cuit: response.cuit
-              }
-
-              this.isProviderEdit = true;
-            }),
-            catchError((error) => {
-              console.log(error.message);
-              return of(null);
-            })
-          )
+          const provider = this.providerService.getProviderById(Number(providerId));
+          this.provider = {
+            sector: provider!.sector,
+            contact: { email: provider!.contact.email, telephone: provider!.contact.telephone },
+            percentages: { profitPercentage: provider!.percentages.profitPercentage, vatPercentage: provider!.percentages.vatPercentage },
+            vatCondition: provider!.vatCondition,
+            companyName: provider!.companyName,
+            firstName: provider!.firstName,
+            lastName: provider!.lastName,
+            cuit: provider!.cuit
+          }
+          this.providerId = provider!.id;
         } else {
           this.isProviderEdit = false;
-          return of(null);
         }
       }),
       takeUntilDestroyed(this.destroyRef)
@@ -98,9 +90,9 @@ export class ProviderFormComponent implements OnInit {
   public onSubmit(providerForm: NgForm) {
     if (providerForm.valid) {
       const operation$ = this.isProviderEdit
-      ? this.providerService.editProvider(this.providerId, this.provider)
-      : this.providerService.createProvider(this.provider);
-      
+        ? this.providerService.editProvider(this.providerId, this.provider)
+        : this.providerService.createProvider(this.provider);
+
       operation$.pipe(
         tap((response) => {
           this.alertService.getSuccessToast(response).fire();

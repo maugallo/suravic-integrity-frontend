@@ -5,7 +5,7 @@
     <ion-button (click)="openAddSectorAlert()"><i class="fa-solid fa-grid-2-plus fa-2x py-0"></i></ion-button>
   </div>
 
-  @if (sectors$ | async; as sectors) {
+  @if (sectors(); as sectors) {
     @if (sectors.length === 0) { <app-not-found></app-not-found> }
     <ion-list>
       @for (sector of sectors; track $index) {

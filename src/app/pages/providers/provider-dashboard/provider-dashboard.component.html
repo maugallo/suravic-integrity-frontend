@@ -18,7 +18,7 @@
       <app-sector-modal></app-sector-modal>
     </div>
 
-    @if (searchBarResult() | async; as providers) {
+    @if (searchBarResult(); as providers) {
       @if (providers.length === 0) { <app-not-found></app-not-found> }
       <ion-list>
         @for (provider of providers; track $index) {

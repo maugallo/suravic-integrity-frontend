@@ -1,8 +1,9 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, Observable, Subject, switchMap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ProviderRequest, ProviderResponse } from '../models/provider.model';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,16 @@ export class ProviderService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/providers`;
 
-  public getProviders(isEnabled: boolean): Observable<ProviderResponse[]> {
+  private refreshProviders$ = new Subject<void>();
+
+  public refreshProviders() {
+    this.refreshProviders$.next();
+  }
+
+  public providers = toSignal(this.refreshProviders$.pipe(
+    switchMap(() => this.getProviders(true))), { initialValue: [] });
+
+  private getProviders(isEnabled: boolean): Observable<ProviderResponse[]> {
     let params = new HttpParams();
 
     params = params.append('isEnabled', isEnabled);
@@ -21,9 +31,8 @@ export class ProviderService {
       .pipe(catchError(this.handleError));
   }
 
-  public getProviderById(id: number): Observable<ProviderResponse> {
-    return this.http.get<ProviderResponse>(`${this.apiUrl}/${id}`)
-      .pipe(catchError(this.handleError));
+  public getProviderById(id: number): ProviderResponse | undefined {
+    return this.providers().find(provider => provider.id === id);
   }
 
   public createProvider(provider: ProviderRequest): Observable<string> {

@@ -1,9 +1,9 @@
-import { Component, inject, output } from '@angular/core';
+import { Component, inject, OnInit, output } from '@angular/core';
 import { IonButton, IonList, IonProgressBar, IonAlert, IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from "@ionic/angular/standalone";
 import { SectorService } from 'src/app/core/services/sector.service';
 import { AsyncPipe } from '@angular/common';
 import { catchError, firstValueFrom, Observable, of, tap } from 'rxjs';
-import { SectorRequest, SectorResponse } from 'src/app/core/models/sector.model';
+import { SectorRequest } from 'src/app/core/models/sector.model';
 import Swal from 'sweetalert2';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
 import { SectorItemComponent } from "./sector-item/sector-item.component";
@@ -18,14 +18,18 @@ import { HeaderComponent } from 'src/app/shared/components/header/header.compone
   standalone: true,
   imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, IonAlert, IonProgressBar, IonList, IonButton, HeaderComponent, AsyncPipe, NotFoundComponent, SectorItemComponent]
 })
-export class SectorDashboardComponent {
+export class SectorDashboardComponent implements OnInit {
 
   private sectorService = inject(SectorService);
   private alertService = inject(AlertService);
 
   public turnInert = output<boolean>(); // Necesario para que el input del sweet alert no tenga conflicto con el modal de Ionic.
-  public sectors$: Observable<SectorResponse[]> = this.sectorService.getSectors(true);
+  public sectors = this.sectorService.sectors;
   public sector: SectorRequest = { name: '' };
+
+  ngOnInit() {
+    this.refreshDashboard();
+  }
 
   ionViewWillEnter() {
     this.refreshDashboard();
@@ -33,7 +37,6 @@ export class SectorDashboardComponent {
 
   public openAddSectorAlert() {
     this.turnInert.emit(true);
-
     this.alertService.getInputAlert('AGREGAR RUBRO <i class="fa-solid fa-grid-2-plus fa-1x"></i>', 'Ingrese un nombre', 'AGREGAR', this.handleValidations())
       .fire()
       .finally(() => this.turnInert.emit(false));
@@ -69,7 +72,7 @@ export class SectorDashboardComponent {
   }
 
   public refreshDashboard() {
-    this.sectors$ = this.sectorService.getSectors(true);
+    this.sectorService.refreshSectors();
   }
 
 }

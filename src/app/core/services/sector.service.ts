@@ -1,8 +1,9 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, Observable, Subject, switchMap, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { SectorRequest, SectorResponse } from '../models/sector.model';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,16 @@ export class SectorService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/sectors`;
 
-  public getSectors(isEnabled: boolean): Observable<SectorResponse[]> {
+  private refreshSectors$ = new Subject<void>();
+
+  public refreshSectors() {
+    this.refreshSectors$.next();
+  }
+
+  public sectors = toSignal(this.refreshSectors$.pipe(
+    switchMap(() => this.getSectors(true))), { initialValue: [] });
+
+  private getSectors(isEnabled: boolean): Observable<SectorResponse[]> {
     let params = new HttpParams();
 
     params = params.append('isEnabled', isEnabled);

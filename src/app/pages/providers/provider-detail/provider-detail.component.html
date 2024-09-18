@@ -1,7 +1,7 @@
 <ion-content>
   <app-back-button class="back-button-fixed back-button-primary"></app-back-button>
 
-  @if (provider$ | async; as provider) {
+  @if (provider(); as provider) {
   <div class="mt-20">
     <div class="circle-container">
       <i class="fa-solid fa-user-tie fa-5x"></i>
