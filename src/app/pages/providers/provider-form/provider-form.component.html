@@ -26,16 +26,14 @@
             email maxlength="40" [errorText]="validationService.getErrorMessage(emailInput.errors)" ></ion-input>
             <!-- Sector Select Input -->
             <div class="mb-10">
-              <ion-select #sectorSelect="ngModel" name="sectorSelect" id="sectorSelect" (ngModelChange)="onSectorChange($event)" [class]="(isSectorSelectNotValid(vatConditionSelect, provider()!.sector.id)) ? 'select-invalid' : ''" [(ngModel)]="provider()!.sector.id" [interfaceOptions]="customInterfaceOptions" [disabled]="sectors().length > 0 ? false : true" [label]="sectors().length > 0 ? 'Rubro' : 'Todavía no cuentas con rubros'" label-placement="floating" fill="outline" required>
+              <ion-select #sectorSelect="ngModel" name="sectorSelect" id="sectorSelect" (ngModelChange)="onSectorChange($event)" [class]="(isSectorSelectNotValid(vatConditionSelect, provider()!.sectorId)) ? 'select-invalid' : ''" [(ngModel)]="provider()!.sectorId" [interfaceOptions]="customInterfaceOptions" [disabled]="sectors().length > 0 ? false : true" [label]="sectors().length > 0 ? 'Rubro' : 'Todavía no cuentas con rubros'" label-placement="floating" fill="outline" required>
                   @if (sectors(); as sectors) {
-                    @if (sectors.length > 0) {
-                      @for (sector of sectors; track $index) {
-                        <ion-select-option [value]="sector.id">{{ sector.name }}</ion-select-option>
-                      }
+                    @for (sector of sectors; track $index) {
+                      <ion-select-option [value]="sector.id">{{ sector.name }}</ion-select-option>
                     }
                   }
               </ion-select>
-              @if (isSectorSelectNotValid(sectorSelect, provider()!.sector.id)) { <ion-note color="danger">Este campo es obligatorio</ion-note> <!-- Manejo manual de errorText hasta que Ionic lo incluya para el ion-select --> }
+              @if (isSectorSelectNotValid(sectorSelect, provider()!.sectorId)) { <ion-note color="danger">Este campo es obligatorio</ion-note> <!-- Manejo manual de errorText hasta que Ionic lo incluya para el ion-select --> }
             </div>
           </div>
 

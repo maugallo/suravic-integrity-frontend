@@ -3,7 +3,7 @@ import { PercentagesRequest, PercentagesResponse } from "./percentages.model";
 import { SectorResponse } from "./sector.model";
 
 export interface ProviderRequest {
-    sector: SectorResponse,
+    sectorId: number,
     contact: ContactRequest,
     percentages: PercentagesRequest,
     vatCondition: string,

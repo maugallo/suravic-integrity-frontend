@@ -56,7 +56,7 @@ export class ProviderFormComponent {
         this.isProviderEdit = true;
         this.providerId = provider.id;
         return of({
-          sector: provider.sector,
+          sectorId: provider.sector.id,
           contact: { email: provider.contact.email, telephone: provider.contact.telephone },
           percentages: { profitPercentage: provider.percentages.profitPercentage, vatPercentage: provider.percentages.vatPercentage },
           vatCondition: provider.vatCondition,
@@ -69,7 +69,7 @@ export class ProviderFormComponent {
         this.isProviderEdit = false;
         console.log("No se detecto id, asignando objeto provider vacio!")
         return of({
-          sector: { id: 0, name: '' },
+          sectorId: 0,
           contact: { email: '', telephone: '' },
           percentages: { profitPercentage: '', vatPercentage: '' },
           vatCondition: '',
@@ -82,9 +82,8 @@ export class ProviderFormComponent {
     })
   ));
 
-  public onSectorChange(event: any) {
-    const selectedSectorId = event;
-    this.provider()!.sector = this.sectors().find(sector => sector.id === selectedSectorId)!;
+  public onSectorChange(selectedSectorId: any) {
+    this.provider()!.sectorId = selectedSectorId;
   }
 
   public onSubmit(providerForm: NgForm) {
