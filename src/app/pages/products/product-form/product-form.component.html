@@ -1,0 +1,58 @@
+@if (isProductEdit) {
+  <app-header title="MODIFICAR PRODUCTO" titleSize="title-large" icon="fa-sharp fa-solid fa-box-taped fa-2x"></app-header>
+} @else {
+  <app-header title="AGREGAR PRODUCTO" titleSize="title-large" icon="fa-sharp fa-solid fa-box-taped fa-2x"></app-header>
+}
+
+<ion-content>
+  <div class="px-10">
+    <form #productForm="ngForm" id="userForm" (ngSubmit)="onSubmit(productForm)">
+      <div class="section-container">
+        <!-- Title Input -->
+        <ion-input #titleInput="ngModel" name="titleInput" id="titleInput" [(ngModel)]="product()!.title" class="my-10" type="text" label="Nombre" label-placement="floating" fill="outline" placeholder="Ingrese el nombre"
+              required maxlength="50" pattern="^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$" [errorText]="validationService.getErrorMessage(titleInput.errors)"></ion-input>
+      </div>
+
+      <div class="section-container price-plu-container">
+        <!-- Price Input -->
+        <ion-input #priceInput="ngModel" name="priceInput" id="priceInput" [(ngModel)]="product()!.price" class="mb-10" type="number" label="Precio" label-placement="floating" fill="outline" placeholder="$1500"
+            required [errorText]="validationService.getErrorMessage(priceInput.errors)" ></ion-input>
+        <!-- PLU Input -->
+        <ion-input #pluInput="ngModel" name="pluInput" id="pluInput" [(ngModel)]="product()!.plu" class="mb-10" type="text" label="PLU(Opcional)" label-placement="floating" fill="outline" placeholder="158"
+              maxlength="5" [errorText]="validationService.getErrorMessage(pluInput.errors)" ></ion-input>
+      </div>
+
+      <div class="section-container mb-10">
+        <!-- Provider Input -->
+          <ion-select #providerSelect="ngModel" name="providerSelect" id="providerSelect" (ngModelChange)="onProviderChange($event)" [class]="(isSelectNotValid(providerSelect, product()!.providerId)) ? 'select-invalid' : ''" [(ngModel)]="product()!.providerId" [interfaceOptions]="customInterfaceOptions" [disabled]="providers().length > 0 ? false : true" [label]="providers().length > 0 ? 'Proveedor' : 'Todavía no cuentas con proveedores'" label-placement="floating" fill="outline" required>
+              @if (providers(); as providers) {
+                @for (provider of providers; track $index) {
+                  <ion-select-option [value]="provider.id">{{ provider.companyName }}</ion-select-option>
+                }
+              }
+          </ion-select>
+          @if (isSelectNotValid(providerSelect, product()!.providerId)) { <ion-note color="danger">Este campo es obligatorio</ion-note> <!-- Manejo manual de errorText hasta que Ionic lo incluya para el ion-select --> }
+      </div>
+
+      <div class="section-container mb-10">
+        <!-- Category Input -->
+        <ion-select #categorySelect="ngModel" name="categorySelect" id="categorySelect" (ngModelChange)="onCategoryChange($event)" [class]="(isSelectNotValid(categorySelect, product()!.categoryId)) ? 'select-invalid' : ''" [(ngModel)]="product()!.categoryId" [interfaceOptions]="customInterfaceOptions" [disabled]="categories().length > 0 ? false : true" [label]="categories().length > 0 ? 'Categoría' : 'Todavía no cuentas con categorías'" label-placement="floating" fill="outline" required>
+          @if (categories(); as categories) {
+            @for (category of categories; track $index) {
+              <ion-select-option [value]="category.id">{{ category.name }}</ion-select-option>
+            }
+          }
+      </ion-select>
+      @if (isSelectNotValid(categorySelect, product()!.categoryId)) { <ion-note color="danger">Este campo es obligatorio</ion-note> <!-- Manejo manual de errorText hasta que Ionic lo incluya para el ion-select --> }
+      </div>
+
+      <div class="mb-5">
+        @if (isProductEdit) {
+          <ion-button type="submit" expand="block">Modificar</ion-button>
+        } @else {
+          <ion-button type="submit" expand="block">Crear</ion-button>
+        }
+      </div>
+    </form>
+  </div>
+</ion-content>

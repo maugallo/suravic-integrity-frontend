@@ -1,0 +1,57 @@
+<ion-content>
+  <app-back-button class="back-button-fixed back-button-primary"></app-back-button>
+
+  @if (product(); as product) {
+  <div class="mt-12">
+    <div class="circle-container">
+      <i class="fa-sharp fa-solid fa-box fa-5x"></i>
+    </div>
+    <p class="detail-title mt-3 mb-0">{{ product.title }}</p>
+    @if (product.plu) { <p class="detail-plu my-0">PLU {{ product.plu }}</p> }
+  </div>
+
+  <div class="detail-container mb-2 mt-6 mx-4">
+    <ion-card>
+      <ion-card-header>
+        <div class="card-header">
+          <i class="fa-sharp fa-regular fa-circle-dollar fa-2x"></i>
+          <p class="card-title">Precio</p>
+        </div>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p class="card-content">${{ product.price }}</p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <div class="card-header">
+          <i class="fa-solid fa-user-tie fa-2x"></i>
+          <p class="card-title">Proveedor</p>
+        </div>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p class="card-content">{{ product.provider.companyName }}</p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <div class="card-header">
+          <i class="fa-regular fa-tag fa-2x"></i>
+          <p class="card-title">Categoría</p>
+        </div>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p class="card-content">{{ product.category.name }}</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  } @else {
+  <app-not-found></app-not-found>
+  }
+
+</ion-content>

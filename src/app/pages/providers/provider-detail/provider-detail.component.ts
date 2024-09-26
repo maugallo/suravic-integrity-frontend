@@ -1,8 +1,8 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent } from "@ionic/angular/standalone";
 import { BackButtonComponent } from "../../../shared/components/back-button/back-button.component";
-import { ActivatedRoute } from '@angular/router';
-import { Observable, of, switchMap, tap } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { of, switchMap } from 'rxjs';
 import { ProviderService } from 'src/app/core/services/provider.service';
 import { AsyncPipe } from '@angular/common';
 import { NotFoundComponent } from "../../../shared/components/not-found/not-found.component";
@@ -18,14 +18,16 @@ import { toSignal } from '@angular/core/rxjs-interop';
 })
 export class ProviderDetailComponent {
 
+  private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
   private providerService = inject(ProviderService);
 
   public provider = toSignal(this.activatedRoute.paramMap.pipe(
     switchMap((params) => {
       if (this.isParameterValid(params.get('id'))) {
-        const providerId = Number(params.get('id'));
-        return of(this.providerService.getProviderById(providerId));
+        const provider = this.providerService.getProviderById(Number(params.get('id')));
+        if (!provider) this.router.navigate(['providers', 'dashboard']);
+        return of(provider);
       }
       return of(null);
     })

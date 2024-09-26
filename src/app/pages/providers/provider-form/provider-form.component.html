@@ -41,7 +41,7 @@
             <p class="section-title pb-2 mt-6">INFORMACIÓN FISCAL</p>
             <!-- Cuit Input -->
             <ion-input [maskito]="cuitMask" [maskitoElement]="maskPredicate" #cuitInput="ngModel" name="cuitInput" id="cuitInput" [(ngModel)]="provider()!.cuit" class="mb-10" type="text" label="CUIT" label-placement="floating" fill="outline" placeholder="00-00000000-0"
-              required pattern="^[0-9]{2}-[0-9]{8}-[0-9]$" [errorText]="validationService.getErrorMessage(companyNameInput.errors)" ></ion-input>
+              required pattern="^[0-9]{2}-[0-9]{8}-[0-9]$" [errorText]="validationService.getErrorMessage(cuitInput.errors)" ></ion-input>
             <!-- Vat Condition Select Input -->
             <div class="mb-10">
               <ion-select #vatConditionSelect="ngModel" name="vatConditionSelect" id="vatConditionSelect" [class]="(isSelectNotValid(vatConditionSelect, provider()!.vatCondition)) ? 'select-invalid' : ''" [(ngModel)]="provider()!.vatCondition" [interfaceOptions]="customInterfaceOptions" label="Condición IVA" label-placement="floating" fill="outline" required>

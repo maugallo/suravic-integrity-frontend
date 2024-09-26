@@ -2,14 +2,14 @@
   <app-back-button class="back-button-fixed back-button-primary"></app-back-button>
 
   @if (provider(); as provider) {
-  <div class="mt-20">
+  <div class="mt-12">
     <div class="circle-container">
       <i class="fa-solid fa-user-tie fa-5x"></i>
     </div>
     <p class="detail-title mt-3">{{ provider.companyName }}</p>
   </div>
 
-  <div class="detail-container">
+  <div class="detail-container mb-2">
     <ion-card>
       <ion-card-header>
         <div class="card-header">
@@ -62,15 +62,16 @@
       <ion-card-content>
         <div class="percentages-container">
           <p class="card-content">IVA:</p>
-          <p class="card-content">%{{ provider.percentages.vatPercentage }}</p>
+          <p class="card-content">{{ provider.percentages.vatPercentage }}%</p>
         </div>
         <div class="percentages-container">
           <p class="card-content">Ganancia:</p>
-          <p class="card-content">%{{ provider.percentages.profitPercentage }}</p>
+          <p class="card-content">{{ provider.percentages.profitPercentage }}%</p>
         </div>
       </ion-card-content>
     </ion-card>
-
+  </div>
+  <div class="last-card">
     <ion-card>
       <ion-card-header>
         <div class="card-header">

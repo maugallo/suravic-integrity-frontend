@@ -10,7 +10,7 @@ export class AlertService {
     return Swal.mixin({
       title: title,
       input: "text",
-      inputValue: inputValue ?? '',
+      inputValue: inputValue || '',
       inputPlaceholder: placeholder,
       showCancelButton: true,
       confirmButtonText: confirmButtontext,
@@ -31,7 +31,7 @@ export class AlertService {
   public getWarningConfirmationAlert(title: string, text?: string) {
     return Swal.mixin({
       title: title,
-      text: text ?? '',
+      text: text || '',
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: 'ELIMINAR',
@@ -45,12 +45,12 @@ export class AlertService {
     });
   }
 
-  public getConfirmationAlert(title: string, text: string) {
+  public getConfirmationAlert(title: string, text?: string) {
     return Swal.mixin({
       title: title,
-      text: text,
+      text: text || '',
       showCancelButton: true,
-      confirmButtonText: 'VOLVER',
+      confirmButtonText: 'ACEPTAR',
       cancelButtonText: "CERRAR",
       heightAuto: false,
       customClass: {

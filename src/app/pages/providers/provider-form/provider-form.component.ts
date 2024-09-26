@@ -67,7 +67,6 @@ export class ProviderFormComponent {
         });
       } else {
         this.isProviderEdit = false;
-        console.log("No se detecto id, asignando objeto provider vacio!")
         return of({
           sectorId: 0,
           contact: { email: '', telephone: '' },

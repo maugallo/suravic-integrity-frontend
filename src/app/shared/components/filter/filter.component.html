@@ -1,0 +1,29 @@
+<ion-menu side="end" menuId="filter-menu" contentId="main-content">
+  <ion-content>
+    <div class="filter mt-0 mx-4 pb-4">
+      <!-- Sectors filter -->
+      <p class="filter-subtitle mb-3">Rubros</p>
+      <ion-select [(ngModel)]="filters[0].value" aria-label="Sectors" placeholder="Selecciona rubros para filtrar" fill="outline" [interfaceOptions]="customInterfaceOptions" [multiple]="true">
+        @for (sector of sectors(); track $index) {
+          <ion-select-option [value]="sector.id">{{ sector.name }}</ion-select-option>
+        }
+      </ion-select>
+    </div>
+    
+    <div class="filter mt-0 mb-4 mx-4 pb-4">
+      <!-- VAT conditions filter -->
+      <p class="filter-subtitle mb-3">Condiciones IVA</p>
+      <ion-select [(ngModel)]="filters[1].value" aria-label="Vat Conditions" placeholder="Selecciona condiciones de IVA para filtrar" fill="outline" [interfaceOptions]="customInterfaceOptions" [multiple]="true">
+        @for (condition of vatConditions; track $index) {
+            <ion-select-option [value]="condition.value">{{ condition.title }}</ion-select-option>
+          }
+      </ion-select>
+    </div>
+    
+    <!-- Filter button -->
+    <div class="filter-button mb-4 mx-4">
+      <ion-button (click)="clearFilter()" expand="block">Limpiar</ion-button>
+      <ion-button (click)="filterProviders()" expand="block">Filtrar</ion-button>
+    </div>
+  </ion-content>
+</ion-menu>

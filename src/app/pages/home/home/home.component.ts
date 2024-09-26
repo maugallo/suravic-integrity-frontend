@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { TokenService } from 'src/app/core/services/utils/token.service';
 import { FooterComponent } from "../../../shared/components/footer/footer.component";
 import { IonContent } from "@ionic/angular/standalone";
-import { OptionComponent } from "../../../shared/components/option/option.component";
+import { OptionComponent } from "./option/option.component";
 import { DUENO_OPTIONS, ENCARGADO_OPTIONS, Option } from '../../../core/constants/home-options.constants';
 import { NavigationEnd, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';

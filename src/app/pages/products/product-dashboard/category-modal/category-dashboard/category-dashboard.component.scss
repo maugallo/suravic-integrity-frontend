@@ -1,0 +1,24 @@
+@import '/src/global.scss';
+
+.add-container {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    border-bottom: 1px solid #{$secondary-color-lighter};
+}
+
+ion-button {
+    --box-shadow: none;
+    --background: white;
+    --ripple-color: #{$secondary-color-darker};
+}
+
+.fa-solid {
+    color: #{$primary-color};
+}
+
+ion-progress-bar {
+    --background: #{$secondary-color-lighter};
+    --progress-background: #{$primary-color};
+}
+

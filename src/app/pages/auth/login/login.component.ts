@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { TokenService } from 'src/app/core/services/utils/token.service';
 import { catchError, of, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { SessionService } from 'src/app/core/services/utils/session.service';
 
 @Component({
   selector: 'app-login',
@@ -25,6 +26,7 @@ export class LoginComponent {
   public validationService = inject(ValidationService);
   private authService = inject(AuthService);
   private tokenService = inject(TokenService);
+  private sessionService = inject(SessionService);
 
   public user: UserLoginRequest = {
     username: '',
@@ -46,6 +48,8 @@ export class LoginComponent {
     this.authService.login(this.user).pipe(
       switchMap((response) => {
         const token: string = response.headers.get('Authorization')!;
+        const userId: string = this.tokenService.getUserIdFromToken(token);
+        this.sessionService.setUserId(userId);
         return this.tokenService.setToken(token).pipe(
           tap(() => this.router.navigate(['tabs', 'home']))
         )

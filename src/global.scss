@@ -45,15 +45,19 @@
 /* Font Awesome Icons */
 @import '/src/theme/icons.css';
 
-/* Select options style */
-.custom-select-options .select-interface-option[aria-checked="true"] .alert-radio-icon,
-.custom-select-options .select-interface-option[aria-checked="false"] .alert-radio-icon {
+/* Select options style (icon representa el contorno del radio/checkbox, inner representa el icono que se dibuja al seleccionarlo) */
+.custom-select-options .select-interface-option[aria-checked="true"] .alert-radio-icon {
     border-color: $primary-color !important;
 }
 
 .custom-select-options .select-interface-option[aria-checked="true"] .alert-radio-inner,
 .custom-select-options .select-interface-option[aria-checked="false"] .alert-radio-inner {
     background-color: $primary-color !important;
+}
+
+.custom-select-options .select-interface-option[aria-checked="true"] .alert-checkbox-icon {
+    background-color: $primary-color !important;
+    border-color: $primary-color !important;
 }
 
 .custom-select-options .alert-button {
@@ -63,20 +67,6 @@
 .custom-select-options .alert-title {
     color: $primary-color !important;
 }
-
-/* Alert style */
-/* .ion-alert .alert-wrapper .alert-head .alert-title {
-    color: $secondary-color-darker;
-}
-
-.ion-alert .alert-wrapper .alert-head .alert-sub-title {
-    margin-top: 25px;
-    color: $secondary-color-darker;
-}
-
-.ion-alert .alert-button {
-    color: $primary-color !important;
-} */
 
 /* Sweet Alert 2 modal style */
 .sweet-modal-title {
@@ -122,8 +112,7 @@
 }
 
 .swal2-validation-message::before {
-    content: none;
-    /* Remueve el icono de advertencia */
+    content: none; /* Remueve el icono de advertencia */
 }
 
 .swal2-popup.swal2-toast {

@@ -1,8 +1,13 @@
 @import '/src/global.scss';
 
 .detail-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
+}
+
+.last-card {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
 }
 
@@ -15,7 +20,7 @@
 
 .card-header {
   display: flex;
-  align-items: center;
+  align-items: end;
   justify-content: left;
   gap: 10px;
   color: $primary-color;
@@ -24,7 +29,7 @@
 .card-header .card-title {
   font-size: large;
   font-weight: bold;
-  text-decoration: underline;
+  margin-bottom: 0;
 }
 
 .circle-container {
@@ -51,10 +56,7 @@
   font-size: medium;
   font-weight: bold;
   color: $tertiary-color;
-}
-
-ion-card {
-  width: 10rem;
+  margin-top: 5px;
 }
 
 ion-card-header {

@@ -28,6 +28,11 @@ export class TokenService {
     return role ? role : ''; // Debería retornar [ ROLE_DUENO ] o [ ROLE_ENCARGADO ]
   }
 
+  public getUserIdFromToken(token: string): string {
+    const decodedToken = this.decodeToken(token);
+    return decodedToken.userId;
+  }
+
   public isTokenExpired(token: string) {
     const expiration = this.getExpirationTimeFromToken(token);
     const now = new Date();

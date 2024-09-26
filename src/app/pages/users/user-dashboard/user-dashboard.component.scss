@@ -1,9 +1,7 @@
 @import '/src/global.scss';
 
-.search-and-add-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+.add-container {
+    border-bottom: 1px solid #{$secondary-color-lighter};
 }
 
 ion-searchbar {
