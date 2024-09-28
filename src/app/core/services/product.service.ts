@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { BehaviorSubject, catchError, Observable, switchMap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, switchMap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ProductRequest, ProductResponse } from '../models/product.model';
 
@@ -29,6 +29,12 @@ export class ProductService {
 
     return this.http.get<ProductResponse[]>(this.apiUrl, { params })
       .pipe(catchError(this.handleError));
+  }
+
+  public getProductsByCategory(category: string) {
+    return toSignal(this.getProducts(true).pipe(
+      map(products => products.filter(product => product.category.name.toLowerCase() === category))
+    ), { initialValue: [] });
   }
 
   public getProductById(id: number) {

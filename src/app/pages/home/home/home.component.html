@@ -1,10 +1,11 @@
 <ion-content>
 <div class="home-container">
   <div>
-    <h2 class="home-title my-10">PANEL DE {{ (role === 'ROLE_DUENO') ? 'DUEÑO' : 'ENCARGADO' }}</h2>
+    <h2 class="home-title mt-10 mb-8">PANEL DE {{ (role() === 'ROLE_DUENO') ? 'DUEÑO' : 'ENCARGADO' }}</h2>
   </div>
 
-  <div class="options-container mb-4">
+  <div class="options-container mb-4 mx-3">
+      @let options = role() === 'ROLE_DUENO' ? duenoOptions : encargadoOptions;
       @for (option of options; track $index) {
         <app-option [icon]="option.icon"  [label]="option.label" [url]="option.url"></app-option>
       }

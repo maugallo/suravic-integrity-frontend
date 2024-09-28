@@ -1,0 +1,25 @@
+<app-header title="CÁLCULO DE CARNE" titleSize="title-medium" icon="fa-solid fa-cow fa-2x"></app-header>
+
+<ion-content>
+  <div class="px-4 pt-10">
+    
+    <div class="mb-6">
+      <ion-input label="Costo Media Res/kg" label-placement="stacked" fill="outline" placeholder="$1000"></ion-input>
+    </div>
+    <div class="percentages-container pb-6">
+      <ion-input label="Porcentaje Ganancia" label-placement="stacked" fill="outline" placeholder="30%"></ion-input>
+      <ion-input label="Porcentaje Tolerancia" label-placement="stacked" fill="outline" placeholder="2%"></ion-input>
+    </div>
+
+    @if (products()!.length > 0) {
+      <div class="pricing-container mt-6">
+        @for (product of products(); track $index) {
+          <p class="product-title">{{ product.title }}</p>
+          <ion-input fill="outline" placeholder="$0" [(ngModel)]="product.price"></ion-input>
+        }
+      </div>
+    } @else {
+      <app-not-found></app-not-found>
+    }
+  </div>
+</ion-content>

@@ -11,8 +11,9 @@
 }
 
 .options-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 5px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 5px; 
+    justify-content: center; 
+    align-content: center; 
 }
