@@ -13,7 +13,7 @@ import { AsyncPipe } from '@angular/common';
 import { MaskitoElementPredicate } from '@maskito/core';
 import { cuitMask } from 'src/app/core/masks/cuit.mask';
 import { MaskitoDirective } from '@maskito/angular';
-import { VAT_CONDITIONS, VatCondition } from 'src/app/core/constants/vat-conditions.constants';
+import { VAT_CONDITIONS, VatCondition } from 'src/app/core/constants/vat-conditions.constant';
 import { telephoneMask } from 'src/app/core/masks/telephone.mask';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
 

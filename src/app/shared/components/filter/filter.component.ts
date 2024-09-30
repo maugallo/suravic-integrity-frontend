@@ -1,7 +1,7 @@
 import { Component, inject, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonMenu, IonSelect, IonSelectOption, IonButton, MenuController } from "@ionic/angular/standalone";
-import { VAT_CONDITIONS } from 'src/app/core/constants/vat-conditions.constants';
+import { VAT_CONDITIONS } from 'src/app/core/constants/vat-conditions.constant';
 import { SectorService } from 'src/app/core/services/sector.service';
 
 @Component({

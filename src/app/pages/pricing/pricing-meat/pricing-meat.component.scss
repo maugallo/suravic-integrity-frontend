@@ -36,3 +36,20 @@ ion-input.has-focus {
 .pricing-container ion-input {
     width: 6rem;
 }
+
+.not-found-title {
+    text-align: center;
+    color: $primary-color;
+    font-size: 1.2rem;       
+}
+
+ion-item {
+    --background: #{$primary-color};
+    --border-color: #{$primary-color};
+    font-weight: bold;
+}
+
+div[slot='content'] {
+    border-bottom: 1px solid $secondary-color-lighter;
+    color: $primary-color;
+}

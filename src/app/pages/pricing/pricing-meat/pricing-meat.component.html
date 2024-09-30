@@ -1,10 +1,21 @@
 <app-header title="CÁLCULO DE CARNE" titleSize="title-medium" icon="fa-solid fa-cow fa-2x"></app-header>
 
 <ion-content>
-  <div class="px-4 pt-10">
-    
-    <div class="mb-6">
-      <ion-input label="Costo Media Res/kg" label-placement="stacked" fill="outline" placeholder="$1000"></ion-input>
+  <div class="px-4 pt-2">
+    <div class="my-4">
+      <ion-accordion-group>
+      <ion-accordion value="first">
+        <ion-item slot="header">
+          <ion-label color="light">Promedio de pesos</ion-label>
+        </ion-item>
+        @for (average of weightAverages; track $index) {
+          <div class="ion-padding" slot="content">{{ average.name | uppercase }}: <b>{{ average.value }}kg</b></div>
+        }
+      </ion-accordion>
+    </ion-accordion-group>
+    </div>
+    <div class="my-6">
+      <ion-input label="Costo Media Res/kg" label-placement="stacked" fill="outline" placeholder="$1000" [(ngModel)]="mediaResCost"></ion-input>
     </div>
     <div class="percentages-container pb-6">
       <ion-input label="Porcentaje Ganancia" label-placement="stacked" fill="outline" placeholder="30%"></ion-input>
@@ -20,6 +31,7 @@
       </div>
     } @else {
       <app-not-found></app-not-found>
+      <p class="not-found-title">Prueba a agregar productos bajo la categoría <b>Carnes</b></p>
     }
   </div>
 </ion-content>
