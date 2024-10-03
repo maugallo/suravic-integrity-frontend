@@ -5,7 +5,6 @@
     align-items: center;
     justify-content: space-around;
     gap: 10px;
-    border-bottom: 1px solid $secondary-color;
 }
 
 ion-input {
@@ -43,6 +42,11 @@ ion-input.has-focus {
     justify-content: center;
 }
 
+.calculate-button {
+    text-align: center;
+    border-bottom: 1px solid $secondary-color;
+}
+
 .not-found-title {
     text-align: center;
     color: $primary-color;
@@ -70,4 +74,9 @@ ion-button {
 
 .half-carcass {
     background-color: $primary-color-lighter;
+}
+
+.prices-info-container {
+    text-align: center;
+    color: $primary-color;
 }

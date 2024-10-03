@@ -4,55 +4,58 @@
   <div class="px-4 pt-2">
     <div class="my-4">
       <ion-accordion-group>
-      <ion-accordion value="first">
-        <ion-item slot="header">
-          <ion-label color="light">Promedio de pesos</ion-label>
-        </ion-item>
+        <ion-accordion value="first">
+          <ion-item slot="header">
+            <ion-label color="light">Promedio de pesos</ion-label>
+          </ion-item>
 
-        <!-- Permitir facilitar el cálculo de a cuánto vender el costo de una media/kg. -->
-
-        <!-- Colocar estado de tolerancia (Si la suma de todos los productos es = Total de venta,
-         o si es superior por cierto margen, o inferior por cierto margen) Esto le dará feedback
-         al dueño para que sepa cómo balancear los precios. -->
-
-        <div class="ion-padding half-carcass" slot="content">{{ halfCarcassWeightAverage.name | uppercase }}: <b>{{ halfCarcassWeightAverage.value }}kg</b></div>
-        @for (average of weightAverages; track $index) {
-          <div class="ion-padding" slot="content">{{ average.name | uppercase }}: <b>{{ average.value }}kg</b></div>
-        }
-      </ion-accordion>
-    </ion-accordion-group>
+          <div class="ion-padding half-carcass" slot="content">{{ halfCarcassWeightAverage.name | uppercase }}: <b>{{ halfCarcassWeightAverage.value }}kg</b></div>
+          @for (average of weightAverages; track $index) {
+            <div class="ion-padding" slot="content">{{ average.name | uppercase }}: <b>{{ average.value }}kg</b></div>
+          }
+        </ion-accordion>
+      </ion-accordion-group>
     </div>
 
-    @if (totalProductSum() > 0 && totalSellingPrice() > 0 && areThereChangesInPrices()) {
-      <p>El total que conforma el precio de venta de la media res es de ${{ totalSellingPrice().toFixed(2) }}</p>
-      <p>El total que conforman los productos es de ${{ totalProductSum().toFixed(2) }}</p>  
-    }
+    <!-- <div class="prices-info-container">
+      @if (totalProductSum() > 0 && totalSellingPrice() > 0 && areThereChangesInPrices()) {
+        <p>Precio de venta promedio de media res: <b>${{ totalSellingPrice().toFixed(2) }}</b></p>
+        <p>Precio total que conforman los productos: <b>${{ totalProductSum().toFixed(2) }}</b></p>
+      }
+    </div> -->
 
-    <form #pricingForm="ngForm" id="pricingForm" (ngSubmit)="onSubmit(pricingForm)">
-      <div class="my-6">
+    <!-- Cálculo automático de precios -->
+    <form #calculateForm="ngForm" id="calculateForm" (ngSubmit)="onCalculateSubmit(calculateForm)">
+      <div class="percentages-container mt-2">
         <ion-input #halfCarcassCostInput="ngModel" name="halfCarcassCostInput" id="halfCarcassCostInput" label="Costo Media Res/kg" type="number" label-placement="stacked" fill="outline" placeholder="$1000" required [minValue]="0" [maxValue]="9999999" [(ngModel)]="halfCarcassCost" [errorText]="validationService.getErrorMessage(halfCarcassCostInput.errors)"></ion-input>
-      </div>
-      <div class="percentages-container pb-6">
         <ion-input #profitPercentageInput="ngModel" name="profitPercentageInput" id="profitPercentageInput" label="Porcentaje Ganancia" type="number" label-placement="stacked" fill="outline" placeholder="30%" required [minValue]="0" [(ngModel)]="profitPercentage" [errorText]="validationService.getErrorMessage(profitPercentageInput.errors)"></ion-input>
       </div>
-  
-      @if (products()!.length > 0) {
-        <div class="pricing-buttons my-4">
-          <ion-button type="submit" expand="block">Calcular</ion-button>
-          <ion-button [disabled]="!areThereChangesInPrices()" (click)="applyNewPrices()" expand="block">Aplicar</ion-button>
+      <div class="calculate-button mt-3 pb-3">
+        <ion-button type="submit" >Calcular</ion-button>
+      </div>
+    </form>
+
+    <!-- Modificar manualmente y aplicar precios -->
+    <form #applyForm="ngForm" id="applyForm" (ngSubmit)="onApplySubmit(applyForm)">
+      <div class="pricing-buttons my-4">
+        <ion-button type="submit" [disabled]="!areThereChangesInPrices()">Aplicar</ion-button>
+      </div>
+      @if (products()()!.length > 0) {
+        <div class="pricing-container mb-4">
+          @for (product of products()(); track $index) {
+            <p class="product-title">{{ product.title | uppercase }}</p>
+            <ion-input #productPriceInput="ngModel" name="productPriceInput{{$index}}" id="productPriceInput{{$index}}" fill="outline" placeholder="$0" type="number" placeholder="$1000" required [(ngModel)]="product.price" [errorText]="validationService.getErrorMessage(productPriceInput.errors)"></ion-input>
+          }
         </div>
       }
     </form>
-
-    @if (products()!.length > 0) {
-      <div class="pricing-container mb-4">
-        @for (product of products(); track $index) {
-          <p class="product-title">{{ product.title | uppercase }}</p>
-          <ion-input fill="outline" placeholder="$0" type="number" [(ngModel)]="product.price"></ion-input>
-        }
-      </div>
-    }
   </div>
 </ion-content>
 
 <!-- <ion-input #tolerancePercentageInput="ngModel" name="tolerancePercentageInput" id="tolerancePercentageInput" label="Porcentaje Tolerancia" type="number" label-placement="stacked" fill="outline" placeholder="2%" [(ngModel)]="tolerancePercentage" [errorText]="validationService.getErrorMessage(tolerancePercentageInput.errors)"></ion-input> -->
+
+<!-- Permitir facilitar el cálculo de a cuánto vender el costo de una media/kg. -->
+
+<!-- Colocar estado de tolerancia (Si la suma de todos los productos es = Total de venta,
+o si es superior por cierto margen, o inferior por cierto margen) Esto le dará feedback
+al dueño para que sepa cómo balancear los precios. -->
