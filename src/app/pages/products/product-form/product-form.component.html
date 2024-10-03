@@ -16,7 +16,7 @@
       <div class="section-container price-plu-container">
         <!-- Price Input -->
         <ion-input #priceInput="ngModel" name="priceInput" id="priceInput" [(ngModel)]="product()!.price" class="mb-10" type="number" label="Precio" label-placement="floating" fill="outline" placeholder="$1500"
-            required [errorText]="validationService.getErrorMessage(priceInput.errors)" ></ion-input>
+            required [minValue]="0" [maxValue]="9999999" [errorText]="validationService.getErrorMessage(priceInput.errors)" ></ion-input>
         <!-- PLU Input -->
         <ion-input #pluInput="ngModel" name="pluInput" id="pluInput" [(ngModel)]="product()!.plu" class="mb-10" type="text" label="PLU(Opcional)" label-placement="floating" fill="outline" placeholder="158"
               maxlength="5" [errorText]="validationService.getErrorMessage(pluInput.errors)" ></ion-input>

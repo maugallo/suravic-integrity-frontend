@@ -12,13 +12,15 @@ import { HeaderComponent } from "../../../shared/components/header/header.compon
 import { IonContent, IonInput, IonSelect, IonSelectOption, IonNote, IonButton } from "@ionic/angular/standalone";
 import { ProviderService } from 'src/app/core/services/provider.service';
 import { SessionService } from 'src/app/core/services/utils/session.service';
+import { MinValueDirective } from 'src/app/shared/validators/min-value.directive';
+import { MaxValueDirective } from 'src/app/shared/validators/max-value.directive';
 
 @Component({
   selector: 'app-product-form',
   templateUrl: './product-form.component.html',
   styleUrls: ['./product-form.component.scss'],
   standalone: true,
-  imports: [IonButton, IonNote, IonContent, HeaderComponent, FormsModule, IonInput, IonSelect, IonSelectOption]
+  imports: [IonButton, IonNote, IonContent, HeaderComponent, FormsModule, IonInput, IonSelect, IonSelectOption, MinValueDirective, MaxValueDirective]
 })
 export class ProductFormComponent {
 

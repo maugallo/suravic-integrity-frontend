@@ -34,7 +34,13 @@ ion-input.has-focus {
 }
 
 .pricing-container ion-input {
-    width: 6rem;
+    width: 8rem;
+}
+
+.pricing-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
 }
 
 .not-found-title {
@@ -52,4 +58,16 @@ ion-item {
 div[slot='content'] {
     border-bottom: 1px solid $secondary-color-lighter;
     color: $primary-color;
+}
+
+ion-button {
+    --background: #{$primary-color};
+    --border-radius: 4px;
+    height: 3.3rem;
+    font-size: large;
+    width: 80%
+}
+
+.half-carcass {
+    background-color: $primary-color-lighter;
 }
