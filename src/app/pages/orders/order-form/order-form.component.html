@@ -7,8 +7,47 @@
 <ion-content>
   <div class="px-10">
     <form #orderForm="ngForm" id="userForm" (ngSubmit)="onSubmit(orderForm)">
-      
-      
+      <div class="date-container my-10">
+        <!-- Delivery Date Input -->
+        <p class="date-label mb-0 py-2">Fecha de Entrega</p>
+        <ion-datetime-button datetime="datetime"></ion-datetime-button>
+        <ion-modal #dateModal backdropDismiss="false" [keepContentsMounted]="true">
+          <ng-template>
+            <div class="mb-2 pb-2">
+              <ion-datetime
+              id="datetime"
+              presentation="date"
+              [preferWheel]="true"
+              [max]="today">
+            </ion-datetime>
+            </div>
+            <div class="date-button-container">
+              <div></div>
+              <ion-button (click)="dateModal.dismiss()">Aceptar</ion-button>
+            </div>
+          </ng-template>
+        </ion-modal>
+      </div>
+
+      <div class="total-status-container mb-10">
+        <!-- Total input -->
+        <ion-input #totalInput="ngModel" name="totalInput" id="totalInput" [(ngModel)]="order()!.total" class="mb-10" type="number" label="Precio" label-placement="floating" fill="outline" placeholder="$15000"
+            required [minValue]="0" [maxValue]="9999999" [errorText]="validationService.getErrorMessage(totalInput.errors)" ></ion-input>
+
+        <!-- Order status input -->
+        <div class="status-select">
+          <ion-select #statusSelect="ngModel" name="statusSelect" label="Estado" id="statusSelect" [(ngModel)]="order()!.status" [class]="(isSelectNotValid(statusSelect, order()!.status)) ? 'select-invalid' : ''" label-placement="floating" fill="outline" required [interfaceOptions]="customInterfaceOptions">
+            <ion-select-option value="Pendiente">Pendiente</ion-select-option>
+            <ion-select-option value="Cancelado">Cancelado</ion-select-option>
+            <ion-select-option value="Pago">Pago</ion-select-option>
+          </ion-select>
+          @if (isSelectNotValid(statusSelect, order()!.status)) { <ion-note color="danger">Este campo es obligatorio</ion-note> }
+        </div>
+      </div>
+
+      <div>
+
+      </div>
 
       <!-- <div class="section-container mb-10">
         Provider Input

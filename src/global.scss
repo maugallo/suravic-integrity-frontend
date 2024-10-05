@@ -68,6 +68,23 @@
     color: $primary-color !important;
 }
 
+/* Date Input style */
+ion-datetime::part(wheel-item) {
+    color: black;
+}
+
+ion-datetime::part(wheel-item active) {
+    color: $primary-color !important;
+}
+
+ion-datetime-button::part(native) {
+    background: white;
+    border: 1px solid $secondary-color-lighter;
+    border-radius: 2px;
+    width: 20rem;
+    color: $primary-color;
+}
+
 /* Sweet Alert 2 modal style */
 .sweet-modal-title {
     font-size: 1.7rem;
@@ -112,7 +129,8 @@
 }
 
 .swal2-validation-message::before {
-    content: none; /* Remueve el icono de advertencia */
+    content: none;
+    /* Remueve el icono de advertencia */
 }
 
 .swal2-popup.swal2-toast {

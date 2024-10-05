@@ -9,15 +9,17 @@ import { ProviderService } from 'src/app/core/services/provider.service';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
 import { SessionService } from 'src/app/core/services/utils/session.service';
 import { ValidationService } from 'src/app/core/services/utils/validation.service';
-import { IonInput, IonContent, IonButton, IonNote } from "@ionic/angular/standalone";
+import { IonInput, IonContent, IonButton, IonNote, IonDatetime, IonModal, IonButtons, IonDatetimeButton, IonSelectOption, IonSelect } from "@ionic/angular/standalone";
 import { HeaderComponent } from "../../../shared/components/header/header.component";
+import { MinValueDirective } from 'src/app/shared/validators/min-value.directive';
+import { MaxValueDirective } from 'src/app/shared/validators/max-value.directive';
 
 @Component({
   selector: 'app-order-form',
   templateUrl: './order-form.component.html',
   styleUrls: ['./order-form.component.scss'],
   standalone: true,
-  imports: [IonNote, IonButton, IonContent, IonInput, HeaderComponent, FormsModule]
+  imports: [IonDatetimeButton, IonButtons, IonModal, IonDatetime, IonNote, IonButton, IonContent, IonInput, HeaderComponent, FormsModule, MinValueDirective, MaxValueDirective, IonSelectOption, IonSelect]
 })
 export class OrderFormComponent {
 
@@ -32,6 +34,7 @@ export class OrderFormComponent {
   private alertService = inject(AlertService);
 
   public customInterfaceOptions: any = { cssClass: 'custom-select-options' } // Clase necesaria para customizar alert de options.
+  public today = new Date().toISOString().split('T')[0];
 
   public isOrderEdit!: boolean;
   public orderId!: number;
@@ -111,8 +114,8 @@ export class OrderFormComponent {
     return of(null);
   }
 
-  public isSelectNotValid(select: NgModel, selectedValue: number) {
-    return (select && select.touched && selectedValue === 0);
+  public isSelectNotValid(select: NgModel, selectedValue: string) {
+    return (select && select.touched && !selectedValue);
   }
 
   private isParameterValid(param: string | null) {

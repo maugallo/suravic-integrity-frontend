@@ -28,6 +28,12 @@ ion-button {
     font-size: large;
 }
 
+ion-modal ion-button {
+    --background: white;
+    --color: #{$primary-color};
+    --box-shadow: 0;
+}
+
 ion-note {
     padding-top: 5px;
     padding-bottom: 0;
@@ -37,7 +43,48 @@ ion-note {
     padding-inline-start: 16px;
 }
 
-.price-plu-container {
+ion-datetime {
+    --wheel-highlight-background: #{$primary-color-lighter};
+    --wheel-highlight-border-radius: 10px;
+}
+
+ion-datetime-button {
+    width: 100%;
+}
+
+.date-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.date-container .date-label {
+    color: white;
+    background-color: $primary-color;
+    margin: 0px 2px;
+}
+
+.date-button-container {
+    display: flex;
+    justify-content: end;
+    border-top: 1px solid $secondary-color;
+}
+
+.total-status-container {
     display: flex;
     gap: 5px;
+}
+
+.total-status-container .status-select {
+    display: flex;
+    flex-direction: column;
+}
+
+.total-status-container ion-input {
+    width: 9rem;
+}
+
+.total-status-container ion-select {
+    width: 9rem;
 }
