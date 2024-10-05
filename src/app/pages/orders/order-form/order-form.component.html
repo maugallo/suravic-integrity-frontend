@@ -1,0 +1,34 @@
+@if (isOrderEdit) {
+  <app-header title="MODIFICAR PEDIDO" titleSize="title-large" icon="fa-solid fa-clipboard-medical fa-box-taped fa-2x"></app-header>
+} @else {
+  <app-header title="AGREGAR PEDIDO" titleSize="title-large" icon="fa-solid fa-clipboard-medical fa-box-taped fa-2x"></app-header>
+}
+
+<ion-content>
+  <div class="px-10">
+    <form #orderForm="ngForm" id="userForm" (ngSubmit)="onSubmit(orderForm)">
+      
+      
+
+      <!-- <div class="section-container mb-10">
+        Provider Input
+          <ion-select #providerSelect="ngModel" name="providerSelect" id="providerSelect" (ngModelChange)="onProviderChange($event)" [class]="(isSelectNotValid(providerSelect, order()!.providerId)) ? 'select-invalid' : ''" [(ngModel)]="order()!.providerId" [interfaceOptions]="customInterfaceOptions" [disabled]="providers().length > 0 ? false : true" [label]="providers().length > 0 ? 'Proveedor' : 'Todavía no cuentas con proveedores'" label-placement="floating" fill="outline" required>
+              @if (providers(); as providers) {
+                @for (provider of providers; track $index) {
+                  <ion-select-option [value]="provider.id">{{ provider.companyName }}</ion-select-option>
+                }
+              }
+          </ion-select>
+          @if (isSelectNotValid(providerSelect, order()!.providerId)) { <ion-note color="danger">Este campo es obligatorio</ion-note> }
+      </div> -->
+
+      <div class="mb-5">
+        @if (isOrderEdit) {
+          <ion-button type="submit" expand="block">Modificar</ion-button>
+        } @else {
+          <ion-button type="submit" expand="block">Crear</ion-button>
+        }
+      </div>
+    </form>
+  </div>
+</ion-content>

@@ -1,0 +1,29 @@
+<app-header title="PEDIDOS" titleSize="title-large" icon="fa-regular fa-clipboard-list fa-2x" ></app-header>
+
+<ion-content>
+  <div class="py-3 px-2">
+    <div class="search-and-add-container mb-2 mx-2">
+      <!-- Search Bar -->
+      <ion-searchbar placeholder="Buscar" [debounce]="250" (ionInput)="searchForOrders($event)"></ion-searchbar>
+      <!-- Filter Button -->
+      <ion-button><i class="fa-solid fa-filter fa-2x py-0"></i></ion-button>
+    </div>
+    
+    <div class="options-container">
+      <!-- Add Order Button -->
+      <ion-button (click)="router.navigate(['orders', 'form'])"><i class="fa-solid fa-clipboard-medical fa-2x py-0"></i></ion-button>
+    </div>
+
+    @if (searchBarResult(); as orders) {
+      @if (orders.length === 0) { <app-not-found></app-not-found> }
+      <ion-list>
+        @for (order of orders; track $index) {
+          <app-order-item (refreshDashboard)="renderDashboard()" [order]="order" ></app-order-item>
+        }
+      </ion-list>
+    } @else {
+      <ion-progress-bar type="indeterminate"></ion-progress-bar>
+    }
+    
+  </div>
+</ion-content>
