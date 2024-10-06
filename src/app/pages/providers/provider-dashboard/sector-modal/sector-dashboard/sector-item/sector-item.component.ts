@@ -73,7 +73,7 @@ export class SectorItemComponent {
   public openDeleteSectorAlert() {
     this.alertService.getWarningConfirmationAlert('¿Estás seguro que deseas eliminar el rubro?')
       .fire()
-      .then((result) => {
+      .then((result: any) => {
         if (result.isConfirmed) {
           this.handleDelete();
         }

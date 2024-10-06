@@ -21,7 +21,7 @@ export class BackButtonComponent {
 
   public navigateBack() {
     if (this.location.path().includes('dashboard')) this.router.navigate(['tabs', 'home']);
-    else if (this.location.path().includes('form')) this.alertService.getConfirmationAlert('¿Estás seguro de volver?','Perderás toda la información no guardada').fire().then((result) => { if (result.isConfirmed) this.location.back() })
+    else if (this.location.path().includes('form')) this.alertService.getConfirmationAlert('¿Estás seguro de volver?','Perderás toda la información no guardada').fire().then((result: any) => { if (result.isConfirmed) this.location.back() })
     else this.location.back();
   }
 

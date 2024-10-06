@@ -20,7 +20,7 @@ export class FooterComponent {
   public logout() {
     this.alertService.getConfirmationAlert('¿Estás seguro que deseas cerrar sesión?')
     .fire()
-    .then((result) => {
+    .then((result: any) => {
       if (result.isConfirmed) {
         this.tokenService.clearToken();
         this.router.navigate(['welcome']);

@@ -27,7 +27,7 @@ export class UserItemComponent {
   public openDeleteUserAlert() {
     this.alertService.getWarningConfirmationAlert('¿Estás seguro que deseas eliminar el usuario?')
       .fire()
-      .then((result) => {
+      .then((result: any) => {
         if (result.isConfirmed) {
           this.deleteUser(this.user().id);
         }
