@@ -79,7 +79,7 @@ ion-datetime::part(wheel-item active) {
 
 ion-datetime-button::part(native) {
     background: white;
-    border: 1px solid $secondary-color-lighter;
+    border: 1.5px solid $secondary-color;
     border-radius: 2px;
     width: 20rem;
     color: $primary-color;

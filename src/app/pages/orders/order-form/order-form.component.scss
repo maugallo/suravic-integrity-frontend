@@ -60,9 +60,7 @@ ion-datetime-button {
 }
 
 .date-container .date-label {
-    color: white;
-    background-color: $primary-color;
-    margin: 0px 2px;
+    color: $secondary-color-darker;
 }
 
 .date-button-container {
@@ -82,9 +80,9 @@ ion-datetime-button {
 }
 
 .total-status-container ion-input {
-    width: 9rem;
+    width: 50%;
 }
 
 .total-status-container ion-select {
-    width: 9rem;
+    width: 10rem;
 }

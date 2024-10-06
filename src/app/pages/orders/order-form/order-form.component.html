@@ -9,7 +9,7 @@
     <form #orderForm="ngForm" id="userForm" (ngSubmit)="onSubmit(orderForm)">
       <div class="date-container my-10">
         <!-- Delivery Date Input -->
-        <p class="date-label mb-0 py-2">Fecha de Entrega</p>
+        <p class="date-label mb-1">Fecha de Entrega</p>
         <ion-datetime-button datetime="datetime"></ion-datetime-button>
         <ion-modal #dateModal backdropDismiss="false" [keepContentsMounted]="true">
           <ng-template>
@@ -43,6 +43,18 @@
           </ion-select>
           @if (isSelectNotValid(statusSelect, order()!.status)) { <ion-note color="danger">Este campo es obligatorio</ion-note> }
         </div>
+      </div>
+
+      <div class="invoice-input">
+        <!-- Botón para abrir la cámara -->
+        <ion-button (click)="openCamera()">Foto de Factura</ion-button>
+
+        <!-- Vista previa de la imagen -->
+         @if (order()!.invoice) {
+          <div class="image-preview">
+            <img [src]="order()!.invoice" alt="Foto seleccionada">
+          </div>
+        }
       </div>
 
       <div>

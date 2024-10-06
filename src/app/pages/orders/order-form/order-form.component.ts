@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit, Signal } from '@angular/core';
+import { Component, DestroyRef, inject, Signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule, NgForm, NgModel } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -95,6 +95,10 @@ export class OrderFormComponent {
       }),
       takeUntilDestroyed(this.destroyRef)
     ).subscribe();
+  }
+
+  public openCamera(){
+    
   }
 
   private getFormOperation(): Observable<any> {
