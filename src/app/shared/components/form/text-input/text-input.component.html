@@ -1,0 +1,5 @@
+<ion-input [class]="class()" customInput #ionInput="ngModel" [name]="inputName()" [id]="inputName()"
+    [(ngModel)]="bindedObject" [label]="label()" [placeholder]="placeHolder()" [pattern]="pattern()"
+    [required]="required()" [maxlength]="maxlength()" [minlength]="minlength()" [maskito]="maskito()"
+    [maskitoElement]="maskPredicate" [email]="email()" type="text" label-placement="floating" fill="outline"
+    [errorText]="validationService.getErrorMessage(ionInput.errors)"></ion-input>

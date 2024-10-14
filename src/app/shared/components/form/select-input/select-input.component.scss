@@ -1,0 +1,20 @@
+@import '/src/global.scss';
+
+ion-select {
+    --placeholder-color: #{$secondary-color};
+    --highlight-color: #{$primary-color};
+    --border-width: 0.10rem;
+}
+
+ion-select.select-invalid {
+    --highlight-color: #c5000f;
+}
+
+ion-note {
+    padding-top: 5px;
+    padding-bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    padding-inline-start: 16px;
+}

@@ -1,30 +1,28 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, QueryList, signal, ViewChildren } from '@angular/core';
 import { HeaderComponent } from "../../../shared/components/header/header.component";
-import { IonContent, IonInput, IonText, IonAccordion, IonItem, IonLabel, IonAccordionGroup, IonButton } from "@ionic/angular/standalone";
+import { IonContent } from "@ionic/angular/standalone";
 import { ProductService } from 'src/app/core/services/product.service';
-import { FormsModule, NgForm } from '@angular/forms';
-import { HALF_CARCASS_WEIGHT_AVERAGE, WEIGHT_AVERAGES } from 'src/app/core/constants/weight-average.constant';
-import { NgFor, UpperCasePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HALF_CARCASS_WEIGHT_AVERAGE, WEIGHT_AVERAGES } from 'src/app/pages/pricing/pricing-meat/weights.constant';
+import { UpperCasePipe } from '@angular/common';
 import { ValidationService } from 'src/app/core/services/utils/validation.service';
-import { MinValueDirective } from 'src/app/shared/validators/min-value.directive';
-import { MaxValueDirective } from 'src/app/shared/validators/max-value.directive';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
+import { WeightsAccordionComponent } from "./weights-accordion/weights-accordion.component";
+import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
+import { NumberInputComponent } from "../../../shared/components/form/number-input/number-input.component";
 
 @Component({
   selector: 'app-pricing-meat',
   templateUrl: './pricing-meat.component.html',
   styleUrls: ['./pricing-meat.component.scss'],
   standalone: true,
-  imports: [IonButton, IonAccordionGroup, IonLabel, IonItem, IonAccordion, IonText, IonInput, IonContent, HeaderComponent, FormsModule, UpperCasePipe, MinValueDirective, MaxValueDirective]
+  imports: [IonContent, HeaderComponent, FormsModule, UpperCasePipe, WeightsAccordionComponent, SubmitButtonComponent, NumberInputComponent]
 })
 export class PricingMeatComponent {
 
-  public validationService = inject(ValidationService);
   private productsService = inject(ProductService);
   private alertService = inject(AlertService);
-  
-  public weightAverages = WEIGHT_AVERAGES;
-  public halfCarcassWeightAverage = HALF_CARCASS_WEIGHT_AVERAGE;
+  public validationService = inject(ValidationService);
   
   public products = computed(() => signal(this.productsOnlyReadSignal())); // WritableSignal<Signal> para poder actualizar el array.
   private productsOnlyReadSignal = this.productsService.getProductsByCategory('carnes');
@@ -36,19 +34,22 @@ export class PricingMeatComponent {
   public totalSellingPrice = computed(() => Number(this.halfCarcassCost()) * (Number(this.profitPercentage())/100));
   public totalProductSum = computed(() => this.products()().reduce((acumulatedSum, product) => acumulatedSum + Number(product.price), 0));
 
-  public onCalculateSubmit(calculateForm: NgForm) {
-    if (!calculateForm.valid) {
-      calculateForm.form.markAllAsTouched();
+  @ViewChildren('calculateInput') inputsCalculate!: QueryList<NumberInputComponent>;
+  @ViewChildren('priceInput') inputsPrice!: QueryList<NumberInputComponent>;
+
+  public onCalculateSubmit() {
+    if (!this.validationService.validateInputs(this.inputsCalculate)) {
       return;
     }
+    
     this.calculatePrices();
   }
 
-  public onApplySubmit(applyForm: NgForm) {
-    if (!applyForm.valid) {
-      applyForm.form.markAllAsTouched();
+  public onApplySubmit() {
+    if (!this.validationService.validateInputs(this.inputsPrice)) {
       return;
     }
+
     this.applyNewPrices();
   }
 
@@ -67,7 +68,7 @@ export class PricingMeatComponent {
   }
 
   private applyNewPrices() {
-    
+    alert('');
   }
 
   public areThereChangesInPrices() { // Hacemos Number() ya que sino se pueden comprar en string '5400.0' con '5400' en el caso de que vuelva a poner el precio original.

@@ -5,6 +5,7 @@ import { map } from 'rxjs';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
+  
   const tokenService = inject(TokenService);
 
   return tokenService.getToken().pipe(

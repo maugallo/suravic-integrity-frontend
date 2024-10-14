@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { TokenService } from 'src/app/core/services/utils/token.service';
 import { IonContent } from "@ionic/angular/standalone";
 import { OptionComponent } from "./option/option.component";
-import { DUENO_OPTIONS, ENCARGADO_OPTIONS, Option } from '../../../core/constants/home-options.constant';
+import { DUENO_OPTIONS, ENCARGADO_OPTIONS, Option } from './home-options.constant';
 import { NavigationEnd, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map, of, switchMap } from 'rxjs';

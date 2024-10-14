@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, Signal } from '@angular/core';
+import { Component, DestroyRef, inject, Signal, ViewChild } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule, NgForm, NgModel } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,19 +9,26 @@ import { ProviderService } from 'src/app/core/services/provider.service';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
 import { SessionService } from 'src/app/core/services/utils/session.service';
 import { ValidationService } from 'src/app/core/services/utils/validation.service';
-import { IonInput, IonContent, IonButton, IonNote, IonDatetime, IonModal, IonButtons, IonDatetimeButton, IonSelectOption, IonSelect } from "@ionic/angular/standalone";
+import { IonContent, IonButton, IonSelectOption } from "@ionic/angular/standalone";
 import { HeaderComponent } from "../../../shared/components/header/header.component";
-import { MinValueDirective } from 'src/app/shared/validators/min-value.directive';
-import { MaxValueDirective } from 'src/app/shared/validators/max-value.directive';
+import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+import { ActionSheetController } from '@ionic/angular';
+import { WheelDateInputComponent } from "../../../shared/components/form/wheel-date-input/wheel-date-input.component";
+import { NumberInputComponent } from "../../../shared/components/form/number-input/number-input.component";
+import { SelectInputComponent } from "../../../shared/components/form/select-input/select-input.component";
+import { ORDER_STATUS, PAYMENT_METHODS } from './order-selects.constant';
+import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
 
 @Component({
   selector: 'app-order-form',
   templateUrl: './order-form.component.html',
   styleUrls: ['./order-form.component.scss'],
   standalone: true,
-  imports: [IonDatetimeButton, IonButtons, IonModal, IonDatetime, IonNote, IonButton, IonContent, IonInput, HeaderComponent, FormsModule, MinValueDirective, MaxValueDirective, IonSelectOption, IonSelect]
+  imports: [IonButton, IonContent, HeaderComponent, FormsModule, IonSelectOption, WheelDateInputComponent, NumberInputComponent, SelectInputComponent, SubmitButtonComponent]
 })
 export class OrderFormComponent {
+
+  public testDate = new Date();
 
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
@@ -40,6 +47,11 @@ export class OrderFormComponent {
   public orderId!: number;
 
   public providers = this.providerService.providers;
+  public orderStatus = ORDER_STATUS;
+  public paymentMethods = PAYMENT_METHODS;
+
+  @ViewChild('fileInput') fileInput: any;
+  private actionSheetCtrl = inject(ActionSheetController);
 
   public order: Signal<OrderRequest | undefined> = toSignal(this.activatedRoute.paramMap.pipe(
     switchMap((params) => {
@@ -61,15 +73,16 @@ export class OrderFormComponent {
         });
       } else {
         this.isOrderEdit = false;
+        console.log(new File([], ''))
         return of({
           providerId: 0,
           userId: 0,
           status: '',
           paymentMethod: [],
-          deliveryDate: '',
+          deliveryDate: new Date().toISOString(),
           total: '',
-          invoice: new File([], ''),
-          paymentReceipt: new File([], '')
+          invoice: undefined,
+          paymentReceipt: undefined
         });
       }
     })
@@ -80,6 +93,8 @@ export class OrderFormComponent {
   }
 
   public onSubmit(orderForm: NgForm) {
+    console.log(this.order()!.deliveryDate);
+
     if (!orderForm.valid) {
       orderForm.form.markAllAsTouched();
       return;
@@ -97,8 +112,61 @@ export class OrderFormComponent {
     ).subscribe();
   }
 
-  public openCamera(){
-    
+  public async selectImageSource() {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Seleccionar una imagen',
+      buttons: [
+        {
+          text: 'Elegir de la galería',
+          handler: () => {
+            this.openCameraOrGallery(CameraSource.Photos);
+          },
+        },
+        {
+          text: 'Tomar una foto',
+          handler: () => {
+            this.openCameraOrGallery(CameraSource.Camera);
+          },
+        }
+      ],
+    });
+    await actionSheet.present();
+  }
+
+  public async openCameraOrGallery(source: CameraSource) {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.DataUrl,
+        source: source,
+      });
+
+      console.log('Imagen seleccionada:', image);
+      this.order()!.invoice = image;
+    } catch (error) {
+      console.error('Error al obtener la imagen:', error);
+    }
+  }
+
+  public triggerFileInput() {
+    this.fileInput.nativeElement.click();
+  }
+
+  public onFileSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      console.log('Archivo seleccionado:', file);
+      // Puedes hacer algo con el archivo, como enviarlo al backend.
+    }
+  }
+
+  public isPhoto(file: any): Photo | null {
+    return 'dataUrl' in file ? file as Photo : null;
+  }
+
+  public isFile(file: any): File | null {
+    return file instanceof File ? file as File : null;
   }
 
   private getFormOperation(): Observable<any> {
@@ -118,8 +186,8 @@ export class OrderFormComponent {
     return of(null);
   }
 
-  public isSelectNotValid(select: NgModel, selectedValue: string) {
-    return (select && select.touched && !selectedValue);
+  public isSelectNotValid(select: NgModel, selectedValue: string | number) {
+    return (select && select.touched && (!selectedValue || selectedValue === 0));
   }
 
   private isParameterValid(param: string | null) {

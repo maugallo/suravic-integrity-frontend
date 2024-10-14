@@ -25,7 +25,7 @@ export const tokenInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next:
     switchMap((token) => {
       if (token) {
         console.log("Interceptor: Hay un token almacenado, agregando al header de la solicitud");
-
+        console.log(token);
         // Si el token ha expirado, intentamos refrescarlo
         if (tokenService.isTokenExpired(token)) {
           console.log("Interceptor: El token ha expirado, intentando refresh");
@@ -52,6 +52,7 @@ export const tokenInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next:
             }),
             catchError((err) => {
               console.error("Interceptor: Error al refrescar el token, redirigiendo al login");
+              console.log(JSON.parse(err));
               alertService.getErrorAlert("Sesión expirada, porfavor ingresa de nuevo").fire();
               return tokenService.clearToken().pipe(
                 tap(() => router.navigate(['/login'])),  // Redirigir al login

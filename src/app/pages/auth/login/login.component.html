@@ -9,21 +9,18 @@
       </div>
     </div>
 
-    <form #loginForm="ngForm" id="loginForm" (ngSubmit)="onSubmit(loginForm)">
-      <div>
-        <!-- Username input -->
-        <ion-input #usernameInput="ngModel" name="usernameInput" id="usernameInput" [(ngModel)]="user.username" class="my-10" type="text" label="Usuario" label-placement="floating" fill="outline" placeholder="Ingrese su usuario"
-          required [errorText]="validationService.getErrorMessage(usernameInput.errors)"></ion-input>
-        <!-- Password input -->
-        <ion-input #passwordInput="ngModel" name="passwordInput" id="passwordInput" [(ngModel)]="user.password" class="mb-10" type="password" label="Contraseña" label-placement="floating" fill="outline" placeholder="Ingrese su contraseña"
-          required [errorText]="validationService.getErrorMessage(passwordInput.errors)"></ion-input>
-      </div>
+    <form #loginForm="ngForm" id="loginForm" (ngSubmit)="onSubmit()">
+      <!-- Username input -->
+      <app-text-input #loginInput class="my-10" inputName="usernameInput" label="Usuario" [(bindedObject)]="user.username"
+      placeHolder="Ingrese su usario"></app-text-input>
 
-      <div>
-        <!-- Submit button -->
-        <ion-button type="submit" expand="block">Ingresar</ion-button>
-        <p class="forgot-password mb-0" (click)="router.navigate(['forgot-password'])">¿Olvidaste tu contraseña?</p>
-      </div>
+      <!-- Password input -->
+      <app-password-input #loginInput class="mb-10" inputName="passwordInput" label="Contraseña" [(bindedObject)]="user.password"
+      placeHolder="Ingrese su contraseña"></app-password-input>
+
+      <!-- Submit button -->
+      <app-submit-button label="Ingresar"></app-submit-button>
+      <p class="forgot-password mb-0" (click)="router.navigate(['forgot-password'])">¿Olvidaste tu contraseña?</p>
     </form>
   </div>
 </ion-content>

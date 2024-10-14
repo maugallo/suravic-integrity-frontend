@@ -1,0 +1,4 @@
+<ion-input [class]="class()" customInput #ionInput="ngModel" [name]="inputName()" [id]="inputName()"
+    [(ngModel)]="bindedObject" [label]="label()" [placeholder]="placeHolder()" [required]="required()"
+    [minValue]="minValue()" [maxValue]="maxValue()" [labelPlacement]="labelPlacement()" type="number" fill="outline"
+    [errorText]="validationService.getErrorMessage(ionInput.errors)"></ion-input>

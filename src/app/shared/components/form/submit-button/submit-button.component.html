@@ -1,0 +1,7 @@
+<div [class]="class()">
+  @if (isEdit()) {
+    <ion-button type="submit" expand="block">Modificar</ion-button>
+  } @else {
+    <ion-button [disabled]="disabled()" type="submit" expand="block">{{ label() }}</ion-button>
+  }
+</div>

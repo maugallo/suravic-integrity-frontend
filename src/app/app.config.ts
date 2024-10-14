@@ -4,12 +4,13 @@ import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalo
 import { routes } from "./app.routes";
 import { provideHttpClient, withInterceptors } from "@angular/common/http";
 import { tokenInterceptor } from "./core/interceptors/token.interceptor";
+import { loaderInterceptor } from "./core/interceptors/loader.interceptor";
 
 export const appConfig: ApplicationConfig = {
     providers: [
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
         provideIonicAngular(),
-        provideHttpClient(withInterceptors([tokenInterceptor])),
+        provideHttpClient(withInterceptors([tokenInterceptor, loaderInterceptor])),
         provideRouter(routes, withPreloading(PreloadAllModules))
     ]
   };

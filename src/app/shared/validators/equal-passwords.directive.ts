@@ -4,33 +4,43 @@ import { validateEqualPasswords } from './equal-passwords.validator';
 
 @Directive({
   selector: '[equalPasswords]',
-  providers: [ { provide: NG_VALIDATORS, useExisting: EqualPasswordsDirective, multi: true }],
+  providers: [{ provide: NG_VALIDATORS, useExisting: EqualPasswordsDirective, multi: true }],
   standalone: true
 })
 export class EqualPasswordsDirective implements Validator {
 
   private _equalTo: any;
-  //onChange: Función que Angular llama para avisar a la directiva que algo cambió y debe hacerse la validación de nuevo. Comienza como null.
+  private _validatePasswords: boolean = true; // Por defecto la validación está activa
   private _onChange?: () => void;
 
-  @Input() //@Input nos permite generar un setter y getter, y usar la entrada en el HTML de [equalTo]="". Cuando marcas una propiedad con @Input(), Angular crea automáticamente una entrada que puedes utilizar en la plantilla HTML. Esto permite la comunicación entre el componente y su plantilla, ya que los datos pueden fluir desde el componente hacia la plantilla.
+  @Input()
   get equalTo() {
     return this._equalTo;
   }
-  
+
   set equalTo(value: any) {
     this._equalTo = value;
-    if (this._onChange) { //Valida si _onChange tiene un valor.
-      this._onChange(); //Si tiene, entonces avisa que hay que re-validar.
+    if (this._onChange) {
+      this._onChange();
+    }
+  }
+
+  @Input()
+  set validatePasswords(value: boolean) {
+    this._validatePasswords = value;
+    if (this._onChange) {
+      this._onChange();
     }
   }
 
   validate(control: AbstractControl<any, any>): ValidationErrors | null {
+    if (!this._validatePasswords) {
+      return null;
+    }
     return validateEqualPasswords(this.equalTo)(control);
   }
 
   registerOnValidatorChange?(fn: () => void): void {
     this._onChange = fn;
   }
-
 }

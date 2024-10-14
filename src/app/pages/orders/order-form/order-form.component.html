@@ -7,79 +7,69 @@
 <ion-content>
   <div class="px-10">
     <form #orderForm="ngForm" id="userForm" (ngSubmit)="onSubmit(orderForm)">
-      <div class="date-container my-10">
-        <!-- Delivery Date Input -->
-        <p class="date-label mb-1">Fecha de Entrega</p>
-        <ion-datetime-button datetime="datetime"></ion-datetime-button>
-        <ion-modal #dateModal backdropDismiss="false" [keepContentsMounted]="true">
-          <ng-template>
-            <div class="mb-2 pb-2">
-              <ion-datetime
-              id="datetime"
-              presentation="date"
-              [preferWheel]="true"
-              [max]="today">
-            </ion-datetime>
-            </div>
-            <div class="date-button-container">
-              <div></div>
-              <ion-button (click)="dateModal.dismiss()">Aceptar</ion-button>
-            </div>
-          </ng-template>
-        </ion-modal>
+      <!-- Delivery Date Input -->
+      <app-wheel-date-input class="mb-10 mt-6" inputName="deliveryDate" label="Fecha de Entrega" 
+      [(bindedObject)]="order()!.deliveryDate"></app-wheel-date-input>
+
+      <div class="total-status-container">
+        <!-- Total Input -->
+        <app-number-input class="mb-10" inputName="totalInput" label="Total" [(bindedObject)]="order()!.total" 
+        placeHolder="$15000" [minValue]="0" [maxValue]="9999999"></app-number-input>
+
+        <!-- Order status Input -->
+        <app-select-input class="select" inputName="statusSelect" label="Estado" [(bindedObject)]="order()!.status"
+        [options]="['Pendiente', 'Cancelado', 'Pago']">
+          @for (status of orderStatus; track $index) {
+            <ion-select-option [value]="status">{{ status }}</ion-select-option>
+          }
+        </app-select-input>
       </div>
 
-      <div class="total-status-container mb-10">
-        <!-- Total input -->
-        <ion-input #totalInput="ngModel" name="totalInput" id="totalInput" [(ngModel)]="order()!.total" class="mb-10" type="number" label="Precio" label-placement="floating" fill="outline" placeholder="$15000"
-            required [minValue]="0" [maxValue]="9999999" [errorText]="validationService.getErrorMessage(totalInput.errors)" ></ion-input>
-
-        <!-- Order status input -->
-        <div class="status-select">
-          <ion-select #statusSelect="ngModel" name="statusSelect" label="Estado" id="statusSelect" [(ngModel)]="order()!.status" [class]="(isSelectNotValid(statusSelect, order()!.status)) ? 'select-invalid' : ''" label-placement="floating" fill="outline" required [interfaceOptions]="customInterfaceOptions">
-            <ion-select-option value="Pendiente">Pendiente</ion-select-option>
-            <ion-select-option value="Cancelado">Cancelado</ion-select-option>
-            <ion-select-option value="Pago">Pago</ion-select-option>
-          </ion-select>
-          @if (isSelectNotValid(statusSelect, order()!.status)) { <ion-note color="danger">Este campo es obligatorio</ion-note> }
-        </div>
-      </div>
-
-      <div class="invoice-input">
-        <!-- Botón para abrir la cámara -->
-        <ion-button (click)="openCamera()">Foto de Factura</ion-button>
-
-        <!-- Vista previa de la imagen -->
-         @if (order()!.invoice) {
-          <div class="image-preview">
-            <img [src]="order()!.invoice" alt="Foto seleccionada">
-          </div>
-        }
-      </div>
-
-      <div>
-
-      </div>
-
-      <!-- <div class="section-container mb-10">
-        Provider Input
-          <ion-select #providerSelect="ngModel" name="providerSelect" id="providerSelect" (ngModelChange)="onProviderChange($event)" [class]="(isSelectNotValid(providerSelect, order()!.providerId)) ? 'select-invalid' : ''" [(ngModel)]="order()!.providerId" [interfaceOptions]="customInterfaceOptions" [disabled]="providers().length > 0 ? false : true" [label]="providers().length > 0 ? 'Proveedor' : 'Todavía no cuentas con proveedores'" label-placement="floating" fill="outline" required>
-              @if (providers(); as providers) {
-                @for (provider of providers; track $index) {
-                  <ion-select-option [value]="provider.id">{{ provider.companyName }}</ion-select-option>
-                }
+      <div class="invoice-input mb-10">
+          <!-- Invoice File Input -->
+          <p class="label mb-1 mt-0">Factura de Pedido</p>
+          <div [class]="order()?.invoice ? 'image-uploaded-container' : 'image-not-uploaded-container'">
+            @if (order()?.invoice) { 
+              @if (isPhoto(order()!.invoice); as photo) {
+                <img [src]="photo.dataUrl" class="image-preview" />
               }
-          </ion-select>
-          @if (isSelectNotValid(providerSelect, order()!.providerId)) { <ion-note color="danger">Este campo es obligatorio</ion-note> }
-      </div> -->
-
-      <div class="mb-5">
-        @if (isOrderEdit) {
-          <ion-button type="submit" expand="block">Modificar</ion-button>
-        } @else {
-          <ion-button type="submit" expand="block">Crear</ion-button>
-        }
+              @if (isFile(order()!.invoice); as file) {
+                
+              }
+            }
+            @else { 
+              <div class="placeholder">
+                <i class="fa-regular fa-camera fa-4x"></i>
+                <p>Ninguna imagen o archivo seleccionado</p>
+              </div>
+            }
+          </div>
+          <div class="add-image-file">
+            <ion-button (click)="selectImageSource()">Agregar imagen</ion-button>   
+            <ion-button (click)="triggerFileInput()">Agregar archivo</ion-button> 
+          </div>
+          <input type="file" accept="image/*,.pdf,.doc,.docx" (change)="onFileSelected($event)" hidden #fileInput />
       </div>
+
+      <div class="provider-method-container mb-10">
+        <!-- Provider Input -->
+        <app-select-input class="select" inputName="providerSelect" [(bindedObject)]="order()!.providerId"
+        label="Proveedor" [options]="providers()">
+          @for (provider of providers(); track $index) {
+            <ion-select-option [value]="provider.id">{{ provider.companyName }}</ion-select-option>
+          }
+        </app-select-input>
+        
+        <!-- Payment Method Input -->
+        <app-select-input class="select" inputName="paymentMethodSelect" label="Método de pago" [(bindedObject)]="order()!.paymentMethod"
+         [disabled]="(order()!.status !== 'Pago')" [multiple]="true" [options]="paymentMethods">
+          @for (paymentMethod of paymentMethods; track $index) {
+            <ion-select-option [value]="paymentMethod.value">{{ paymentMethod.title }}</ion-select-option>
+          }
+        </app-select-input>
+      </div>
+
+      <app-submit-button class="mb-5" [isEdit]="isOrderEdit"></app-submit-button>
     </form>
   </div>
 </ion-content>

@@ -1,22 +1,27 @@
-import { Component, DestroyRef, inject, Signal } from '@angular/core';
+import { Component, DestroyRef, inject, QueryList, Signal, ViewChildren } from '@angular/core';
 import { HeaderComponent } from "../../../shared/components/header/header.component";
-import { IonContent, IonButton, IonInput, IonSelect, IonSelectOption, IonNote } from "@ionic/angular/standalone";
-import { FormsModule, NgForm, NgModel } from '@angular/forms';
+import { IonContent, IonSelectOption } from "@ionic/angular/standalone";
+import { FormsModule } from '@angular/forms';
 import { UserRequest } from 'src/app/core/models/user.model';
 import { ValidationService } from 'src/app/core/services/utils/validation.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EqualPasswordsDirective } from 'src/app/shared/validators/equal-passwords.directive';
 import { UserService } from 'src/app/core/services/user.service';
 import { catchError, Observable, of, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
+import { TextInputComponent } from 'src/app/shared/components/form/text-input/text-input.component';
+import { NumberInputComponent } from 'src/app/shared/components/form/number-input/number-input.component';
+import { SelectInputComponent } from 'src/app/shared/components/form/select-input/select-input.component';
+import { PasswordInputComponent } from "../../../shared/components/form/password-input/password-input.component";
+import { USER_ROLES, UserRole } from 'src/app/pages/users/user-form/user-roles.constant';
+import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
 
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
   styleUrls: ['./user-form.component.scss'],
   standalone: true,
-  imports: [IonNote, IonButton, IonContent, HeaderComponent, FormsModule, IonInput, IonSelect, IonSelectOption, EqualPasswordsDirective]
+  imports: [IonContent, HeaderComponent, FormsModule, IonSelectOption, TextInputComponent, PasswordInputComponent, SelectInputComponent, SubmitButtonComponent]
 })
 export class UserFormComponent {
 
@@ -24,15 +29,18 @@ export class UserFormComponent {
   private activatedRoute = inject(ActivatedRoute);
   private destroyRef = inject(DestroyRef);
 
-  public validationService = inject(ValidationService);
   private userService = inject(UserService);
   private alertService = inject(AlertService);
+  public validationService = inject(ValidationService);
+
+  public userRoles: UserRole[] = USER_ROLES;
 
   public confirmPassword: string = '';
-  public customInterfaceOptions: any = { cssClass: 'custom-select-options' } // Clase necesaria para customizar alert de options.
 
   public isUserEdit!: boolean;
   private userId!: number;
+
+  @ViewChildren('formInput') inputComponents!: QueryList<TextInputComponent | NumberInputComponent | SelectInputComponent>;
   
   public user: Signal<UserRequest | undefined> = toSignal(this.activatedRoute.paramMap.pipe(
     switchMap((params) => {
@@ -58,12 +66,11 @@ export class UserFormComponent {
     })
   ));
 
-  public onSubmit(userForm: NgForm) {
-    if (!userForm.valid) {
-      userForm.form.markAllAsTouched();
+  public onSubmit() {
+    if (!this.validationService.validateInputs(this.inputComponents)) {
       return;
     }
-
+    
     this.getFormOperation().pipe(
       tap((response) => this.handleSuccess(response)),
       catchError((error) => this.handleError(error)),
@@ -86,11 +93,6 @@ export class UserFormComponent {
     this.alertService.getErrorAlert(error.message).fire();
     console.error(error.message);
     return of(null);
-  }
-
-
-  public isSelectNotValid(roleSelect: NgModel, selectedValue: string) {
-    return (roleSelect && roleSelect.touched && !selectedValue);
   }
 
   private isParameterValid(param: string | null) {

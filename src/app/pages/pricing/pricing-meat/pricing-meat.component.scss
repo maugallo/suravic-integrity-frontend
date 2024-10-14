@@ -7,15 +7,8 @@
     gap: 10px;
 }
 
-ion-input {
-    --color: #{$secondary-color-darker};
-    --placeholder-color: #{$secondary-color-darker};
-    --border-width: 0.10rem;
-    --highlight-color-valid: #{$primary-color};
-}
-
-ion-input.has-focus {
-    --highlight-color-focused: #{$primary-color};
+.calculate-button {
+    border-bottom: 1px solid $secondary-color;
 }
 
 .pricing-container {
@@ -30,50 +23,6 @@ ion-input.has-focus {
     text-align: end;
     font-weight: bold;
     color: $primary-color;
-}
-
-.pricing-container ion-input {
-    width: 8rem;
-}
-
-.pricing-buttons {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-}
-
-.calculate-button {
-    text-align: center;
-    border-bottom: 1px solid $secondary-color;
-}
-
-.not-found-title {
-    text-align: center;
-    color: $primary-color;
-    font-size: 1.2rem;       
-}
-
-ion-item {
-    --background: #{$primary-color};
-    --border-color: #{$primary-color};
-    font-weight: bold;
-}
-
-div[slot='content'] {
-    border-bottom: 1px solid $secondary-color-lighter;
-    color: $primary-color;
-}
-
-ion-button {
-    --background: #{$primary-color};
-    --border-radius: 4px;
-    height: 3.3rem;
-    font-size: large;
-    width: 80%
-}
-
-.half-carcass {
-    background-color: $primary-color-lighter;
 }
 
 .prices-info-container {

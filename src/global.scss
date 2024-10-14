@@ -85,6 +85,19 @@ ion-datetime-button::part(native) {
     color: $primary-color;
 }
 
+/* Loader style */
+ion-loading.loader {
+    --background: white;
+    --spinner-color: #{$primary-color};
+    --height: 15rem;
+    --width: 15rem;
+}
+
+ion-spinner {
+    width: 6rem !important;
+    height: 6rem !important;
+}
+
 /* Sweet Alert 2 modal style */
 .sweet-modal-title {
     font-size: 1.7rem;

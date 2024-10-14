@@ -1,0 +1,34 @@
+@import '/src/global.scss';
+
+ion-modal ion-button {
+    --background: white;
+    --color: #{$primary-color};
+    --box-shadow: 0;
+}
+
+ion-datetime {
+    --wheel-highlight-background: #{$primary-color-lighter};
+    --wheel-highlight-border-radius: 10px;
+}
+
+ion-datetime-button {
+    width: 100%;
+}
+
+ion-button {
+    --background: #{$primary-color};
+    --border-radius: 4px;
+    height: 3.3rem;
+    font-size: large;
+}
+
+.date-label {
+    text-align: center;
+    color: $secondary-color-darker;
+}
+
+.date-button-container {
+    display: flex;
+    justify-content: end;
+    border-top: 1px solid $secondary-color;
+}

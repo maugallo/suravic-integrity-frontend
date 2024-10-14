@@ -2,20 +2,7 @@
 
 <ion-content>
   <div class="px-4 pt-2">
-    <div class="my-4">
-      <ion-accordion-group>
-        <ion-accordion value="first">
-          <ion-item slot="header">
-            <ion-label color="light">Promedio de pesos</ion-label>
-          </ion-item>
-
-          <div class="ion-padding half-carcass" slot="content">{{ halfCarcassWeightAverage.name | uppercase }}: <b>{{ halfCarcassWeightAverage.value }}kg</b></div>
-          @for (average of weightAverages; track $index) {
-            <div class="ion-padding" slot="content">{{ average.name | uppercase }}: <b>{{ average.value }}kg</b></div>
-          }
-        </ion-accordion>
-      </ion-accordion-group>
-    </div>
+    <app-weights-accordion></app-weights-accordion>
 
     <!-- <div class="prices-info-container">
       @if (totalProductSum() > 0 && totalSellingPrice() > 0 && areThereChangesInPrices()) {
@@ -25,26 +12,33 @@
     </div> -->
 
     <!-- Cálculo automático de precios -->
-    <form #calculateForm="ngForm" id="calculateForm" (ngSubmit)="onCalculateSubmit(calculateForm)">
-      <div class="percentages-container mt-2">
-        <ion-input #halfCarcassCostInput="ngModel" name="halfCarcassCostInput" id="halfCarcassCostInput" label="Costo Media Res/kg" type="number" label-placement="stacked" fill="outline" placeholder="$1000" required [minValue]="0" [maxValue]="9999999" [(ngModel)]="halfCarcassCost" [errorText]="validationService.getErrorMessage(halfCarcassCostInput.errors)"></ion-input>
-        <ion-input #profitPercentageInput="ngModel" name="profitPercentageInput" id="profitPercentageInput" label="Porcentaje Ganancia" type="number" label-placement="stacked" fill="outline" placeholder="30%" required [minValue]="0" [(ngModel)]="profitPercentage" [errorText]="validationService.getErrorMessage(profitPercentageInput.errors)"></ion-input>
+    <form #calculateForm="ngForm" id="calculateForm" (ngSubmit)="onCalculateSubmit()">
+      <div class="percentages-container">
+        <!-- Half Carcass Cost Input -->
+        <app-number-input #calculateInput inputName="halfCarcassCostInput" label="Costo Media Res/kg" [(bindedObject)]="halfCarcassCost"
+        placeHolder="$1000" [minValue]="0" [maxValue]="9999999" labelPlacement="stacked"></app-number-input>
+
+        <!-- Profit Percentage Input -->
+        <app-number-input #calculateInput inputName="profitPercentageInput" label="Porcentaje Ganancia" [(bindedObject)]="profitPercentage"
+        placeHolder="30%" [minValue]="0" [maxValue]="9999999" labelPlacement="stacked"></app-number-input>
       </div>
-      <div class="calculate-button mt-3 pb-3">
-        <ion-button type="submit" >Calcular</ion-button>
+      <div class="calculate-button">
+        <app-submit-button class="mt-3 pb-3" label="Calcular"></app-submit-button>
       </div>
     </form>
 
     <!-- Modificar manualmente y aplicar precios -->
-    <form #applyForm="ngForm" id="applyForm" (ngSubmit)="onApplySubmit(applyForm)">
-      <div class="pricing-buttons my-4">
-        <ion-button type="submit" [disabled]="!areThereChangesInPrices()">Aplicar</ion-button>
-      </div>
+    <form #applyForm="ngForm" id="applyForm" (ngSubmit)="onApplySubmit()">
+      <app-submit-button class="my-4" label="Aplicar" [disabled]="!areThereChangesInPrices()"></app-submit-button>
+
       @if (products()()!.length > 0) {
         <div class="pricing-container mb-4">
           @for (product of products()(); track $index) {
             <p class="product-title">{{ product.title | uppercase }}</p>
-            <ion-input #productPriceInput="ngModel" name="productPriceInput{{$index}}" id="productPriceInput{{$index}}" fill="outline" placeholder="$0" type="number" placeholder="$1000" required [(ngModel)]="product.price" [errorText]="validationService.getErrorMessage(productPriceInput.errors)"></ion-input>
+            
+            <!-- Product Price Input -->
+            <app-number-input #priceInput inputName="productPriceInput{{$index}}" placeholder="$1000" 
+            [(bindedObject)]="product.price" [minValue]="0"></app-number-input>
           }
         </div>
       }

@@ -1,51 +1,51 @@
-import { Component, DestroyRef, inject, Signal } from '@angular/core';
+import { Component, DestroyRef, inject, QueryList, Signal, ViewChildren } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonContent, IonInput, IonNote, IonButton, IonSelectOption, IonSelect } from "@ionic/angular/standalone";
+import { IonContent, IonButton, IonSelectOption } from "@ionic/angular/standalone";
 import { catchError, Observable, of, switchMap, tap } from 'rxjs';
 import { ProviderRequest } from 'src/app/core/models/provider.model';
 import { ProviderService } from 'src/app/core/services/provider.service';
 import { ValidationService } from 'src/app/core/services/utils/validation.service';
 import { HeaderComponent } from "../../../shared/components/header/header.component";
-import { FormsModule, NgForm, NgModel } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { SectorService } from 'src/app/core/services/sector.service';
-import { AsyncPipe } from '@angular/common';
-import { MaskitoElementPredicate } from '@maskito/core';
 import { cuitMask } from 'src/app/core/masks/cuit.mask';
-import { MaskitoDirective } from '@maskito/angular';
-import { VAT_CONDITIONS, VatCondition } from 'src/app/core/constants/vat-conditions.constant';
+import { VAT_CONDITIONS, VatCondition } from 'src/app/pages/providers/provider-form/provider-selects.constant';
 import { telephoneMask } from 'src/app/core/masks/telephone.mask';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
+import { TextInputComponent } from "../../../shared/components/form/text-input/text-input.component";
+import { SelectInputComponent } from "../../../shared/components/form/select-input/select-input.component";
+import { NumberInputComponent } from "../../../shared/components/form/number-input/number-input.component";
+import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
 
 @Component({
   selector: 'app-provider-form',
   templateUrl: './provider-form.component.html',
   styleUrls: ['./provider-form.component.scss'],
   standalone: true,
-  imports: [IonButton, IonNote, IonInput, IonContent, HeaderComponent, FormsModule, IonSelectOption, AsyncPipe, IonSelect, MaskitoDirective]
+  imports: [IonButton, IonContent, HeaderComponent, FormsModule, IonSelectOption, TextInputComponent, SelectInputComponent, NumberInputComponent, SubmitButtonComponent]
 })
 export class ProviderFormComponent {
-
-  readonly cuitMask = cuitMask;
-  readonly telephoneMask = telephoneMask;
-  readonly maskPredicate: MaskitoElementPredicate = async (el) => (el as HTMLIonInputElement).getInputElement();
 
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
   private destroyRef = inject(DestroyRef);
 
-  public validationService = inject(ValidationService);
   private providerService = inject(ProviderService);
   private sectorService = inject(SectorService);
   private alertService = inject(AlertService);
+  public validationService = inject(ValidationService);
 
+  public sectors = this.sectorService.sectors;
   public vatConditions: VatCondition[] = VAT_CONDITIONS;
-  public customInterfaceOptions: any = { cssClass: 'custom-select-options' } // Clase necesaria para customizar alert de options.
+
+  public readonly cuitMask = cuitMask;
+  public readonly telephoneMask = telephoneMask;
 
   public isProviderEdit!: boolean;
   public providerId!: number;
 
-  public sectors = this.sectorService.sectors;
+  @ViewChildren('formInput') inputComponents!: QueryList<any>;
 
   public provider: Signal<ProviderRequest | undefined> = toSignal(this.activatedRoute.paramMap.pipe(
     switchMap((params) => {
@@ -81,13 +81,8 @@ export class ProviderFormComponent {
     })
   ));
 
-  public onSectorChange(selectedSectorId: any) {
-    this.provider()!.sectorId = selectedSectorId;
-  }
-
-  public onSubmit(providerForm: NgForm) {
-    if (!providerForm.valid) {
-      providerForm.form.markAllAsTouched();
+  public onSubmit() {
+    if (!this.validationService.validateInputs(this.inputComponents)) {
       return;
     }
 
@@ -113,14 +108,6 @@ export class ProviderFormComponent {
     this.alertService.getErrorAlert(error.message).fire();
     console.error(error.message);
     return of(null);
-  }
-
-  public isSectorSelectNotValid(select: NgModel, selectedValue: number) {
-    return (select && select.touched && selectedValue === 0)
-  }
-
-  public isSelectNotValid(select: NgModel, selectedValue: string) {
-    return (select && select.touched && !selectedValue);
   }
 
   private isParameterValid(param: string | null) {

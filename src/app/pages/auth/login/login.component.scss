@@ -28,24 +28,6 @@
   color: $primary-color;
 }
 
-ion-input {
-  --color: #{$secondary-color-darker};
-  --placeholder-color: #{$secondary-color-darker};
-  --border-width: 0.10rem;
-  --highlight-color-valid: #{$primary-color};
-}
-
-ion-input.has-focus {
-  --highlight-color-focused: #{$primary-color};
-}
-
-ion-button {
-  --background: #{$primary-color};
-  --border-radius: 4px;
-  height: 3.3rem;
-  font-size: large;
-}
-
 .forgot-password {
   text-align: left;
   font-weight: bold;

@@ -6,32 +6,29 @@
 
 <ion-content>
     <div class="px-10">
-        <form #userForm="ngForm" id="userForm" (ngSubmit)="onSubmit(userForm)">
-            <div>
-              <!-- Username input -->
-              <ion-input #usernameInput="ngModel" name="usernameInput" id="usernameInput" [(ngModel)]="user()!.username" class="my-10" type="text" label="Usuario" label-placement="floating" fill="outline" placeholder="Ingrese su usuario"
-                required maxlength="40" [errorText]="validationService.getErrorMessage(usernameInput.errors)"></ion-input>
-              <!-- Password input -->
-              <ion-input #passwordInput="ngModel" name="passwordInput" id="passwordInput" [(ngModel)]="user()!.password" class="mb-10" type="password" label="Contraseña" label-placement="floating" fill="outline" placeholder="Ingrese su contraseña"
-                required minlength="6" maxlength="60" [errorText]="validationService.getErrorMessage(passwordInput.errors)"></ion-input>
-              <!-- Confirm password input -->
-              <ion-input #confirmPasswordInput="ngModel" name="confirmPasswordInput" id="confirmPasswordInput" [(ngModel)]="confirmPassword" class="mb-10" type="password" label="Confirmar contraseña" label-placement="floating" fill="outline" placeholder="Confirme la contraseña"
-              required minlength="6" maxlength="60" equalPasswords [equalTo]="user()!.password" [errorText]="validationService.getErrorMessage(confirmPasswordInput.errors)"></ion-input>
-              <!-- Role selector input -->
-              <div class="mb-10">
-                <ion-select #roleSelect="ngModel" name="roleSelect" id="roleSelect" [class]="(isSelectNotValid(roleSelect, user()!.role)) ? 'select-invalid' : ''" [(ngModel)]="user()!.role" [interfaceOptions]="customInterfaceOptions" label="Rol" label-placement="floating" fill="outline" required>
-                  <ion-select-option value="DUENO">Dueño</ion-select-option>
-                  <ion-select-option value="ENCARGADO">Encargado</ion-select-option>
-                </ion-select>
-                @if (isSelectNotValid(roleSelect, user()!.role)) { <ion-note color="danger">Este campo es obligatorio</ion-note> <!-- Manejo manual de errorText hasta que Ionic lo incluya para el ion-select --> }
-              </div>
-            </div>
+        <form #userForm="ngForm" id="userForm" (ngSubmit)="onSubmit()">
+            <!-- Username input -->
+            <app-text-input #formInput class="my-10" inputName="usernameInput" [(bindedObject)]="user()!.username" 
+            label="Usuario" placeHolder="Ingrese su usuario" [maxlength]="40"></app-text-input>
+
+            <!-- Password input -->
+            <app-password-input #formInput class="mb-10" inputName="passwordInput" [(bindedObject)]="user()!.password" 
+            label="Contraseña" placeHolder="Ingrese su contraseña" [minlength]="6" [maxlength]="60"></app-password-input>
+
+            <!-- Confirm password input -->
+            <app-password-input #formInput class="mb-10" inputName="confirmPasswordInput" [(bindedObject)]="confirmPassword" 
+            label="Contraseña" placeHolder="Ingrese su contraseña" [minlength]="6" [maxlength]="60"
+            [validatePasswords]="true" [equalTo]="user()!.password"></app-password-input>
+
+            <!-- Role selector input -->
+            <app-select-input #formInput class="mb-10" inputName="roleSelect" [(bindedObject)]="user()!.role" 
+            label="Rol" [options]="userRoles">
+              @for (userRole of userRoles; track $index) {
+                <ion-select-option [value]="userRole.value">{{ userRole.title }}</ion-select-option>
+              }
+            </app-select-input>
       
-            @if (isUserEdit) {
-              <ion-button type="submit" expand="block">Modificar</ion-button>
-            } @else {
-              <ion-button type="submit" expand="block">Crear</ion-button>
-            }
+            <app-submit-button [isEdit]="isUserEdit"></app-submit-button>
         </form>
     </div>
 </ion-content>
