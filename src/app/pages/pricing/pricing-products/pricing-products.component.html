@@ -1,0 +1,18 @@
+<app-header title="CÁLCULO DE PRODUCTOS" titleSize="title-medium" icon="fa-solid fa-box fa-2x"></app-header>
+
+<ion-content>
+  <div class="px-10">
+    <!-- Provider Input -->
+    <app-select-input class="provider-select my-10" #formInput inputName="providersSelect" label="Proveedor"  
+    [options]="providers()">
+      @for (provider of providers(); track $index) {
+        <ion-select-option [value]="provider.id">{{ provider.companyName }}</ion-select-option>
+      }
+    </app-select-input>
+
+    <!-- Mostrar un par de product titles con input prices al lado deshabilitados
+    a modo de visualización -->
+
+
+  </div>
+</ion-content>

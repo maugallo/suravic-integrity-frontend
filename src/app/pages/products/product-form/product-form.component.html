@@ -24,10 +24,8 @@
       <!-- Provider Input -->
       <app-select-input #formInput class="mb-10" inputName="providerSelect" [(bindedObject)]="product()!.providerId"
         label="Proveedor" [options]="providers()">
-        @if (providers(); as providers) {
-          @for (provider of providers; track $index) {
-            <ion-select-option [value]="provider.id">{{ provider.companyName }}</ion-select-option>
-          }
+        @for (provider of providers(); track $index) {
+          <ion-select-option [value]="provider.id">{{ provider.companyName }}</ion-select-option>
         }
       </app-select-input>
 
