@@ -3,7 +3,6 @@ import { HeaderComponent } from "../../../shared/components/header/header.compon
 import { IonContent } from "@ionic/angular/standalone";
 import { ProductService } from 'src/app/core/services/product.service';
 import { FormsModule } from '@angular/forms';
-import { HALF_CARCASS_WEIGHT_AVERAGE, WEIGHT_AVERAGES } from 'src/app/pages/pricing/pricing-meat/weights.constant';
 import { UpperCasePipe } from '@angular/common';
 import { ValidationService } from 'src/app/core/services/utils/validation.service';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
@@ -31,7 +30,7 @@ export class PricingMeatComponent {
   public halfCarcassCost = signal('');
   public profitPercentage = signal('');
 
-  public totalSellingPrice = computed(() => Number(this.halfCarcassCost()) * (Number(this.profitPercentage())/100));
+  public totalSellingPrice = computed(() => Number(this.halfCarcassCost()) + (Number(this.halfCarcassCost()) * (Number(this.profitPercentage())/100)));
   public totalProductSum = computed(() => this.products()().reduce((acumulatedSum, product) => acumulatedSum + Number(product.price), 0));
 
   @ViewChildren('calculateInput') inputsCalculate!: QueryList<NumberInputComponent>;
@@ -54,8 +53,13 @@ export class PricingMeatComponent {
   }
 
   private calculatePrices() {
-    const productsWithCalculatedPrice = this.products()().map((product, index) => {
+/*     const productsWithCalculatedPrice = this.products()().map((product, index) => {
       const productPercentage = WEIGHT_AVERAGES[index].value / HALF_CARCASS_WEIGHT_AVERAGE.value;
+      console.log('Peso que ocupa ' + product.title + ' en una media res promedio');
+      console.log( WEIGHT_AVERAGES[index].value + ' kg');
+      console.log('precio de venta de una media res $' + this.totalSellingPrice());
+      console.log('precio de venta del producto: $' + this.totalSellingPrice() + ' * ' + productPercentage);
+
       const productPrice = this.totalSellingPrice() * productPercentage;
 
       return {
@@ -64,7 +68,7 @@ export class PricingMeatComponent {
       }
     });
 
-    this.products().set(productsWithCalculatedPrice);
+    this.products().set(productsWithCalculatedPrice); */
   }
 
   private applyNewPrices() {

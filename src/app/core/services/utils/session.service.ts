@@ -22,4 +22,6 @@ export class SessionService {
     return from(Preferences.remove({ key: 'userId' }));
   }
 
+  public setWeightAverages()
+
 }

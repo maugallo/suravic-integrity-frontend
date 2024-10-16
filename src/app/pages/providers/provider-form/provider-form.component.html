@@ -6,7 +6,7 @@
 
 <ion-content>
   <div class="px-10">
-      <form #providerForm="ngForm" id="userForm" (ngSubmit)="onSubmit()">
+      <form #providerForm="ngForm" id="providerForm" (ngSubmit)="onSubmit()">
           <p class="section-title pb-2 mt-6">INFORMACIÓN DE PROVEEDOR</p>
           <!-- Company Name Input -->
           <app-text-input #formInput class="mb-8" inputName="companyNameInput" [(bindedObject)]="provider()!.companyName" 

@@ -12,5 +12,17 @@ div[slot='content'] {
 }
 
 .half-carcass {
-    background-color: $primary-color-lighter;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    
+}
+
+.half-carcass app-number-input {
+    width: 30%;
+}
+
+.half-carcass app-submit-button {
+    width: 25%;
 }

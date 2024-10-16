@@ -6,7 +6,7 @@
 
 <ion-content>
   <div class="px-10">
-    <form #productForm="ngForm" id="userForm" (ngSubmit)="onSubmit()">
+    <form #productForm="ngForm" id="productForm" (ngSubmit)="onSubmit()">
       <!-- Title Input -->
       <app-text-input #formInput class="my-10" inputName="titleInput" [(bindedObject)]="product()!.title" label="Nombre"
         placeHolder="Ingrese el nombre" pattern="^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$"></app-text-input>

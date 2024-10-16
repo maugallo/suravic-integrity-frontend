@@ -1,4 +1,5 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input, SecurityContext } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { IonButton } from "@ionic/angular/standalone";
 
 @Component({
@@ -11,8 +12,15 @@ import { IonButton } from "@ionic/angular/standalone";
 export class SubmitButtonComponent {
 
   public label = input<string>('Crear');
+  public icon = input<string>('');
   public isEdit = input<boolean>(false);
   public class = input<string>('');
   public disabled = input<boolean>(false);
+
+  private sanitizer = inject(DomSanitizer);
+
+  public sanitizeIcon(): string | null {
+    return this.sanitizer.sanitize(SecurityContext.HTML, this.icon());
+  }
 
 }

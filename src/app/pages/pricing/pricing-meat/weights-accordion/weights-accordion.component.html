@@ -5,11 +5,20 @@
         <ion-label color="light">Promedio de pesos</ion-label>
       </ion-item>
 
-      <div class="ion-padding half-carcass" slot="content">
-        {{ halfCarcassWeightAverage.name | uppercase }}: <b>{{ halfCarcassWeightAverage.value }}kg</b>
+      <div class="ion-padding" slot="content">
+        <form #weightAveragesForm="ngForm" id="weightAveragesForm" (ngSubmit)="onSubmit()">
+          <div class="half-carcass">
+            <p>MEDIA RES:</p>
+            <app-number-input inputName="halfCarcassWeightInput" [(bindedObject)]="halfCarcassWeight"
+            placeHolder="0kg" [minValue]="0" [maxValue]="99999"></app-number-input>
+
+            <app-submit-button icon='<i class="fa-solid fa-floppy-disk fa-1x"></i>'></app-submit-button>
+          </div>
+        </form>
       </div>
-      @for (average of weightAverages; track $index) {
-        <div class="ion-padding" slot="content">{{ average.name | uppercase }}: <b>{{ average.value }}kg</b></div>
+      
+      @for (meatCut of meatCuts; track $index) {
+        <div class="ion-padding" slot="content">{{ meatCut.name | uppercase }}: <b>{{ ((meatCut.percentage/100) * +halfCarcassWeight).toFixed(1) }}kg</b></div>
       }
     </ion-accordion>
   </ion-accordion-group>
