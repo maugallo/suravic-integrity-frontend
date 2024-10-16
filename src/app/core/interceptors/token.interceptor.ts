@@ -25,7 +25,6 @@ export const tokenInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next:
     switchMap((token) => {
       if (token) {
         console.log("Interceptor: Hay un token almacenado, agregando al header de la solicitud");
-        console.log(token);
         // Si el token ha expirado, intentamos refrescarlo
         if (tokenService.isTokenExpired(token)) {
           console.log("Interceptor: El token ha expirado, intentando refresh");
