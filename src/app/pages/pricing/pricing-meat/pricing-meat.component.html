@@ -4,33 +4,31 @@
   <div class="px-4 pt-2">
     <app-weights-accordion></app-weights-accordion>
 
-    <!-- <div class="prices-info-container">
-      @if (totalProductSum() > 0 && totalSellingPrice() > 0 && areThereChangesInPrices()) {
-        <p>Precio de venta promedio de media res: <b>${{ totalSellingPrice().toFixed(2) }}</b></p>
-        <p>Precio total que conforman los productos: <b>${{ totalProductSum().toFixed(2) }}</b></p>
-      }
-    </div> -->
-
     <!-- Cálculo automático de precios -->
     <form #calculateForm="ngForm" id="calculateForm" (ngSubmit)="onCalculateSubmit()">
       <div class="percentages-container">
         <!-- Half Carcass Cost Input -->
-        <app-number-input #calculateInput inputName="halfCarcassCostInput" label="Costo Media Res/kg" [(bindedObject)]="halfCarcassCost"
+        <app-number-input #calculateInput inputName="halfCarcassCostPerKgInput" label="Costo Media Res/kg" [(bindedObject)]="halfCarcassCostPerKg"
         placeHolder="$1000" [minValue]="0" [maxValue]="9999999" labelPlacement="stacked"></app-number-input>
 
         <!-- Profit Percentage Input -->
         <app-number-input #calculateInput inputName="profitPercentageInput" label="Porcentaje Ganancia" [(bindedObject)]="profitPercentage"
         placeHolder="30%" [minValue]="0" [maxValue]="9999999" labelPlacement="stacked"></app-number-input>
       </div>
-      <div class="calculate-button">
-        <app-submit-button class="mt-3 pb-3" label="Calcular"></app-submit-button>
+      <div class="calculate-submit-container my-5">
+        <p class="calculate-label mt-0 mb-5">PRECIO DE VENTA DE MEDIA RES: {{ halfCarcassSellingPrice() | currency }}</p>
+        <p class="calculate-label mt-0 mb-5">PRECIO TOTAL DE CORTES ACTUALES: {{ currentMeatCutsPricesTotal() | currency }}</p>
+          <p class="difference-label mt-0 mb-5">PORCENTAJE DE DIFERENCIA ENTRE PRECIOS: {{ pricesDifferencePercentage()? pricesDifferencePercentage()!.toFixed(2) + '%' : '--' }}</p>
+          @if (pricesDifferencePercentage()! > tolerancePercentage) {
+            @if (pricesDifference()! > 0) { <p class="notice-difference mt-0">SE RECOMIENDA <u>AUMENTAR</u> LOS PRECIOS DE LOS CORTES</p> }
+            @if (pricesDifference()! < 0) { <p class="notice-difference mt-0">SE RECOMIENDA <u>DISMINUIR</u> LOS PRECIOS DE LOS CORTES</p> }
+            <app-submit-button class="pb-3" label="Calcular precios recomendados"></app-submit-button>
+          } @else if(pricesDifferencePercentage()) { <p class="notice-no-difference mt-0">EL BALANCE DE LOS PRECIOS ES ADECUADO</p> }
       </div>
     </form>
 
     <!-- Modificar manualmente y aplicar precios -->
     <form #applyForm="ngForm" id="applyForm" (ngSubmit)="onApplySubmit()">
-      <app-submit-button class="my-4" label="Aplicar" [disabled]="!areThereChangesInPrices()"></app-submit-button>
-
       @if (products()()!.length > 0) {
         <div class="pricing-container mb-4">
           @for (product of products()(); track $index) {
@@ -42,14 +40,9 @@
           }
         </div>
       }
+      <app-submit-button class="my-4" label="Aplicar Precios" [disabled]="!areThereChangesInPrices()"></app-submit-button>
     </form>
   </div>
 </ion-content>
 
 <!-- <ion-input #tolerancePercentageInput="ngModel" name="tolerancePercentageInput" id="tolerancePercentageInput" label="Porcentaje Tolerancia" type="number" label-placement="stacked" fill="outline" placeholder="2%" [(ngModel)]="tolerancePercentage" [errorText]="validationService.getErrorMessage(tolerancePercentageInput.errors)"></ion-input> -->
-
-<!-- Permitir facilitar el cálculo de a cuánto vender el costo de una media/kg. -->
-
-<!-- Colocar estado de tolerancia (Si la suma de todos los productos es = Total de venta,
-o si es superior por cierto margen, o inferior por cierto margen) Esto le dará feedback
-al dueño para que sepa cómo balancear los precios. -->

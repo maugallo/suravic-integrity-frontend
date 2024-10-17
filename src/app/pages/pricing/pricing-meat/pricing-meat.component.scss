@@ -7,8 +7,29 @@
     gap: 10px;
 }
 
-.calculate-button {
+.calculate-submit-container {
+    text-align: center;
     border-bottom: 1px solid $secondary-color;
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    font-size: large;
+}
+
+.calculate-label {
+    color: $primary-color;
+}
+
+.difference-label {
+    color: $secondary-color;
+}
+
+.notice-difference {
+    color: #{$error-color};
+}
+
+.notice-no-difference {
+    color: green;
 }
 
 .pricing-container {

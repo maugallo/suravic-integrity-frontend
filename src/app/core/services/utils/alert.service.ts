@@ -28,13 +28,13 @@ export class AlertService {
     })
   }
 
-  public getWarningConfirmationAlert(title: string, text?: string) {
+  public getWarningConfirmationAlert(title: string, text?: string, confirmButton?: string) {
     return Swal.mixin({
       title: title,
       text: text || '',
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: 'ELIMINAR',
+      confirmButtonText: confirmButton ?? "ELIMINAR",
       cancelButtonText: "CERRAR",
       heightAuto: false,
       customClass: {
