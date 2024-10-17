@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { TokenService } from 'src/app/core/services/utils/token.service';
 import { catchError, of, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { SessionService } from 'src/app/core/services/utils/session.service';
+import { StorageService } from 'src/app/core/services/utils/storage.service';
 import { TextInputComponent } from "../../../shared/components/form/text-input/text-input.component";
 import { PasswordInputComponent } from "../../../shared/components/form/password-input/password-input.component";
 import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
@@ -28,7 +28,7 @@ export class LoginComponent {
 
   private authService = inject(AuthService);
   private tokenService = inject(TokenService);
-  private sessionService = inject(SessionService);
+  private storageService = inject(StorageService);
   public validationService = inject(ValidationService);
 
   public user: UserLoginRequest = {
@@ -51,7 +51,7 @@ export class LoginComponent {
       switchMap((response) => {
         const token: string = response.headers.get('Authorization')!;
         const userId: string = this.tokenService.getUserIdFromToken(token);
-        this.sessionService.setUserId(userId);
+        this.storageService.setStorage('userId', userId);
         return this.tokenService.setToken(token).pipe(
           tap(() => this.router.navigate(['tabs', 'home']))
         )

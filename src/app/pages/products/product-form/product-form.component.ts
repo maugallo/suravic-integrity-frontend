@@ -10,7 +10,7 @@ import { AlertService } from 'src/app/core/services/utils/alert.service';
 import { HeaderComponent } from "../../../shared/components/header/header.component";
 import { IonContent, IonSelectOption, IonButton } from "@ionic/angular/standalone";
 import { ProviderService } from 'src/app/core/services/provider.service';
-import { SessionService } from 'src/app/core/services/utils/session.service';
+import { StorageService } from 'src/app/core/services/utils/storage.service';
 import { TextInputComponent } from "../../../shared/components/form/text-input/text-input.component";
 import { NumberInputComponent } from "../../../shared/components/form/number-input/number-input.component";
 import { SelectInputComponent } from "../../../shared/components/form/select-input/select-input.component";
@@ -33,7 +33,7 @@ export class ProductFormComponent {
   private productService = inject(ProductService);
   private providerService = inject(ProviderService);
   private categoryService = inject(CategoryService);
-  private sessionService = inject(SessionService);
+  private storageService = inject(StorageService);
   private alertService = inject(AlertService);
   private validationService = inject(ValidationService);
 
@@ -80,7 +80,7 @@ export class ProductFormComponent {
       return;
     }
 
-    this.sessionService.getUserId().pipe(
+    this.storageService.getStorage('userId').pipe(
       switchMap((userId: string) => {
         this.product()!.userId = Number(userId);
         return this.getFormOperation().pipe(

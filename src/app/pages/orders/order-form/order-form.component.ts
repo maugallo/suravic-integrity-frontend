@@ -7,7 +7,7 @@ import { OrderRequest } from 'src/app/core/models/order.model';
 import { OrderService } from 'src/app/core/services/order.service';
 import { ProviderService } from 'src/app/core/services/provider.service';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
-import { SessionService } from 'src/app/core/services/utils/session.service';
+import { StorageService } from 'src/app/core/services/utils/storage.service';
 import { ValidationService } from 'src/app/core/services/utils/validation.service';
 import { IonContent, IonButton, IonSelectOption } from "@ionic/angular/standalone";
 import { HeaderComponent } from "../../../shared/components/header/header.component";
@@ -37,7 +37,7 @@ export class OrderFormComponent {
   public validationService = inject(ValidationService);
   private orderService = inject(OrderService);
   private providerService = inject(ProviderService);
-  private sessionService = inject(SessionService);
+  private storageService = inject(StorageService);
   private alertService = inject(AlertService);
 
   public customInterfaceOptions: any = { cssClass: 'custom-select-options' } // Clase necesaria para customizar alert de options.
@@ -100,7 +100,7 @@ export class OrderFormComponent {
       return;
     }
 
-    this.sessionService.getUserId().pipe(
+    this.storageService.getStorage('userId').pipe(
       switchMap((userId: string) => {
         this.order()!.userId = Number(userId);
         return this.getFormOperation().pipe(

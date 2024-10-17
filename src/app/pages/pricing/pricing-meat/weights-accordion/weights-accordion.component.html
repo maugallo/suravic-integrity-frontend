@@ -5,20 +5,32 @@
         <ion-label color="light">Promedio de pesos</ion-label>
       </ion-item>
 
-      <div class="ion-padding" slot="content">
+      <div slot="content">
         <form #weightAveragesForm="ngForm" id="weightAveragesForm" (ngSubmit)="onSubmit()">
-          <div class="half-carcass">
-            <p>MEDIA RES:</p>
-            <app-number-input inputName="halfCarcassWeightInput" [(bindedObject)]="halfCarcassWeight"
-            placeHolder="0kg" [minValue]="0" [maxValue]="99999"></app-number-input>
+          @if (!showForm) {
+            <div class="info-container p-4" style="display: flex; align-items: center;">
+              <p class="my-0">
+                MEDIA RES: 
+                <b class="mr-1">{{ halfCarcassWeightValue }}kg</b>
+                <ion-badge (click)="showForm = true"><i class="fa-solid fa-pen-to-square"></i></ion-badge>
+              </p>
+            </div>
+          }
 
-            <app-submit-button icon='<i class="fa-solid fa-floppy-disk fa-1x"></i>'></app-submit-button>
-          </div>
+          @if (showForm) {
+            <div class="form-container px-4" style="display: flex; align-items: center;">
+              <p class="my-0">MEDIA RES:</p>
+              <app-number-input inputName="halfCarcassWeightInput" [(bindedObject)]="halfCarcassWeightValue"
+              [minValue]="0" [maxValue]="99999" [errorText]="false"></app-number-input>
+
+              <app-submit-button icon='<i class="fa-solid fa-floppy-disk fa-1x"></i>'></app-submit-button>
+            </div>
+          }
         </form>
       </div>
-      
-      @for (meatCut of meatCuts; track $index) {
-        <div class="ion-padding" slot="content">{{ meatCut.name | uppercase }}: <b>{{ ((meatCut.percentage/100) * +halfCarcassWeight).toFixed(1) }}kg</b></div>
+
+      @for (meatCut of meatCuts(); track $index) {
+      <div class="ion-padding" slot="content">{{ meatCut.name | uppercase }}: <b>{{ meatCut.weight }}kg</b></div>
       }
     </ion-accordion>
   </ion-accordion-group>

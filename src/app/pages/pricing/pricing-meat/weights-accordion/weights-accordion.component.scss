@@ -6,23 +6,31 @@ ion-item {
     font-weight: bold;
 }
 
+ion-badge {
+    --background: #{$primary-color};
+}
+
 div[slot='content'] {
     border-bottom: 1px solid $secondary-color-lighter;
     color: $primary-color;
 }
 
-.half-carcass {
+.info-container {
+    display: flex;
+    align-items: center;
+    background-color: $primary-color-lighter;
+}
+
+.form-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 15px;
-    
 }
 
-.half-carcass app-number-input {
+.form-container app-number-input {
     width: 30%;
 }
 
-.half-carcass app-submit-button {
-    width: 25%;
+.form-container app-submit-button {
+    width: 30%;
 }
