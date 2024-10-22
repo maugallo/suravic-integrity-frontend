@@ -37,6 +37,12 @@ export class ProductService {
     ), { initialValue: [] });
   }
 
+  public getProductsByProvider(providerId: number) {
+    return toSignal(this.getProducts(true).pipe(
+      map(products => products.filter(product => product.provider.id === providerId))
+    ), { initialValue: [] });
+  }
+
   public getProductById(id: number) {
     return this.products().find(product => product.id === id)!;
   }

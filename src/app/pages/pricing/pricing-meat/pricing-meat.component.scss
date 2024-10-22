@@ -32,6 +32,18 @@
     color: green;
 }
 
+.submit-buttons {
+    display: flex;
+}
+
+.submit-buttons app-submit-button {
+    width: 50%;
+}
+
+.submit-buttons app-form-button {
+    width: 50%;
+}
+
 .pricing-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

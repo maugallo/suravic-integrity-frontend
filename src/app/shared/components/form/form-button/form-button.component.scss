@@ -1,0 +1,8 @@
+@import '/src/global.scss';
+
+ion-button {
+    --background: #{$primary-color};
+    --border-radius: 4px;
+    height: 3.3rem;
+    font-size: large;
+}

@@ -29,8 +29,8 @@
         </form>
       </div>
 
-      @for (meatCut of meatCuts(); track $index) {
-      <div class="ion-padding" slot="content">{{ meatCut.name | uppercase }}: <b>{{ meatCut.weight }}kg</b></div>
+      @for (meatProduct of meatProducts(); track $index) {
+      <div class="ion-padding" slot="content">{{ meatProduct.title | uppercase }}: <b>{{ meatProduct.weight }}kg</b></div>
       }
     </ion-accordion>
   </ion-accordion-group>

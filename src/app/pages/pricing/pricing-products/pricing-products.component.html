@@ -4,15 +4,28 @@
   <div class="px-10">
     <!-- Provider Input -->
     <app-select-input class="provider-select my-10" #formInput inputName="providersSelect" label="Proveedor"  
-    [options]="providers()">
+    [options]="providers()" [(bindedObject)]="selectedProviderId">
       @for (provider of providers(); track $index) {
         <ion-select-option [value]="provider.id">{{ provider.companyName }}</ion-select-option>
       }
     </app-select-input>
 
-    <!-- Mostrar un par de product titles con input prices al lado deshabilitados
-    a modo de visualización -->
+    @if (!selectedProviderId()) {
+      <!-- Mostrar un par de product titles con input prices al lado deshabilitados
+      a modo de visualización -->
 
+      
+    } @else {
+      <div class="pricing-container mb-4">
+        @for (product of products()!(); track $index) {
+          <p class="product-title">{{ product.title | uppercase }}</p>
+          
+          <!-- Product Price Input -->
+          <app-number-input #priceInput inputName="productPriceInput{{$index}}" placeholder="$1000" 
+          [(bindedObject)]="product.price" [minValue]="0"></app-number-input>
+        }
+      </div>
+    }
 
   </div>
 </ion-content>
