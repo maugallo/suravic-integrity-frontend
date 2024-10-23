@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { BehaviorSubject, catchError, map, Observable, switchMap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, switchMap, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ProductRequest, ProductResponse } from '../models/product.model';
 
@@ -14,10 +14,6 @@ export class ProductService {
   private apiUrl = `${environment.apiUrl}/products`;
 
   private refreshProducts$ = new BehaviorSubject<void>(undefined);
-
-  public refreshProducts() {
-    this.refreshProducts$.next();
-  }
 
   public products = toSignal(this.refreshProducts$.pipe(
     switchMap(() => this.getProducts(true))), { initialValue: [] });
@@ -32,15 +28,11 @@ export class ProductService {
   }
 
   public getProductsByCategory(category: string) {
-    return toSignal(this.getProducts(true).pipe(
-      map(products => products.filter(product => product.category.name.toLowerCase() === category))
-    ), { initialValue: [] });
+    return this.products().filter(product => product.category.name.toLowerCase() === category);
   }
 
   public getProductsByProvider(providerId: number) {
-    return toSignal(this.getProducts(true).pipe(
-      map(products => products.filter(product => product.provider.id === providerId))
-    ), { initialValue: [] });
+    return this.products().filter(product => product.provider.id === providerId);
   }
 
   public getProductById(id: number) {
@@ -49,17 +41,17 @@ export class ProductService {
 
   public createProduct(product: ProductRequest): Observable<string> {
     return this.http.post(this.apiUrl, product, { responseType: 'text' })
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleError), tap(() => this.refreshProducts$.next()));
   }
 
   public editProduct(id: number, product: ProductRequest): Observable<string> {
     return this.http.put(`${this.apiUrl}/${id}`, product, { responseType: 'text' })
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleError), tap(() => this.refreshProducts$.next()));
   }
 
   public deleteOrRecoverProduct(id: number): Observable<string> {
     return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' })
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleError), tap(() => this.refreshProducts$.next()));
   }
 
   private handleError(error: HttpErrorResponse) {

@@ -14,7 +14,7 @@ import { ProductItemComponent } from './product-item/product-item.component';
   standalone: true,
   imports: [IonProgressBar, IonList, IonContent, IonButton, IonSearchbar, HeaderComponent, CategoryModalComponent, NotFoundComponent, ProductItemComponent]
 })
-export class ProductDashboardComponent implements OnInit {
+export class ProductDashboardComponent {
 
   public router = inject(Router);
   private productService = inject(ProductService);
@@ -25,21 +25,9 @@ export class ProductDashboardComponent implements OnInit {
     return this.products().filter(product => product.title.toLowerCase().includes(this.searchQuery()));
   });
 
-  ngOnInit(): void {
-    this.renderDashboard();
-  }
-
-  ionViewWillEnter() {
-    this.renderDashboard();
-  }
-
   public searchForProducts(event: any) {
     const query = event.target.value.toLowerCase();
     this.searchQuery.set(query);
-  }
-
-  public renderDashboard() {
-    this.productService.refreshProducts();
   }
 
 }

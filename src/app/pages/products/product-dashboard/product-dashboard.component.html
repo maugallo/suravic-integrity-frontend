@@ -22,7 +22,7 @@
       @if (products.length === 0) { <app-not-found></app-not-found> }
       <ion-list>
         @for (product of products; track $index) {
-          <app-product-item (refreshDashboard)="renderDashboard()" [product]="product" ></app-product-item>
+          <app-product-item [product]="product" ></app-product-item>
         }
       </ion-list>
     } @else {

@@ -16,15 +16,15 @@
 
       
     } @else {
-      <div class="pricing-container mb-4">
+      <!-- <div class="pricing-container mb-4">
         @for (product of products()!(); track $index) {
           <p class="product-title">{{ product.title | uppercase }}</p>
           
-          <!-- Product Price Input -->
+
           <app-number-input #priceInput inputName="productPriceInput{{$index}}" placeholder="$1000" 
           [(bindedObject)]="product.price" [minValue]="0"></app-number-input>
         }
-      </div>
+      </div> -->
     }
 
   </div>
