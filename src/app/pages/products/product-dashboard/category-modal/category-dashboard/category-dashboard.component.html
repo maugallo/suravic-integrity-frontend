@@ -9,7 +9,7 @@
     @if (categories.length === 0) { <app-not-found></app-not-found> }
     <ion-list>
       @for (category of categories; track $index) {
-        <app-category-item (turnInert)="turnInert.emit($event)" (refreshDashboard)="refreshDashboard()" [category]="category" ></app-category-item>
+        <app-category-item (turnInert)="turnInert.emit($event)" [category]="category" ></app-category-item>
       }
     </ion-list>
   } @else {

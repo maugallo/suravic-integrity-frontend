@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, computed, inject, signal, WritableSignal } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductService } from 'src/app/core/services/product.service';
 import { IonSearchbar, IonButton, IonContent, IonList, IonProgressBar } from "@ionic/angular/standalone";
@@ -21,6 +21,7 @@ export class ProductDashboardComponent {
 
   private searchQuery: WritableSignal<string> = signal('');
   private products = this.productService.products;
+
   public searchBarResult = computed(() => {
     return this.products().filter(product => product.title.toLowerCase().includes(this.searchQuery()));
   });

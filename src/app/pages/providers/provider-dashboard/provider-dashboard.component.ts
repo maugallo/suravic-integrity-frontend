@@ -1,13 +1,13 @@
-import { Component, computed, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { HeaderComponent } from "../../../shared/components/header/header.component";
 import { IonContent, IonSearchbar, IonButton, IonList, IonProgressBar, MenuController } from "@ionic/angular/standalone";
 import { Router } from '@angular/router';
-import { SectorModalComponent } from './sector-modal/sector-modal.component';
 import { ProviderService } from 'src/app/core/services/provider.service';
 import { NotFoundComponent } from "../../../shared/components/not-found/not-found.component";
 import { ProviderItemComponent } from "./provider-item/provider-item.component";
 import { Filter, FilterComponent } from "../../../shared/components/filter/filter.component";
 import { ProviderResponse } from 'src/app/core/models/provider.model';
+import { SectorModalComponent } from './sector-modal/sector-modal.component';
 
 @Component({
   selector: 'app-provider-dashboard',
@@ -16,15 +16,16 @@ import { ProviderResponse } from 'src/app/core/models/provider.model';
   standalone: true,
   imports: [IonProgressBar, IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, SectorModalComponent, NotFoundComponent, ProviderItemComponent, FilterComponent]
 })
-export class ProviderDashboardComponent implements OnInit {
+export class ProviderDashboardComponent {
 
   public router = inject(Router);
-  private providerService = inject(ProviderService);
   private menuController = inject(MenuController);
 
+  private providerService = inject(ProviderService);
+
   private providers = this.providerService.providers;
-  private searchQuery = signal('');
-  private filters: WritableSignal<Filter[]> = signal([]);
+  private searchQuery = signal<string>('');
+  private filters = signal<Filter[]>([]);
 
   public filteredProviders = computed(() => {
     const providers = this.filterProviders(this.providers(), this.filters());
@@ -32,21 +33,9 @@ export class ProviderDashboardComponent implements OnInit {
     return providers.filter(provider => provider.companyName.toLowerCase().includes(this.searchQuery()));
   });
 
-  ngOnInit(): void {
-    this.renderDashboard();
-  }
-
-  ionViewWillEnter() {
-    this.renderDashboard();
-  }
-
   public searchForProviders(event: any) {
     const query = event.target.value.toLowerCase();
     this.searchQuery.set(query);
-  }
-
-  public renderDashboard() {
-    this.providerService.refreshProviders();
   }
 
   public openFilterMenu() {

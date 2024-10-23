@@ -9,7 +9,7 @@
     @if (sectors.length === 0) { <app-not-found></app-not-found> }
     <ion-list>
       @for (sector of sectors; track $index) {
-        <app-sector-item (turnInert)="turnInert.emit($event)" (refreshDashboard)="refreshDashboard()" [sector]="sector" ></app-sector-item>
+        <app-sector-item (turnInert)="turnInert.emit($event)" [sector]="sector" ></app-sector-item>
       }
     </ion-list>
   } @else {

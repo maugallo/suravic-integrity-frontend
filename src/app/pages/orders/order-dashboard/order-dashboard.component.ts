@@ -26,21 +26,9 @@ export class OrderDashboardComponent {
     return this.sortedByDate(this.orders().filter(order => order.provider.companyName.toLowerCase().includes(this.searchQuery())));
   });
 
-  ngOnInit(): void {
-    this.renderDashboard();
-  }
-
-  ionViewWillEnter() {
-    this.renderDashboard();
-  }
-
   public searchForOrders(event: any) {
     const query = event.target.value.toLowerCase();
     this.searchQuery.set(query);
-  }
-
-  public renderDashboard() {
-    this.orderService.refreshOrders();
   }
 
   private sortedByDate(array: OrderResponse[]) {

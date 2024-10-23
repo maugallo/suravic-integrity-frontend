@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, Observable, switchMap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, switchMap, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ProviderRequest, ProviderResponse } from '../models/provider.model';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -14,10 +14,6 @@ export class ProviderService {
   private apiUrl = `${environment.apiUrl}/providers`;
 
   private refreshProviders$ = new BehaviorSubject<void>(undefined);
-
-  public refreshProviders() {
-    this.refreshProviders$.next();
-  }
 
   public providers = toSignal(this.refreshProviders$.pipe(
     switchMap(() => this.getProviders(true))), { initialValue: [] });
@@ -37,17 +33,17 @@ export class ProviderService {
 
   public createProvider(provider: ProviderRequest): Observable<string> {
     return this.http.post(this.apiUrl, provider, { responseType: 'text' })
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleError), tap(() => this.refreshProviders$.next()));
   }
 
   public editProvider(id: number, provider: ProviderRequest): Observable<string> {
     return this.http.put(`${this.apiUrl}/${id}`, provider, { responseType: 'text' })
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleError), tap(() => this.refreshProviders$.next()));
   }
 
   public deleteOrRecoverProvider(id: number): Observable<string> {
     return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' })
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleError), tap(() => this.refreshProviders$.next()));
   }
 
   private handleError(error: HttpErrorResponse) {

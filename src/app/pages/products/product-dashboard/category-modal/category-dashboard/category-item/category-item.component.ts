@@ -24,7 +24,6 @@ export class CategoryItemComponent {
   public category = input<CategoryResponse>();
 
   public turnInert = output<boolean>(); // Necesario para que el input del sweet alert no tenga conflicto con el modal de Ionic.
-  public refreshDashboard = output<void>(); // Avisa al modal que debe refrescarse.
 
   public updatedCategory: CategoryRequest = {
     name: ''
@@ -58,10 +57,7 @@ export class CategoryItemComponent {
   // Usamos firstValueFrom para obtener el primero (y único) valor que el observable devuelve, y transformarlo en una Promise.
   private handleEdit() {
     return firstValueFrom(this.categoryService.editCategory(this.category()!.id, this.updatedCategory).pipe(
-      tap((response) => {
-        this.alertService.getSuccessToast(response).fire();
-        this.refreshDashboard.emit();
-      }),
+      tap((response) => this.alertService.getSuccessToast(response).fire()),
       catchError((error) => {
         Swal.showValidationMessage(error.message);
         return of(null);
@@ -82,10 +78,7 @@ export class CategoryItemComponent {
 
   private handleDelete() {
     this.categoryService.deleteOrRecoverCategory(this.category()!.id).pipe(
-      tap((response) => {
-        this.alertService.getSuccessToast(response).fire();
-        this.refreshDashboard.emit();
-      }),
+      tap((response) => this.alertService.getSuccessToast(response).fire()),
       catchError((error) => {
         console.log(error);
         return of(null);

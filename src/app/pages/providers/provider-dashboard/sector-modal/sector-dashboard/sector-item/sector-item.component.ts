@@ -24,7 +24,6 @@ export class SectorItemComponent {
   public sector = input<SectorResponse>();
 
   public turnInert = output<boolean>(); // Necesario para que el input del sweet alert no tenga conflicto con el modal de Ionic.
-  public refreshDashboard = output<void>(); // Avisa al modal que debe refrescarse.
 
   public updatedSector: SectorRequest = {
     name: ''
@@ -58,10 +57,7 @@ export class SectorItemComponent {
   // Usamos firstValueFrom para obtener el primero (y único) valor que el observable devuelve, y transformarlo en una Promise.
   private handleEdit() {
     return firstValueFrom(this.sectorService.editSector(this.sector()!.id, this.updatedSector).pipe(
-      tap((response) => {
-        this.alertService.getSuccessToast(response).fire();
-        this.refreshDashboard.emit();
-      }),
+      tap((response) => this.alertService.getSuccessToast(response).fire()),
       catchError((error) => {
         Swal.showValidationMessage(error.message);
         return of(null);
@@ -82,10 +78,7 @@ export class SectorItemComponent {
 
   private handleDelete() {
     this.sectorService.deleteOrRecoverSector(this.sector()!.id).pipe(
-      tap((response) => {
-        this.alertService.getSuccessToast(response).fire();
-        this.refreshDashboard.emit();
-      }),
+      tap((response) => this.alertService.getSuccessToast(response).fire()),
       catchError((error) => {
         console.log(error);
         return of(null);

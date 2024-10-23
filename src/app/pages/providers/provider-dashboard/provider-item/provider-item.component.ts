@@ -1,5 +1,5 @@
 import { TitleCasePipe, UpperCasePipe } from '@angular/common';
-import { Component, DestroyRef, inject, input, OnInit, output } from '@angular/core';
+import { Component, DestroyRef, inject, input } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from "@ionic/angular/standalone";
@@ -19,28 +19,21 @@ export class ProviderItemComponent {
 
   public router = inject(Router);
   private destroyRef = inject(DestroyRef);
+
   private providerService = inject(ProviderService);
   private alertService = inject(AlertService);
 
   public provider: any = input<ProviderResponse>();
-  public refreshDashboard = output<void>();
 
   public openDeleteProviderAlert() {
     this.alertService.getWarningConfirmationAlert('¿Estás seguro que deseas eliminar el proveedor?')
       .fire()
-      .then((result) => {
-        if (result.isConfirmed) {
-          this.deleteProvider(this.provider().id);
-        }
-      });
+      .then((result) => { if (result.isConfirmed) this.deleteProvider(this.provider().id) });
   }
 
   private deleteProvider(id: number) {
     this.providerService.deleteOrRecoverProvider(id).pipe(
-      tap((response) => {
-        this.alertService.getSuccessToast(response).fire();
-        this.refreshDashboard.emit();
-      }),
+      tap((response) => this.alertService.getSuccessToast(response).fire()),
       catchError((error) => {
         console.log(error);
         return of(null);

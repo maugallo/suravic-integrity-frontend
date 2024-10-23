@@ -1,8 +1,7 @@
-import { Component, inject, OnInit, output } from '@angular/core';
-import { IonButton, IonList, IonProgressBar, IonAlert, IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from "@ionic/angular/standalone";
+import { Component, inject, output } from '@angular/core';
+import { IonButton, IonList, IonProgressBar } from "@ionic/angular/standalone";
 import { SectorService } from 'src/app/core/services/sector.service';
-import { AsyncPipe } from '@angular/common';
-import { catchError, firstValueFrom, Observable, of, tap } from 'rxjs';
+import { catchError, firstValueFrom, of, tap } from 'rxjs';
 import { SectorRequest } from 'src/app/core/models/sector.model';
 import Swal from 'sweetalert2';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
@@ -16,9 +15,9 @@ import { HeaderComponent } from 'src/app/shared/components/header/header.compone
   templateUrl: './sector-dashboard.component.html',
   styleUrls: ['./sector-dashboard.component.scss'],
   standalone: true,
-  imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, IonAlert, IonProgressBar, IonList, IonButton, HeaderComponent, AsyncPipe, NotFoundComponent, SectorItemComponent]
+  imports: [IonProgressBar, IonList, IonButton, HeaderComponent, NotFoundComponent, SectorItemComponent]
 })
-export class SectorDashboardComponent implements OnInit {
+export class SectorDashboardComponent {
 
   private sectorService = inject(SectorService);
   private alertService = inject(AlertService);
@@ -26,14 +25,6 @@ export class SectorDashboardComponent implements OnInit {
   public turnInert = output<boolean>(); // Necesario para que el input del sweet alert no tenga conflicto con el modal de Ionic.
   public sectors = this.sectorService.sectors;
   public sector: SectorRequest = { name: '' };
-
-  ngOnInit() {
-    this.refreshDashboard();
-  }
-
-  ionViewWillEnter() {
-    this.refreshDashboard();
-  }
 
   public openAddSectorAlert() {
     this.turnInert.emit(true);
@@ -60,19 +51,12 @@ export class SectorDashboardComponent implements OnInit {
   // Usamos firstValueFrom para obtener el primero (y único) valor que el observable devuelve, y transformarlo en una Promise.
   private handleCreation() {
     return firstValueFrom(this.sectorService.createSector(this.sector).pipe(
-      tap((response) => {
-        this.alertService.getSuccessToast(response).fire();
-        this.refreshDashboard();
-      }),
+      tap((response) => this.alertService.getSuccessToast(response).fire()),
       catchError((error) => {
         Swal.showValidationMessage(error.message);
         return of(null);
       })
     ));
-  }
-
-  public refreshDashboard() {
-    this.sectorService.refreshSectors();
   }
 
 }
