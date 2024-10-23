@@ -10,3 +10,7 @@ ion-input {
 ion-input.has-focus {
     --highlight-color-focused: #{$primary-color};
 }
+
+ion-input.md.input-disabled {
+    background-color: #{$secondary-color-lighter};
+}

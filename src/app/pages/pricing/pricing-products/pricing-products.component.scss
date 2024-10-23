@@ -3,3 +3,30 @@
 .provider-select {
     border-bottom: 1px solid $secondary-color;
 }
+
+.products-container {
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    gap: 15px;
+    justify-content: center;
+    align-content: center;
+}
+
+.percentages-label {
+    color: $primary-color;
+    text-align: center;
+    font-weight: bold;
+}
+
+.product-title {
+    text-align: end;
+    font-weight: bold;
+    font-size: small;
+    color: $primary-color;
+}
+
+.disabled-product-title {
+    text-align: end;
+    font-weight: bold;
+    color: $secondary-color;
+}

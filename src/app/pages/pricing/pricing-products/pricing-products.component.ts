@@ -7,13 +7,14 @@ import { IonSelectOption } from "@ionic/angular/standalone";
 import { ProductService } from 'src/app/core/services/product.service';
 import { UpperCasePipe } from '@angular/common';
 import { NumberInputComponent } from "../../../shared/components/form/number-input/number-input.component";
+import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
 
 @Component({
   selector: 'app-pricing-products',
   templateUrl: './pricing-products.component.html',
   styleUrls: ['./pricing-products.component.scss'],
   standalone: true,
-  imports: [IonContent, HeaderComponent, SelectInputComponent, IonSelectOption, UpperCasePipe, NumberInputComponent]
+  imports: [IonContent, HeaderComponent, SelectInputComponent, IonSelectOption, UpperCasePipe, NumberInputComponent, SubmitButtonComponent]
 })
 export class PricingProductsComponent {
 
@@ -25,8 +26,14 @@ export class PricingProductsComponent {
   public selectedProviderId = signal<number | undefined>(undefined);
 
   public provider = computed(() => this.selectedProviderId() ? this.providerService.getProviderById(this.selectedProviderId()!) : null);
-  public products = computed(() => this.selectedProviderId() ? this.productService.getProductsByProvider(this.selectedProviderId()!) : null);
+  public products = computed(() => {
+    if (this.selectedProviderId()) {
+      return this.productService.getProductsByProvider(this.selectedProviderId()!).map(product => { return { ...product, price: '0' } });
+    }
+    return null;
+  });
 
-
+  public productUnit: 'Kg' | 'Unidad' = 'Kg'
+  public productQuantity = 0;
 
 }

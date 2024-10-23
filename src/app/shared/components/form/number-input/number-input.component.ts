@@ -18,6 +18,7 @@ export class NumberInputComponent extends BaseInputComponent {
   public maxValue = input<number>();
   public labelPlacement = input<'floating' | 'stacked'>('floating');
   public errorText = input<boolean>(true);
+  public disabled = input<boolean>(false);
 
   private changeDetectorRef = inject(ChangeDetectorRef);
   
