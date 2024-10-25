@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-not-found',
@@ -9,5 +9,6 @@ import { Component } from '@angular/core';
 })
 export class NotFoundComponent  {
 
-  
+  public object = input<string>('coincidencias');
+
 }

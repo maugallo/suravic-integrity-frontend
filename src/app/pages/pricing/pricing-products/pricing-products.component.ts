@@ -15,13 +15,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CategoryResponse } from 'src/app/core/models/interfaces/category.model';
 import { ProviderResponse } from 'src/app/core/models/interfaces/provider.model';
 import { UserResponse } from 'src/app/core/models/interfaces/user.model';
+import { NotFoundComponent } from "../../../shared/components/not-found/not-found.component";
 
 @Component({
   selector: 'app-pricing-products',
   templateUrl: './pricing-products.component.html',
   styleUrls: ['./pricing-products.component.scss'],
   standalone: true,
-  imports: [IonContent, HeaderComponent, SelectInputComponent, IonSelectOption, UpperCasePipe, NumberInputComponent, SubmitButtonComponent, FormsModule]
+  imports: [IonContent, HeaderComponent, SelectInputComponent, IonSelectOption, UpperCasePipe, NumberInputComponent, SubmitButtonComponent, FormsModule, NotFoundComponent]
 })
 export class PricingProductsComponent {
 
@@ -39,7 +40,7 @@ export class PricingProductsComponent {
   public productsWithPricing = computed(() => signal(this.getProductsWithPricing()));
 
   public areSubmitButtonsValid() {
-    return this.selectedProviderId() && this.productsWithPricing()().some(product => product.subtotal > 0 && product.quantity > 0);
+    return (this.selectedProviderId() ? true:false) && this.productsWithPricing()().some(product => product.subtotal > 0 && product.quantity > 0);
   }
 
   private getProductsWithPricing(): ProductWithPricing[] {
@@ -67,7 +68,23 @@ export class PricingProductsComponent {
     this.alertService.getSuccessToast('Precios calculados correctamente').fire();
   }
 
-  public onApplySubmit() { // Retorna el product sin subtotal, unti y quantity.
+  public onPercentagesSubmit() {
+    this.alertService.getWarningConfirmationAlert('¿Estás seguro que deseas continuar?', 'Se modificarán los porcentajes del proveedor seleccionado', 'APLICAR')
+    .fire()
+    .then((result: any) => { if (result.isConfirmed) this.applyNewPercentages(); });
+  }
+
+  private applyNewPercentages() {
+    const providerRequest = this.providerService.mapProviderResponseToRequest(this.provider()!);
+
+    this.providerService.editProvider(this.selectedProviderId(), providerRequest).pipe(
+      tap((response) => this.alertService.getSuccessToast(response).fire()),
+      catchError((error) => this.handleError(error)),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe();
+  }
+
+  public onApplySubmit() {
     this.alertService.getWarningConfirmationAlert('¿Estás seguro que deseas continuar?', 'Se modificarán los precios de todos los productos de la lista', 'APLICAR')
     .fire()
     .then((result: any) => { if (result.isConfirmed) this.applyNewPrices(); });

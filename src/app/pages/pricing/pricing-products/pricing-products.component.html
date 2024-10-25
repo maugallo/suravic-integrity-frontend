@@ -10,28 +10,37 @@
       }
     </app-select-input>
 
-    <div class="percentages-container mb-8">
-      <p class="percentages-label">Porcentajes</p>
-
-      <div class="percentages mb-2">
-        <app-select-input label="IVA" [options]="[21, 10.5]" [disabled]="this.selectedProviderId() === 0">
-          <ion-select-option value="21">21%</ion-select-option>
-          <ion-select-option value="10.5">10,5%</ion-select-option>
-        </app-select-input>
-        <app-number-input labelPlacement="stacked" label="Ing. Brutos" placeHolder="0%"
-        [readOnly]="this.selectedProviderId() === 0" [required]="false"></app-number-input>
-      </div>
-
-      <div class="percentages">
-        <app-number-input labelPlacement="stacked" label="Percepción" placeHolder="0%"
-        [readOnly]="this.selectedProviderId() === 0" [required]="false"></app-number-input>
-        <app-number-input labelPlacement="stacked" label="Ganancia" placeHolder="0%"
-        [readOnly]="this.selectedProviderId() === 0" [required]="false"></app-number-input>
-      </div>
+    <div class="percentages-container mb-8 pb-8">
+      <form #percentagesForm="ngForm" id="percentagesForm" (ngSubmit)="onPercentagesSubmit()">
+        <div class="percentages-title mb-5">
+          <p class="percentages-label">Porcentajes Globales</p>
+          <app-submit-button [disabled]="this.selectedProviderId() === 0" icon='<i class="fa-solid fa-floppy-disk fa-1x"></i>'></app-submit-button>
+        </div>
+        
+        <div class="percentages mb-2">
+          <app-select-input label="IVA" [options]="[21, 10.5]" [disabled]="this.selectedProviderId() === 0"
+          [(bindedObject)]="provider()?.percentages!.vatPercentage">
+          <ion-select-option [value]="21">21</ion-select-option>
+          <ion-select-option [value]="10.5">10,5</ion-select-option>
+          </app-select-input>
+          <app-number-input labelPlacement="stacked" label="Ing. Brutos" placeHolder="0%"
+          [readOnly]="this.selectedProviderId() === 0" [minValue]="-1" [maxValue]="99999"
+          [(bindedObject)]="provider()?.percentages!.grossIncomePercentage"></app-number-input>
+        </div>
+      
+        <div class="percentages">
+          <app-number-input labelPlacement="stacked" label="Percepción" placeHolder="0%"
+          [readOnly]="this.selectedProviderId() === 0" [minValue]="-1" [maxValue]="99999"
+          [(bindedObject)]="provider()?.percentages!.perceptionPercentage"></app-number-input>
+          <app-number-input labelPlacement="stacked" label="Ganancia" placeHolder="0%"
+          [readOnly]="this.selectedProviderId() === 0" [minValue]="-1" [maxValue]="99999"
+          [(bindedObject)]="provider()?.percentages!.profitPercentage"></app-number-input>
+        </div>
+      </form>
     </div>
 
     <form #calculateForm="ngForm" id="calculateForm" (ngSubmit)="onCalculateSubmit()">
-      <app-submit-button class="my-1" label="Calcular Precios" [disabled]="this.selectedProviderId() === 0"></app-submit-button>
+      <app-submit-button class="my-1" label="Calcular Precios" [disabled]="productsWithPricing()().length === 0 || !areSubmitButtonsValid()"></app-submit-button>
       @if (!selectedProviderId()) {
         @for (placeholder of ['Producto 1', 'Producto 2', 'Producto 3']; track $index) {
           <div class="pricing-container my-2 py-4">
@@ -50,37 +59,42 @@
         }
       }
       @else {
-        @for (product of productsWithPricing()(); track $index) {
-          <div class="pricing-container my-2 py-4">
-            <div class="product-container mb-2">
-              <p class="product-title">{{ product.title | uppercase }}</p>
-              
-              <!-- Product Price Input -->
-              <app-number-input #priceInput inputName="productPriceInput{{$index}}" placeholder="$1000" [label]="product.unit === 'Kg' ? 'Precio/kg' : 'Precio/unidad'"
-              [(bindedObject)]="product.price" [minValue]="0" [maxValue]="999999" labelPlacement="stacked" [readOnly]="true"
-              [errorText]="false"></app-number-input>
-            </div>
-          
-            <div class="subtotal-container ml-3">
-              <!-- Product Subtotal Input -->
-              <app-number-input #productSubtotalInput inputName="productSubtotalInput" placeHolder="1" label="Subtotal"
-              [(bindedObject)]="product.subtotal" [minValue]="0" [maxValue]="999999" labelPlacement="stacked"
-              [errorText]="false"></app-number-input>
-  
-              <div class="quantity-container">
-                <!-- Product Quantity Input -->
-                <app-number-input #productQuantityInput inputName="productQuantityInput" placeHolder="1"
-                [(bindedObject)]="product.quantity" [minValue]="0" [maxValue]="999999" [errorText]="false"></app-number-input>
-  
-                <!-- Product Quantity Select -->
-                <app-select-input #productUnitSelect inputName="productUnitSelect"
-                [options]="['Kg', 'Unidad']" [(bindedObject)]="product.unit">
-                  <ion-select-option value="Kg">Kg</ion-select-option>
-                  <ion-select-option value="Unidad">Unidad</ion-select-option>
-                </app-select-input>
+        @if (productsWithPricing()().length > 0) {
+          @for (product of productsWithPricing()(); track $index) {
+            <div class="pricing-container my-2 py-4">
+              <div class="product-container mb-2">
+                <p class="product-title">{{ product.title | uppercase }}</p>
+                
+                <!-- Product Price Input -->
+                <app-number-input #priceInput inputName="productPriceInput{{$index}}" placeholder="$1000" [label]="product.unit === 'Kg' ? 'Precio/kg' : 'Precio/unidad'"
+                [(bindedObject)]="product.price" [minValue]="0" [maxValue]="999999" labelPlacement="stacked" [readOnly]="true"
+                [errorText]="false"></app-number-input>
+              </div>
+            
+              <div class="subtotal-container ml-3">
+                <!-- Product Subtotal Input -->
+                <app-number-input #productSubtotalInput inputName="productSubtotalInput" placeHolder="1" label="Subtotal"
+                [(bindedObject)]="product.subtotal" [minValue]="0" [maxValue]="999999" labelPlacement="stacked"
+                [errorText]="false"></app-number-input>
+    
+                <div class="quantity-container">
+                  <!-- Product Quantity Input -->
+                  <app-number-input #productQuantityInput inputName="productQuantityInput" placeHolder="1"
+                  [(bindedObject)]="product.quantity" [minValue]="0" [maxValue]="999999" [errorText]="false"></app-number-input>
+    
+                  <!-- Product Quantity Select -->
+                  <app-select-input #productUnitSelect inputName="productUnitSelect"
+                  [options]="['Kg', 'Unidad']" [(bindedObject)]="product.unit">
+                    <ion-select-option value="Kg">Kg</ion-select-option>
+                    <ion-select-option value="Unidad">Unidad</ion-select-option>
+                  </app-select-input>
+                </div>
               </div>
             </div>
-          </div>
+          }
+        }
+        @else {
+          <app-not-found object="productos"></app-not-found>
         }
       }
     </form>

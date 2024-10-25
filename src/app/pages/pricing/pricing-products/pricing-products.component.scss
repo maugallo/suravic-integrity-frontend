@@ -1,20 +1,27 @@
 @import '/src/global.scss';
 
 .percentages-container {
-
+    border-bottom: 1px solid $secondary-color;
 }
 
 .percentages-label {
     color: $primary-color;
     text-align: center;
     font-weight: bold;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
 }
 
 .percentages {
     display: grid;
     grid-template-columns: 50% 50%;
     gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.percentages-title {
+    display: flex;
+    gap: 15px;
     justify-content: center;
     align-items: center;
 }

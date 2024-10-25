@@ -4,6 +4,9 @@ import { BehaviorSubject, catchError, Observable, switchMap, tap, throwError } f
 import { environment } from 'src/environments/environment';
 import { ProviderRequest, ProviderResponse } from '../models/interfaces/provider.model';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { SectorRequest, SectorResponse } from '../models/interfaces/sector.model';
+import { ContactRequest, ContactResponse } from '../models/interfaces/contact.model';
+import { PercentagesRequest, PercentagesResponse } from '../models/interfaces/percentages.model';
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +47,35 @@ export class ProviderService {
   public deleteOrRecoverProvider(id: number): Observable<string> {
     return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' })
       .pipe(catchError(this.handleError), tap(() => this.refreshProviders$.next()));
+  }
+  
+  public mapProviderResponseToRequest(providerResponse: ProviderResponse): ProviderRequest {
+    return {
+      sectorId: providerResponse.sector.id,
+      contact: this.mapContactResponseToRequest(providerResponse.contact),
+      percentages: this.mapPercentagesResponseToRequest(providerResponse.percentages),
+      vatCondition: providerResponse.vatCondition,
+      companyName: providerResponse.companyName,
+      firstName: providerResponse.firstName,
+      lastName: providerResponse.lastName,
+      cuit: providerResponse.cuit
+    };
+  }
+  
+  private mapContactResponseToRequest(contactResponse: ContactResponse): ContactRequest {
+    return {
+      telephone: contactResponse.telephone,
+      email: contactResponse.email
+    };
+  }
+  
+  private mapPercentagesResponseToRequest(percentagesResponse: PercentagesResponse): PercentagesRequest {
+    return {
+      vatPercentage: percentagesResponse.vatPercentage,
+      profitPercentage: percentagesResponse.profitPercentage,
+      perceptionPercentage: percentagesResponse.perceptionPercentage,
+      grossIncomePercentage: percentagesResponse.grossIncomePercentage
+    };
   }
 
   private handleError(error: HttpErrorResponse) {
