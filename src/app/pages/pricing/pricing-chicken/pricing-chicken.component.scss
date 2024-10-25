@@ -1,0 +1,64 @@
+@import '/src/global.scss';
+
+.percentages-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 10px;
+}
+
+.calculate-submit-container {
+    text-align: center;
+    border-bottom: 1px solid $secondary-color;
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    font-size: large;
+}
+
+.calculate-label {
+    color: $primary-color;
+}
+
+.difference-label {
+    color: $secondary-color;
+}
+
+.notice-difference {
+    color: #{$error-color};
+}
+
+.notice-no-difference {
+    color: green;
+}
+
+.submit-buttons {
+    display: flex;
+}
+
+.submit-buttons app-submit-button {
+    width: 50%;
+}
+
+.submit-buttons app-form-button {
+    width: 50%;
+}
+
+.pricing-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    justify-content: center;
+    align-content: center;
+}
+
+.pricing-container .product-title {
+    text-align: end;
+    font-weight: bold;
+    color: $primary-color;
+}
+
+.prices-info-container {
+    text-align: center;
+    color: $primary-color;
+}

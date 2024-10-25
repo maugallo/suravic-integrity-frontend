@@ -12,8 +12,10 @@
     <ion-item-option (click)="router.navigate(['providers', 'form', provider().id])" color="white">
       <i class="fa-solid fa-user-pen fa-2x mx-2"></i>
     </ion-item-option>
-    <ion-item-option (click)="openDeleteProviderAlert()" color="white">
-      <i class="fa-solid fa-trash fa-2x mx-2"></i>
-    </ion-item-option>
+    @if (![1, 2].includes(provider().id)) {
+      <ion-item-option (click)="openDeleteProviderAlert()" color="white">
+        <i class="fa-solid fa-trash fa-2x mx-2"></i>
+      </ion-item-option>
+    }
   </ion-item-options>
 </ion-item-sliding>

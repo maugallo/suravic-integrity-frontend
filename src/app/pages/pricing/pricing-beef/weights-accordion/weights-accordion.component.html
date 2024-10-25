@@ -1,0 +1,37 @@
+<div class="my-4">
+  <ion-accordion-group>
+    <ion-accordion value="first">
+      <ion-item slot="header">
+        <ion-label color="light">Promedio de pesos</ion-label>
+      </ion-item>
+
+      <div slot="content">
+        <form #weightAveragesForm="ngForm" id="weightAveragesForm" (ngSubmit)="onSubmit()">
+          @if (!showForm) {
+            <div class="info-container p-4" style="display: flex; align-items: center;">
+              <p class="my-0">
+                POLLO: 
+                <b class="mr-1">{{ chickenWeightValue }}kg</b>
+                <ion-badge (click)="showForm = true"><i class="fa-solid fa-pen-to-square"></i></ion-badge>
+              </p>
+            </div>
+          }
+
+          @if (showForm) {
+            <div class="form-container px-4" style="display: flex; align-items: center;">
+              <p class="my-0">POLLO:</p>
+              <app-number-input inputName="chickenWeightInput" [(bindedObject)]="chickenWeightValue"
+              [minValue]="0" [maxValue]="99999" [errorText]="false"></app-number-input>
+
+              <app-submit-button icon='<i class="fa-solid fa-floppy-disk fa-1x"></i>'></app-submit-button>
+            </div>
+          }
+        </form>
+      </div>
+
+      @for (meatProduct of meatProducts(); track $index) {
+      <div class="ion-padding" slot="content">{{ meatProduct.title | uppercase }}: <b>{{ meatProduct.weight }}kg</b></div>
+      }
+    </ion-accordion>
+  </ion-accordion-group>
+</div>

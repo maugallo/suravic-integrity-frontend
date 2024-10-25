@@ -1,35 +1,33 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { BehaviorSubject, catchError, Observable, switchMap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, switchMap, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { MeatProduct } from '../models/meat-product.model';
+import { MeatDetails } from '../models/meat-details.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MeatProductService {
+export class MeatDetailsService {
 
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/meat-products`;
 
-  private refreshMeatProducts$ = new BehaviorSubject<void>(undefined);
+  private refreshMeatDetails$ = new BehaviorSubject<void>(undefined);
 
-  public refreshMeatProducts() {
-    this.refreshMeatProducts$.next();
+  public meatDetails(category: string) {
+    return toSignal(this.refreshMeatDetails$.pipe(
+      switchMap(() => this.getMeatDetails(category))), { initialValue: [] });
   }
 
-  public meatProducts = toSignal(this.refreshMeatProducts$.pipe(
-    switchMap(() => this.getMeatProducts())), { initialValue: [] });
-
-  private getMeatProducts(): Observable<MeatProduct[]> {
-    return this.http.get<MeatProduct[]>(this.apiUrl)
+  private getMeatDetails(category: string): Observable<MeatDetails[]> {
+    return this.http.get<MeatDetails[]>(`${this.apiUrl}/${category}`)
       .pipe(catchError(this.handleError));
   }
 
-  public editMeatProducts(meatProducts: MeatProduct[]): Observable<string> {
-    return this.http.put(this.apiUrl, meatProducts, { responseType: 'text' })
-      .pipe(catchError(this.handleError));
+  public editMeatDetails(meatDetails: MeatDetails[]): Observable<string> {
+    return this.http.put(this.apiUrl, meatDetails, { responseType: 'text' })
+      .pipe(catchError(this.handleError), tap(() => this.refreshMeatDetails$.next()));
   }
 
   private handleError(error: HttpErrorResponse) {

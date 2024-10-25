@@ -30,7 +30,7 @@
 
           <!-- Sector Select Input -->
           <app-select-input #formInput class="mb-8" inputName="sectorSelect" [(bindedObject)]="provider()!.sectorId"
-          label="Rubro" [options]="sectors()">
+          label="Rubro" [options]="sectors()" [disabled]="(isProviderEdit && [1,2].includes(providerId))">
             @if (sectors(); as sectors) {
               @for (sector of sectors; track $index) {
                 <ion-select-option [value]="sector.id">{{ sector.name }}</ion-select-option>

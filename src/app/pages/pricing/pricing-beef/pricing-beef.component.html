@@ -2,7 +2,7 @@
 
 <ion-content>
   <div class="px-4 pt-2">
-    <app-weights-accordion></app-weights-accordion>
+    <app-weights-accordion category="Carnes"></app-weights-accordion>
 
     <!-- Cálculo automático de precios -->
     <form #calculateForm="ngForm" id="calculateForm" (ngSubmit)="onCalculateSubmit()">
@@ -35,9 +35,9 @@
 
     <!-- Modificar manualmente y aplicar precios -->
     <form #applyForm="ngForm" id="applyForm" (ngSubmit)="onApplySubmit()">
-      @if (meatProducts()()!.length > 0) {
+      @if (meatDetails()()!.length > 0) {
         <div class="pricing-container mb-4">
-          @for (product of meatProducts()(); track $index) {
+          @for (product of meatDetails()(); track $index) {
             <p class="product-title">{{ product.title | uppercase }}</p>
             
             <!-- Product Price Input -->
@@ -46,7 +46,7 @@
           }
         </div>
       }
-      <app-submit-button class="my-4" label="Aplicar Precios" [disabled]="!areThereChangesInPrices()"></app-submit-button>
+      <app-submit-button class="my-4" label="Aplicar Precios"></app-submit-button>
     </form>
   </div>
 </ion-content>

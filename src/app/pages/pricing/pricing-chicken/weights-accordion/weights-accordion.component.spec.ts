@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { PricingMeatComponent } from './pricing-meat.component';
+import { WeightsAccordionComponent } from './weights-accordion.component';
 
-describe('PricingMeatComponent', () => {
-  let component: PricingMeatComponent;
-  let fixture: ComponentFixture<PricingMeatComponent>;
+describe('WeightsAccordionComponent', () => {
+  let component: WeightsAccordionComponent;
+  let fixture: ComponentFixture<WeightsAccordionComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ PricingMeatComponent ],
+      declarations: [ WeightsAccordionComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(PricingMeatComponent);
+    fixture = TestBed.createComponent(WeightsAccordionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

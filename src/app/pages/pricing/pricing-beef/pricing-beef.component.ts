@@ -11,64 +11,57 @@ import { NumberInputComponent } from "../../../shared/components/form/number-inp
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { StorageService } from 'src/app/core/services/utils/storage.service';
 import { catchError, Observable, of, switchMap, tap } from 'rxjs';
-import { MeatProductService } from 'src/app/core/services/meat-product.service';
+import { MeatDetailsService } from 'src/app/core/services/meat-details.service';
 import { FormButtonComponent } from "../../../shared/components/form/form-button/form-button.component";
 import { MeatPricingService } from 'src/app/core/services/meat-pricing.service';
 
 @Component({
-  selector: 'app-pricing-meat',
-  templateUrl: './pricing-meat.component.html',
-  styleUrls: ['./pricing-meat.component.scss'],
+  selector: 'app-pricing-beef',
+  templateUrl: './pricing-beef.component.html',
+  styleUrls: ['./pricing-beef.component.scss'],
   standalone: true,
   imports: [IonButton, IonContent, HeaderComponent, FormsModule, UpperCasePipe, WeightsAccordionComponent, SubmitButtonComponent, NumberInputComponent, CurrencyPipe, FormButtonComponent],
 })
-export class PricingMeatComponent {
+export class PricingBeefComponent {
 
   private destroyRef = inject(DestroyRef);
 
   private storageService = inject(StorageService);
   private alertService = inject(AlertService);
   private validationService = inject(ValidationService);
-  private meatProductService = inject(MeatProductService);
+  private meatDetailService = inject(MeatDetailsService);
   private meatPricingService = inject(MeatPricingService);
 
-  public ionViewWillEnter() {
-    this.meatProductService.refreshMeatProducts();
-  }
+  public meatDetails = computed(() => signal(this.meatDetailsOnlyReadSignal())); // WritableSignal<Signal> para poder actualizar el array.
+  private meatDetailsOnlyReadSignal = this.meatDetailService.meatDetails("Carnes");
 
-  public meatProducts = computed(() => signal(this.meatProductsOnlyReadSignal())); // WritableSignal<Signal> para poder actualizar el array.
-  private meatProductsOnlyReadSignal = this.meatProductService.meatProducts;
-
-  public rawMeatProducts = this.meatProductService.meatProducts;
+  public rawMeatDetails = this.meatDetailService.meatDetails("Carnes");
 
   public halfCarcassCostPerKg = signal(0);
   public profitPercentage = signal(0);
   public tolerancePercentage = 1.5;
 
-  public halfCarcassWeight = toSignal(this.storageService.getStorage('halfCarcassWeight').pipe(
+  public halfCarcassWeight = toSignal(this.storageService.getStorage('Carnes').pipe(
     switchMap((data) => data ? of(data) : of(111))
   ));
 
   public halfCarcassGrossCost = computed(() => this.meatPricingService.calculateHalfCarcassGrossCost(this.halfCarcassCostPerKg(), this.halfCarcassWeight()));
   public halfCarcassSellingPrice = computed(() => this.meatPricingService.calculateHalfCarcassSellingPrice(this.halfCarcassGrossCost(), this.profitPercentage()));
 
-  public meatCutCurrentPricesTotal = computed(() => signal(this.meatPricingService.calculateTotalMeatCutPrice(this.meatProducts()())));
-  public originalMeatCutCurrentPricesTotal = computed(() => signal(this.meatPricingService.calculateTotalMeatCutPrice(this.meatProducts()()))); // Usado para validaciones
+  public meatCutCurrentPricesTotal = computed(() => signal(this.meatPricingService.calculateTotalMeatCutPrice(this.meatDetails()())));
 
   public pricesDifference = computed(() => this.meatPricingService.calculatePricesDifference(this.halfCarcassSellingPrice(), this.profitPercentage(), this.meatCutCurrentPricesTotal()()));
   public pricesDifferencePercentage = computed(() => this.meatPricingService.calculatePricesDifferencePercentage(this.pricesDifference()!, this.meatCutCurrentPricesTotal()()));
 
-  public areThereChangesInPrices = computed(() => (this.meatCutCurrentPricesTotal()() !== this.originalMeatCutCurrentPricesTotal()()) || this.pricesDifferencePercentage());
-
   public clearPrices() {
-    this.meatProductService.refreshMeatProducts();
+    this.meatDetails().set(this.rawMeatDetails());
   }
 
   @ViewChildren('calculateInput') inputsCalculate!: QueryList<NumberInputComponent>;
   @ViewChildren('priceInput') inputsPrice!: QueryList<NumberInputComponent>;
 
   public onPriceChange() {
-    this.meatCutCurrentPricesTotal().set(this.meatProducts()().reduce((acumulatedSum, meatProduct) => acumulatedSum + (meatProduct.weight * Number(meatProduct.price)), 0));
+    this.meatCutCurrentPricesTotal().set(this.meatDetails()().reduce((acumulatedSum, meatDetail) => acumulatedSum + (meatDetail.weight * Number(meatDetail.price)), 0));
   }
 
   public onCalculateSubmit() {
@@ -90,23 +83,18 @@ export class PricingMeatComponent {
   }
 
   private calculatePrices() {
-    const updatedMeatProducts = this.meatPricingService.calculateAdjustedPrices(this.meatProducts()(), this.pricesDifference()!, this.halfCarcassWeight());
+    const updatedMeatDetails = this.meatPricingService.calculateAdjustedPrices(this.meatDetails()(), this.pricesDifference()!, this.halfCarcassWeight());
 
-    this.meatProducts().set(updatedMeatProducts);
+    this.meatDetails().set(updatedMeatDetails);
     this.alertService.getSuccessToast('Precios calculados correctamente').fire();
   }
 
   private applyNewPrices() {
-    this.meatProductService.editMeatProducts(this.meatProducts()()).pipe(
-      tap((response) => this.handleSuccess(response)),
+    this.meatDetailService.editMeatDetails(this.meatDetails()()).pipe(
+      tap((response) => this.alertService.getSuccessToast(response).fire()),
       catchError((error) => this.handleError(error)),
       takeUntilDestroyed(this.destroyRef)
     ).subscribe();
-  }
-
-  private handleSuccess(response: string) {
-    this.alertService.getSuccessToast(response).fire();
-    this.meatProductService.refreshMeatProducts();
   }
 
   private handleError(error: any): Observable<null> {

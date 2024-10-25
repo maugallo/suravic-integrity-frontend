@@ -13,8 +13,10 @@
     <ion-item-option (click)="router.navigate(['products', 'form', product().id])" color="white">
       <i class="fa-solid fa-user-pen fa-2x mx-2"></i>
     </ion-item-option>
-    <ion-item-option (click)="openDeleteProductAlert()" color="white">
-      <i class="fa-solid fa-trash fa-2x mx-2"></i>
-    </ion-item-option>
+    @if (!(product().id >= 1 && product().id <= 35)) {
+      <ion-item-option (click)="openDeleteProductAlert()" color="white">
+        <i class="fa-solid fa-trash fa-2x mx-2"></i>
+      </ion-item-option>
+    }
   </ion-item-options>
 </ion-item-sliding>

@@ -41,7 +41,7 @@ export class ProductFormComponent {
   public categories = this.categoryService.categories;
 
   public isProductEdit!: boolean;
-  public productId!: number;
+  public productId: number = 0;
 
   @ViewChildren('formInput') inputComponents!: QueryList<TextInputComponent | NumberInputComponent | SelectInputComponent>;
 

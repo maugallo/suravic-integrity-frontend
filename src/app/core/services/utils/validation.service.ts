@@ -19,7 +19,7 @@ export class ValidationService {
     if (errors.minValue) return `El valor ingresado debe ser mayor a ${errors.minValue.requiredValue}`;
     if (errors.maxValue) return `El valor ingresado debe ser menor a ${errors.maxValue.requiredValue}`;
     if (errors.minlength) return `Deben haber al menos ${errors.minlength.requiredLength} caracteres`;
-    if (errors.maxlength) return `No puedes superar los ${errors.minlength.requiredLength} caracteres`;
+    if (errors.maxlength) return `No puedes superar los ${errors.maxlength.requiredLength} caracteres`;
     if (errors.pattern) {
       const patternValue = errors.pattern.requiredPattern;
       if (patternValue === '^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$') return 'Solo se permiten letras';

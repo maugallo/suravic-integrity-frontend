@@ -8,8 +8,9 @@ import { StorageService } from 'src/app/core/services/utils/storage.service';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { catchError, Observable, of, switchMap, tap } from 'rxjs';
-import { MeatProduct } from 'src/app/core/models/meat-product.model';
-import { MeatProductService } from 'src/app/core/services/meat-product.service';
+import { MeatDetailsService } from 'src/app/core/services/meat-details.service';
+import { MeatDetails } from 'src/app/core/models/meat-details.model';
+
 @Component({
   selector: 'app-weights-accordion',
   templateUrl: './weights-accordion.component.html',
@@ -23,11 +24,11 @@ export class WeightsAccordionComponent {
 
   private storageService = inject(StorageService);
   private alertService = inject(AlertService);
-  private meatProductService = inject(MeatProductService);
+  private meatDetailsService = inject(MeatDetailsService);
   
   public showForm = false;
 
-  public meatProducts: Signal<MeatProduct[]> = this.meatProductService.meatProducts;
+  public meatProducts: Signal<MeatDetails[]> = this.meatDetailsService.meatDetails("Carnes");
   private halfCarcassWeight: Signal<number> = toSignal(this.storageService.getStorage('halfCarcassWeight').pipe(
     switchMap((data) => data ? of(data) : of(111))
   ));
@@ -44,8 +45,8 @@ export class WeightsAccordionComponent {
       return ;
     }
 
-    this.meatProducts().forEach((meatProduct: MeatProduct) => meatProduct.weight = this.calculateNewWeight(meatProduct.percentage));
-    this.meatProductService.editMeatProducts(this.meatProducts()).pipe(
+    this.meatProducts().forEach((meatProduct: MeatDetails) => meatProduct.weight = this.calculateNewWeight(meatProduct.percentage));
+    this.meatDetailsService.editMeatDetails(this.meatProducts()).pipe(
       tap((response) => this.handleSuccess(response)),
       catchError((error) => this.handleError(error)),
       takeUntilDestroyed(this.destroyRef)
@@ -59,9 +60,8 @@ export class WeightsAccordionComponent {
   private handleSuccess(response: string) {
     this.alertService.getSuccessToast(response).fire();
     this.storageService.setStorage('halfCarcassWeight', this.halfCarcassWeightValue);
-    this.showForm = false; // ANALIZAR SI DEJARLO O NO USAR UNA VARIABLE PARA MANEJAR LA VISIBILIDAD DEL FORM.
 
-    this.meatProductService.refreshMeatProducts();
+    this.showForm = false; // ANALIZAR SI DEJARLO O NO USAR UNA VARIABLE PARA MANEJAR LA VISIBILIDAD DEL FORM.
   }
 
   private handleError(error: any): Observable<null> {
@@ -71,3 +71,5 @@ export class WeightsAccordionComponent {
   }
 
 }
+
+

@@ -43,7 +43,7 @@ export class ProviderFormComponent {
   public readonly telephoneMask = telephoneMask;
 
   public isProviderEdit!: boolean;
-  public providerId!: number;
+  public providerId: number = 0;
 
   @ViewChildren('formInput') inputComponents!: QueryList<any>;
 

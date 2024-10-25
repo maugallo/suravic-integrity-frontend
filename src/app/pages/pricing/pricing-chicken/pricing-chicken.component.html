@@ -1,3 +1,52 @@
-<p>
-  pricing-chicken works!
-</p>
+<app-header title="CÁLCULO DE POLLO" titleSize="title-medium" icon="fa-solid fa-egg fa-2x"></app-header>
+
+<ion-content>
+  <div class="px-4 pt-2">
+    <app-weights-accordion category="Pollos"></app-weights-accordion>
+
+    <!-- Cálculo automático de precios -->
+    <form #calculateForm="ngForm" id="calculateForm" (ngSubmit)="onCalculateSubmit()">
+      <div class="percentages-container">
+        <!-- Half Carcass Cost Input -->
+        <app-number-input #calculateInput inputName="chickenBoxCostInput" label="Costo Cajón de Pollo" [(bindedObject)]="chickenBoxCost"
+        placeHolder="$1000" [minValue]="0" [maxValue]="9999999" labelPlacement="stacked"></app-number-input>
+
+        <!-- Profit Percentage Input -->
+        <app-number-input #calculateInput inputName="profitPercentageInput" label="Porcentaje Ganancia" [(bindedObject)]="profitPercentage"
+        placeHolder="30%" [minValue]="0" [maxValue]="9999999" labelPlacement="stacked"></app-number-input>
+      </div>
+      <div class="calculate-submit-container my-5">
+        <p class="calculate-label mt-0 mb-5">PRECIO DE VENTA DE POLLO: {{ chickenSellingCost() | currency }}</p>
+        <p class="calculate-label mt-0 mb-5">PRECIO TOTAL DE CORTES ACTUALES: {{ chickenCutsCurrentPricesTotal()() | currency }}</p>
+          <p class="difference-label mt-0 mb-5">PORCENTAJE DE DIFERENCIA ENTRE PRECIOS: {{ pricesDifferencePercentage()? pricesDifferencePercentage()!.toFixed(2) + '%' : '--' }}</p>
+          @if (pricesDifferencePercentage()! > tolerancePercentage) {
+            @if (pricesDifference()! > 0) { <p class="notice-difference mt-0">SE RECOMIENDA <u>AUMENTAR</u> LOS PRECIOS DE LOS CORTES</p> }
+            @if (pricesDifference()! < 0) { <p class="notice-difference mt-0">SE RECOMIENDA <u>DISMINUIR</u> LOS PRECIOS DE LOS CORTES</p> }
+            <div class="submit-buttons pb-3">
+              <app-submit-button label="Calcular precios"></app-submit-button>
+              <app-form-button label="Limpiar precios" (click)="clearPrices()" ></app-form-button>
+            </div>
+          } @else if(pricesDifferencePercentage()) { 
+            <p class="notice-no-difference mt-0">EL BALANCE DE LOS PRECIOS ES ADECUADO</p>
+            <app-form-button class="mb-3" label="Limpiar precios" (click)="clearPrices()" ></app-form-button>
+          }
+      </div>
+    </form>
+
+    <!-- Modificar manualmente y aplicar precios -->
+    <form #applyForm="ngForm" id="applyForm" (ngSubmit)="onApplySubmit()">
+      @if (meatDetails()()!.length > 0) {
+        <div class="pricing-container mb-4">
+          @for (product of meatDetails()(); track $index) {
+            <p class="product-title">{{ product.title | uppercase }}</p>
+            
+            <!-- Product Price Input -->
+            <app-number-input #priceInput inputName="productPriceInput{{$index}}" placeholder="$1000" 
+            [(bindedObject)]="product.price" [minValue]="0" (bindedObjectChange)="onPriceChange()"></app-number-input>
+          }
+        </div>
+      }
+      <app-submit-button class="my-4" label="Aplicar Precios"></app-submit-button>
+    </form>
+  </div>
+</ion-content>

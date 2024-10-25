@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MeatProduct } from '../models/meat-product.model';
+import { MeatDetails } from '../models/meat-details.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,26 +14,26 @@ export class MeatPricingService {
     return grossCost + (grossCost * (profitPercentage / 100));
   }
 
-  public calculateTotalMeatCutPrice(meatProducts: MeatProduct[]): number {
-    return meatProducts.reduce((accumulatedSum, meatProduct) => accumulatedSum + (meatProduct.weight * Number(meatProduct.price)), 0);
+  public calculateTotalMeatCutPrice(meatDetails: MeatDetails[]): number {
+    return meatDetails.reduce((accumulatedSum, meatDetail) => accumulatedSum + (meatDetail.weight * Number(meatDetail.price)), 0);
   }
 
-  public calculateAdjustedPrices(meatProducts: MeatProduct[], pricesDifference: number, halfCarcassWeight: number): MeatProduct[] {
-    return meatProducts.map(meatProduct => {
-      if (meatProduct.id === 16) {
+  public calculateAdjustedPrices(meatDetails: MeatDetails[], pricesDifference: number, halfCarcassWeight: number): MeatDetails[] {
+    return meatDetails.map(meatDetail => {
+      if (meatDetail.id === 16) {
         return {
-          ...meatProduct,
-          price: ((meatProduct.weight * Number(meatProduct.price)) / 10).toFixed(1),
+          ...meatDetail,
+          price: ((meatDetail.weight * Number(meatDetail.price)) / 10).toFixed(1),
         };
       } else {
-        const meatCutCurrentPrice = meatProduct.weight * Number(meatProduct.price);
-        const meatCutAdjustment = pricesDifference * (meatProduct.weight / halfCarcassWeight);
+        const meatCutCurrentPrice = meatDetail.weight * Number(meatDetail.price);
+        const meatCutAdjustment = pricesDifference * (meatDetail.weight / halfCarcassWeight);
         const meatCutNewPrice = meatCutCurrentPrice + meatCutAdjustment;
-        const meatProductNewPrice = this.roundToNearestTen(Number((meatCutNewPrice / meatProduct.weight).toFixed(0)));
+        const meatDetailNewPrice = this.roundToNearestTen(Number((meatCutNewPrice / meatDetail.weight).toFixed(0)));
         
         return {
-          ...meatProduct,
-          price: meatProductNewPrice.toString(),
+          ...meatDetail,
+          price: meatDetailNewPrice.toString(),
         };
       }
     });
