@@ -6,7 +6,7 @@ import { IonContent, IonSearchbar, IonButton, IonList, IonProgressBar } from "@i
 import { NotFoundComponent } from "../../../shared/components/not-found/not-found.component";
 import { ProductItemComponent } from "../../products/product-dashboard/product-item/product-item.component";
 import { OrderItemComponent } from "./order-item/order-item.component";
-import { OrderResponse } from 'src/app/core/models/order.model';
+import { OrderResponse } from 'src/app/core/models/interfaces/order.model';
 
 @Component({
   selector: 'app-order-dashboard',

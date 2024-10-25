@@ -2,12 +2,12 @@
 
 <ion-content>
   <div class="px-4 pt-2">
-    <app-weights-accordion category="Pollos"></app-weights-accordion>
+    <app-weights-accordion></app-weights-accordion>
 
     <!-- Cálculo automático de precios -->
     <form #calculateForm="ngForm" id="calculateForm" (ngSubmit)="onCalculateSubmit()">
       <div class="percentages-container">
-        <!-- Half Carcass Cost Input -->
+        <!-- Chicken Cost Input -->
         <app-number-input #calculateInput inputName="chickenBoxCostInput" label="Costo Cajón de Pollo" [(bindedObject)]="chickenBoxCost"
         placeHolder="$1000" [minValue]="0" [maxValue]="9999999" labelPlacement="stacked"></app-number-input>
 

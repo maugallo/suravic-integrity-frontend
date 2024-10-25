@@ -3,7 +3,7 @@ import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, Observable, of, switchMap, tap } from 'rxjs';
-import { ProductRequest } from 'src/app/core/models/product.model';
+import { ProductRequest } from 'src/app/core/models/interfaces/product.model';
 import { CategoryService } from 'src/app/core/services/category.service';
 import { ProductService } from 'src/app/core/services/product.service';
 import { AlertService } from 'src/app/core/services/utils/alert.service';

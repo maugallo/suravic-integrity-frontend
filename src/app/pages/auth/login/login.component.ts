@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { IonContent } from "@ionic/angular/standalone";
 import { BackButtonComponent } from "../../../shared/components/back-button/back-button.component";
 import { ValidationService } from 'src/app/core/services/utils/validation.service';
-import { UserLoginRequest } from 'src/app/core/models/user.model';
+import { UserLoginRequest } from 'src/app/core/models/interfaces/user.model';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { TokenService } from 'src/app/core/services/utils/token.service';
 import { catchError, of, switchMap, tap } from 'rxjs';

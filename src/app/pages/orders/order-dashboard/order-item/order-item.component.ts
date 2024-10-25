@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, input, output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { catchError, of, tap } from 'rxjs';
-import { OrderResponse } from 'src/app/core/models/order.model';
+import { OrderResponse } from 'src/app/core/models/interfaces/order.model';
 import { OrderService } from 'src/app/core/services/order.service';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
 import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from "@ionic/angular/standalone";

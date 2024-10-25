@@ -4,7 +4,7 @@ import { HeaderComponent } from "../../../shared/components/header/header.compon
 import { FooterComponent } from "../../../shared/components/footer/footer.component";
 import { UserItemComponent } from './user-item/user-item.component';
 import { UserService } from 'src/app/core/services/user.service';
-import { UserResponse } from 'src/app/core/models/user.model';
+import { UserResponse } from 'src/app/core/models/interfaces/user.model';
 import { Router } from '@angular/router';
 import { NotFoundComponent } from 'src/app/shared/components/not-found/not-found.component';
 

@@ -8,12 +8,14 @@ import { ValidationService } from 'src/app/core/services/utils/validation.servic
 import { NumberInputComponent } from 'src/app/shared/components/form/number-input/number-input.component';
 import { HeaderComponent } from "../../../shared/components/header/header.component";
 import { IonContent } from "@ionic/angular/standalone";
-import { WeightsAccordionComponent } from "../pricing-beef/weights-accordion/weights-accordion.component";
+import { WeightsAccordionComponent } from './weights-accordion/weights-accordion.component';
 import { FormsModule } from '@angular/forms';
 import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
 import { FormButtonComponent } from "../../../shared/components/form/form-button/form-button.component";
 import { CurrencyPipe, UpperCasePipe } from '@angular/common';
-import { MeatDetails } from 'src/app/core/models/meat-details.model';
+import { MeatDetailsType } from 'src/app/core/models/enums/meat-details-type.enum';
+import { PricingService } from 'src/app/core/services/pricing.service';
+import { MeatDetailsConstant } from 'src/app/core/models/enums/meat-details-constant.enum';
 
 @Component({
   selector: 'app-pricing-chicken',
@@ -30,43 +32,30 @@ export class PricingChickenComponent {
   private alertService = inject(AlertService);
   private validationService = inject(ValidationService);
   private meatDetailService = inject(MeatDetailsService);
+  private pricingService = inject(PricingService)
 
   public meatDetails = computed(() => signal(this.meatDetailsOnlyReadSignal())); // WritableSignal<Signal> para poder actualizar el array.
-  private meatDetailsOnlyReadSignal = this.meatDetailService.meatDetails("Pollos");
+  private meatDetailsOnlyReadSignal = this.meatDetailService.meatDetails(MeatDetailsType.CHICKEN);
 
-  public rawMeatDetails = this.meatDetailService.meatDetails("Pollos");
+  public rawMeatDetails = this.meatDetailService.meatDetails(MeatDetailsType.CHICKEN);
 
   public chickenBoxCost = signal(0);
   public profitPercentage = signal(0);
-  public tolerancePercentage = 1.5;
+  public tolerancePercentage = MeatDetailsConstant.TOLERANCE_PERCENTAGE;
 
-  public chickenWeight = toSignal(this.storageService.getStorage('Pollos').pipe(
-    switchMap((data) => data ? of(data) : of(2.47))
+  public chickenWeight = toSignal(this.storageService.getStorage(MeatDetailsType.CHICKEN).pipe(
+    switchMap((data) => data ? of(data) : of(MeatDetailsConstant.DEFAULT_CHICKEN_WEIGHT))
   ));
 
   public chickenBoxCostPerKg = computed(() => this.chickenBoxCost() / 19.5);
-  public chickenGrossCost = computed(() => this.chickenBoxCostPerKg() * this.chickenWeight());
-  public chickenSellingCost = computed(() => this.chickenGrossCost() * (this.profitPercentage()/100));
+  public chickenGrossCost = computed(() => this.pricingService.calculateMainCutGrossCost(this.chickenBoxCostPerKg(), this.chickenWeight()));
+  public chickenSellingCost = computed(() => this.pricingService.calculateMainCutSellingCost(this.chickenGrossCost(), this.profitPercentage()));
 
-  public chickenCutsCurrentPricesTotal = computed(() => signal(this.meatDetails()().reduce((accumulatedSum, meatDetail) => accumulatedSum + (meatDetail.weight * Number(meatDetail.price)), 0)));
+  public chickenCutsCurrentPricesTotal = computed(() => signal(this.pricingService.calculateMeatCutsCurrentPricesSum(this.meatDetails()())));
 
-  public pricesDifference = computed(() => this.calculatePricesDifference(this.chickenSellingCost(), this.profitPercentage(), this.chickenCutsCurrentPricesTotal()()))
-  // Encapsular a servicio...
-  private calculatePricesDifference(chickenSellingCost: number, profitPercentage: number, chickenCutsCurrentPricesTotal: number) {
-    if (chickenSellingCost > 0 && profitPercentage > 0 && chickenCutsCurrentPricesTotal > 0) {
-      return chickenSellingCost - chickenCutsCurrentPricesTotal;
-    }
-    return null;
-  }
+  public pricesDifference = computed(() => this.pricingService.calculatePricesDifference(this.chickenSellingCost(), this.profitPercentage(), this.chickenCutsCurrentPricesTotal()()))
 
-  public pricesDifferencePercentage = computed(() => this.calculatePricesDifferencePercentage(this.pricesDifference()!, this.chickenCutsCurrentPricesTotal()()))
-  // Encapsular a servicio...
-  private calculatePricesDifferencePercentage(pricesDifference: number, chickenCutsCurrentPricesTotal: number) {
-    if (pricesDifference) {
-      return Math.abs((pricesDifference! / chickenCutsCurrentPricesTotal) * 100);
-    }
-    return null;
-  }
+  public pricesDifferencePercentage = computed(() => this.pricingService.calculatePricesDifferencePercentage(this.pricesDifference()!, this.chickenCutsCurrentPricesTotal()()))
 
   public clearPrices() {
     this.meatDetails().set(this.rawMeatDetails());
@@ -76,7 +65,7 @@ export class PricingChickenComponent {
   @ViewChildren('priceInput') inputsPrice!: QueryList<NumberInputComponent>;
 
   public onPriceChange() {
-    this.chickenCutsCurrentPricesTotal().set(this.meatDetails()().reduce((acumulatedSum, meatDetail) => acumulatedSum + (meatDetail.weight * Number(meatDetail.price)), 0));
+    this.chickenCutsCurrentPricesTotal().set(this.pricingService.calculateMeatCutsCurrentPricesSum(this.meatDetails()()));
   }
 
   public onCalculateSubmit() {
@@ -98,29 +87,10 @@ export class PricingChickenComponent {
   }
 
   private calculatePrices() {
-    const updatedMeatDetails = this.calculateAdjustedPrices(this.meatDetails()(), this.pricesDifference()!, this.chickenWeight());
+    const updatedMeatDetails = this.pricingService.calculateAdjustedPrices(this.meatDetails()(), this.pricesDifference()!, this.chickenCutsCurrentPricesTotal()(), MeatDetailsType.CHICKEN);
 
     this.meatDetails().set(updatedMeatDetails);
     this.alertService.getSuccessToast('Precios calculados correctamente').fire();
-  } // Encapsular a servicio...
-  private calculateAdjustedPrices(meatDetails: MeatDetails[], pricesDifference: number, halfCarcassWeight: number): MeatDetails[] {
-    return meatDetails.map(meatDetail => {
-      const chickenCutCurrentPrice = meatDetail.weight * Number(meatDetail.price);
-      const chickenCutAdjustment = pricesDifference * (meatDetail.weight / halfCarcassWeight);
-      const chickenCutNewPrice = chickenCutCurrentPrice + chickenCutAdjustment;
-      const chickenDetailNewPrice = this.roundToNearestTen(Number((chickenCutNewPrice / meatDetail.weight).toFixed(0)));
-      
-      return {
-        ...meatDetail,
-        price: chickenDetailNewPrice.toString(),
-      };
-    });
-  }
-  private roundToNearestTen(value: number): number {
-    const lastDigit = value % 10;
-
-    if (lastDigit >= 5) return value + (10 - lastDigit); // Redondear hacia arriba
-    else return value - lastDigit; // Redondear hacia abajo
   }
 
   private applyNewPrices() {

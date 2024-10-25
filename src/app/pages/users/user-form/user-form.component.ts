@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, QueryList, Signal, ViewChildren } from '
 import { HeaderComponent } from "../../../shared/components/header/header.component";
 import { IonContent, IonSelectOption } from "@ionic/angular/standalone";
 import { FormsModule } from '@angular/forms';
-import { UserRequest } from 'src/app/core/models/user.model';
+import { UserRequest } from 'src/app/core/models/interfaces/user.model';
 import { ValidationService } from 'src/app/core/services/utils/validation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/core/services/user.service';

@@ -2,7 +2,7 @@
 
 <ion-content>
   <div class="px-4 pt-2">
-    <app-weights-accordion category="Carnes"></app-weights-accordion>
+    <app-weights-accordion></app-weights-accordion>
 
     <!-- Cálculo automático de precios -->
     <form #calculateForm="ngForm" id="calculateForm" (ngSubmit)="onCalculateSubmit()">
@@ -16,8 +16,8 @@
         placeHolder="30%" [minValue]="0" [maxValue]="9999999" labelPlacement="stacked"></app-number-input>
       </div>
       <div class="calculate-submit-container my-5">
-        <p class="calculate-label mt-0 mb-5">PRECIO DE VENTA DE MEDIA RES: {{ halfCarcassSellingPrice() | currency }}</p>
-        <p class="calculate-label mt-0 mb-5">PRECIO TOTAL DE CORTES ACTUALES: {{ meatCutCurrentPricesTotal()() | currency }}</p>
+        <p class="calculate-label mt-0 mb-5">PRECIO DE VENTA DE MEDIA RES: {{ halfCarcassSelingCost() | currency }}</p>
+        <p class="calculate-label mt-0 mb-5">PRECIO TOTAL DE CORTES ACTUALES: {{ beefCutCurrentPricesSum()() | currency }}</p>
           <p class="difference-label mt-0 mb-5">PORCENTAJE DE DIFERENCIA ENTRE PRECIOS: {{ pricesDifferencePercentage()? pricesDifferencePercentage()!.toFixed(2) + '%' : '--' }}</p>
           @if (pricesDifferencePercentage()! > tolerancePercentage) {
             @if (pricesDifference()! > 0) { <p class="notice-difference mt-0">SE RECOMIENDA <u>AUMENTAR</u> LOS PRECIOS DE LOS CORTES</p> }

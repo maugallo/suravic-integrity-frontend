@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, catchError, Observable, switchMap, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { OrderRequest, OrderResponse } from '../models/order.model';
+import { OrderRequest, OrderResponse } from '../models/interfaces/order.model';
 
 @Injectable({
   providedIn: 'root'

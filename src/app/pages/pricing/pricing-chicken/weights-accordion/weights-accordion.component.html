@@ -10,8 +10,8 @@
           @if (!showForm) {
             <div class="info-container p-4" style="display: flex; align-items: center;">
               <p class="my-0">
-                MEDIA RES: 
-                <b class="mr-1">{{ halfCarcassWeightValue }}kg</b>
+                POLLO: 
+                <b class="mr-1">{{ chickenWeightValue }}kg</b>
                 <ion-badge (click)="showForm = true"><i class="fa-solid fa-pen-to-square"></i></ion-badge>
               </p>
             </div>
@@ -19,8 +19,8 @@
 
           @if (showForm) {
             <div class="form-container px-4" style="display: flex; align-items: center;">
-              <p class="my-0">MEDIA RES:</p>
-              <app-number-input inputName="halfCarcassWeightInput" [(bindedObject)]="halfCarcassWeightValue"
+              <p class="my-0">POLLO:</p>
+              <app-number-input inputName="chickenWeightInput" [(bindedObject)]="chickenWeightValue"
               [minValue]="0" [maxValue]="99999" [errorText]="false"></app-number-input>
 
               <app-submit-button icon='<i class="fa-solid fa-floppy-disk fa-1x"></i>'></app-submit-button>

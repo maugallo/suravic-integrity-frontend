@@ -13,7 +13,9 @@ import { StorageService } from 'src/app/core/services/utils/storage.service';
 import { catchError, Observable, of, switchMap, tap } from 'rxjs';
 import { MeatDetailsService } from 'src/app/core/services/meat-details.service';
 import { FormButtonComponent } from "../../../shared/components/form/form-button/form-button.component";
-import { MeatPricingService } from 'src/app/core/services/meat-pricing.service';
+import { PricingService } from 'src/app/core/services/pricing.service';
+import { MeatDetailsType } from 'src/app/core/models/enums/meat-details-type.enum';
+import { MeatDetailsConstant } from 'src/app/core/models/enums/meat-details-constant.enum';
 
 @Component({
   selector: 'app-pricing-beef',
@@ -30,28 +32,28 @@ export class PricingBeefComponent {
   private alertService = inject(AlertService);
   private validationService = inject(ValidationService);
   private meatDetailService = inject(MeatDetailsService);
-  private meatPricingService = inject(MeatPricingService);
+  private pricingService = inject(PricingService);
 
   public meatDetails = computed(() => signal(this.meatDetailsOnlyReadSignal())); // WritableSignal<Signal> para poder actualizar el array.
-  private meatDetailsOnlyReadSignal = this.meatDetailService.meatDetails("Carnes");
+  private meatDetailsOnlyReadSignal = this.meatDetailService.meatDetails(MeatDetailsType.BEEF);
 
-  public rawMeatDetails = this.meatDetailService.meatDetails("Carnes");
+  public rawMeatDetails = this.meatDetailService.meatDetails(MeatDetailsType.BEEF);
 
   public halfCarcassCostPerKg = signal(0);
   public profitPercentage = signal(0);
-  public tolerancePercentage = 1.5;
+  public tolerancePercentage = MeatDetailsConstant.TOLERANCE_PERCENTAGE;
 
-  public halfCarcassWeight = toSignal(this.storageService.getStorage('Carnes').pipe(
-    switchMap((data) => data ? of(data) : of(111))
+  public halfCarcassWeight = toSignal(this.storageService.getStorage(MeatDetailsType.BEEF).pipe(
+    switchMap((data) => data ? of(data) : of(MeatDetailsConstant.DEFAULT_HALF_CARCASS_WEIGHT))
   ));
 
-  public halfCarcassGrossCost = computed(() => this.meatPricingService.calculateHalfCarcassGrossCost(this.halfCarcassCostPerKg(), this.halfCarcassWeight()));
-  public halfCarcassSellingPrice = computed(() => this.meatPricingService.calculateHalfCarcassSellingPrice(this.halfCarcassGrossCost(), this.profitPercentage()));
+  public halfCarcassGrossCost = computed(() => this.pricingService.calculateMainCutGrossCost(this.halfCarcassCostPerKg(), this.halfCarcassWeight()));
+  public halfCarcassSelingCost = computed(() => this.pricingService.calculateMainCutSellingCost(this.halfCarcassGrossCost(), this.profitPercentage()));
 
-  public meatCutCurrentPricesTotal = computed(() => signal(this.meatPricingService.calculateTotalMeatCutPrice(this.meatDetails()())));
+  public beefCutCurrentPricesSum = computed(() => signal(this.pricingService.calculateMeatCutsCurrentPricesSum(this.meatDetails()())));
 
-  public pricesDifference = computed(() => this.meatPricingService.calculatePricesDifference(this.halfCarcassSellingPrice(), this.profitPercentage(), this.meatCutCurrentPricesTotal()()));
-  public pricesDifferencePercentage = computed(() => this.meatPricingService.calculatePricesDifferencePercentage(this.pricesDifference()!, this.meatCutCurrentPricesTotal()()));
+  public pricesDifference = computed(() => this.pricingService.calculatePricesDifference(this.halfCarcassSelingCost(), this.profitPercentage(), this.beefCutCurrentPricesSum()()));
+  public pricesDifferencePercentage = computed(() => this.pricingService.calculatePricesDifferencePercentage(this.pricesDifference()!, this.beefCutCurrentPricesSum()()));
 
   public clearPrices() {
     this.meatDetails().set(this.rawMeatDetails());
@@ -61,7 +63,7 @@ export class PricingBeefComponent {
   @ViewChildren('priceInput') inputsPrice!: QueryList<NumberInputComponent>;
 
   public onPriceChange() {
-    this.meatCutCurrentPricesTotal().set(this.meatDetails()().reduce((acumulatedSum, meatDetail) => acumulatedSum + (meatDetail.weight * Number(meatDetail.price)), 0));
+    this.beefCutCurrentPricesSum().set(this.meatDetails()().reduce((acumulatedSum, meatDetail) => acumulatedSum + (meatDetail.weight * Number(meatDetail.price)), 0));
   }
 
   public onCalculateSubmit() {
@@ -83,7 +85,7 @@ export class PricingBeefComponent {
   }
 
   private calculatePrices() {
-    const updatedMeatDetails = this.meatPricingService.calculateAdjustedPrices(this.meatDetails()(), this.pricesDifference()!, this.halfCarcassWeight());
+    const updatedMeatDetails = this.pricingService.calculateAdjustedPrices(this.meatDetails()(), this.pricesDifference()!, this.beefCutCurrentPricesSum()(), MeatDetailsType.BEEF);
 
     this.meatDetails().set(updatedMeatDetails);
     this.alertService.getSuccessToast('Precios calculados correctamente').fire();

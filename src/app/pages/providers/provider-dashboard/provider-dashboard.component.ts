@@ -6,7 +6,7 @@ import { ProviderService } from 'src/app/core/services/provider.service';
 import { NotFoundComponent } from "../../../shared/components/not-found/not-found.component";
 import { ProviderItemComponent } from "./provider-item/provider-item.component";
 import { Filter, FilterComponent } from "../../../shared/components/filter/filter.component";
-import { ProviderResponse } from 'src/app/core/models/provider.model';
+import { ProviderResponse } from 'src/app/core/models/interfaces/provider.model';
 import { SectorModalComponent } from './sector-modal/sector-modal.component';
 
 @Component({

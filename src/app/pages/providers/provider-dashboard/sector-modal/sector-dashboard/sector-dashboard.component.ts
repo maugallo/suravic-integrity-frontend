@@ -2,7 +2,7 @@ import { Component, inject, output } from '@angular/core';
 import { IonButton, IonList, IonProgressBar } from "@ionic/angular/standalone";
 import { SectorService } from 'src/app/core/services/sector.service';
 import { catchError, firstValueFrom, of, tap } from 'rxjs';
-import { SectorRequest } from 'src/app/core/models/sector.model';
+import { SectorRequest } from 'src/app/core/models/interfaces/sector.model';
 import Swal from 'sweetalert2';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
 import { SectorItemComponent } from "./sector-item/sector-item.component";

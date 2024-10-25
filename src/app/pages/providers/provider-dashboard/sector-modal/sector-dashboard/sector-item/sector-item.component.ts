@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, input, output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from "@ionic/angular/standalone";
 import { catchError, firstValueFrom, of, tap } from 'rxjs';
-import { SectorRequest, SectorResponse } from 'src/app/core/models/sector.model';
+import { SectorRequest, SectorResponse } from 'src/app/core/models/interfaces/sector.model';
 import { SectorService } from 'src/app/core/services/sector.service';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
 import Swal from 'sweetalert2';

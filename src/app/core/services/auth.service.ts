@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { UserLoginRequest } from '../models/user.model';
+import { UserLoginRequest } from '../models/interfaces/user.model';
 import { catchError, map, Observable, throwError } from 'rxjs';
 
 @Injectable({

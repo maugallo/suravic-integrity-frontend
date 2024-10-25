@@ -9,7 +9,9 @@ import { AlertService } from 'src/app/core/services/utils/alert.service';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { catchError, Observable, of, switchMap, tap } from 'rxjs';
 import { MeatDetailsService } from 'src/app/core/services/meat-details.service';
-import { MeatDetails } from 'src/app/core/models/meat-details.model';
+import { MeatDetails } from 'src/app/core/models/interfaces/meat-details.model';
+import { MeatDetailsType } from 'src/app/core/models/enums/meat-details-type.enum';
+import { MeatDetailsConstant } from 'src/app/core/models/enums/meat-details-constant.enum';
 
 @Component({
   selector: 'app-weights-accordion',
@@ -28,20 +30,20 @@ export class WeightsAccordionComponent {
   
   public showForm = false;
 
-  public meatProducts: Signal<MeatDetails[]> = this.meatDetailsService.meatDetails("Carnes");
-  private halfCarcassWeight: Signal<number> = toSignal(this.storageService.getStorage('halfCarcassWeight').pipe(
-    switchMap((data) => data ? of(data) : of(111))
+  public meatProducts: Signal<MeatDetails[]> = this.meatDetailsService.meatDetails(MeatDetailsType.CHICKEN);
+  private chickenWeight: Signal<number> = toSignal(this.storageService.getStorage(MeatDetailsType.CHICKEN).pipe(
+    switchMap((data) => data ? of(data) : of(MeatDetailsConstant.DEFAULT_CHICKEN_WEIGHT))
   ));
-  public halfCarcassWeightValue = this.halfCarcassWeight(); // Tendremos que usar una variable que "replique" el valor del signal, dado que nuestro input no soporta mandar un signal directamente (ni siquiera con '()').
+  public chickenWeightValue = this.chickenWeight(); // Tendremos que usar una variable que "replique" el valor del signal, dado que nuestro input no soporta mandar un signal directamente (ni siquiera con '()').
 
   constructor() {
     effect(() => {
-      this.halfCarcassWeightValue = this.halfCarcassWeight();
+      this.chickenWeightValue = this.chickenWeight();
     });
   }
 
   public onSubmit() {
-    if (!this.halfCarcassWeightValue) {
+    if (!this.chickenWeightValue) {
       return ;
     }
 
@@ -54,12 +56,12 @@ export class WeightsAccordionComponent {
   }
 
   private calculateNewWeight(percentage: number) {
-    return Number(((percentage/100) * this.halfCarcassWeightValue).toFixed(1));
+    return Number(((percentage/100) * this.chickenWeightValue).toFixed(1));
   }
 
   private handleSuccess(response: string) {
     this.alertService.getSuccessToast(response).fire();
-    this.storageService.setStorage('halfCarcassWeight', this.halfCarcassWeightValue);
+    this.storageService.setStorage(MeatDetailsType.CHICKEN, this.chickenWeightValue);
 
     this.showForm = false; // ANALIZAR SI DEJARLO O NO USAR UNA VARIABLE PARA MANEJAR LA VISIBILIDAD DEL FORM.
   }

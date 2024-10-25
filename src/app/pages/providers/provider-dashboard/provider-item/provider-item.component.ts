@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from "@ionic/angular/standalone";
 import { catchError, of, tap } from 'rxjs';
-import { ProviderResponse } from 'src/app/core/models/provider.model';
+import { ProviderResponse } from 'src/app/core/models/interfaces/provider.model';
 import { ProviderService } from 'src/app/core/services/provider.service';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
 

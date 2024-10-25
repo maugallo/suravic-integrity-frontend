@@ -3,7 +3,7 @@ import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonContent, IonButton, IonSelectOption } from "@ionic/angular/standalone";
 import { catchError, Observable, of, switchMap, tap } from 'rxjs';
-import { ProviderRequest } from 'src/app/core/models/provider.model';
+import { ProviderRequest } from 'src/app/core/models/interfaces/provider.model';
 import { ProviderService } from 'src/app/core/services/provider.service';
 import { ValidationService } from 'src/app/core/services/utils/validation.service';
 import { HeaderComponent } from "../../../shared/components/header/header.component";

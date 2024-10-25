@@ -1,0 +1,5 @@
+export enum MeatDetailsConstant {
+    TOLERANCE_PERCENTAGE = 1.5,
+    DEFAULT_CHICKEN_WEIGHT = 2.47,
+    DEFAULT_HALF_CARCASS_WEIGHT = 111
+}

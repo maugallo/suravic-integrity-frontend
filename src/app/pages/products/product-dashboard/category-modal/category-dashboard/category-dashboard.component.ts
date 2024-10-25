@@ -1,6 +1,6 @@
 import { Component, inject, output } from '@angular/core';
 import { catchError, firstValueFrom, of, tap } from 'rxjs';
-import { CategoryRequest } from 'src/app/core/models/category.model';
+import { CategoryRequest } from 'src/app/core/models/interfaces/category.model';
 import { CategoryService } from 'src/app/core/services/category.service';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
 import { HeaderComponent } from "../../../../../shared/components/header/header.component";
