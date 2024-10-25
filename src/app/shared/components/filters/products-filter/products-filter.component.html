@@ -1,0 +1,29 @@
+<ion-menu side="end" menuId="filter-menu" contentId="main-content">
+  <ion-content>
+    <div class="filter mt-0 mx-4 pb-4">
+      <!-- Categories filter -->
+      <p class="filter-subtitle mb-3">Categorías</p>
+      <ion-select [(ngModel)]="filters[0].value" aria-label="Categories" placeholder="Selecciona categorías para filtrar" fill="outline" [interfaceOptions]="customInterfaceOptions" [multiple]="true">
+        @for (category of categories(); track $index) {
+          <ion-select-option [value]="category.id">{{ category.name }}</ion-select-option>
+        }
+      </ion-select>
+    </div>
+    
+    <div class="filter mt-0 mb-4 mx-4 pb-4">
+      <!-- Providers filter -->
+      <p class="filter-subtitle mb-3">Proveedores</p>
+      <ion-select [(ngModel)]="filters[1].value" aria-label="Providers" placeholder="Selecciona proveedores para filtrar" fill="outline" [interfaceOptions]="customInterfaceOptions" [multiple]="true">
+        @for (provider of providers(); track $index) {
+            <ion-select-option [value]="provider.id">{{ provider.companyName }}</ion-select-option>
+          }
+      </ion-select>
+    </div>
+    
+    <!-- Filter button -->
+    <div class="filter-button mb-4 mx-4">
+      <ion-button (click)="clearFilter()" expand="block">Limpiar</ion-button>
+      <ion-button (click)="filterProviders()" expand="block">Filtrar</ion-button>
+    </div>
+  </ion-content>
+</ion-menu>

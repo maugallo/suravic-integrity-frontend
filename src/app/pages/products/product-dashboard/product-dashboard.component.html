@@ -6,7 +6,9 @@
       <!-- Search Bar -->
       <ion-searchbar placeholder="Buscar" [debounce]="250" (ionInput)="searchForProducts($event)"></ion-searchbar>
       <!-- Filter Button -->
-      <ion-button><i class="fa-solid fa-filter fa-2x py-0"></i></ion-button>
+      <ion-button id="main-content" (click)="openFilterMenu()"><i class="fa-solid fa-filter fa-2x py-0"></i></ion-button>
+      <!-- Filter menu -->
+      <app-products-filter (filtersEmitter)="receiveFilters($event)"></app-products-filter>
     </div>
     
     <div class="options-container">
@@ -18,7 +20,7 @@
       <app-category-modal></app-category-modal>
     </div>
 
-    @if (searchBarResult(); as products) {
+    @if (filteredProducts(); as products) {
       @if (products.length === 0) { <app-not-found></app-not-found> }
       <ion-list>
         @for (product of products; track $index) {

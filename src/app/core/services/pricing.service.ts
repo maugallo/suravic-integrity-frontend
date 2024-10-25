@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { MeatDetails } from '../models/interfaces/meat-details.model';
-import { MeatDetailsType } from '../models/enums/meat-details-type.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -33,41 +32,17 @@ export class PricingService {
     return null;
   }
 
-  public calculateAdjustedPrices(meatDetails: MeatDetails[], pricesDifference: number, meatCutsCurrentPricesSum: number, type: MeatDetailsType): MeatDetails[] {
-    if (type === MeatDetailsType.BEEF)
-      return this.calculateBeefProductsPrice(meatDetails, pricesDifference, meatCutsCurrentPricesSum);
-    if (type === MeatDetailsType.CHICKEN)
-      return this.calculateChickenProductsPrice(meatDetails, pricesDifference, meatCutsCurrentPricesSum);
-
-    return [];
-  }
-
-  private calculateBeefProductsPrice(meatDetails: MeatDetails[], pricesDifference: number, meatCutsCurrentPricesSum: number) {
+  public calculateAdjustedPrices(meatDetails: MeatDetails[], pricesDifference: number, meatCutsCurrentPricesSum: number): MeatDetails[] {
     return meatDetails.map(meatDetail => {
-        const beefCutCurrentPrice = meatDetail.weight * Number(meatDetail.price);
-        /* const meatCutAdjustment = pricesDifference * (meatDetail.weight / halfCarcassWeight); */
-        const beefCutAdjustment = (beefCutCurrentPrice / meatCutsCurrentPricesSum) * pricesDifference;
-        const beefCutNewPrice = beefCutCurrentPrice + beefCutAdjustment;
+      const meatCutCurrentPrice = meatDetail.weight * Number(meatDetail.price);
+      const meatCutAdjustment = (meatCutCurrentPrice / meatCutsCurrentPricesSum) * pricesDifference;
+      const meatCutNewPrice = meatCutCurrentPrice + meatCutAdjustment;
 
-        const beefProductNewPrice = this.roundToNearestTen(Number((beefCutNewPrice / meatDetail.weight).toFixed(0)));
-        return {
-          ...meatDetail,
-          price: beefProductNewPrice.toString(),
-        };
-    });
-  }
-
-  private calculateChickenProductsPrice(meatDetails: MeatDetails[], pricesDifference: number, meatCutsCurrentPricesSum: number) {
-    return meatDetails.map(meatDetail => {
-      const chickenCutCurrentPrice = meatDetail.weight * Number(meatDetail.price);
-      const chickenCutAdjustment = (chickenCutCurrentPrice / meatCutsCurrentPricesSum) * pricesDifference;
-      const chickenCutNewPrice = chickenCutCurrentPrice + chickenCutAdjustment;
-
-      const chickenProductNewPrice = this.roundToNearestTen(Number((chickenCutNewPrice / meatDetail.weight).toFixed(0)));
+      const meatDetailNewPrice = this.roundToNearestTen(Number((meatCutNewPrice / meatDetail.weight).toFixed(0))).toString();
       return {
         ...meatDetail,
-        price: chickenProductNewPrice.toString(),
-      };
+        price: meatDetailNewPrice
+      }
     });
   }
 

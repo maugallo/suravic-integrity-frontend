@@ -1,32 +1,58 @@
 @import '/src/global.scss';
 
-.provider-select {
-    border-bottom: 1px solid $secondary-color;
-}
+.percentages-container {
 
-.products-container {
-    display: grid;
-    grid-template-columns: 25% 25% 25% 25%;
-    gap: 15px;
-    justify-content: center;
-    align-content: center;
 }
 
 .percentages-label {
     color: $primary-color;
     text-align: center;
     font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.percentages {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.pricing-container {
+    border-bottom: 1px solid $secondary-color;
+}
+
+.product-container {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    justify-content: center;
+    align-items: center;
+}
+
+.subtotal-container {
+    display: grid;
+    grid-template-columns: 43.5% 50%;
+    gap: 10px;
+    justify-content: center;
+    align-content: center;
+}
+
+.quantity-container {
+    display: grid;
+    grid-template-columns: 48% 52%;
+    gap: 2px;
 }
 
 .product-title {
-    text-align: end;
+    text-align: center;
     font-weight: bold;
-    font-size: small;
+    font-size: 1rem;
     color: $primary-color;
 }
 
 .disabled-product-title {
-    text-align: end;
+    text-align: center;
     font-weight: bold;
     color: $secondary-color;
 }

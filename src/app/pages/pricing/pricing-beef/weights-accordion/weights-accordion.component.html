@@ -30,7 +30,7 @@
       </div>
 
       @for (meatProduct of meatProducts(); track $index) {
-      <div class="ion-padding" slot="content">{{ meatProduct.title | uppercase }}: <b>{{ meatProduct.weight }}kg</b></div>
+        <div class="ion-padding" slot="content">{{ meatProduct.title | uppercase }}: <b>{{ meatProduct.weight }}kg</b></div>
       }
     </ion-accordion>
   </ion-accordion-group>

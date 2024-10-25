@@ -87,7 +87,7 @@ export class PricingChickenComponent {
   }
 
   private calculatePrices() {
-    const updatedMeatDetails = this.pricingService.calculateAdjustedPrices(this.meatDetails()(), this.pricesDifference()!, this.chickenCutsCurrentPricesTotal()(), MeatDetailsType.CHICKEN);
+    const updatedMeatDetails = this.pricingService.calculateAdjustedPrices(this.meatDetails()(), this.pricesDifference()!, this.chickenCutsCurrentPricesTotal()());
 
     this.meatDetails().set(updatedMeatDetails);
     this.alertService.getSuccessToast('Precios calculados correctamente').fire();

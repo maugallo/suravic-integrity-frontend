@@ -53,12 +53,23 @@
 
           <p class="section-title pb-2 mt-6">INFORMACIÓN FINANCIERA</p>
           <!-- Vat Percentage Input -->
-          <app-number-input #formInput class="mb-8" inputName="vatPercentageInput" [(bindedObject)]="provider()!.percentages.vatPercentage" 
-          label="Porcentaje de IVA" placeHolder="21%" [minValue]="-1" [maxValue]="9999999"></app-number-input>
+           <app-select-input #formInput class="mb-8" inputName="vatPercentageSelect" [(bindedObject)]="provider()!.percentages.vatPercentage"
+           label="Porcentaje de IVA" [options]="[21, 10.5]">
+            <ion-select-option [value]="21">21%</ion-select-option>
+            <ion-select-option [value]="10.5">10,5%</ion-select-option>
+          </app-select-input>
 
           <!-- Profit Percentage Input -->
           <app-number-input #formInput class="mb-8" inputName="profitPercentageInput" [(bindedObject)]="provider()!.percentages.profitPercentage" 
           label="Porcentaje de Ganancia" placeHolder="35%" [minValue]="-1" [maxValue]="9999999"></app-number-input>
+
+          <!-- Perception Percentage Input -->
+          <app-number-input #formInput class="mb-8" inputName="perceptionPercentageInput" [(bindedObject)]="provider()!.percentages.perceptionPercentage" 
+          label="Porcentaje de Percepción" placeHolder="4%" [minValue]="-1" [maxValue]="9999999"></app-number-input>
+
+          <!-- Gross Income Percentage Input -->
+          <app-number-input #formInput class="mb-8" inputName="grossIncomePercentageInput" [(bindedObject)]="provider()!.percentages.grossIncomePercentage" 
+          label="Porcentaje de Percepción" placeHolder="3%" [minValue]="-1" [maxValue]="9999999"></app-number-input>
     
           <app-submit-button class="mb-5" [isEdit]="isProviderEdit"></app-submit-button>
       </form>

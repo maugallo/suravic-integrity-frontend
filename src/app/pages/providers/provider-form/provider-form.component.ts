@@ -58,7 +58,7 @@ export class ProviderFormComponent {
         return of({
           sectorId: provider.sector.id,
           contact: { email: provider.contact.email, telephone: provider.contact.telephone },
-          percentages: { profitPercentage: provider.percentages.profitPercentage, vatPercentage: provider.percentages.vatPercentage },
+          percentages: { profitPercentage: provider.percentages.profitPercentage, vatPercentage: provider.percentages.vatPercentage, perceptionPercentage: provider.percentages.perceptionPercentage, grossIncomePercentage: provider.percentages.grossIncomePercentage },
           vatCondition: provider.vatCondition,
           companyName: provider.companyName,
           firstName: provider.firstName,
@@ -70,7 +70,7 @@ export class ProviderFormComponent {
         return of({
           sectorId: 0,
           contact: { email: '', telephone: '' },
-          percentages: { profitPercentage: '', vatPercentage: '' },
+          percentages: { profitPercentage: '', vatPercentage: '', perceptionPercentage: '', grossIncomePercentage: '' },
           vatCondition: '',
           companyName: '',
           firstName: '',

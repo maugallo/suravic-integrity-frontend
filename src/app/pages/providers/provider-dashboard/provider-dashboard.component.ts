@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { ProviderService } from 'src/app/core/services/provider.service';
 import { NotFoundComponent } from "../../../shared/components/not-found/not-found.component";
 import { ProviderItemComponent } from "./provider-item/provider-item.component";
-import { Filter, FilterComponent } from "../../../shared/components/filter/filter.component";
+import { Filter, ProvidersFilterComponent } from "../../../shared/components/filters/providers-filter/providers-filter.component";
 import { ProviderResponse } from 'src/app/core/models/interfaces/provider.model';
 import { SectorModalComponent } from './sector-modal/sector-modal.component';
 
@@ -14,7 +14,7 @@ import { SectorModalComponent } from './sector-modal/sector-modal.component';
   templateUrl: './provider-dashboard.component.html',
   styleUrls: ['./provider-dashboard.component.scss'],
   standalone: true,
-  imports: [IonProgressBar, IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, SectorModalComponent, NotFoundComponent, ProviderItemComponent, FilterComponent]
+  imports: [IonProgressBar, IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, SectorModalComponent, NotFoundComponent, ProviderItemComponent, ProvidersFilterComponent]
 })
 export class ProviderDashboardComponent {
 

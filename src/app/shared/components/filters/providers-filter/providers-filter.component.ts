@@ -5,13 +5,13 @@ import { VAT_CONDITIONS } from 'src/app/pages/providers/provider-form/provider-s
 import { SectorService } from 'src/app/core/services/sector.service';
 
 @Component({
-  selector: 'app-filter',
-  templateUrl: './filter.component.html',
-  styleUrls: ['./filter.component.scss'],
+  selector: 'app-providers-filter',
+  templateUrl: './providers-filter.component.html',
+  styleUrls: ['./providers-filter.component.scss'],
   standalone: true,
   imports: [IonButton, IonContent, IonMenu, IonSelect, IonSelectOption, FormsModule]
 })
-export class FilterComponent {
+export class ProvidersFilterComponent {
 
   private sectorService = inject(SectorService);
   private menuController = inject(MenuController);

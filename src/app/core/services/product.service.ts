@@ -49,6 +49,11 @@ export class ProductService {
       .pipe(catchError(this.handleError), tap(() => this.refreshProducts$.next()));
   }
 
+  public editProductsPrice(products: ProductResponse[]): Observable<string> {
+    return this.http.put(this.apiUrl, products, { responseType: 'text' })
+    .pipe(catchError(this.handleError), tap(() => this.refreshProducts$.next()));
+  }
+
   public deleteOrRecoverProduct(id: number): Observable<string> {
     return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' })
       .pipe(catchError(this.handleError), tap(() => this.refreshProducts$.next()));
