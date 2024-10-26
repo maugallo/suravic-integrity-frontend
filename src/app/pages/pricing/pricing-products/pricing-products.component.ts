@@ -16,6 +16,7 @@ import { CategoryResponse } from 'src/app/core/models/interfaces/category.model'
 import { ProviderResponse } from 'src/app/core/models/interfaces/provider.model';
 import { UserResponse } from 'src/app/core/models/interfaces/user.model';
 import { NotFoundComponent } from "../../../shared/components/not-found/not-found.component";
+import { ProductWithPricing } from 'src/app/core/models/interfaces/product.model';
 
 @Component({
   selector: 'app-pricing-products',
@@ -44,7 +45,7 @@ export class PricingProductsComponent {
   }
 
   private getProductsWithPricing(): ProductWithPricing[] {
-    return this.products()().map(product => { return {... product, quantity: 0, subtotal: 0, unit: 'Kg'} });
+    return this.products()().map(product => this.productService.mapProductResponseToProductWithPricing(product));
   }
 
   public onCalculateSubmit() {
@@ -112,18 +113,4 @@ export class PricingProductsComponent {
     return of(null);
   }
 
-}
-
-export interface ProductWithPricing {
-  id: number,
-  category: CategoryResponse,
-  provider: ProviderResponse,
-  user: UserResponse,
-  plu: string,
-  title: string,
-  price: string,
-  isEnabled: boolean,
-  quantity: number,
-  subtotal: number,
-  unit: 'Kg' | 'Unidad'
 }

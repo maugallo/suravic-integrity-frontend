@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, catchError, Observable, switchMap, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ProductRequest, ProductResponse } from '../models/interfaces/product.model';
+import { ProductRequest, ProductResponse, ProductWithPricing } from '../models/interfaces/product.model';
 
 @Injectable({
   providedIn: 'root'
@@ -70,6 +70,10 @@ export class ProductService {
       default:
         return throwError(() => new Error(error.message));
     }
+  }
+
+  public mapProductResponseToProductWithPricing(product: ProductResponse): ProductWithPricing {
+    return {... product, quantity: 0, subtotal: 0, unit: 'Kg'};
   }
 
 }

@@ -52,4 +52,5 @@ export class PricingService {
     if (lastDigit >= 5) return value + (10 - lastDigit); // Redondear hacia arriba
     else return value - lastDigit; // Redondear hacia abajo
   }
+
 }
