@@ -23,13 +23,16 @@ export class ProductItemComponent {
 
   public product: any = input<ProductResponse>();
 
-  public openDeleteProductAlert() {
-    this.alertService.getWarningConfirmationAlert('¿Estás seguro que deseas eliminar el producto?')
+  public openDeleteOrRecoverProductAlert() {
+    const action = this.product().isEnabled ? 'eliminar' : 'recuperar';
+    const confirmLabel = this.product().isEnabled ? 'ELIMINAR' : 'ACEPTAR';
+    
+    this.alertService.getWarningConfirmationAlert(`¿Estás seguro que deseas ${action} el producto?`, '', confirmLabel)
       .fire()
-      .then((result) => { if (result.isConfirmed) this.deleteProduct(this.product().id); });
+      .then((result) => { if (result.isConfirmed) this.deleteOrRecoverProduct(this.product().id) });
   }
 
-  private deleteProduct(id: number) {
+  private deleteOrRecoverProduct(id: number) {
     this.productService.deleteOrRecoverProduct(id).pipe(
       takeUntilDestroyed(this.destroyRef)
     ).subscribe({

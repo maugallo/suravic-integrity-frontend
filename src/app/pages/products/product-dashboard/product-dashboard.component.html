@@ -6,27 +6,31 @@
       <!-- Search Bar -->
       <ion-searchbar placeholder="Buscar" [debounce]="250" (ionInput)="searchForProducts($event)"></ion-searchbar>
       <!-- Filter Button -->
-      <ion-button id="main-content" (click)="openFilterMenu()"><i class="fa-solid fa-filter fa-2x py-0"></i></ion-button>
+      <ion-button id="product-content" (click)="openFilterMenu()"><i class="fa-solid fa-filter fa-2x py-0"></i></ion-button>
       <!-- Filter menu -->
       <app-products-filter [products]="products()" (filtersEmitter)="receiveFilters($event)"></app-products-filter>
     </div>
     
     <div class="options-container">
-      <!-- Add Product Button -->
-      <ion-button (click)="router.navigate(['products', 'form'])"><i class="fa-sharp fa-solid fa-box-taped fa-2x py-0"></i></ion-button>
-      <!-- Category Dashboard Button -->
-      <ion-button id="open-category-modal"><i class="fa-solid fa-tag fa-2x py-0"></i></ion-button>
-      <!-- Category Modal -->
-      <app-category-modal></app-category-modal>
+      <div>
+        <!-- Add Product Button -->
+        <ion-button (click)="router.navigate(['products', 'form'])"><i class="fa-sharp fa-solid fa-box-taped fa-2x py-0"></i></ion-button>
+        <!-- Category Dashboard Button -->
+        <ion-button id="open-category-modal"><i class="fa-solid fa-tag fa-2x py-0"></i></ion-button>
+        <!-- Category Modal -->
+        <app-category-modal></app-category-modal>
+      </div>
+      <!-- See Deleted Button -->
+      <app-deleted-button [(seeDeleted)]="seeDeleted"></app-deleted-button>
     </div>
 
     @if (filteredProducts(); as products) {
       @if (products.length === 0) { <app-not-found></app-not-found> }
-      <ion-list>
-        @for (product of products; track $index) {
-          <app-product-item [product]="product" ></app-product-item>
-        }
-      </ion-list>
+        <ion-list>
+          @for (product of products; track $index) {
+            <app-product-item [product]="product" ></app-product-item>
+          }
+        </ion-list>
     } @else {
       <ion-progress-bar type="indeterminate"></ion-progress-bar>
     }

@@ -25,13 +25,16 @@ export class ProviderItemComponent {
 
   public provider: any = input<ProviderResponse>();
 
-  public openDeleteProviderAlert() {
-    this.alertService.getWarningConfirmationAlert('¿Estás seguro que deseas eliminar el proveedor?')
+  public openDeleteOrRecoverProviderAlert() {
+    const action = this.provider().isEnabled ? 'eliminar' : 'recuperar';
+    const confirmLabel = this.provider().isEnabled ? 'ELIMINAR' : 'ACEPTAR';
+    
+    this.alertService.getWarningConfirmationAlert(`¿Estás seguro que deseas ${action} el proveedor?`, '', confirmLabel)
       .fire()
-      .then((result) => { if (result.isConfirmed) this.deleteProvider(this.provider().id) });
+      .then((result) => { if (result.isConfirmed) this.deleteOrRecoverProvider(this.provider().id) });
   }
 
-  private deleteProvider(id: number) {
+  private deleteOrRecoverProvider(id: number) {
     this.providerService.deleteOrRecoverProvider(id).pipe(
       tap((response) => this.alertService.getSuccessToast(response).fire()),
       catchError((error) => {

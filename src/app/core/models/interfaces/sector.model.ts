@@ -4,5 +4,6 @@ export interface SectorRequest {
 
 export interface SectorResponse {
     id: number,
-    name: string
+    name: string,
+    isEnabled: boolean
 }

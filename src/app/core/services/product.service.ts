@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, Observable, Subject, switchMap, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, switchMap, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ProductRequest, ProductResponse } from '../models/interfaces/product.model';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -20,10 +20,10 @@ export class ProductService {
   }
 
   public products = toSignal(this.refreshProducts$.pipe(
-    switchMap(() => this.getProducts(true))), { initialValue: [] });
+    switchMap(() => this.getProducts())), { initialValue: [] });
 
-  private getProducts(isEnabled: boolean): Observable<ProductResponse[]> {
-    return this.http.get<ProductResponse[]>(this.apiUrl, { params: { isEnabled } })
+  private getProducts(): Observable<ProductResponse[]> {
+    return this.http.get<ProductResponse[]>(this.apiUrl)
       .pipe(catchError(this.handleError));
   }
 
@@ -56,7 +56,7 @@ export class ProductService {
 
   public deleteOrRecoverProduct(id: number): Observable<string> {
     return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => this.products().filter(product => product.id !== id)));
+      .pipe(catchError(this.handleError), tap(() => this.refreshProducts$.next()));
   }
 
   private handleError(error: HttpErrorResponse) {

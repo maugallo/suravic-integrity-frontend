@@ -4,6 +4,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, catchError, Observable, switchMap, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CategoryRequest, CategoryResponse } from '../models/interfaces/category.model';
+import { ProductService } from './product.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,8 @@ export class CategoryService {
 
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/categories`;
+
+  private productSerivce = inject(ProductService);
 
   private refreshCategories$ = new BehaviorSubject<void>(undefined);
 
@@ -34,12 +37,18 @@ export class CategoryService {
 
   public editCategory(id: number, category: CategoryRequest): Observable<string> {
     return this.http.put(`${this.apiUrl}/${id}`, category, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => this.refreshCategories$.next()));
+      .pipe(catchError(this.handleError), tap(() => {
+        this.refreshCategories$.next();
+        this.productSerivce.refreshProducts();
+      }));
   }
 
   public deleteOrRecoverCategory(id: number): Observable<string> {
     return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => this.refreshCategories$.next()));
+      .pipe(catchError(this.handleError), tap(() => {
+        this.refreshCategories$.next();
+        this.productSerivce.refreshProducts();
+      }));
   }
 
   private handleError(error: HttpErrorResponse) {

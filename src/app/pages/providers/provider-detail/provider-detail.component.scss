@@ -1,20 +1,16 @@
 @import '/src/global.scss';
 
-.detail-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  justify-content: center;
-}
-
-.last-card {
-  display: flex;
-  justify-content: center;
-}
-
 .detail-title {
   font-weight: bold;
   color: $primary-color;
   font-size: 2rem;
+  text-align: center;
+}
+
+.detail-plu {
+  font-weight: bold;
+  color: $tertiary-color;
+  font-size: 1.25rem;
   text-align: center;
 }
 
@@ -27,7 +23,7 @@
 }
 
 .card-header .card-title {
-  font-size: large;
+  font-size: 1.45rem;
   font-weight: bold;
   margin-bottom: 0;
 }
@@ -48,15 +44,32 @@
 }
 
 .percentages-container {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+
+.percentages-container .percentages-label {
+  text-align: start;
+}
+
+.percentages-container .percentages-value {
+  text-align: end;
 }
 
 .card-content {
-  font-size: medium;
+  font-size: 1.4rem;
   font-weight: bold;
   color: $tertiary-color;
-  margin-top: 5px;
+}
+
+.card-content-deleted {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: $error-color;
+}
+
+ion-card {
+  margin-bottom: 10px;
 }
 
 ion-card-header {

@@ -1,0 +1,4 @@
+<ion-button (click)="seeDeleted.set(!seeDeleted())" >
+  @if (!seeDeleted()) { <i class="fa-regular fa-trash-can-xmark mr-1"></i>Ver Eliminados }
+  @else { <i class="fa-regular fa-trash-slash mr-1"></i>Ver Activos }
+</ion-button>

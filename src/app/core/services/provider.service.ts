@@ -18,15 +18,15 @@ export class ProviderService {
 
   private refreshProviders$ = new BehaviorSubject<void>(undefined);
 
+  public refreshProviders() {
+    this.refreshProviders$.next();
+  }
+
   public providers = toSignal(this.refreshProviders$.pipe(
-    switchMap(() => this.getProviders(true))), { initialValue: [] });
+    switchMap(() => this.getProviders())), { initialValue: [] });
 
-  private getProviders(isEnabled: boolean): Observable<ProviderResponse[]> {
-    let params = new HttpParams();
-
-    params = params.append('isEnabled', isEnabled);
-
-    return this.http.get<ProviderResponse[]>(this.apiUrl, { params })
+  private getProviders(): Observable<ProviderResponse[]> {
+    return this.http.get<ProviderResponse[]>(this.apiUrl)
       .pipe(catchError(this.handleError));
   }
 
@@ -49,7 +49,10 @@ export class ProviderService {
 
   public deleteOrRecoverProvider(id: number): Observable<string> {
     return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => this.refreshProviders$.next()));
+      .pipe(catchError(this.handleError), tap(() => {
+        this.refreshProviders$.next()
+        this.productService.refreshProducts();
+      }));
   }
 
   private handleError(error: HttpErrorResponse) {

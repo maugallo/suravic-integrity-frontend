@@ -30,3 +30,25 @@ ion-button {
     height: 3.3rem;
     font-size: large;
 }
+
+ion-range {
+    --bar-background: #{$primary-color-lighter};
+    --bar-background-active: #{$primary-color};
+    --bar-height: 8px;
+    --bar-border-radius: 8px;
+    --knob-background: #{$primary-color};
+    --knob-size: 30px;
+    --pin-background: #{$primary-color};
+    --pin-color: #fff;
+}
+
+ion-label {
+    color: #{$secondary-color};
+    font-weight: bold;
+    font-size: large;
+}
+
+.range-labels {
+    display: flex;
+    justify-content: space-between;
+}

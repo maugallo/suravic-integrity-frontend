@@ -6,19 +6,22 @@
       <!-- Search Bar -->
       <ion-searchbar placeholder="Buscar" [debounce]="250" (ionInput)="searchForProviders($event)"></ion-searchbar>
       <!-- Filter Button -->
-      <ion-button id="main-content" (click)="openFilterMenu()"><i class="fa-solid fa-filter fa-2x py-0"></i></ion-button>
+      <ion-button id="provider-content" (click)="openFilterMenu()"><i class="fa-solid fa-filter fa-2x py-0"></i></ion-button>
       <!-- Filter menu -->
       <app-providers-filter (filtersEmitter)="receiveFilters($event)"></app-providers-filter>
     </div>
 
     <div class="options-container">
-      <!-- Add Provider Button -->
-      <ion-button (click)="router.navigate(['providers', 'form'])"><i
-          class="fa-solid fa-users-medical fa-2x py-0"></i></ion-button>
-      <!-- Sector Dashboard Button -->
-      <ion-button id="open-sector-modal"><i class="fa-solid fa-grid-2 fa-2x py-0"></i></ion-button>
-      <!-- Sector Modal -->
-      <app-sector-modal></app-sector-modal>
+      <div>
+        <!-- Add Provider Button -->
+        <ion-button (click)="router.navigate(['providers', 'form'])"><i class="fa-solid fa-users-medical fa-2x py-0"></i></ion-button>
+        <!-- Sector Dashboard Button -->
+        <ion-button id="open-sector-modal"><i class="fa-solid fa-grid-2 fa-2x py-0"></i></ion-button>
+        <!-- Sector Modal -->
+        <app-sector-modal></app-sector-modal>
+      </div>
+      <!-- See Deleted Button -->
+      <app-deleted-button [(seeDeleted)]="seeDeleted"></app-deleted-button>
     </div>
 
     @if (filteredProviders(); as providers) {

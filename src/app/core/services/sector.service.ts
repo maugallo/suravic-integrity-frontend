@@ -4,6 +4,7 @@ import { BehaviorSubject, catchError, Observable, switchMap, tap, throwError } f
 import { environment } from 'src/environments/environment';
 import { SectorRequest, SectorResponse } from '../models/interfaces/sector.model';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { ProviderService } from './provider.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,8 @@ export class SectorService {
 
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/sectors`;
+
+  private providerService = inject(ProviderService);
 
   private refreshSectors$ = new BehaviorSubject<void>(undefined);
 
@@ -34,12 +37,18 @@ export class SectorService {
 
   public editSector(id: number, sector: SectorRequest): Observable<string> {
     return this.http.put(`${this.apiUrl}/${id}`, sector, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => this.refreshSectors$.next()));
+      .pipe(catchError(this.handleError), tap(() => {
+        this.refreshSectors$.next();
+        this.providerService.refreshProviders();
+      }));
   }
 
   public deleteOrRecoverSector(id: number): Observable<string> {
     return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => this.refreshSectors$.next()));
+      .pipe(catchError(this.handleError), tap(() => {
+        this.refreshSectors$.next();
+        this.providerService.refreshProviders();
+      }));
   }
 
   private handleError(error: HttpErrorResponse) {

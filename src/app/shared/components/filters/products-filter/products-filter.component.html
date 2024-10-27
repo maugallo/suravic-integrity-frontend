@@ -1,4 +1,4 @@
-<ion-menu side="end" menuId="filter-menu" contentId="main-content">
+<ion-menu side="end" menuId="filter-menu" contentId="product-content">
   <ion-content>
     <div class="filter mt-0 mx-4 pb-4">
       <!-- Categories filter -->
@@ -24,9 +24,11 @@
       <!-- Prices filter -->
       <p class="filter-subtitle mb-1">Precio</p>
       <ion-range [min]="lowestPrice()" [max]="highestPrice()" step="1" dualKnobs="true" pin="true" [(ngModel)]="priceRange" (ionChange)="onPriceRangeChange()">
+      </ion-range>      
+      <div class="range-labels">
         <ion-label slot="start">{{ priceRange.lower | currency }}</ion-label>
         <ion-label slot="end">{{ priceRange.upper | currency }}</ion-label>
-      </ion-range>      
+      </div>
     </div>
     
     <!-- Filter button -->
