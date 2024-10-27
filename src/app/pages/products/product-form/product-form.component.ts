@@ -16,6 +16,8 @@ import { NumberInputComponent } from "../../../shared/components/form/number-inp
 import { SelectInputComponent } from "../../../shared/components/form/select-input/select-input.component";
 import { ValidationService } from 'src/app/core/services/utils/validation.service';
 import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
+import { ProductMapper } from 'src/app/core/models/mappers/product.mapper';
+import { ProductUtility } from 'src/app/core/models/utils/product.utility';
 
 @Component({
   selector: 'app-product-form',
@@ -53,24 +55,10 @@ export class ProductFormComponent {
         if (!product) this.router.navigate(['products', 'dashboard']);
         this.isProductEdit = true;
         this.productId = product.id;
-        return of({
-          categoryId: product.category.id,
-          providerId: product.provider.id,
-          userId: product.user.id,
-          plu: product.plu,
-          title: product.title,
-          price: product.price
-        });
+        return of(ProductMapper.toProductRequest(product));
       } else {
         this.isProductEdit = false;
-        return of({
-          categoryId: 0,
-          providerId: 0,
-          userId: 0,
-          plu: '',
-          title: '',
-          price: ''
-        });
+        return of(ProductUtility.getEmptyProductRequest());
       }
     })
   ));

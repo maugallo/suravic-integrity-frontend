@@ -25,7 +25,7 @@ export class ProductDashboardComponent {
   private productService = inject(ProductService);
 
   private searchQuery: WritableSignal<string> = signal('');
-  private products = this.productService.products;
+  public products = this.productService.products;
   private filters = signal<Filter[]>([]);
 
   public filteredProducts = computed(() => {
@@ -56,10 +56,12 @@ export class ProductDashboardComponent {
     if (filters.length > 0) {
       const categoriesFilter = filters[0].value;
       const providersFilter = filters[1].value;
+      const pricesFilter = filters[2].value;
 
       return products.filter(product =>
         (categoriesFilter.length === 0 || categoriesFilter.includes(product.category.id)) &&
-        (providersFilter.length === 0 || providersFilter.includes(product.provider.id)))
+        (providersFilter.length === 0 || providersFilter.includes(product.provider.id)) &&
+        (pricesFilter.length === 0 || (Number(product.price) > pricesFilter[0] && Number(product.price) < pricesFilter[1])))
     }
     return products;
   }

@@ -5,7 +5,7 @@ import { OptionComponent } from "./option/option.component";
 import { DUENO_OPTIONS, ENCARGADO_OPTIONS, Option } from './home-options.constant';
 import { NavigationEnd, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { filter, map, of, switchMap } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -26,6 +26,7 @@ export class HomeComponent {
   public role = toSignal(this.router.events.pipe(
     filter((event) => (event instanceof NavigationEnd && event.url == '/tabs/home')),
       switchMap(() => this.tokenService.getToken()), // El observable previo emite un nuevo valor, uso switchMap para cambiar a un nuevo observable.
+      tap((token) => token ?? this.router.navigate(['welcome'])),
       map((token) => this.tokenService.getRoleFromToken(token)) // Este nuevo observable emite un valor, lo mapeo para hacer lo que quiero (en este caso lo uso para obtener el rol).
     )
   );

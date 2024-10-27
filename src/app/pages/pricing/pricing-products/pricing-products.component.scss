@@ -27,28 +27,39 @@
 }
 
 .pricing-container {
-    border-bottom: 1px solid $secondary-color;
+    border-bottom: 1px dashed $secondary-color;
+}
+
+.pricing-header {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.pricing-content .pricing-inputs {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
 }
 
 .product-container {
     display: grid;
     grid-template-columns: 50% 50%;
+    gap: 10px;
     justify-content: center;
     align-items: center;
 }
 
 .subtotal-container {
     display: grid;
-    grid-template-columns: 43.5% 50%;
+    grid-template-columns: 50% 50%;
     gap: 10px;
     justify-content: center;
     align-content: center;
-}
-
-.quantity-container {
-    display: grid;
-    grid-template-columns: 48% 52%;
-    gap: 2px;
 }
 
 .product-title {
@@ -62,4 +73,20 @@
     text-align: center;
     font-weight: bold;
     color: $secondary-color;
+}
+
+ion-button {
+    --background: white;
+    --color: #{$primary-color};
+    --border-radius: 4px;
+    --border-color: #{$primary-color};
+    --border-style: solid;
+    --border-width: 1px;
+    --box-shadow: 0;
+}
+
+.buttons-container {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    gap: 10px;
 }

@@ -33,5 +33,15 @@ export interface ProductWithPricing {
     isEnabled: boolean,
     quantity: number,
     subtotal: number,
-    unit: 'Kg' | 'Unidad'
+    vatPercentage: number,
+    profitPercentage: number
+}
+
+export interface ProductWithMeatDetails {
+    id: number,
+    plu: string,
+    title: string,
+    price: string,
+    percentage: number,
+    weight: number
 }

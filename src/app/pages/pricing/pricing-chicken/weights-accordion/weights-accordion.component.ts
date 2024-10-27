@@ -9,9 +9,9 @@ import { AlertService } from 'src/app/core/services/utils/alert.service';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { catchError, Observable, of, switchMap, tap } from 'rxjs';
 import { MeatDetailsService } from 'src/app/core/services/meat-details.service';
-import { MeatDetails } from 'src/app/core/models/interfaces/meat-details.model';
 import { MeatDetailsType } from 'src/app/core/models/enums/meat-details-type.enum';
 import { MeatDetailsConstant } from 'src/app/core/models/enums/meat-details-constant.enum';
+import { ProductWithMeatDetails } from 'src/app/core/models/interfaces/product.model';
 
 @Component({
   selector: 'app-weights-accordion',
@@ -30,7 +30,7 @@ export class WeightsAccordionComponent {
   
   public showForm = false;
 
-  public meatProducts: Signal<MeatDetails[]> = this.meatDetailsService.meatDetails(MeatDetailsType.CHICKEN);
+  public meatProducts: Signal<ProductWithMeatDetails[]> = this.meatDetailsService.meatDetails(MeatDetailsType.CHICKEN);
   private chickenWeight: Signal<number> = toSignal(this.storageService.getStorage(MeatDetailsType.CHICKEN).pipe(
     switchMap((data) => data ? of(data) : of(MeatDetailsConstant.DEFAULT_CHICKEN_WEIGHT))
   ));
@@ -47,7 +47,7 @@ export class WeightsAccordionComponent {
       return ;
     }
 
-    this.meatProducts().forEach((meatProduct: MeatDetails) => meatProduct.weight = this.calculateNewWeight(meatProduct.percentage));
+    this.meatProducts().forEach((meatProduct: ProductWithMeatDetails) => meatProduct.weight = this.calculateNewWeight(meatProduct.percentage));
     this.meatDetailsService.editMeatDetails(this.meatProducts()).pipe(
       tap((response) => this.handleSuccess(response)),
       catchError((error) => this.handleError(error)),

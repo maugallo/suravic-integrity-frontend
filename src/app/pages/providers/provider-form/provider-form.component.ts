@@ -17,6 +17,8 @@ import { TextInputComponent } from "../../../shared/components/form/text-input/t
 import { SelectInputComponent } from "../../../shared/components/form/select-input/select-input.component";
 import { NumberInputComponent } from "../../../shared/components/form/number-input/number-input.component";
 import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
+import { ProviderMapper } from 'src/app/core/models/mappers/provider.mapper';
+import { ProviderUtility } from 'src/app/core/models/utils/provider.utility';
 
 @Component({
   selector: 'app-provider-form',
@@ -55,28 +57,10 @@ export class ProviderFormComponent {
         if (!provider) this.router.navigate(['providers', 'dashboard']);
         this.isProviderEdit = true;
         this.providerId = provider.id;
-        return of({
-          sectorId: provider.sector.id,
-          contact: { email: provider.contact.email, telephone: provider.contact.telephone },
-          percentages: { profitPercentage: provider.percentages.profitPercentage, vatPercentage: provider.percentages.vatPercentage, perceptionPercentage: provider.percentages.perceptionPercentage, grossIncomePercentage: provider.percentages.grossIncomePercentage },
-          vatCondition: provider.vatCondition,
-          companyName: provider.companyName,
-          firstName: provider.firstName,
-          lastName: provider.lastName,
-          cuit: provider.cuit
-        });
+        return of(ProviderMapper.toProviderRequest(provider));
       } else {
         this.isProviderEdit = false;
-        return of({
-          sectorId: 0,
-          contact: { email: '', telephone: '' },
-          percentages: { profitPercentage: '', vatPercentage: '', perceptionPercentage: '', grossIncomePercentage: '' },
-          vatCondition: '',
-          companyName: '',
-          firstName: '',
-          lastName: '',
-          cuit: ''
-        });
+        return of(ProviderUtility.getEmptyProviderRequest());
       }
     })
   ));

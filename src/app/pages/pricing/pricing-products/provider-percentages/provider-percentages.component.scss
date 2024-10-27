@@ -1,0 +1,33 @@
+@import '/src/global.scss';
+
+.menu-header {
+    border-bottom: 1px solid $secondary-color;
+}
+
+.menu-title {
+    color: $primary-color;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+.menu-subtitle {
+    color: $secondary-color;
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.percentage-container {
+    display: grid;
+    grid-template-columns: 40% 60%;
+}
+
+.percentage-label {
+    color: $primary-color;
+    font-weight: bold;
+    text-align: start;
+}

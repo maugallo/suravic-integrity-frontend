@@ -9,9 +9,9 @@ import { AlertService } from 'src/app/core/services/utils/alert.service';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { catchError, Observable, of, switchMap, tap } from 'rxjs';
 import { MeatDetailsService } from 'src/app/core/services/meat-details.service';
-import { MeatDetails } from 'src/app/core/models/interfaces/meat-details.model';
 import { MeatDetailsType } from 'src/app/core/models/enums/meat-details-type.enum';
 import { MeatDetailsConstant } from 'src/app/core/models/enums/meat-details-constant.enum';
+import { ProductWithMeatDetails } from 'src/app/core/models/interfaces/product.model';
 
 @Component({
   selector: 'app-weights-accordion',
@@ -30,7 +30,7 @@ export class WeightsAccordionComponent {
   
   public showForm = false;
 
-  public meatProducts: Signal<MeatDetails[]> = this.meatDetailsService.meatDetails(MeatDetailsType.BEEF);
+  public meatProducts: Signal<ProductWithMeatDetails[]> = this.meatDetailsService.meatDetails(MeatDetailsType.BEEF);
   private halfCarcassWeight: Signal<number> = toSignal(this.storageService.getStorage(MeatDetailsType.BEEF).pipe(
     switchMap((data) => data ? of(data) : of(MeatDetailsConstant.DEFAULT_HALF_CARCASS_WEIGHT))
   ));
@@ -47,7 +47,7 @@ export class WeightsAccordionComponent {
       return ;
     }
 
-    this.meatProducts().forEach((meatProduct: MeatDetails) => meatProduct.weight = this.calculateNewWeight(meatProduct.percentage));
+    this.meatProducts().forEach((meatProduct: ProductWithMeatDetails) => meatProduct.weight = this.calculateNewWeight(meatProduct.percentage));
     this.meatDetailsService.editMeatDetails(this.meatProducts()).pipe(
       tap((response) => this.handleSuccess(response)),
       catchError((error) => this.handleError(error)),
@@ -63,7 +63,7 @@ export class WeightsAccordionComponent {
     this.alertService.getSuccessToast(response).fire();
     this.storageService.setStorage(MeatDetailsType.BEEF, this.halfCarcassWeightValue);
 
-    this.showForm = false; // ANALIZAR SI DEJARLO O NO USAR UNA VARIABLE PARA MANEJAR LA VISIBILIDAD DEL FORM.
+    this.showForm = false;
   }
 
   private handleError(error: any): Observable<null> {

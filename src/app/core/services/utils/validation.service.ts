@@ -13,7 +13,6 @@ export class ValidationService {
     if (!errors) return '';
     if (errors.required) return 'Este campo es obligatorio';
     if (errors.email) return 'Debe cumplir el formato de email'
-    if (errors.loginError) return errors.loginError;
     if (errors.userCreation) return errors.userCreation;
     if (errors.equalPasswords) return 'Las contraseñas no coinciden';
     if (errors.minValue) return `El valor ingresado debe ser mayor a ${errors.minValue.requiredValue}`;

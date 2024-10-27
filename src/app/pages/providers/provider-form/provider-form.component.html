@@ -54,9 +54,10 @@
           <p class="section-title pb-2 mt-6">INFORMACIÓN FINANCIERA</p>
           <!-- Vat Percentage Input -->
            <app-select-input #formInput class="mb-8" inputName="vatPercentageSelect" [(bindedObject)]="provider()!.percentages.vatPercentage"
-           label="Porcentaje de IVA" [options]="[21, 10.5]">
-            <ion-select-option [value]="21">21%</ion-select-option>
-            <ion-select-option [value]="10.5">10,5%</ion-select-option>
+           label="Porcentaje de IVA" [options]="[21, 10.5, 0]">
+            <ion-select-option [value]="21">21</ion-select-option>
+            <ion-select-option [value]="10.5">10,5</ion-select-option>
+            <ion-select-option [value]="0">0</ion-select-option>
           </app-select-input>
 
           <!-- Profit Percentage Input -->

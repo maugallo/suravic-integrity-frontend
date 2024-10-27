@@ -1,0 +1,43 @@
+<ion-menu side="end" menuId="provider-percentages-menu" contentId="provider-percentages-content">
+  <ion-content>
+    <div class="m-4">
+      <div class="menu-header">
+        <p class="menu-title"><i class="fa-solid fa-percent pr-2"></i> Porcentajes Globales</p>
+        <p class="menu-subtitle mt-0 pb-4">Ajusta los porcentajes globales del proveedor</p>
+      </div>
+
+      <div class="percentage-container mt-8 mb-4">
+        <p class="percentage-label mb-3">IVA</p>
+
+        <app-select-input inputName="wedwe" [(bindedObject)]="provider()?.percentages!.vatPercentage" [options]="[21, 10.5, 0]">
+          <ion-select-option [value]="21">21</ion-select-option>
+          <ion-select-option [value]="10.5">10,5</ion-select-option>  
+          <ion-select-option [value]="0">0</ion-select-option>
+        </app-select-input>
+      </div>
+
+      <div class="percentage-container mb-4">
+        <p class="percentage-label mb-3">Ing. Brutos</p>
+
+        <app-number-input [(bindedObject)]="provider()?.percentages!.grossIncomePercentage"
+        placeHolder="0%" [minValue]="-1" [maxValue]="99999"></app-number-input>
+      </div>
+
+      <div class="percentage-container mb-4">
+        <p class="percentage-label mb-3">Percepción</p>
+
+        <app-number-input [(bindedObject)]="provider()?.percentages!.perceptionPercentage"
+        placeHolder="0%" [minValue]="-1" [maxValue]="99999"></app-number-input>
+      </div>
+
+      <div class="percentage-container mb-4">
+        <p class="percentage-label mb-3">Ganancia</p>
+
+        <app-number-input [(bindedObject)]="provider()?.percentages!.profitPercentage"
+        placeHolder="0%" [minValue]="-1" [maxValue]="99999"></app-number-input>
+      </div>
+
+      <app-form-button class="mt-8" (click)="savePercentages()" label="Guardar"></app-form-button>
+    </div>
+  </ion-content>
+</ion-menu>

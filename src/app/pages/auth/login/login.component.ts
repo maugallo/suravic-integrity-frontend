@@ -7,12 +7,13 @@ import { ValidationService } from 'src/app/core/services/utils/validation.servic
 import { UserLoginRequest } from 'src/app/core/models/interfaces/user.model';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { TokenService } from 'src/app/core/services/utils/token.service';
-import { catchError, of, switchMap, tap } from 'rxjs';
+import { switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { StorageService } from 'src/app/core/services/utils/storage.service';
 import { TextInputComponent } from "../../../shared/components/form/text-input/text-input.component";
 import { PasswordInputComponent } from "../../../shared/components/form/password-input/password-input.component";
 import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
+import { AlertService } from 'src/app/core/services/utils/alert.service';
 
 @Component({
   selector: 'app-login',
@@ -28,8 +29,9 @@ export class LoginComponent {
 
   private authService = inject(AuthService);
   private tokenService = inject(TokenService);
+  private alertService = inject(AlertService);
   private storageService = inject(StorageService);
-  public validationService = inject(ValidationService);
+  private validationService = inject(ValidationService);
 
   public user: UserLoginRequest = {
     username: '',
@@ -56,12 +58,10 @@ export class LoginComponent {
           tap(() => this.router.navigate(['tabs', 'home']))
         )
       }),
-      catchError((error) => {
-        this.loginInputs.forEach((loginInput) => loginInput.ionInput.control.setErrors({ loginError: error.message }))
-        return of(null);
-      }),
       takeUntilDestroyed(this.destroyRef)
-    ).subscribe();
+    ).subscribe({
+      error: (error) => this.alertService.getErrorAlert(error.message).fire()
+    });
   }
 
 }

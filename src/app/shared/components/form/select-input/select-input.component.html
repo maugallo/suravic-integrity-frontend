@@ -1,16 +1,15 @@
 <div [class]="class()">
   <ion-select customInput #ionInput="ngModel" [name]="inputName()" [id]="inputName()"
-    [class]="(isSelectValid()) ? '' : 'select-invalid'" [(ngModel)]="bindedObject"
-    [interfaceOptions]="customInterfaceOptions" [required]="required()" [multiple]="multiple()"
+    [class]="(!isSelectValid() && required()) ? 'select-invalid' : ''" [(ngModel)]="bindedObject"
+    [interfaceOptions]="customInterfaceOptions" [multiple]="multiple()"
     [disabled]="((disabled() ? disabled()! : (options().length > 0) ? false : true))"
     [label]="((options().length > 0) ? label() : 'Todavía no cuentas con elementos')" label-placement="floating"
-    fill="outline">
-
+    fill="outline" [placeholder]="placeHolder()">
     <ng-content></ng-content> <!-- Acá se coloca el @for con los elementos iterados -->
   </ion-select>
 
   <!-- Manejo manual de errorText hasta que Ionic lo incluya para el ion-select -->
-  @if (!isSelectValid() && ionInput.touched) {
+  @if (!isSelectValid() && ionInput.touched && required()) {
   <ion-note color="danger">Este campo es obligatorio</ion-note>
   }
 </div>

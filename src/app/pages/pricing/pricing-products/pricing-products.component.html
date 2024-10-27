@@ -1,95 +1,54 @@
 <app-header title="CÁLCULO DE PRODUCTOS" titleSize="title-medium" icon="fa-solid fa-box fa-2x"></app-header>
 
 <ion-content>
-  <div class="px-10">
-    <!-- Provider Input -->
-    <app-select-input class="my-8" inputName="providersSelect" label="Seleccionar Proveedor"  
-    [options]="providers()" [(bindedObject)]="selectedProviderId">
-      @for (provider of providers(); track $index) {
-          <ion-select-option [value]="provider.id">{{ provider.companyName }}</ion-select-option>
-      }
-    </app-select-input>
+  <div class="px-8">
+    <div class="percentages-container">
+       <!-- Provider Input -->
+      <app-select-input class="my-8" inputName="providersSelect" label="Seleccionar Proveedor"  
+      [options]="providers()" [(bindedObject)]="selectedProviderId" [required]="false">
+        @for (provider of providers(); track $index) {
+            <ion-select-option [value]="provider.id">{{ provider.companyName }}</ion-select-option>
+        }
+      </app-select-input>
 
-    <div class="percentages-container mb-8 pb-8">
-      <form #percentagesForm="ngForm" id="percentagesForm" (ngSubmit)="onPercentagesSubmit()">
-        <div class="percentages-title mb-5">
-          <p class="percentages-label">Porcentajes Globales</p>
-          <app-submit-button [disabled]="this.selectedProviderId() === 0" icon='<i class="fa-solid fa-floppy-disk fa-1x"></i>'></app-submit-button>
-        </div>
-        
-        <div class="percentages mb-2">
-          <app-select-input label="IVA" [options]="[21, 10.5]" [disabled]="this.selectedProviderId() === 0"
-          [(bindedObject)]="provider()?.percentages!.vatPercentage">
-          <ion-select-option [value]="21">21</ion-select-option>
-          <ion-select-option [value]="10.5">10,5</ion-select-option>
-          </app-select-input>
-          <app-number-input labelPlacement="stacked" label="Ing. Brutos" placeHolder="0%"
-          [readOnly]="this.selectedProviderId() === 0" [minValue]="-1" [maxValue]="99999"
-          [(bindedObject)]="provider()?.percentages!.grossIncomePercentage"></app-number-input>
-        </div>
+      <!-- Provider Percentages Menu -->
+      <app-provider-percentages [provider]="provider()!"></app-provider-percentages>
       
-        <div class="percentages">
-          <app-number-input labelPlacement="stacked" label="Percepción" placeHolder="0%"
-          [readOnly]="this.selectedProviderId() === 0" [minValue]="-1" [maxValue]="99999"
-          [(bindedObject)]="provider()?.percentages!.perceptionPercentage"></app-number-input>
-          <app-number-input labelPlacement="stacked" label="Ganancia" placeHolder="0%"
-          [readOnly]="this.selectedProviderId() === 0" [minValue]="-1" [maxValue]="99999"
-          [(bindedObject)]="provider()?.percentages!.profitPercentage"></app-number-input>
-        </div>
-      </form>
+      <app-form-button icon="<i class='fa-solid fa-percent'></i> Porcentajes globales" [disabled]="selectedProviderId() === 0" id="provider-percentages-content" class="mb-8" (click)="openProviderPercentagesMenu()"></app-form-button>
     </div>
 
     <form #calculateForm="ngForm" id="calculateForm" (ngSubmit)="onCalculateSubmit()">
-      <app-submit-button class="my-1" label="Calcular Precios" [disabled]="productsWithPricing()().length === 0 || !areSubmitButtonsValid()"></app-submit-button>
-      @if (!selectedProviderId()) {
-        @for (placeholder of ['Producto 1', 'Producto 2', 'Producto 3']; track $index) {
-          <div class="pricing-container my-2 py-4">
-            <div class="product-container mb-2">
-              <p class="disabled-product-title"><i class="fa-solid fa-ellipsis fa-2x"></i></p>
-              <app-number-input [disabled]="true"></app-number-input>
-            </div>
-            <div class="subtotal-container ml-3">
-              <app-number-input [disabled]="true"></app-number-input>
-              <div class="quantity-container">
-                <app-number-input [disabled]="true"></app-number-input>
-                <app-number-input [disabled]="true"></app-number-input>
-              </div>
-            </div>
-          </div>
-        }
-      }
-      @else {
+      <!-- <app-submit-button class="my-1" label="Calcular Precios" [disabled]="productsWithPricing()().length === 0 || !areSubmitButtonsValid()"></app-submit-button> -->
+      @if (selectedProviderId()) {
         @if (productsWithPricing()().length > 0) {
           @for (product of productsWithPricing()(); track $index) {
-            <div class="pricing-container my-2 py-4">
-              <div class="product-container mb-2">
+            <div class="pricing-container ">
+              <div class="pricing-header mt-6 mb-6 px-2">
                 <p class="product-title">{{ product.title | uppercase }}</p>
-                
-                <!-- Product Price Input -->
-                <app-number-input #priceInput inputName="productPriceInput{{$index}}" placeholder="$1000" [label]="product.unit === 'Kg' ? 'Precio/kg' : 'Precio/unidad'"
-                [(bindedObject)]="product.price" [minValue]="0" [maxValue]="999999" labelPlacement="stacked" [readOnly]="true"
-                [errorText]="false"></app-number-input>
+
+                <ion-button size="small" id="main-content" (click)="openProductPercentagesMenu(product)"><i class='fa-solid fa-percent'></i>  Porcentajes Individuales</ion-button>
               </div>
-            
-              <div class="subtotal-container ml-3">
-                <!-- Product Subtotal Input -->
-                <app-number-input #productSubtotalInput inputName="productSubtotalInput" placeHolder="1" label="Subtotal"
-                [(bindedObject)]="product.subtotal" [minValue]="0" [maxValue]="999999" labelPlacement="stacked"
-                [errorText]="false"></app-number-input>
-    
-                <div class="quantity-container">
+
+              <!-- Product Percentages Menu -->
+              <app-product-percentages [product]="product" (percentageEmitter)="receiveProductPercentages($event)"></app-product-percentages>
+
+              <div class="pricing-content px-2">
+                <div class="pricing-inputs mb-6">
+                  <!-- Product Subtotal Input -->
+                  <app-number-input #productSubtotalInput inputName="productSubtotalInput" placeHolder="1" label="Subtotal"
+                  [(bindedObject)]="product.subtotal" [minValue]="0" [maxValue]="999999" labelPlacement="stacked"
+                  [required]="false"></app-number-input>
+                  
                   <!-- Product Quantity Input -->
-                  <app-number-input #productQuantityInput inputName="productQuantityInput" placeHolder="1"
-                  [(bindedObject)]="product.quantity" [minValue]="0" [maxValue]="999999" [errorText]="false"></app-number-input>
-    
-                  <!-- Product Quantity Select -->
-                  <app-select-input #productUnitSelect inputName="productUnitSelect"
-                  [options]="['Kg', 'Unidad']" [(bindedObject)]="product.unit">
-                    <ion-select-option value="Kg">Kg</ion-select-option>
-                    <ion-select-option value="Unidad">Unidad</ion-select-option>
-                  </app-select-input>
+                  <app-number-input #productQuantityInput inputName="productQuantityInput" placeHolder="1" label="Cantidad" labelPlacement="stacked"
+                  [(bindedObject)]="product.quantity" [minValue]="0" [maxValue]="999999" [required]="false"></app-number-input>
                 </div>
               </div>
+              
+              <!-- Product Price Input -->
+              <app-number-input class="mb-6" #priceInput inputName="productPriceInput{{$index}}" placeholder="$1000" label="Precio"
+              [(bindedObject)]="product.price" [minValue]="0" [maxValue]="999999" labelPlacement="stacked" [readOnly]="true"
+              [required]="false"></app-number-input>
             </div>
           }
         }
@@ -97,8 +56,26 @@
           <app-not-found object="productos"></app-not-found>
         }
       }
+      @else {
+        <div class="pricing-container mt-6">
+          <div class="pricing-content px-2">
+            <div class="pricing-inputs mb-6">
+              <app-number-input [disabled]="true"></app-number-input>
+              <app-number-input [disabled]="true"></app-number-input>
+            </div>
+          </div>
+          
+          <app-number-input class="mb-6" [disabled]="true"></app-number-input>
+        </div>
+      }
     </form>
-    <app-submit-button class="my-4" label="Aplicar Precios" [disabled]="!areSubmitButtonsValid()"
-    (click)="onApplySubmit()"></app-submit-button>
+    
+    <div class="buttons-container my-4">
+      <app-form-button label="Calcular Precios" [disabled]="!areSubmitButtonsValid()"
+      (click)="onCalculateSubmit()"></app-form-button>
+
+      <app-form-button label="Aplicar Precios" [disabled]="!areSubmitButtonsValid()"
+      (click)="onApplySubmit()"></app-form-button>
+    </div>
   </div>
 </ion-content>

@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, catchError, Observable, switchMap, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { MeatDetails } from '../models/interfaces/meat-details.model';
+import { ProductWithMeatDetails } from '../models/interfaces/product.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,12 +20,12 @@ export class MeatDetailsService {
       switchMap(() => this.getMeatDetails(category))), { initialValue: [] });
   }
 
-  private getMeatDetails(category: string): Observable<MeatDetails[]> {
-    return this.http.get<MeatDetails[]>(`${this.apiUrl}/${category}`)
+  private getMeatDetails(category: string): Observable<ProductWithMeatDetails[]> {
+    return this.http.get<ProductWithMeatDetails[]>(`${this.apiUrl}/${category}`)
       .pipe(catchError(this.handleError));
   }
 
-  public editMeatDetails(meatDetails: MeatDetails[]): Observable<string> {
+  public editMeatDetails(meatDetails: ProductWithMeatDetails[]): Observable<string> {
     return this.http.put(this.apiUrl, meatDetails, { responseType: 'text' })
       .pipe(catchError(this.handleError), tap(() => this.refreshMeatDetails$.next()));
   }

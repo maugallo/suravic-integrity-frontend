@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MeatDetails } from '../models/interfaces/meat-details.model';
+import { ProductWithMeatDetails } from '../models/interfaces/product.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class PricingService {
     return mainCutGrossCost + (mainCutGrossCost * (profitPercentage / 100));
   }
 
-  public calculateMeatCutsCurrentPricesSum(meatDetailProducts: MeatDetails[]) {
+  public calculateMeatCutsCurrentPricesSum(meatDetailProducts: ProductWithMeatDetails[]) {
     return meatDetailProducts.reduce((accumulatedSum, product) => accumulatedSum + (product.weight * Number(product.price)), 0);
   }
 
@@ -32,7 +32,7 @@ export class PricingService {
     return null;
   }
 
-  public calculateAdjustedPrices(meatDetails: MeatDetails[], pricesDifference: number, meatCutsCurrentPricesSum: number): MeatDetails[] {
+  public calculateAdjustedPrices(meatDetails: ProductWithMeatDetails[], pricesDifference: number, meatCutsCurrentPricesSum: number): ProductWithMeatDetails[] {
     return meatDetails.map(meatDetail => {
       const meatCutCurrentPrice = meatDetail.weight * Number(meatDetail.price);
       const meatCutAdjustment = (meatCutCurrentPrice / meatCutsCurrentPricesSum) * pricesDifference;

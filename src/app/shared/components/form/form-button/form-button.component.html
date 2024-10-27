@@ -1,3 +1,8 @@
 <div [class]="class()">
-  <ion-button expand="block">{{ label() }}</ion-button>
+  @if (icon()) {
+    <ion-button [disabled]="disabled()" expand="block" [innerHTML]="sanitizeIcon()"></ion-button>
+  }
+  @else {
+    <ion-button [disabled]="disabled()" expand="block">{{ label() }}</ion-button>
+  }
 </div>

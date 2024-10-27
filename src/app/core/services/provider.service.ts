@@ -4,9 +4,7 @@ import { BehaviorSubject, catchError, Observable, switchMap, tap, throwError } f
 import { environment } from 'src/environments/environment';
 import { ProviderRequest, ProviderResponse } from '../models/interfaces/provider.model';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { SectorRequest, SectorResponse } from '../models/interfaces/sector.model';
-import { ContactRequest, ContactResponse } from '../models/interfaces/contact.model';
-import { PercentagesRequest, PercentagesResponse } from '../models/interfaces/percentages.model';
+import { ProductService } from './product.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +13,8 @@ export class ProviderService {
 
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/providers`;
+
+  private productService = inject(ProductService);
 
   private refreshProviders$ = new BehaviorSubject<void>(undefined);
 
@@ -41,41 +41,15 @@ export class ProviderService {
 
   public editProvider(id: number, provider: ProviderRequest): Observable<string> {
     return this.http.put(`${this.apiUrl}/${id}`, provider, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => this.refreshProviders$.next()));
+      .pipe(catchError(this.handleError), tap(() => {
+        this.refreshProviders$.next();
+        this.productService.refreshProducts();
+      }));
   }
 
   public deleteOrRecoverProvider(id: number): Observable<string> {
     return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' })
       .pipe(catchError(this.handleError), tap(() => this.refreshProviders$.next()));
-  }
-  
-  public mapProviderResponseToRequest(providerResponse: ProviderResponse): ProviderRequest {
-    return {
-      sectorId: providerResponse.sector.id,
-      contact: this.mapContactResponseToRequest(providerResponse.contact),
-      percentages: this.mapPercentagesResponseToRequest(providerResponse.percentages),
-      vatCondition: providerResponse.vatCondition,
-      companyName: providerResponse.companyName,
-      firstName: providerResponse.firstName,
-      lastName: providerResponse.lastName,
-      cuit: providerResponse.cuit
-    };
-  }
-  
-  private mapContactResponseToRequest(contactResponse: ContactResponse): ContactRequest {
-    return {
-      telephone: contactResponse.telephone,
-      email: contactResponse.email
-    };
-  }
-  
-  private mapPercentagesResponseToRequest(percentagesResponse: PercentagesResponse): PercentagesRequest {
-    return {
-      vatPercentage: percentagesResponse.vatPercentage,
-      profitPercentage: percentagesResponse.profitPercentage,
-      perceptionPercentage: percentagesResponse.perceptionPercentage,
-      grossIncomePercentage: percentagesResponse.grossIncomePercentage
-    };
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -85,7 +59,7 @@ export class ProviderService {
       case 403:
         return throwError(() => new Error("No tienes los permisos para realizar esta acción"));
       case 500:
-        return throwError(() => new Error("Ocurrió un error en el servidor"));
+        return throwError(() => new Error(error.message));
       default:
         return throwError(() => new Error(error.error));
     }
