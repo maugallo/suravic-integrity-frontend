@@ -1,11 +1,13 @@
 import { Component, inject } from '@angular/core';
-import { TokenService } from 'src/app/core/services/utils/token.service';
 import { IonContent } from "@ionic/angular/standalone";
 import { OptionComponent } from "./option/option.component";
 import { DUENO_OPTIONS, ENCARGADO_OPTIONS, Option } from './home-options.constant';
 import { NavigationEnd, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map, switchMap, tap } from 'rxjs';
+import { StorageService } from 'src/app/core/services/utils/storage.service';
+import { StorageType } from 'src/app/core/models/enums/storage-type.enum';
+import { TokenUtility } from 'src/app/core/models/utils/token.utility';
 
 @Component({
   selector: 'app-home',
@@ -17,17 +19,16 @@ import { filter, map, switchMap, tap } from 'rxjs';
 export class HomeComponent {
 
   private router = inject(Router);
-
-  private tokenService = inject(TokenService);
+  private storageService = inject(StorageService);
 
   public duenoOptions: Option[] = DUENO_OPTIONS;
   public encargadoOptions: Option[] = ENCARGADO_OPTIONS;
 
   public role = toSignal(this.router.events.pipe(
     filter((event) => (event instanceof NavigationEnd && event.url == '/tabs/home')),
-      switchMap(() => this.tokenService.getToken()), // El observable previo emite un nuevo valor, uso switchMap para cambiar a un nuevo observable.
+      switchMap(() => this.storageService.getStorage(StorageType.TOKEN)), // El observable previo emite un nuevo valor, uso switchMap para cambiar a un nuevo observable.
       tap((token) => token ?? this.router.navigate(['welcome'])),
-      map((token) => this.tokenService.getRoleFromToken(token)) // Este nuevo observable emite un valor, lo mapeo para hacer lo que quiero (en este caso lo uso para obtener el rol).
+      map((token) => TokenUtility.getRoleFromToken(token)) // Este nuevo observable emite un valor, lo mapeo para hacer lo que quiero (en este caso lo uso para obtener el rol).
     )
   );
 

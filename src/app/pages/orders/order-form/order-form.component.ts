@@ -16,8 +16,8 @@ import { ActionSheetController } from '@ionic/angular';
 import { WheelDateInputComponent } from "../../../shared/components/form/wheel-date-input/wheel-date-input.component";
 import { NumberInputComponent } from "../../../shared/components/form/number-input/number-input.component";
 import { SelectInputComponent } from "../../../shared/components/form/select-input/select-input.component";
-import { ORDER_STATUS, PAYMENT_METHODS } from './order-selects.constant';
 import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
+import { ORDER_STATUS, PAYMENT_METHODS } from './order-selects.constant';
 
 @Component({
   selector: 'app-order-form',
@@ -146,6 +146,7 @@ export class OrderFormComponent {
       this.order()!.invoice = image;
     } catch (error) {
       console.error('Error al obtener la imagen:', error);
+      this.alertService.getErrorAlert('Ocurrió un error al cargar la imagen');
     }
   }
 
@@ -157,7 +158,7 @@ export class OrderFormComponent {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
       console.log('Archivo seleccionado:', file);
-      // Puedes hacer algo con el archivo, como enviarlo al backend.
+      this.order()!.invoice = file;
     }
   }
 

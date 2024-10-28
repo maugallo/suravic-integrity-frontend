@@ -64,7 +64,7 @@ export class ProviderService {
       case 500:
         return throwError(() => new Error(error.message));
       default:
-        return throwError(() => new Error(error.error));
+        return throwError(() => error);
     }
   }
 

@@ -26,30 +26,38 @@
       </div>
 
       <div class="invoice-input mb-10">
-          <!-- Invoice File Input -->
-          <p class="label mb-1 mt-0">Factura de Pedido</p>
-          <div [class]="order()?.invoice ? 'image-uploaded-container' : 'image-not-uploaded-container'">
-            @if (order()?.invoice) { 
-              @if (isPhoto(order()!.invoice); as photo) {
-                <img [src]="photo.dataUrl" class="image-preview" />
-              }
-              @if (isFile(order()!.invoice); as file) {
-                
-              }
-            }
-            @else { 
-              <div class="placeholder">
-                <i class="fa-regular fa-camera fa-4x"></i>
-                <p>Ninguna imagen o archivo seleccionado</p>
+        <!-- Invoice File Input -->
+        <p class="label mb-1 mt-0">Factura de Pedido</p>
+
+        <div class="invoice-container">
+          @if (order()?.invoice) { 
+            @if (isPhoto(order()!.invoice); as photo) {
+              <!-- Vista previa de la imagen -->
+              <div class="uploaded-image-container">
+                <img [src]="photo.dataUrl"/>
               </div>
             }
-          </div>
-          <div class="add-image-file">
-            <ion-button (click)="selectImageSource()">Agregar imagen</ion-button>   
-            <ion-button (click)="triggerFileInput()">Agregar archivo</ion-button> 
-          </div>
-          <input type="file" accept="image/*,.pdf,.doc,.docx" (change)="onFileSelected($event)" hidden #fileInput />
-      </div>
+            @if (isFile(order()!.invoice); as file) {
+              <div class="uploaded-file-container">
+                <i class="fa-solid fa-file fa-4x"></i>
+                <p class="file-name">{{ file.name }}</p>
+              </div>
+            }
+          }
+          @else {
+            <div class="placeholder">
+              <i class="fa-regular fa-camera fa-4x"></i>
+              <p>Ninguna imagen o archivo seleccionado</p>
+            </div>
+          }
+        </div>
+
+        <div class="add-image-file">
+          <ion-button (click)="selectImageSource()">Agregar imagen</ion-button>   
+          <ion-button (click)="triggerFileInput()">Agregar archivo</ion-button> 
+        </div>
+        <input type="file" accept="image/*,.pdf,.doc,.docx" (change)="onFileSelected($event)" hidden #fileInput />
+      </div>      
 
       <div class="provider-method-container mb-10">
         <!-- Provider Input -->

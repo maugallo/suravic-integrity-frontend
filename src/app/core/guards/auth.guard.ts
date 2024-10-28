@@ -1,14 +1,15 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { TokenService } from '../services/utils/token.service';
 import { map } from 'rxjs';
+import { StorageService } from '../services/utils/storage.service';
+import { StorageType } from '../models/enums/storage-type.enum';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   
-  const tokenService = inject(TokenService);
+  const storageService = inject(StorageService);
 
-  return tokenService.getToken().pipe(
+  return storageService.getStorage(StorageType.TOKEN).pipe(
     map((token) => {
       if (token) {
         if (state.url === '/welcome' || state.url === '/login' || state.url === '/forgot-password') {

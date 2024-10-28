@@ -2,39 +2,79 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { inject, Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { UserLoginRequest } from '../models/interfaces/user.model';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { catchError, forkJoin, Observable, switchMap, tap, throwError } from 'rxjs';
+import { Router } from '@angular/router';
+import { StorageService } from './utils/storage.service';
+import { StorageType } from '../models/enums/storage-type.enum';
+import { TokenUtility } from '../models/utils/token.utility';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private router = inject(Router);
+
+  private storageService = inject(StorageService);
 
   private http = inject(HttpClient);
   private apiUrl = environment.apiUrl;
 
-  public login(user: UserLoginRequest) {
+  public login(user: UserLoginRequest): Observable<[void, void, void]> {
     const headers = new HttpHeaders({ 'Authorization': 'Basic ' + btoa(`${user.username}:${user.password}`) });
 
-    return this.http.get(`${this.apiUrl}/auth/login`, { headers, withCredentials: true, observe: 'response' })
-      .pipe(catchError(this.handleError));
-  }
-
-  public refresh(): Observable<string> {
-    return this.http.get<void>(`${this.apiUrl}/auth/refresh`, { withCredentials: true ,observe: 'response' })
+    return this.http.get(`${this.apiUrl}/auth/login`, { headers, observe: 'response' })
       .pipe(
-        map(response => {
-          const newToken = response.headers.get('Authorization');
-          if (newToken) {
-            return newToken;
+        switchMap((response) => {
+          const token = response.headers.get('Authorization');
+          const refreshToken = response.headers.get('Authorization-Refresh');
+          if (token && refreshToken) {
+            const userId = TokenUtility.getUserIdFromToken(token);
+            return forkJoin([
+              this.storageService.setStorage(StorageType.TOKEN, token),
+              this.storageService.setStorage(StorageType.REFRESH_TOKEN, refreshToken),
+              this.storageService.setStorage(StorageType.USER_ID, userId)
+            ]);
           } else {
-            throw new Error('Fallo al refrescar el token, no se encontró un token de refresh en la response de api/auth/refresh.');
+            return throwError(() => new Error("No se recibió un token o un refreshToken de los headers durante el login."));
           }
         }),
-        catchError(error => {
-          console.error('Error al querer llamar al endpoint api/auth/refresh:', error);
-          return throwError(() => new Error(error));
-        })
+        catchError(this.handleError)
       );
+  }
+
+  public logout(): Observable<[void, void, void]> {
+    return forkJoin([
+      this.storageService.clearStorage(StorageType.TOKEN),
+      this.storageService.clearStorage(StorageType.REFRESH_TOKEN),
+      this.storageService.clearStorage(StorageType.USER_ID),
+    ]).pipe(
+      tap(() => {
+        console.log("Logout realizado con éxito");
+        this.router.navigate(['welcome']);
+      })
+    );
+  }
+
+  public refresh(): Observable<void> {
+    return this.storageService.getStorage(StorageType.REFRESH_TOKEN).pipe(
+      switchMap((refreshToken) => {
+        const headers = new HttpHeaders({ 'Authorization-Refresh': refreshToken });
+        return this.http.get(`${this.apiUrl}/auth/refresh`, { headers, observe: 'response' })
+      }),
+      switchMap((response) => {
+        const newToken = response.headers.get('Authorization');
+        if (newToken) {
+          return this.storageService.setStorage(StorageType.TOKEN, newToken);
+        } else {
+          throw new Error('Fallo al refrescar el token, no se encontró un token en la response de api/auth/refresh.');
+        }
+      }),
+      tap(() => console.log("Refresh realizado correctamente")),
+      catchError(error => {
+        console.error('Error al querer llamar al endpoint api/auth/refresh:', error);
+        return throwError(() => error);
+      })
+    );
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -44,7 +84,7 @@ export class AuthService {
       case 500:
         return throwError(() => new Error("Ocurrió un error en el servidor"));
       default:
-        return throwError(() => new Error(error.error));
+        return throwError(() => error);
     }
   }
 

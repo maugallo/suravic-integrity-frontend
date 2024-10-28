@@ -6,7 +6,6 @@ export class ProductUtility {
         return {
             categoryId: -1,
             providerId: -1,
-            userId: -1,
             plu: '',
             title: '',
             price: ''

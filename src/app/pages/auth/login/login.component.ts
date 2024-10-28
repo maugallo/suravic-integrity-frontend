@@ -6,10 +6,8 @@ import { BackButtonComponent } from "../../../shared/components/back-button/back
 import { ValidationService } from 'src/app/core/services/utils/validation.service';
 import { UserLoginRequest } from 'src/app/core/models/interfaces/user.model';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { TokenService } from 'src/app/core/services/utils/token.service';
-import { switchMap, tap } from 'rxjs';
+import { tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { StorageService } from 'src/app/core/services/utils/storage.service';
 import { TextInputComponent } from "../../../shared/components/form/text-input/text-input.component";
 import { PasswordInputComponent } from "../../../shared/components/form/password-input/password-input.component";
 import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
@@ -28,9 +26,7 @@ export class LoginComponent {
   private destroyRef = inject(DestroyRef);
 
   private authService = inject(AuthService);
-  private tokenService = inject(TokenService);
   private alertService = inject(AlertService);
-  private storageService = inject(StorageService);
   private validationService = inject(ValidationService);
 
   public user: UserLoginRequest = {
@@ -50,16 +46,9 @@ export class LoginComponent {
 
   private handleLogin() {
     this.authService.login(this.user).pipe(
-      switchMap((response) => {
-        const token: string = response.headers.get('Authorization')!;
-        const userId: string = this.tokenService.getUserIdFromToken(token);
-        this.storageService.setStorage('userId', userId);
-        return this.tokenService.setToken(token).pipe(
-          tap(() => this.router.navigate(['tabs', 'home']))
-        )
-      }),
       takeUntilDestroyed(this.destroyRef)
     ).subscribe({
+      next: () => this.router.navigate(['tabs', 'home']),
       error: (error) => this.alertService.getErrorAlert(error.message).fire()
     });
   }

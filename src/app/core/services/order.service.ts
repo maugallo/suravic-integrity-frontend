@@ -55,7 +55,7 @@ export class OrderService {
       case 500:
         return throwError(() => new Error("Ocurrió un error en el servidor"));
       default:
-        return throwError(() => new Error("Error"));
+        return throwError(() => error);
     }
   }
   

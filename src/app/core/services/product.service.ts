@@ -68,7 +68,7 @@ export class ProductService {
       case 500:
         return throwError(() => new Error("Ocurrió un error en el servidor"));
       default:
-        return throwError(() => new Error(error.message));
+        return throwError(() => error);
     }
   }
 }

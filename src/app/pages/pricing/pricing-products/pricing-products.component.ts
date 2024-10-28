@@ -42,7 +42,7 @@ export class PricingProductsComponent {
   public provider = computed(() => this.selectedProviderId() ? this.providerService.getProviderById(this.selectedProviderId()!) : null);
   public selectedProduct: ProductWithPricing | null = null;
 
-  public products = computed(() => signal(this.productService.getProductsByProvider(this.selectedProviderId()!)));
+  public products = computed(() => signal(this.productService.getProductsByProvider(this.selectedProviderId()!).filter(product => product.isEnabled)));
   public productsWithPricing = computed(() => signal(this.getProductsWithPricing()));
 
   public openProviderPercentagesMenu() {

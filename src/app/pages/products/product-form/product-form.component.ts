@@ -68,14 +68,9 @@ export class ProductFormComponent {
       return;
     }
 
-    this.storageService.getStorage('userId').pipe(
-      switchMap((userId: string) => {
-        this.product()!.userId = Number(userId);
-        return this.getFormOperation().pipe(
-          tap((response) => this.handleSuccess(response)),
-          catchError((error) => this.handleError(error))
-        )
-      }),
+    this.getFormOperation().pipe(
+      tap((response) => this.handleSuccess(response)),
+      catchError((error) => this.handleError(error)),
       takeUntilDestroyed(this.destroyRef)
     ).subscribe();
   }

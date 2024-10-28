@@ -1,8 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { IonFooter, IonToolbar, IonTabButton, IonTabs, IonIcon, IonTabBar, IonContent } from "@ionic/angular/standalone";
+import { AuthService } from 'src/app/core/services/auth.service';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
-import { TokenService } from 'src/app/core/services/utils/token.service';
 
 @Component({
   selector: 'app-footer',
@@ -13,18 +12,14 @@ import { TokenService } from 'src/app/core/services/utils/token.service';
 })
 export class FooterComponent {
 
-  private router = inject(Router);
-  private tokenService = inject(TokenService);
+  private authService = inject(AuthService);
   private alertService = inject(AlertService);
 
   public logout() {
     this.alertService.getConfirmationAlert('¿Estás seguro que deseas cerrar sesión?')
     .fire()
     .then((result: any) => {
-      if (result.isConfirmed) {
-        this.tokenService.clearToken();
-        this.router.navigate(['welcome']);
-      }
+      if (result.isConfirmed) this.authService.logout().subscribe();
     });
   }
 

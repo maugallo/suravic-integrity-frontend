@@ -14,7 +14,6 @@ export class ProductMapper {
         return {
             categoryId: product.category.id,
             providerId: product.provider.id,
-            userId: product.user.id,
             plu: product.plu,
             title: product.title,
             price: product.price
