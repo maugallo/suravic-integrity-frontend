@@ -3,6 +3,7 @@ import { NumberInputComponent } from 'src/app/shared/components/form/number-inpu
 import { PasswordInputComponent } from 'src/app/shared/components/form/password-input/password-input.component';
 import { SelectInputComponent } from 'src/app/shared/components/form/select-input/select-input.component';
 import { TextInputComponent } from 'src/app/shared/components/form/text-input/text-input.component';
+import { WheelDateInputComponent } from 'src/app/shared/components/form/wheel-date-input/wheel-date-input.component';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,7 @@ export class ValidationService {
     return 'No válido';
   }
 
-  public validateInputs(inputComponents: QueryList<TextInputComponent | NumberInputComponent | SelectInputComponent | PasswordInputComponent>): boolean {
+  public validateInputs(inputComponents: QueryList<TextInputComponent | NumberInputComponent | SelectInputComponent | PasswordInputComponent | WheelDateInputComponent>): boolean {
     let isValid = true;
 
     inputComponents.forEach((input) => {
@@ -39,6 +40,10 @@ export class ValidationService {
         if (!input.isSelectValid()) {
           isValid = false;
         }
+      } else if (input instanceof WheelDateInputComponent) {
+        if (!input.isDateValid()) {
+          isValid = false;
+        }
       } else if (!input.ionInput.control.valid) {
         isValid = false;
       }
@@ -46,5 +51,6 @@ export class ValidationService {
 
     return isValid;
   }
+
 
 }

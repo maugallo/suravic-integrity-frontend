@@ -17,7 +17,7 @@ import { SelectInputComponent } from "../../../shared/components/form/select-inp
 import { ValidationService } from 'src/app/core/services/utils/validation.service';
 import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
 import { ProductMapper } from 'src/app/core/models/mappers/product.mapper';
-import { ProductUtility } from 'src/app/core/models/utils/product.utility';
+import { EntitiesUtility } from 'src/app/core/models/utils/entities.utility';
 
 @Component({
   selector: 'app-product-form',
@@ -58,7 +58,7 @@ export class ProductFormComponent {
         return of(ProductMapper.toProductRequest(product));
       } else {
         this.isProductEdit = false;
-        return of(ProductUtility.getEmptyProductRequest());
+        return of(EntitiesUtility.getEmptyProductRequest());
       }
     })
   ));

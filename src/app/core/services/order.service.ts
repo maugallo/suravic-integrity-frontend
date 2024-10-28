@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { BehaviorSubject, catchError, Observable, switchMap, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { OrderRequest, OrderResponse } from '../models/interfaces/order.model';
 
@@ -16,14 +16,10 @@ export class OrderService {
   private refreshOrders$ = new BehaviorSubject<void>(undefined);
 
   public orders = toSignal(this.refreshOrders$.pipe(
-    switchMap(() => this.getOrders(true))), { initialValue: [] });
+    switchMap(() => this.getOrders())), { initialValue: [] });
 
-  private getOrders(isEnabled: boolean): Observable<OrderResponse[]> {
-    let params = new HttpParams();
-
-    params = params.append('isEnabled', isEnabled);
-
-    return this.http.get<OrderResponse[]>(this.apiUrl, { params })
+  private getOrders(): Observable<OrderResponse[]> {
+    return this.http.get<OrderResponse[]>(this.apiUrl)
       .pipe(catchError(this.handleError));
   }
 
@@ -31,13 +27,39 @@ export class OrderService {
     return this.orders().find(order => order.id === id)!;
   }
 
-  public createOrder(order: OrderRequest): Observable<string> {
-    return this.http.post(this.apiUrl, order, { responseType: 'text' })
+  public getInvoiceFile(id: number): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/${id}/invoice`, { responseType: 'blob' })
+    .pipe(catchError(this.handleError));
+  }
+
+  public getPaymentReceiptFile(id: number): Observable<Blob | null> {
+    return this.http.get(`${this.apiUrl}/${id}/payment-receipt`, { responseType: 'blob' })
+      .pipe(
+        map((blob) => {
+          // Verificamos si la respuesta es una Blob vacía, que podría representar un 204 No Content
+          if (!blob || blob.size === 0) {
+            return null;
+          }
+          return blob;
+        }),
+        catchError((error) => {
+          if (error.status === 204) {
+            // Si la respuesta es un 204 No Content, retornamos null
+            return of(null);
+          }
+          // Si el error es otro, manejamos el error de la forma usual
+          return this.handleError(error);
+        })
+      );
+  }
+  
+  public createOrder(orderData: FormData): Observable<string> {
+    return this.http.post(this.apiUrl, orderData, { responseType: 'text' })
       .pipe(catchError(this.handleError), tap(() => this.refreshOrders$.next()));
   }
 
-  public editOrder(id: number, order: OrderRequest): Observable<string> {
-    return this.http.put(`${this.apiUrl}/${id}`, order, { responseType: 'text' })
+  public editOrder(id: number, orderData: FormData): Observable<string> {
+    return this.http.put(`${this.apiUrl}/${id}`, orderData, { responseType: 'text' })
       .pipe(catchError(this.handleError), tap(() => this.refreshOrders$.next()));
   }
 

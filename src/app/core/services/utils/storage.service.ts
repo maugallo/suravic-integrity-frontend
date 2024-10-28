@@ -10,7 +10,7 @@ export class StorageService {
   public setStorage(key: string, value: any): Observable<void> {
     return from(Preferences.set({
       key: key,
-      value: (typeof value === 'object' ? JSON.stringify(value) : value)
+      value: (typeof value === 'object' || typeof value === 'number' ? JSON.stringify(value) : value)
     }));
   }
 

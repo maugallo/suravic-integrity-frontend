@@ -18,7 +18,7 @@ import { SelectInputComponent } from "../../../shared/components/form/select-inp
 import { NumberInputComponent } from "../../../shared/components/form/number-input/number-input.component";
 import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
 import { ProviderMapper } from 'src/app/core/models/mappers/provider.mapper';
-import { ProviderUtility } from 'src/app/core/models/utils/provider.utility';
+import { EntitiesUtility } from 'src/app/core/models/utils/entities.utility';
 
 @Component({
   selector: 'app-provider-form',
@@ -60,7 +60,7 @@ export class ProviderFormComponent {
         return of(ProviderMapper.toProviderRequest(provider));
       } else {
         this.isProviderEdit = false;
-        return of(ProviderUtility.getEmptyProviderRequest());
+        return of(EntitiesUtility.getEmptyProviderRequest());
       }
     })
   ));

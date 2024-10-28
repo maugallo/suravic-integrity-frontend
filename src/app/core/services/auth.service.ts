@@ -29,6 +29,8 @@ export class AuthService {
           const refreshToken = response.headers.get('Authorization-Refresh');
           if (token && refreshToken) {
             const userId = TokenUtility.getUserIdFromToken(token);
+            console.log("Se setea en storage userId");
+            console.log(userId)
             return forkJoin([
               this.storageService.setStorage(StorageType.TOKEN, token),
               this.storageService.setStorage(StorageType.REFRESH_TOKEN, refreshToken),
@@ -55,7 +57,7 @@ export class AuthService {
     );
   }
 
-  public refresh(): Observable<void> {
+  public refresh(): Observable<void | [void, void, void]> {
     return this.storageService.getStorage(StorageType.REFRESH_TOKEN).pipe(
       switchMap((refreshToken) => {
         const headers = new HttpHeaders({ 'Authorization-Refresh': refreshToken });
@@ -72,7 +74,8 @@ export class AuthService {
       tap(() => console.log("Refresh realizado correctamente")),
       catchError(error => {
         console.error('Error al querer llamar al endpoint api/auth/refresh:', error);
-        return throwError(() => error);
+        console.error("Procediendo a desloguearse");
+        return this.logout()
       })
     );
   }

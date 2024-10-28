@@ -19,7 +19,11 @@ export class SelectInputComponent extends BaseInputComponent {
   public customInterfaceOptions: any = { cssClass: 'custom-select-options' };
 
   public isSelectValid(): boolean {
-    return this.bindedObject() !== '' && this.bindedObject() !== -1;
-  }
+    if (this.multiple()) {
+      return this.bindedObject().length > 0 || !this.required();
+    } else {
+      return (this.bindedObject() !== '' && this.bindedObject() !== -1) || !this.required();
+    }
+  }  
 
 }

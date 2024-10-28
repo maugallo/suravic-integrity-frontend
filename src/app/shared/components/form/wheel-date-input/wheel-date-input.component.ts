@@ -1,6 +1,6 @@
 import { Component, input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonDatetimeButton, IonModal, IonDatetime, IonButton } from "@ionic/angular/standalone";
+import { IonDatetimeButton, IonModal, IonDatetime, IonButton, IonNote } from "@ionic/angular/standalone";
 import { BaseInputComponent } from '../base-input/base-input.component';
 
 @Component({
@@ -8,10 +8,14 @@ import { BaseInputComponent } from '../base-input/base-input.component';
   templateUrl: './wheel-date-input.component.html',
   styleUrls: ['./wheel-date-input.component.scss'],
   standalone: true,
-  imports: [IonButton, IonDatetime, IonModal, IonDatetimeButton, FormsModule]
+  imports: [IonNote, IonButton, IonDatetime, IonModal, IonDatetimeButton, FormsModule]
 })
 export class WheelDateInputComponent extends BaseInputComponent {
 
   public today = new Date().toISOString().split('T')[0];
+
+  public isDateValid(): boolean {
+    return !!this.bindedObject;
+  }
 
 }
