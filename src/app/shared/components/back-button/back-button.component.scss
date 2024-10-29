@@ -2,6 +2,7 @@
 
 .back-button-fixed {
     position: fixed;
+    z-index: 1000; 
     top: 3rem;
     left: 1.25rem;
 }
@@ -12,6 +13,9 @@
 
 .back-button-primary .fa-solid {
     color: #{$primary-color};
+    background-color: white;
+    border-radius: 100%;
+    padding: 0.15rem;
 }
 
 .back-button-white .fa-solid {

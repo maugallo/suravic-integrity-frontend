@@ -1,0 +1,54 @@
+@import '/src/global.scss';
+
+.filter-header {
+    border-bottom: 1px solid $secondary-color;
+}
+
+.filter-subtitle {
+    color: $primary-color;
+    font-weight: bold;
+}
+
+ion-select {
+    --placeholder-color: #{$secondary-color};
+    --border-width: 0.10rem;
+    --highlight-color: #{$primary-color};
+}
+
+.filter-button {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    position: fixed;
+    bottom: 0;
+    width: 90%;
+}
+
+ion-button {
+    --background: #{$primary-color};
+    --border-radius: 4px;
+    height: 3.3rem;
+    font-size: large;
+}
+
+ion-range {
+    --bar-background: #{$primary-color-lighter};
+    --bar-background-active: #{$primary-color};
+    --bar-height: 8px;
+    --bar-border-radius: 8px;
+    --knob-background: #{$primary-color};
+    --knob-size: 30px;
+    --pin-background: #{$primary-color};
+    --pin-color: #fff;
+}
+
+ion-label {
+    color: #{$secondary-color};
+    font-weight: bold;
+    font-size: large;
+}
+
+.range-labels {
+    display: flex;
+    justify-content: space-between;
+}

@@ -6,15 +6,19 @@
       <!-- Search Bar -->
       <ion-searchbar placeholder="Buscar" [debounce]="250" (ionInput)="searchForOrders($event)"></ion-searchbar>
       <!-- Filter Button -->
-      <ion-button><i class="fa-solid fa-filter fa-2x py-0"></i></ion-button>
+      <ion-button id="order-content" (click)="openFilterMenu()"><i class="fa-solid fa-filter fa-2x py-0"></i></ion-button>
+      <!-- Filter Menu -->
+      <app-orders-filter [orders]="orders()" (filtersEmitter)="receiveFilters($event)" ></app-orders-filter>
     </div>
     
     <div class="options-container">
       <!-- Add Order Button -->
       <ion-button (click)="router.navigate(['orders', 'form'])"><i class="fa-solid fa-clipboard-medical fa-2x py-0"></i></ion-button>
+      <!-- See Deleted Button -->
+      <app-deleted-button [(seeDeleted)]="seeDeleted"></app-deleted-button>
     </div>
 
-    @if (searchBarResult(); as orders) {
+    @if (filteredOrders(); as orders) {
       @if (orders.length === 0) { <app-not-found></app-not-found> }
       <ion-list>
         @for (order of orders; track $index) {

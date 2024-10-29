@@ -1,6 +1,5 @@
 import { Component, DestroyRef, inject, input, output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { catchError, of, tap } from 'rxjs';
 import { OrderResponse } from 'src/app/core/models/interfaces/order.model';
 import { OrderService } from 'src/app/core/services/order.service';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
@@ -24,28 +23,22 @@ export class OrderItemComponent {
   public order: any = input<OrderResponse>();
   public refreshDashboard = output<void>();
 
-  public openDeleteOrderAlert() {
-    this.alertService.getWarningConfirmationAlert('¿Estás seguro que deseas eliminar el pedido?')
+  public openDeleteOrRecoverOrderAlert() {
+    const action = this.order().isEnabled ? 'eliminar' : 'recuperar';
+    const confirmLabel = this.order().isEnabled ? 'ELIMINAR' : 'ACEPTAR';
+    
+    this.alertService.getWarningConfirmationAlert(`¿Estás seguro que deseas ${action} el producto?`, '', confirmLabel)
       .fire()
-      .then((result) => {
-        if (result.isConfirmed) {
-          this.deleteOrder(this.order().id);
-        }
-      });
+      .then((result) => { if (result.isConfirmed) this.deleteOrRecoverOrder(this.order().id) });
   }
 
-  private deleteOrder(id: number) {
+  private deleteOrRecoverOrder(id: number) {
     this.orderService.deleteOrRecoverOrder(id).pipe(
-      tap((response) => {
-        this.alertService.getSuccessToast(response).fire();
-        this.refreshDashboard.emit();
-      }),
-      catchError((error) => {
-        console.log(error);
-        return of(null);
-      }),
       takeUntilDestroyed(this.destroyRef)
-    ).subscribe();
+    ).subscribe({
+      next: (response) => this.alertService.getSuccessToast(response).fire(),
+      error: (error) => console.log(error)
+    });
   }
 
 }

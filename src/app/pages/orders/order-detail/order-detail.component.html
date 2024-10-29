@@ -1,0 +1,133 @@
+<ion-content>
+  <app-back-button class="back-button-fixed back-button-primary"></app-back-button>
+
+  @if (order(); as order) {
+    <div class="mt-12">
+      <div class="circle-container">
+        <i class="fa-regular fa-clipboard-list fa-5x"></i>
+      </div>
+      <p class="detail-title mt-3 mb-0">PEDIDO</p>
+      <p class="date my-0">{{ order.deliveryDate }}</p>
+    </div>
+
+    <div class="detail-container mb-2 mt-6 mx-4">
+      <ion-card>
+        <ion-card-header>
+          <div class="card-header">
+            <i class="fa-regular fa-receipt fa-2x"></i>
+            <p class="card-title">Factura de Pedido</p>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content>
+          @if (invoice) {
+            @if (fileUtility.isPhoto(invoice); as photo) {
+              <div class="uploaded-image-container mt-3">
+                <img [src]="photo.dataUrl"/>
+              </div>
+            }
+            @if (fileUtility.isFile(invoice); as file) {
+              <div class="container">
+                <div (click)="downloadFile()" class="invoice-container mt-3">
+                  <div class="uploaded-file-container mt-14">
+                    <i class="fa-solid fa-file-arrow-down fa-4x"></i>
+                    <p class="file-name mt-2">Descargar</p>
+                  </div>
+                </div>
+              </div>
+            }
+          }
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-header>
+          <div class="card-header">
+            <i class="fa-solid fa-user-tie fa-2x"></i>
+            <p class="card-title">Proveedor</p>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content>
+          @if (!order.provider.isEnabled) { <p class="card-content-deleted">{{ order.provider.companyName }}</p> }
+          @else { <p class="card-content">{{ order.provider.companyName }}</p> }
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-header>
+          <div class="card-header">
+            <i class="fa-regular fa-circle-info fa-2x"></i>
+            <p class="card-title">Estado</p>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content>
+          <p class="card-content">{{ order.status }}</p>
+          @if (order.status === orderStatus.PAGO) { 
+            <p class="card-content payment-methods">| 
+              @for (method of order.paymentMethods; track $index) {
+                {{ method.name }} |
+              }
+            </p> 
+          }
+        </ion-card-content>
+      </ion-card>
+
+      @if (order.status === orderStatus.PAGO) {
+        <ion-card>
+          <ion-card-header>
+            <div class="card-header">
+              <i class="fa-regular fa-receipt fa-2x"></i>
+              <p class="card-title">Comprobante de Pago</p>
+            </div>
+          </ion-card-header>
+  
+          <ion-card-content>
+            @if (paymentReceipt) {
+              @if (fileUtility.isPhoto(paymentReceipt); as photo) {
+                <div class="uploaded-image-container mt-3">
+                  <img [src]="photo.dataUrl"/>
+                </div>
+              }
+              @if (fileUtility.isFile(paymentReceipt); as file) {
+                <div class="container">
+                  <div (click)="downloadFile()" class="invoice-container mt-3">
+                    <div class="uploaded-file-container mt-14">
+                      <i class="fa-solid fa-file-arrow-down fa-4x"></i>
+                      <p class="file-name mt-2">{{ file.name }}</p>
+                    </div>
+                  </div>
+                </div>
+              }
+            }
+            @else {
+              <div class="container">
+                <div class="invoice-container mt-3">
+                  <div class="uploaded-file-container mt-14">
+                    <i class="fa-solid fa-file-circle-xmark fa-4x"></i>
+                    <p class="file-name mt-2">Ningún comprobante cargado</p>
+                  </div>
+                </div>
+              </div>
+            }
+          </ion-card-content>
+        </ion-card>
+      }
+
+      <ion-card>
+        <ion-card-header>
+          <div class="card-header">
+            <i class="fa-sharp fa-regular fa-circle-dollar fa-2x"></i>
+            <p class="card-title">Total</p>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content>
+          <p class="card-content">{{ order.total | currency }}</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  }
+
+</ion-content>

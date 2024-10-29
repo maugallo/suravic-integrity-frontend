@@ -5,10 +5,11 @@ import { Router } from '@angular/router';
 import { ProviderService } from 'src/app/core/services/provider.service';
 import { NotFoundComponent } from "../../../shared/components/not-found/not-found.component";
 import { ProviderItemComponent } from "./provider-item/provider-item.component";
-import { Filter, ProvidersFilterComponent } from "../../../shared/components/filters/providers-filter/providers-filter.component";
+import { ProvidersFilterComponent } from "../../../shared/components/filters/providers-filter/providers-filter.component";
 import { ProviderResponse } from 'src/app/core/models/interfaces/provider.model';
 import { SectorModalComponent } from './sector-modal/sector-modal.component';
 import { DeletedButtonComponent } from "../../../shared/components/deleted-button/deleted-button.component";
+import { Filter } from 'src/app/core/models/interfaces/filter.model';
 
 @Component({
   selector: 'app-provider-dashboard',

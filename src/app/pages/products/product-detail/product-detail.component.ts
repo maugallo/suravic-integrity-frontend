@@ -5,14 +5,14 @@ import { of, switchMap } from 'rxjs';
 import { ProductService } from 'src/app/core/services/product.service';
 import { IonContent, IonCardHeader, IonCard, IonCardContent } from "@ionic/angular/standalone";
 import { BackButtonComponent } from "../../../shared/components/back-button/back-button.component";
-import { NotFoundComponent } from "../../../shared/components/not-found/not-found.component";
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.scss'],
   standalone: true,
-  imports: [IonCardContent, IonCard, IonCardHeader, IonContent, BackButtonComponent, NotFoundComponent]
+  imports: [IonCardContent, IonCard, IonCardHeader, IonContent, BackButtonComponent, CurrencyPipe]
 })
 export class ProductDetailComponent {
 

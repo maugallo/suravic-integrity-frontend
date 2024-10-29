@@ -20,9 +20,9 @@
         <!-- Order status Input -->
         <app-select-input #formInput class="select" inputName="statusSelect" label="Estado" [(bindedObject)]="order()!.status"
         [options]="['Pendiente', 'Cancelado', 'Pago']">
-          @for (status of orderStatus; track $index) {
-            <ion-select-option [value]="status">{{ status }}</ion-select-option>
-          }
+          <ion-select-option [value]="orderStatus.PENDIENTE">{{ orderStatus.PENDIENTE }}</ion-select-option>
+          <ion-select-option [value]="orderStatus.CANCELADO">{{ orderStatus.CANCELADO }}</ion-select-option>
+          <ion-select-option [value]="orderStatus.PAGO">{{ orderStatus.PAGO }}</ion-select-option>
         </app-select-input>
       </div>
 
@@ -40,14 +40,14 @@
         
         <!-- Payment Method Input -->
         <app-select-input #formInput class="select" inputName="paymentMethodSelect" label="Método de pago" [(bindedObject)]="order()!.paymentMethodIds"
-         [disabled]="(order()!.status !== 'Pago')" [multiple]="true" [options]="paymentMethods()" [required]="(order()!.status === 'Pago')">
+         [disabled]="(order()!.status !== orderStatus.PAGO)" [multiple]="true" [options]="paymentMethods()" [required]="(order()!.status === orderStatus.PAGO)">
           @for (paymentMethod of paymentMethods(); track $index) {
             <ion-select-option [value]="paymentMethod.id">{{ paymentMethod.name }}</ion-select-option>
           }
         </app-select-input>
       </div>
 
-      @if (order()?.status === 'Pago') {
+      @if (order()?.status === orderStatus.PAGO) {
         <!-- Payment Receipt File Input -->
         <app-file-input class="mb-10" label="Comprobante de Pago (Opcional)" [(bindedObject)]="order()!.paymentReceipt"></app-file-input>
       }

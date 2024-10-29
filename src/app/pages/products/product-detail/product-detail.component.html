@@ -20,7 +20,7 @@
         </ion-card-header>
 
         <ion-card-content>
-          <p class="card-content">${{ product.price }}</p>
+          <p class="card-content">{{ product.price | currency }}</p>
         </ion-card-content>
       </ion-card>
 
@@ -52,8 +52,6 @@
         </ion-card-content>
       </ion-card>
     </div>
-  } @else {
-    <app-not-found></app-not-found>
   }
 
 </ion-content>

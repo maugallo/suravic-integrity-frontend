@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonMenu, IonSelect, IonSelectOption, IonButton, MenuController } from "@ionic/angular/standalone";
 import { VAT_CONDITIONS } from 'src/app/pages/providers/provider-form/provider-selects.constant';
 import { SectorService } from 'src/app/core/services/sector.service';
+import { Filter } from 'src/app/core/models/interfaces/filter.model';
 
 @Component({
   selector: 'app-providers-filter',
@@ -41,9 +42,4 @@ export class ProvidersFilterComponent {
     this.filtersEmitter.emit(this.filters);
   }
 
-}
-
-export interface Filter {
-  type: string,
-  value: any[]
 }

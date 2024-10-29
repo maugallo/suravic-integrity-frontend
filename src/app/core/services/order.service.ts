@@ -1,9 +1,9 @@
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { BehaviorSubject, catchError, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, switchMap, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { OrderRequest, OrderResponse } from '../models/interfaces/order.model';
+import { OrderResponse } from '../models/interfaces/order.model';
 
 @Injectable({
   providedIn: 'root'
@@ -35,21 +35,8 @@ export class OrderService {
   public getPaymentReceiptFile(id: number): Observable<Blob | null> {
     return this.http.get(`${this.apiUrl}/${id}/payment-receipt`, { responseType: 'blob' })
       .pipe(
-        map((blob) => {
-          // Verificamos si la respuesta es una Blob vacía, que podría representar un 204 No Content
-          if (!blob || blob.size === 0) {
-            return null;
-          }
-          return blob;
-        }),
-        catchError((error) => {
-          if (error.status === 204) {
-            // Si la respuesta es un 204 No Content, retornamos null
-            return of(null);
-          }
-          // Si el error es otro, manejamos el error de la forma usual
-          return this.handleError(error);
-        })
+        map((blob) => (!blob || blob.size === 0) ? null : blob),
+        catchError(this.handleError)
       );
   }
   

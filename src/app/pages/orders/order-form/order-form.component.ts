@@ -16,7 +16,6 @@ import { WheelDateInputComponent } from "../../../shared/components/form/wheel-d
 import { NumberInputComponent } from "../../../shared/components/form/number-input/number-input.component";
 import { SelectInputComponent } from "../../../shared/components/form/select-input/select-input.component";
 import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
-import { ORDER_STATUS } from './order-selects.constant';
 import { OrderMapper } from 'src/app/core/models/mappers/order.mapper';
 import { EntitiesUtility } from 'src/app/core/models/utils/entities.utility';
 import { StorageType } from 'src/app/core/models/enums/storage-type.enum';
@@ -24,6 +23,7 @@ import { TextInputComponent } from 'src/app/shared/components/form/text-input/te
 import { FileInputComponent } from "../../../shared/components/form/file-input/file-input.component";
 import { FileUtility } from 'src/app/core/models/utils/file.utility';
 import { PaymentMethodService } from 'src/app/core/services/payment-method.service';
+import { OrderStatus } from 'src/app/core/models/enums/order-status.enum';
 
 @Component({
   selector: 'app-order-form',
@@ -49,8 +49,8 @@ export class OrderFormComponent {
   public isOrderEdit!: boolean;
   public orderId!: number;
 
+  public orderStatus = OrderStatus;
   public providers = this.providerService.providers;
-  public orderStatus = ORDER_STATUS;
   public paymentMethods = this.paymentMethodService.paymentMethods;
 
   @ViewChildren('formInput') inputComponents!: QueryList<TextInputComponent | NumberInputComponent | SelectInputComponent | WheelDateInputComponent>;
@@ -66,36 +66,25 @@ export class OrderFormComponent {
         }
         this.isOrderEdit = true;
         this.orderId = order.id;
-        return of(OrderMapper.toOrderRequest(order)).pipe(
-          switchMap((orderRequest) => {
-            // Obtener el invoice
-            return this.orderService.getInvoiceFile(this.orderId).pipe(
-              tap((invoice) => {
-                if (invoice.type.startsWith('image/')) {
-                  this.handlePhoto(orderRequest, invoice, 'invoice');
-                } else {
-                  this.handleFile(orderRequest, invoice, 'invoice');
-                }
-              }),
-              // Obtener el paymentReceipt si el estado es 'Pago'
-              switchMap(() => {
-                if (order.status === 'Pago') {
-                  return this.orderService.getPaymentReceiptFile(this.orderId).pipe(
-                    tap((paymentReceipt) => {
-                      if (paymentReceipt && paymentReceipt.size > 0) {
-                        if (paymentReceipt.type.startsWith('image/')) {
-                          this.handlePhoto(orderRequest, paymentReceipt, 'paymentReceipt');
-                        } else {
-                          this.handleFile(orderRequest, paymentReceipt, 'paymentReceipt');
-                        }
-                      }
-                    }),
-                    map(() => orderRequest)
-                  );
-                }
-                return of(orderRequest);
-              })
-            );
+        const orderRequest = OrderMapper.toOrderRequest(order);
+        return this.orderService.getInvoiceFile(this.orderId).pipe(
+          tap(async (invoice) => (invoice.type.startsWith('image/'))
+            ? orderRequest.invoice = await FileUtility.getPhotoFromBlob(invoice)
+            : orderRequest.invoice = FileUtility.getFileFromBlob(invoice, 'factura')),
+          switchMap(() => {
+            if (order.status === OrderStatus.PAGO) {
+              return this.orderService.getPaymentReceiptFile(this.orderId).pipe(
+                tap(async (paymentReceipt) => {
+                  if (paymentReceipt && paymentReceipt.size > 0) {
+                    (paymentReceipt.type.startsWith('image/'))
+                      ? orderRequest.paymentReceipt = await FileUtility.getPhotoFromBlob(paymentReceipt)
+                      : orderRequest.paymentReceipt = FileUtility.getFileFromBlob(paymentReceipt, 'comprobante')
+                  }
+                }),
+                map(() => orderRequest)
+              );
+            }
+            return of(orderRequest);
           })
         );
       } else {
@@ -104,47 +93,6 @@ export class OrderFormComponent {
       }
     })
   ));
-  
-  // Modificar los métodos handlePhoto y handleFile para recibir el campo a asignar
-  private handlePhoto(orderRequest: OrderRequest, blob: Blob, field: 'invoice' | 'paymentReceipt'): void {
-    const format = this.getFileExtension(blob.type);
-  
-    const reader = new FileReader();
-    reader.onload = () => {
-      const photo: Photo = {
-        dataUrl: reader.result as string,
-        format: format,
-        saved: false
-      };
-      orderRequest[field] = photo;
-    };
-    reader.readAsDataURL(blob);
-  }
-  
-  private handleFile(orderRequest: OrderRequest, blob: Blob, field: 'invoice' | 'paymentReceipt'): void {
-    const file = new File([blob], `${field}.${this.getFileExtension(blob.type)}`, { type: blob.type });
-    orderRequest[field] = file;
-  }
-  
-  
-  // Función auxiliar para obtener la extensión del archivo según su MIME type
-  private getFileExtension(mimeType: string): string {
-    switch (mimeType) {
-      case 'application/pdf':
-        return 'pdf';
-      case 'application/msword':
-        return 'doc';
-      case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-        return 'docx';
-      case 'image/jpeg':
-        return 'jpg';
-      case 'image/png':
-        return 'png';
-      default:
-        return '';
-    }
-  }
-  
 
   public onProviderChange(selectedProviderId: any) {
     this.order()!.providerId = selectedProviderId;
@@ -162,44 +110,46 @@ export class OrderFormComponent {
 
     this.storageService.getStorage(StorageType.USER_ID).pipe(
       switchMap((userId) => {
+        const order = this.order()!;
         const formData = new FormData();
 
-        formData.append('providerId', this.order()!.providerId.toString());
+        formData.append('providerId', order.providerId.toString());
         formData.append('userId', userId);
-        formData.append('status', this.order()!.status);
+        formData.append('status', order.status);
+        formData.append('total', order.total);
 
-        const deliveryDate = new Date(this.order()!.deliveryDate).toISOString().split('T')[0];
+        const deliveryDate = new Date(order.deliveryDate).toISOString().split('T')[0];
         formData.append('deliveryDate', deliveryDate);
 
-        formData.append('total', this.order()!.total);
-
-        this.order()!.paymentMethodIds.forEach((id: number) => {
+        order.paymentMethodIds.forEach((id: number) => {
           formData.append('paymentMethodIds', id.toString());
         });
 
-        if (FileUtility.isPhoto(this.order()!.invoice)) {
-          const photo = this.order()!.invoice as Photo;
+        if (FileUtility.isPhoto(order.invoice)) {
+          const photo = order.invoice as Photo;
           const blob = FileUtility.dataUrlToBlob(photo.dataUrl!);
 
           formData.append('invoice', blob, 'imagenc.jpg');
-        } else if (FileUtility.isFile(this.order()!.invoice)) {
-          const file = this.order()!.invoice as File;
+        } else if (FileUtility.isFile(order.invoice)) {
+          const file = order.invoice as File;
 
           formData.append('invoice', file);
         }
 
-        if (this.order()!.paymentReceipt) {
-          if (FileUtility.isPhoto(this.order()!.paymentReceipt)) {
-            const photo = this.order()!.paymentReceipt as Photo;
+        if (order.paymentReceipt) {
+          if (FileUtility.isPhoto(order.paymentReceipt)) {
+            const photo = order.paymentReceipt as Photo;
             const blob = FileUtility.dataUrlToBlob(photo.dataUrl!);
 
             formData.append('paymentReceipt', blob, 'imagenc.jpg');
-          } else if (FileUtility.isFile(this.order()!.paymentReceipt)) {
-            const file = this.order()!.paymentReceipt as File;
+          } else if (FileUtility.isFile(order.paymentReceipt)) {
+            const file = order.paymentReceipt as File;
 
             formData.append('paymentReceipt', file);
           }
         }
+
+        console.log(formData);
 
         return this.getFormOperation(formData);
       })
@@ -222,7 +172,7 @@ export class OrderFormComponent {
 
   private handleError(error: any): Observable<null> {
     this.alertService.getErrorAlert(error.message).fire();
-    console.error(error.message);
+    console.error(error);
     return of(null);
   }
 

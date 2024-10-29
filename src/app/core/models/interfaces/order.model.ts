@@ -23,5 +23,6 @@ export interface OrderResponse {
     deliveryDate: string,
     total: string,
     invoice: string,
-    paymentReceipt: string
+    paymentReceipt: string,
+    isEnabled: boolean
 }

@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { of, switchMap } from 'rxjs';
 import { ProviderService } from 'src/app/core/services/provider.service';
 import { AsyncPipe } from '@angular/common';
-import { NotFoundComponent } from "../../../shared/components/not-found/not-found.component";
 import { FormatEnumPipe } from 'src/app/shared/pipes/format-enum.pipe';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -14,7 +13,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
   templateUrl: './provider-detail.component.html',
   styleUrls: ['./provider-detail.component.scss'],
   standalone: true,
-  imports: [IonCardContent, IonCardSubtitle, IonCardTitle, IonCardHeader, IonCard, IonContent, BackButtonComponent, AsyncPipe, NotFoundComponent, FormatEnumPipe]
+  imports: [IonCardContent, IonCardSubtitle, IonCardTitle, IonCardHeader, IonCard, IonContent, BackButtonComponent, AsyncPipe, FormatEnumPipe]
 })
 export class ProviderDetailComponent {
 

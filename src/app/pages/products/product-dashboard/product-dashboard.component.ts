@@ -6,10 +6,10 @@ import { HeaderComponent } from "../../../shared/components/header/header.compon
 import { CategoryModalComponent } from "./category-modal/category-modal.component";
 import { NotFoundComponent } from "../../../shared/components/not-found/not-found.component";
 import { ProductItemComponent } from './product-item/product-item.component';
-import { Filter } from 'src/app/shared/components/filters/providers-filter/providers-filter.component';
 import { ProductResponse } from 'src/app/core/models/interfaces/product.model';
 import { ProductsFilterComponent } from "../../../shared/components/filters/products-filter/products-filter.component";
 import { DeletedButtonComponent } from "../../../shared/components/deleted-button/deleted-button.component";
+import { Filter } from 'src/app/core/models/interfaces/filter.model';
 
 @Component({
   selector: 'app-product-dashboard',
@@ -30,7 +30,6 @@ export class ProductDashboardComponent {
   private filters = signal<Filter[]>([]);
 
   public filteredProducts = computed(() => {
-    console.log(this.products());
     const products = this.filterProducts(this.products(), this.filters(), this.seeDeleted());
 
     return products.filter(product => product.title.toLowerCase().includes(this.searchQuery()));
