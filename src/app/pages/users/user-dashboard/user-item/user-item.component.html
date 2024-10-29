@@ -6,8 +6,10 @@
     <ion-item-option (click)="router.navigate(['users','form', user().id])" color="white">
       <i class="fa-solid fa-user-pen fa-2x mx-2"></i>
     </ion-item-option>
-    <ion-item-option (click)="openDeleteUserAlert()" color="white">
-      <i class="fa-solid fa-trash fa-2x mx-2"></i>
-    </ion-item-option>
+    @if (user().id !== 1) {
+      <ion-item-option (click)="openDeleteUserAlert()" color="white">
+        <i class="fa-solid fa-trash fa-2x mx-2"></i>
+      </ion-item-option>
+    }
   </ion-item-options>
 </ion-item-sliding>

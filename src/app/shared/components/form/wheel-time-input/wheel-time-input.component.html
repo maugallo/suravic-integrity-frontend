@@ -1,0 +1,21 @@
+<div [class]="class()">
+  <p class="date-label mb-1">{{ label() }}</p>
+  <ion-datetime-button [datetime]="inputName()"></ion-datetime-button>
+  <ion-modal #dateModal [keepContentsMounted]="true">
+    <ng-template>
+      <div class="mb-2 pb-2">
+        <ion-datetime [id]="inputName()" [name]="inputName()" presentation="time" [preferWheel]="true"
+          [(ngModel)]="bindedObject"></ion-datetime>
+      </div>
+      <div class="date-button-container">
+        <div></div>
+        <ion-button (click)="dateModal.dismiss()">Aceptar</ion-button>
+      </div>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Manejo manual de errorText -->
+  @if (!isDateValid() && ionInput.touched && required()) {
+    <ion-note color="danger">Este campo es obligatorio</ion-note>
+  }
+</div>

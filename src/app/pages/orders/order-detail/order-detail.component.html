@@ -7,7 +7,7 @@
         <i class="fa-regular fa-clipboard-list fa-5x"></i>
       </div>
       <p class="detail-title mt-3 mb-0">PEDIDO</p>
-      <p class="date my-0">{{ order.deliveryDate }}</p>
+      <p class="date my-0">{{ order.deliveryDate | date: 'dd-MM-yyyy'  }}</p>
     </div>
 
     <div class="detail-container mb-2 mt-6 mx-4">

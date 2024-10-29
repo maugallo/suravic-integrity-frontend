@@ -25,7 +25,7 @@ export class UserItemComponent {
   public refreshDashboard = output<void>();
 
   public openDeleteUserAlert() {
-    this.alertService.getWarningConfirmationAlert('¿Estás seguro que deseas eliminar el usuario?')
+    this.alertService.getWarningConfirmationAlert('¿Estás seguro que deseas eliminar el usuario?', 'Esta acción no se puede deshacer')
       .fire()
       .then((result: any) => {
         if (result.isConfirmed) {

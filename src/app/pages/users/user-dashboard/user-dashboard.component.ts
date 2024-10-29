@@ -1,5 +1,5 @@
 import { Component, computed, inject, Signal, signal } from '@angular/core';
-import { IonContent, IonSearchbar, IonList, IonButton, IonProgressBar } from "@ionic/angular/standalone";
+import { IonContent, IonSearchbar, IonList, IonButton } from "@ionic/angular/standalone";
 import { HeaderComponent } from "../../../shared/components/header/header.component";
 import { FooterComponent } from "../../../shared/components/footer/footer.component";
 import { UserItemComponent } from './user-item/user-item.component';
@@ -13,7 +13,7 @@ import { NotFoundComponent } from 'src/app/shared/components/not-found/not-found
   templateUrl: './user-dashboard.component.html',
   styleUrls: ['./user-dashboard.component.scss'],
   standalone: true,
-  imports: [IonProgressBar, IonButton, IonList, IonSearchbar, IonContent, HeaderComponent, FooterComponent, UserItemComponent, NotFoundComponent]
+  imports: [IonButton, IonList, IonSearchbar, IonContent, HeaderComponent, FooterComponent, UserItemComponent, NotFoundComponent]
 })
 export class UserDashboardComponent {
 

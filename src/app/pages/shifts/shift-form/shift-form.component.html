@@ -1,0 +1,20 @@
+@if (isShiftEdit) {
+    <app-header title="MODIFICAR TURNO" titleSize="title-large" icon="fa-solid fa-calendar-pen fa-2x"></app-header>
+  } @else {
+    <app-header title="AGREGAR TURNO" titleSize="title-large" icon="fa-solid fa-calendar-plus fa-2x"></app-header>
+  }
+  
+
+<ion-content>
+    <div class="px-10">
+        <form #shiftForm="ngForm" id="shiftForm" (ngSubmit)="onSubmit()">
+            <app-text-input #formInput class="my-10" label="Nombre" [(bindedObject)]="shift()!.name" ></app-text-input>
+
+            <app-wheel-time-input class="mb-10" inputName="startTime" label="Horario de Entrada" [(bindedObject)]="shift()!.startTime" ></app-wheel-time-input>
+
+            <app-wheel-time-input class="mb-10" inputName="endTime" label="Horario de Salida" [(bindedObject)]="shift()!.endTime" ></app-wheel-time-input>
+      
+            <app-submit-button [isEdit]="isShiftEdit"></app-submit-button>
+        </form>
+    </div>
+</ion-content>

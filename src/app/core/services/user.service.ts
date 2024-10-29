@@ -16,14 +16,10 @@ export class UserService {
   private refreshUsers$ = new BehaviorSubject<void>(undefined);
 
   public users: Signal<UserResponse[]> = toSignal(this.refreshUsers$.pipe(
-    switchMap(() => this.getUsers(true))), { initialValue: [] });
+    switchMap(() => this.getUsers())), { initialValue: [] });
 
-  private getUsers(isEnabled: boolean): Observable<UserResponse[]> {
-    let params = new HttpParams();
-
-    params = params.append('isEnabled', isEnabled);
-
-    return this.http.get<UserResponse[]>(this.apiUrl, { params })
+  private getUsers(): Observable<UserResponse[]> {
+    return this.http.get<UserResponse[]>(this.apiUrl)
       .pipe(catchError(this.handleError));
   }
 

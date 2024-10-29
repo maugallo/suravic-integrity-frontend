@@ -7,7 +7,7 @@ import { IonContent, IonCard, IonCardHeader, IonCardContent } from "@ionic/angul
 import { BackButtonComponent } from "../../../shared/components/back-button/back-button.component";
 import { FileUtility } from 'src/app/core/models/utils/file.utility';
 import { Photo } from '@capacitor/camera';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { FileOpener, FileOpenerOptions } from '@capacitor-community/file-opener';
 import { OrderStatus } from 'src/app/core/models/enums/order-status.enum';
@@ -17,7 +17,7 @@ import { OrderStatus } from 'src/app/core/models/enums/order-status.enum';
   templateUrl: './order-detail.component.html',
   styleUrls: ['./order-detail.component.scss'],
   standalone: true,
-  imports: [IonCardContent, IonCardHeader, IonCard, IonContent, BackButtonComponent, CurrencyPipe]
+  imports: [IonCardContent, IonCardHeader, IonCard, IonContent, BackButtonComponent, CurrencyPipe, DatePipe]
 })
 export class OrderDetailComponent {
 

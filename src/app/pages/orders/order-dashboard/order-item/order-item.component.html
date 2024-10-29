@@ -1,7 +1,7 @@
 <ion-item-sliding>
   <ion-item detail="true">
     <ion-label>
-      <p class="title-label">{{ order().deliveryDate }}</p>
+      <p class="title-label">{{ order().deliveryDate | date: 'dd-MM-yyyy' }}</p>
       <p class="subtitle-label">{{ order().provider.companyName }}</p>
     </ion-label>
   </ion-item>

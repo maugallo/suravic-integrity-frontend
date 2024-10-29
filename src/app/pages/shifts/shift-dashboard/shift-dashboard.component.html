@@ -1,0 +1,25 @@
+<app-header title="TURNOS" titleSize="title-large" icon="fa-regular fa-calendar-days fa-2x" ></app-header>
+
+<ion-content>
+  <div class="p-3">
+    <div class="search-container mb-2 mx-2">
+      <!-- Search Bar -->
+      <ion-searchbar placeholder="Buscar" [debounce]="250" (ionInput)="searchForShifts($event)"></ion-searchbar>
+    </div>
+
+    <div class="add-container">
+      <!-- Add User Button -->
+      <ion-button (click)="router.navigate(['shifts', 'form'])"><i class="fa-solid fa-calendar-plus fa-2x py-0"></i></ion-button>
+    </div>
+
+    @if (searchBarResult(); as shifts) {
+      @if (shifts.length === 0) { <app-not-found></app-not-found> }
+      <ion-list>
+        @for (shift of shifts; track $index) {
+          <app-shift-item [shift]="shift"></app-shift-item>
+        }
+      </ion-list>
+    }
+    
+  </div>
+</ion-content>
