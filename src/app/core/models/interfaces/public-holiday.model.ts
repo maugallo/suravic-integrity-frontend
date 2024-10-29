@@ -10,5 +10,5 @@ export interface PublicHolidayResponse {
     id: number,
     reason: string,
     date: string, 
-    shiftIds: ShiftResponse[]
+    shifts: ShiftResponse[]
 }

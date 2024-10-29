@@ -1,0 +1,20 @@
+@import '/src/global.scss';
+
+ion-item-option {
+    border-bottom: 1px #{$secondary-color-lighter} solid;
+}
+
+.title-label {
+    font-weight: bolder;
+    color: #{$primary-color};
+    font-size: medium;
+}
+
+.subtitle-label {
+    font-weight: bold;
+    color: #{$tertiary-color};
+}
+
+.fa-solid {
+    color: #{$primary-color};
+}

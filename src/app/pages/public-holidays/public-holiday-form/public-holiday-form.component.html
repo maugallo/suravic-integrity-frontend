@@ -1,0 +1,25 @@
+@if (isPublicHolidayEdit) {
+  <app-header title="MODIFICAR FERIADO" titleSize="title-large" icon="fa-solid fa-calendar-pen fa-2x"></app-header>
+} @else {
+  <app-header title="AGREGAR FERIADO" titleSize="title-large" icon="fa-solid fa-calendar-plus fa-2x"></app-header>
+}
+
+<ion-content>
+  <div class="px-10">
+      <form #publicHolidayForm="ngForm" id="publicHolidayForm" (ngSubmit)="onSubmit()">
+          <app-wheel-date-input class="my-10" inputName="date" label="Fecha" [(bindedObject)]="publicHoliday()!.date" ></app-wheel-date-input>
+
+          <app-text-input #formInput class="mb-10" label="Razón" pattern="^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$"
+          [(bindedObject)]="publicHoliday()!.reason"></app-text-input>
+
+          <app-select-input #formInput class="mb-10" inputName="shiftSelect" [(bindedObject)]="publicHoliday()!.shiftIds"
+          [multiple]="true" [options]="shifts()" label="Turnos">
+              @for (shift of shifts(); track $index) {
+                <ion-select-option [value]="shift.id">{{ shift.name }}</ion-select-option>
+              }
+          </app-select-input>
+    
+          <app-submit-button [isEdit]="isPublicHolidayEdit"></app-submit-button>
+      </form>
+  </div>
+</ion-content>

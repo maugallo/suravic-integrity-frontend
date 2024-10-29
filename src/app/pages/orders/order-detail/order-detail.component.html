@@ -28,7 +28,7 @@
             }
             @if (fileUtility.isFile(invoice); as file) {
               <div class="container">
-                <div (click)="downloadFile()" class="invoice-container mt-3">
+                <div (click)="downloadFile()" class="invoice-container ripple-container mt-3">
                   <div class="uploaded-file-container mt-14">
                     <i class="fa-solid fa-file-arrow-down fa-4x"></i>
                     <p class="file-name mt-2">Descargar</p>
@@ -92,7 +92,7 @@
               }
               @if (fileUtility.isFile(paymentReceipt); as file) {
                 <div class="container">
-                  <div (click)="downloadFile()" class="invoice-container mt-3">
+                  <div (click)="downloadFile()" class="invoice-container ripple-container mt-3">
                     <div class="uploaded-file-container mt-14">
                       <i class="fa-solid fa-file-arrow-down fa-4x"></i>
                       <p class="file-name mt-2">{{ file.name }}</p>

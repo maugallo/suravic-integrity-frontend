@@ -22,7 +22,7 @@ export class ShiftItemComponent {
   public shift: any = input<ShiftResponse>();
 
   public openDeleteShiftAlert() {
-    this.alertService.getWarningConfirmationAlert(`¿Estás seguro que deseas eliminar el turno?`, 'Esta acción no se puede deshacer', "ELIMINAR")
+    this.alertService.getWarningConfirmationAlert(`¿Estás seguro que deseas eliminar el turno?`, 'Esta acción no se puede deshacer')
       .fire()
       .then((result) => { if (result.isConfirmed) this.deleteShift(this.shift().id) });
   }

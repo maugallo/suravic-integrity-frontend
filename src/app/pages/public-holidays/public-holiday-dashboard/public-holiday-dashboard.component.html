@@ -1,3 +1,25 @@
-<p>
-  public-holiday-dashboard works!
-</p>
+<app-header title="FERIADOS" titleSize="title-large" icon="fa-solid fa-calendar-days fa-2x" ></app-header>
+
+<ion-content>
+  <div class="p-3">
+    <div class="search-container mb-2 mx-2">
+      <!-- Search Bar -->
+      <ion-searchbar placeholder="Buscar" [debounce]="250" (ionInput)="searchForPublicHolidays($event)"></ion-searchbar>
+    </div>
+
+    <div class="add-container">
+      <!-- Add Public Holiday Button -->
+      <ion-button (click)="router.navigate(['public-holidays', 'form'])"><i class="fa-solid fa-calendar-plus fa-2x py-0"></i></ion-button>
+    </div>
+
+    @if (searchBarResult(); as publicHolidays) {
+      @if (publicHolidays.length === 0) { <app-not-found></app-not-found> }
+      <ion-list>
+        @for (publicHoliday of publicHolidays; track $index) {
+          <app-public-holiday-item [publicHoliday]="publicHoliday"></app-public-holiday-item>
+        }
+      </ion-list>
+    }
+    
+  </div>
+</ion-content>

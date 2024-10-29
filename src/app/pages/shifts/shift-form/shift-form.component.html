@@ -8,7 +8,8 @@
 <ion-content>
     <div class="px-10">
         <form #shiftForm="ngForm" id="shiftForm" (ngSubmit)="onSubmit()">
-            <app-text-input #formInput class="my-10" label="Nombre" [(bindedObject)]="shift()!.name" ></app-text-input>
+            <app-text-input #formInput class="my-10" label="Nombre" pattern="^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$"
+            [(bindedObject)]="shift()!.name"></app-text-input>
 
             <app-wheel-time-input class="mb-10" inputName="startTime" label="Horario de Entrada" [(bindedObject)]="shift()!.startTime" ></app-wheel-time-input>
 

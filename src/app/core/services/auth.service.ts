@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { StorageService } from './utils/storage.service';
 import { StorageType } from '../models/enums/storage-type.enum';
 import { TokenUtility } from '../models/utils/token.utility';
+import { AlertService } from './utils/alert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class AuthService {
   private router = inject(Router);
 
   private storageService = inject(StorageService);
+  private alertService = inject(AlertService);
 
   private http = inject(HttpClient);
   private apiUrl = environment.apiUrl;
@@ -75,6 +77,7 @@ export class AuthService {
       catchError(error => {
         console.error('Error al querer llamar al endpoint api/auth/refresh:', error);
         console.error("Procediendo a desloguearse");
+        this.alertService.getErrorAlert("La sesión expiró").fire();
         return this.logout()
       })
     );

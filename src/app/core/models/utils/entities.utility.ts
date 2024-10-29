@@ -1,6 +1,7 @@
 import { OrderRequest } from "../interfaces/order.model";
 import { ProductRequest } from "../interfaces/product.model";
 import { ProviderRequest } from "../interfaces/provider.model";
+import { PublicHolidayRequest } from "../interfaces/public-holiday.model";
 import { ShiftRequest } from "../interfaces/shift.model";
 import { UserRequest } from "../interfaces/user.model";
 
@@ -55,6 +56,14 @@ export class EntitiesUtility {
             name: '',
             startTime: '00:00',
             endTime: '00:00'
+        }
+    }
+
+    public static getEmptyPublicHolidayRequest(): PublicHolidayRequest {
+        return {
+            reason: '',
+            date: new Date().toISOString(),
+            shiftIds: []
         }
     }
 
