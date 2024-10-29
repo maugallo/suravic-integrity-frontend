@@ -122,6 +122,7 @@ export class OrderFormComponent {
         formData.append('deliveryDate', deliveryDate);
 
         order.paymentMethodIds.forEach((id: number) => {
+          console.log(id);
           formData.append('paymentMethodIds', id.toString());
         });
 
@@ -148,8 +149,6 @@ export class OrderFormComponent {
             formData.append('paymentReceipt', file);
           }
         }
-
-        console.log(formData);
 
         return this.getFormOperation(formData);
       })
