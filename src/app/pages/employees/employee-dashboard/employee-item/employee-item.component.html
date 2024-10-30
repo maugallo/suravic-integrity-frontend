@@ -1,7 +1,18 @@
 <ion-item-sliding>
   <ion-item detail="true">
     <ion-label>
-      <p class="title-label">{{ employee().firstName | uppercase}} {{employee().lastName | uppercase }}</p>
+      <div class="employee-container">
+        <p class="title-label">{{ employee().firstName | uppercase}} {{employee().lastName | uppercase }}</p>
+
+        @if (employee().isEnabled) {
+          <div>
+            <!-- Credit Account Button -->
+            <ion-button id="open-credit-account-modal"><i class="fa-regular fa-wallet fa-2x py-0"></i></ion-button>
+            <!-- Finger Print Button -->
+            <ion-button id="open-fingerprint-modal"><i class="fa-solid fa-fingerprint fa-2x py-0"></i></ion-button>
+          </div>
+        }
+      </div>
     </ion-label>
   </ion-item>
   <ion-item-options slot="end">

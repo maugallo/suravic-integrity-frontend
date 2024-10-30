@@ -1,15 +1,6 @@
 @import '/src/global.scss';
 
-.search-and-filter-container {
-    display: flex;
-    align-items: start;
-    justify-content: space-around;
-}
-
-.options-container {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
+.add-container {
     border-bottom: 1px solid #{$secondary-color-lighter};
 }
 
@@ -28,9 +19,4 @@ ion-button {
 
 .fa-solid, .fa-regular {
     color: #{$primary-color};
-}
-
-ion-progress-bar {
-    --background: #{$secondary-color-lighter};
-    --progress-background: #{$primary-color};
 }

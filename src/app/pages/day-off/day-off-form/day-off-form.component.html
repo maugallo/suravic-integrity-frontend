@@ -1,0 +1,35 @@
+<app-header title="ASIGNAR FRANCO" titleSize="title-large" icon="fa-solid fa-bed-front fa-2x"></app-header>
+
+<ion-content>
+  <div class="px-10">
+      <form #userForm="ngForm" id="userForm" (ngSubmit)="onSubmit()">
+        <!-- Day Input -->
+        <div class="mt-10 mb-7">
+          <ion-datetime color="medium" name="dayDateTime" [min]="minDate" [max]="maxDate"
+          presentation="date" [highlightedDates]="takenDates()" [(ngModel)]="dayOff.day">
+          <span slot="title">Elige un día de franco </span>
+        </ion-datetime>
+        </div>
+
+        <div class="selects-container mb-8">
+          <!-- Employee Select -->
+          <app-select-input #formInput inputName="roleSelect" [(bindedObject)]="dayOff.employeeId" 
+          label="Empleado" [options]="employees()" (bindedObjectChange)="changeEmployeeShifts()">
+            @for (employee of employees(); track $index) {
+              <ion-select-option [value]="employee.id">{{ employee.firstName }}  {{ employee.lastName }}</ion-select-option>
+            }
+          </app-select-input>
+
+          <!-- Shifts Select -->
+          <app-select-input #formInput inputName="shiftSelect" [(bindedObject)]="dayOff.shiftIds" 
+          label="Turno" [options]="employeeShifts" [multiple]="true" [disabled]="(dayOff.employeeId === 0)">
+            @for (shift of employeeShifts; track $index) {
+              <ion-select-option [value]="shift.id">{{ shift.name }}</ion-select-option>
+            }
+          </app-select-input>
+        </div>
+
+        <app-submit-button label="ASIGNAR" class="mb-8"></app-submit-button>
+      </form>
+  </div>
+</ion-content>

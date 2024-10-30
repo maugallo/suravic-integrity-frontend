@@ -1,3 +1,4 @@
+import { DayOffRequest } from "../interfaces/day-off.model";
 import { EmployeeRequest } from "../interfaces/employee.model";
 import { OrderRequest } from "../interfaces/order.model";
 import { ProductRequest } from "../interfaces/product.model";
@@ -82,6 +83,14 @@ export class EntitiesUtility {
             birthDate: new Date().toISOString(),
             hireDate: new Date().toISOString(),
             vacationDays: 0
+        }
+    }
+
+    public static getEmptyDayOffRequest(): DayOffRequest {
+        return {
+            employeeId: 0,
+            shiftIds: [],
+            day: new Date().toISOString()
         }
     }
 

@@ -2,23 +2,11 @@
 
 <ion-content>
   <div class="py-3 px-2">
-    <div class="search-and-filter-container mb-2 mx-2">
-      <!-- See Deleted Button -->
-      <app-deleted-button [(seeDeleted)]="seeDeleted"></app-deleted-button>
-    </div>
-    
     <div class="options-container mx-2">
         <!-- Add Employee Button -->
         <ion-button (click)="router.navigate(['employees', 'form'])"><i class="fa-solid fa-business-time fa-2x py-0"></i></ion-button>
-        <!-- Day Off Button -->
-        <ion-button id="open-fingerprint-modal"><i class="fa-solid fa-bed-front fa-2x py-0"></i></ion-button>
-        <!-- Credit Account Button -->
-        <ion-button id="open-day-off-modal"><i class="fa-regular fa-wallet fa-2x py-0"></i></ion-button>
-        <!-- Finger Print Button -->
-        <ion-button id="open-fingerprint-modal"><i class="fa-solid fa-fingerprint fa-2x py-0"></i></ion-button>
-        <!-- Finger Print Dashboard Modal -->
-        <!-- <app-fingerprint-modal></app-fingerprint-modal> -->
-
+        <!-- See Deleted Button -->
+        <app-deleted-button [(seeDeleted)]="seeDeleted"></app-deleted-button>
     </div>
 
     @if (filteredEmployees(); as employees) {

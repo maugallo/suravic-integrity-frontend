@@ -1,0 +1,20 @@
+<app-header title="FRANCOS" titleSize="title-large" icon="fa-solid fa-bed-front fa-2x" ></app-header>
+
+<ion-content>
+  <div class="p-3">
+    <div class="add-container">
+      <!-- Add Day Off Button -->
+      <ion-button (click)="router.navigate(['days-off', 'form'])"><i class="fa-regular fa-bed-front fa-2x py-0"></i></ion-button>
+    </div>
+
+    @if (daysOff(); as daysOff) {
+      @if (daysOff.length === 0) { <app-not-found></app-not-found> }
+      <ion-list>
+        @for (dayOff of daysOff; track $index) {
+          <app-day-off-item [dayOff]="dayOff"></app-day-off-item>
+        }
+      </ion-list>
+    }
+    
+  </div>
+</ion-content>
