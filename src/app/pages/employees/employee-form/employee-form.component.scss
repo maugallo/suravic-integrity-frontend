@@ -1,0 +1,14 @@
+@import '/src/global.scss';
+
+.section-title {
+    font-size: medium;
+    font-weight: bold;
+    color: #e77624;
+    border-bottom: 1px solid $secondary-color-lighter;
+}
+
+.direction-container {
+    display: grid;
+    grid-template-columns: 40% 25% 35%;
+    gap: 5px;
+}

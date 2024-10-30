@@ -1,0 +1,98 @@
+<ion-content>
+  <app-back-button class="back-button-fixed back-button-primary"></app-back-button>
+
+  @if (employee(); as employee) {
+    <div class="mt-12">
+      <div class="circle-container">
+        <i class="fa-solid fa-user fa-5x"></i>
+      </div>
+      <p class="detail-title mt-3 mb-1">{{ employee.firstName }} {{ employee.lastName }}</p>
+      <p class="detail-subtitle my-0">{{ employee.role }}</p>
+    </div>
+
+    <div class="detail-container mb-2 mt-6 mx-4">
+      <ion-card>
+        <ion-card-header>
+          <div class="card-header">
+            <i class="fa-regular fa-address-card fa-2x"></i>
+            <p class="card-title">DNI</p>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content>
+          <p class="card-content">{{ employee.dni }}</p>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-header>
+          <div class="card-header">
+            <i class="fa-solid fa-location-dot fa-2x"></i>
+            <p class="card-title">Dirección</p>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content>
+          <p class="card-content">{{ employee.street }} {{ employee.num }}</p>
+          <p class="card-content">Cod. Postal {{ employee.zipCode }}</p>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-header>
+          <div class="card-header">
+            <i class="fa-regular fa-phone fa-2x"></i>
+            <p class="card-title">Contacto</p>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content>
+          <p class="card-content">{{ employee.contact.telephone }}</p>
+          @if (employee.contact.email) { <p class="card-content">{{ employee.contact.email }}</p> }
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-header>
+          <div class="card-header">
+            <i class="fa-regular fa-cake-candles fa-2x"></i>
+            <p class="card-title">Fecha Nacimiento</p>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content>
+          <p class="card-content">{{ employee.birthDate | date: 'dd-MM-yyyy' }}</p>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-header>
+          <div class="card-header">
+            <i class="fa-solid fa-briefcase fa-2x"></i>
+            <p class="card-title">Fecha Contratación</p>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content>
+          <p class="card-content">{{ employee.hireDate | date: 'dd-MM-yyyy' }}</p>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-header>
+          <div class="card-header">
+            <i class="fa-solid fa-clock fa-2x"></i>
+            <p class="card-title">Turnos Asignados</p>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content>
+          @for (shift of employee.shifts; track $index) {
+            <p class="card-content">{{ shift.startTime }} - {{ shift.endTime }}</p>
+          }
+        </ion-card-content>
+      </ion-card>
+    </div>
+  }
+
+</ion-content>

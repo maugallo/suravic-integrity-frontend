@@ -22,7 +22,7 @@ export class SelectInputComponent extends BaseInputComponent {
     if (this.multiple()) {
       return this.bindedObject().length > 0 || !this.required();
     } else {
-      return (this.bindedObject() !== '' && this.bindedObject() !== -1) || !this.required();
+      return (this.bindedObject() !== '' && this.bindedObject() !== -1 && this.bindedObject()) || !this.required();
     }
   }  
 

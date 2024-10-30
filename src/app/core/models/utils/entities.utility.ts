@@ -1,3 +1,4 @@
+import { EmployeeRequest } from "../interfaces/employee.model";
 import { OrderRequest } from "../interfaces/order.model";
 import { ProductRequest } from "../interfaces/product.model";
 import { ProviderRequest } from "../interfaces/provider.model";
@@ -64,6 +65,23 @@ export class EntitiesUtility {
             reason: '',
             date: new Date().toISOString(),
             shiftIds: []
+        }
+    }
+
+    public static getEmptyEmployeeRequest(): EmployeeRequest {
+        return {
+            contact: { email: '', telephone: '' },
+            shiftIds: [],
+            role: '',
+            firstName: '',
+            lastName: '',
+            dni: '',
+            street: '',
+            num: '',
+            zipCode: '',
+            birthDate: new Date().toISOString(),
+            hireDate: new Date().toISOString(),
+            vacationDays: 0
         }
     }
 

@@ -1,0 +1,8 @@
+export enum EmployeeRole {
+    VENDEDOR = 'VENDEDOR',
+    TROZADOR = 'TROZADOR',
+    CARNICERO = 'CARNICERO',
+    ELABORADOR = 'ELABORADOR',
+    CAJERO = 'CAJERO',
+    REPARTO = 'REPARTO'
+}

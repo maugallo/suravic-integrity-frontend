@@ -1,0 +1,86 @@
+@if (isEmployeeEdit) {
+  <app-header title="MODIFICAR EMPLEADO" titleSize="title-large" icon="fa-solid fa-business-time fa-2x"></app-header>
+} @else {
+  <app-header title="AGREGAR EMPLEADO" titleSize="title-large" icon="fa-solid fa-business-time fa-2x"></app-header>
+}
+
+<ion-content>
+  <div class="px-10">
+      @if (employee(); as employee) {
+        <form #employeeForm="ngForm" id="employeeForm" (ngSubmit)="onSubmit()">
+          <p class="section-title pb-2 mt-6">INFORMACIÓN DE EMPLEADO</p>
+
+          <!-- First Name Input -->
+          <app-text-input #formInput class="mb-8" inputName="firstNameInput" [(bindedObject)]="employee.firstName" label="Nombre" 
+          placeHolder="Ingrese el nombre" pattern="^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$" maxlength="40"></app-text-input>
+          
+          <!-- Last Name Input -->
+          <app-text-input #formInput class="mb-8" inputName="lastNameInput" [(bindedObject)]="employee.lastName" label="Apellido" 
+          placeHolder="Ingrese el apellido" pattern="^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$" maxlength="40"></app-text-input>
+
+          <!-- DNI Input -->
+          <app-text-input #formInput class="mb-8" [maskito]="dniMask" inputName="dniInput" [(bindedObject)]="employee.dni"
+          label="DNI" placeHolder="00.000.000" pattern="^\d{2}\.\d{3}\.\d{3}$"></app-text-input>
+
+          <div class="direction-container mb-8">
+            <!-- Street Input -->
+            <app-text-input #formInput inputName="streetInput" [(bindedObject)]="employee.street" label="Calle" 
+            placeHolder="Ingrese la calle" pattern="^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$" maxlength="100"></app-text-input>
+
+            <!-- Number Input -->
+            <app-number-input #formInput inputName="numInput" [(bindedObject)]="employee.num" label="Nro."
+            placeHolder="123" [minValue]="0" [maxValue]="99999"></app-number-input>
+
+            <!-- Zip Code Input -->
+            <app-number-input #formInput inputName="zipCodeInput" [(bindedObject)]="employee.zipCode" label="Postal"
+            placeHolder="1234" [minValue]="0" [maxValue]="99999"></app-number-input>
+          </div>
+
+          <!-- Email Input --> 
+          <app-text-input #formInput class="mb-8" inputName="emailInput" [(bindedObject)]="employee.contact.email" label="Email (Opcional)" 
+          placeHolder="example@gmail.com" [required]="false" [email]="true" maxlength="40" ></app-text-input>
+
+          <!-- Telephone Input -->
+          <app-text-input #formInput class="mb-8" [maskito]="telephoneMask" inputName="telephoneInput" [(bindedObject)]="employee.contact.telephone"
+          label="Teléfono" placeHolder="1234567890" minlength="7" maxlength="12"></app-text-input>
+
+          <!-- Birth Date Input -->
+          <app-wheel-date-input class="mb-8" inputName="birthDate" [(bindedObject)]="employee.birthDate" label="Fecha de Nacimiento"
+          ></app-wheel-date-input>
+
+          <p class="section-title pb-2 mt-6">INFORMACIÓN LABORAL</p>
+
+          <!-- Role Select -->
+          <app-select-input #formInput class="mb-8" inputName="roleSelect" label="Rol" [(bindedObject)]="employee.role"
+          [options]="['']">
+            <ion-select-option [value]="employeeRole.CAJERO">Cajero</ion-select-option>
+            <ion-select-option [value]="employeeRole.VENDEDOR">Vendedor</ion-select-option>
+            <ion-select-option [value]="employeeRole.CARNICERO">Carnicero</ion-select-option>
+            <ion-select-option [value]="employeeRole.ELABORADOR">Elaborador</ion-select-option>
+            <ion-select-option [value]="employeeRole.TROZADOR">Trozador</ion-select-option>
+            <ion-select-option [value]="employeeRole.REPARTO">Reparto</ion-select-option>
+          </app-select-input>
+
+          <!-- Shifts Select -->
+          <app-select-input #formInput class="mb-8" inputName="shiftsSelect" label="Turnos" [(bindedObject)]="employee.shiftIds"
+          [options]="shifts()" [multiple]="true">
+            @for (shift of shifts(); track $index) {
+              <ion-select-option [value]="shift.id">{{ shift.name }}</ion-select-option>
+            }
+          </app-select-input>
+
+          <!-- Hire Date Input -->
+          <app-wheel-date-input class="mb-8" inputName="hireDate" [(bindedObject)]="employee.hireDate" label="Fecha de Contratación"
+          ></app-wheel-date-input>
+
+          <!-- Vacation Days Input -->
+          <app-number-input #formInput class="mb-8" inputName="vacationDaysInput" [(bindedObject)]="employee.vacationDays" label="Días de Vacaciones"
+          placeHolder="15" [minValue]="-1" [maxValue]="99999"></app-number-input>
+
+          <!-- <p class="section-title pb-2 mt-6">INFORMACIÓN DE VESTIMENTA</p> -->
+          
+          <app-submit-button class="mb-5" [isEdit]="isEmployeeEdit"></app-submit-button>
+      </form>
+      }
+  </div>
+</ion-content>

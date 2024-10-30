@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { HeaderComponent } from "../../../shared/components/header/header.component";
-import { IonContent, IonSearchbar, IonButton, IonList, IonProgressBar, MenuController, IonToggle } from "@ionic/angular/standalone";
+import { IonContent, IonSearchbar, IonButton, IonList, MenuController, IonToggle } from "@ionic/angular/standalone";
 import { Router } from '@angular/router';
 import { ProviderService } from 'src/app/core/services/provider.service';
 import { NotFoundComponent } from "../../../shared/components/not-found/not-found.component";
@@ -16,7 +16,7 @@ import { Filter } from 'src/app/core/models/interfaces/filter.model';
   templateUrl: './provider-dashboard.component.html',
   styleUrls: ['./provider-dashboard.component.scss'],
   standalone: true,
-  imports: [IonToggle, IonProgressBar, IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, SectorModalComponent, NotFoundComponent, ProviderItemComponent, ProvidersFilterComponent, DeletedButtonComponent]
+  imports: [IonToggle, IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, SectorModalComponent, NotFoundComponent, ProviderItemComponent, ProvidersFilterComponent, DeletedButtonComponent]
 })
 export class ProviderDashboardComponent {
 
