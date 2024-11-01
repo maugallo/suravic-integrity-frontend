@@ -20,14 +20,21 @@
     @else {
       <div class="placeholder">
         <i class="fa-regular fa-camera fa-4x"></i>
-        <p>Ninguna imagen o archivo seleccionado</p>
+        @if (!onlyPhoto()) { <p>Ninguna imagen o archivo seleccionado</p> }
+        @else { <p>Ninguna imagen seleccionada</p> }
       </div>
     }
   </div>
 
-  <div class="add-image-file">
-    <ion-button (click)="selectImageSource()">Agregar imagen</ion-button>   
-    <ion-button (click)="triggerFileInput()">Agregar archivo</ion-button> 
-  </div>
-  <input type="file" accept="image/*,.pdf,.doc,.docx" (change)="onFileSelected($event)" hidden #fileInput />
+  @if (!onlyPhoto()) {
+    <div class="add-image-file">
+      <ion-button (click)="selectImageSource()">Cargar imagen</ion-button>   
+      <ion-button (click)="triggerFileInput()">Cargar archivo</ion-button>
+    </div>
+    <input type="file" accept="image/*,.pdf,.doc,.docx" (change)="onFileSelected($event)" hidden #fileInput />
+  }
+  @else {
+    <ion-button (click)="selectImageSource()">Agregar imagen</ion-button>
+  }
+
 </div>

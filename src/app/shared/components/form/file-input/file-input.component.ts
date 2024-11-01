@@ -22,6 +22,7 @@ export class FileInputComponent {
   public bindedObject = model<any>();
   public label = input<string>('');
   public class = input<string>('');
+  public onlyPhoto = input<boolean>(false);
   
   @ViewChild('fileInput') fileInput: any;
 

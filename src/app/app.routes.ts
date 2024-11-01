@@ -14,5 +14,6 @@ export const routes: Routes = [
   { path: '', loadChildren: () => import('./pages/public-holidays/public-holidays.routes').then(m => m.PUBLIC_HOLIDAYS_ROUTES), canActivate: [authGuard] },
   { path: '', loadChildren: () => import('./pages/employees/employee.routes').then(m => m.EMPLOYEES_ROUTES), canActivate: [authGuard] },
   { path: '', loadChildren: () => import('./pages/day-off/days-off.routes').then(m => m.DAYS_OFF_ROUTES), canActivate: [authGuard] },
+  { path: '', loadChildren: () => import('./pages/accounts/accounts.routes').then(m => m.ACCOUNTS_ROUTES), canActivate: [authGuard] },
   { path: '**', redirectTo: '/tabs/home' } // Si el path es otro valor no contemplado, redirecciona a home. (Necesario que vaya último)
 ];

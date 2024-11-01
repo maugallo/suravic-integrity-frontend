@@ -1,0 +1,29 @@
+@if (isOperationEdit) {
+  <app-header title="MODIFICAR OPERACIÓN" titleSize="title-large" icon="fa-solid fa-coin fa-2x"></app-header>
+} @else {
+  <app-header title="AGREGAR OPERACIÓN" titleSize="title-large" icon="fa-solid fa-coin fa-2x"></app-header>
+}
+
+<ion-content>
+  <div class="px-10">
+    <form #operationForm="ngForm" id="userForm" (ngSubmit)="onSubmit()">
+      @if (operation()) {
+        <!-- Operation type Input -->
+        <app-select-input #formInput class="my-10" inputName="operationTypeSelect" label="Tipo" [(bindedObject)]="operation()!.type"
+        [options]="['Ticket', 'Adelanto']">
+        <ion-select-option [value]="operationType.TICKET">Ticket</ion-select-option>
+        <ion-select-option [value]="operationType.ADELANTO">Adelanto</ion-select-option>
+        </app-select-input>
+
+        <!-- Receipt File Input -->
+        <app-file-input class="mb-10" label="Foto de {{}}" [onlyPhoto]="true" [(bindedObject)]="operation()!.receipt"></app-file-input>
+        
+        <!-- Total Input -->
+        <app-number-input #formInput class="mb-10" inputName="totalInput" label="Total" [(bindedObject)]="operation()!.total" 
+        placeHolder="$15000" [minValue]="0" [maxValue]="9999999"></app-number-input>
+
+      <app-submit-button class="mb-5" [isEdit]="isOperationEdit"></app-submit-button>
+    }
+    </form>
+  </div>
+</ion-content>

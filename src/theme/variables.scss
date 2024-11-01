@@ -13,3 +13,23 @@ $tertiary-color: #d4af97;
 $tertiary-color-darker: darken($tertiary-color, 15%);
 
 $error-color: #c5000f;
+
+// COSTUMIZATION FOR ION DATETIME
+
+:root {
+	--ion-color-suravic: #e77624;
+	--ion-color-suravic-rgb: 231,118,36;
+	--ion-color-suravic-contrast: #ffffff;
+	--ion-color-suravic-contrast-rgb: 0,0,0;
+	--ion-color-suravic-shade: #cb6820;
+	--ion-color-suravic-tint: #e9843a;
+}
+
+.ion-color-suravic {
+	--ion-color-base: var(--ion-color-suravic);
+	--ion-color-base-rgb: var(--ion-color-suravic-rgb);
+	--ion-color-contrast: var(--ion-color-suravic-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-suravic-contrast-rgb);
+	--ion-color-shade: var(--ion-color-suravic-shade);
+	--ion-color-tint: var(--ion-color-suravic-tint);
+}

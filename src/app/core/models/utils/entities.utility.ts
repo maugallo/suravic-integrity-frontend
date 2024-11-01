@@ -1,5 +1,6 @@
 import { DayOffRequest } from "../interfaces/day-off.model";
 import { EmployeeRequest } from "../interfaces/employee.model";
+import { OperationRequest } from "../interfaces/operation.model";
 import { OrderRequest } from "../interfaces/order.model";
 import { ProductRequest } from "../interfaces/product.model";
 import { ProviderRequest } from "../interfaces/provider.model";
@@ -91,6 +92,16 @@ export class EntitiesUtility {
             employeeId: 0,
             shiftIds: [],
             day: new Date().toISOString()
+        }
+    }
+
+    public static getEmptyOperationRequest(): OperationRequest {
+        return {
+            creditAccountId: -1,
+            userId: -1,
+            total: 0,
+            type: '',
+            receipt: undefined
         }
     }
 

@@ -4,6 +4,7 @@ import { BehaviorSubject, catchError, Observable, switchMap, tap, throwError } f
 import { environment } from 'src/environments/environment';
 import { ShiftRequest, ShiftResponse } from '../models/interfaces/shift.model';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { EmployeeService } from './employee.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,8 @@ export class ShiftService {
 
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/shifts`;
+
+  private employeeService = inject(EmployeeService);
 
   private refreshShifts$ = new BehaviorSubject<void>(undefined);
 
@@ -34,7 +37,10 @@ export class ShiftService {
 
   public editShift(id: number, shift: ShiftRequest): Observable<string> {
     return this.http.put(`${this.apiUrl}/${id}`, shift, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => this.refreshShifts$.next()));
+      .pipe(catchError(this.handleError), tap(() => {
+        this.refreshShifts$.next();
+        this.employeeService.refreshEmployees();
+      }));
   }
 
   public deleteShift(id: number): Observable<string> {

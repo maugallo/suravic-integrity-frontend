@@ -11,7 +11,7 @@ import { CategoryDashboardComponent } from "./category-dashboard/category-dashbo
 })
 export class CategoryModalComponent {
 
-  isInert = false; // Propiedad necesaria para que los alert se puedan mostrar sobre el modal.
+  public isInert = false; // Propiedad necesaria para que los alert se puedan mostrar sobre el modal.
 
   public setInert(value: boolean) {
     this.isInert = value;

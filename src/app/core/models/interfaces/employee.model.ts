@@ -1,3 +1,4 @@
+import { CreditAccountResponse } from "./account.model";
 import { ContactRequest, ContactResponse } from "./contact.model";
 import { ShiftResponse } from "./shift.model";
 
@@ -18,6 +19,7 @@ export interface EmployeeRequest {
 
 export interface EmployeeResponse {
     id: number,
+    creditAccount: CreditAccountResponse,
     contact: ContactResponse,
     shifts: ShiftResponse[],
     role: string,

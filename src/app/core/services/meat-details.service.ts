@@ -4,6 +4,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, catchError, Observable, switchMap, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ProductWithMeatDetails } from '../models/interfaces/product.model';
+import { ProductService } from './product.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,8 @@ export class MeatDetailsService {
 
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/meat-products`;
+
+  private productService = inject(ProductService);
 
   private refreshMeatDetails$ = new BehaviorSubject<void>(undefined);
 
@@ -27,7 +30,10 @@ export class MeatDetailsService {
 
   public editMeatDetails(meatDetails: ProductWithMeatDetails[]): Observable<string> {
     return this.http.put(this.apiUrl, meatDetails, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => this.refreshMeatDetails$.next()));
+      .pipe(catchError(this.handleError), tap(() => {
+        this.refreshMeatDetails$.next();
+        this.productService.refreshProducts();
+      }));
   }
 
   private handleError(error: HttpErrorResponse) {
