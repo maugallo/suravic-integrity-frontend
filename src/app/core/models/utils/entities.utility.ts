@@ -100,7 +100,7 @@ export class EntitiesUtility {
             creditAccountId: -1,
             userId: -1,
             total: 0,
-            type: '',
+            type: 'TICKET',
             receipt: undefined
         }
     }

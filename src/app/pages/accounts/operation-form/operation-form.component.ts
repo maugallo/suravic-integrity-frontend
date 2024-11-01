@@ -21,13 +21,14 @@ import { HeaderComponent } from "../../../shared/components/header/header.compon
 import { FileInputComponent } from "../../../shared/components/form/file-input/file-input.component";
 import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
 import { FormsModule } from '@angular/forms';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-operation-form',
   templateUrl: './operation-form.component.html',
   styleUrls: ['./operation-form.component.scss'],
   standalone: true,
-  imports: [IonContent, HeaderComponent, NumberInputComponent, SelectInputComponent, FileInputComponent, IonSelectOption, SubmitButtonComponent, FormsModule]
+  imports: [IonContent, HeaderComponent, NumberInputComponent, SelectInputComponent, FileInputComponent, IonSelectOption, SubmitButtonComponent, FormsModule, TitleCasePipe]
 })
 export class OperationFormComponent {
 
@@ -48,12 +49,17 @@ export class OperationFormComponent {
 
   public operation: Signal<OperationRequest | undefined> = toSignal(this.activatedRoute.paramMap.pipe(
     switchMap((params) => {
+      const accountId = params.get('accountId');
+      if (!accountId) {
+        this.router.navigate(['operations', 'dashboard']);
+        return EMPTY;
+      }
       const operationId = params.get('id');
       if (this.isParameterValid(operationId)) {
         const operation = this.operationService.getOperationById(Number(operationId));
         if (!operation) {
           this.router.navigate(['operations', 'dashboard']);
-          return EMPTY; // Nos aseguramos de no continuar si la operacion no existe
+          return EMPTY;
         }
         this.isOperationEdit = true;
         this.operationId = operation.id;
@@ -64,7 +70,9 @@ export class OperationFormComponent {
         );
       } else {
         this.isOperationEdit = false;
-        return of(EntitiesUtility.getEmptyOperationRequest());
+        const operationRequest = EntitiesUtility.getEmptyOperationRequest();
+        operationRequest.creditAccountId = Number(accountId);
+        return of(operationRequest);
       }
     })
   ));
@@ -109,7 +117,7 @@ export class OperationFormComponent {
 
   private handleSuccess(response: any) {
     this.alertService.getSuccessToast(response).fire();
-    this.router.navigate(['operations', 'dashboard']);
+    this.router.navigate(['employees', 'dashboard']);
   }
 
   private handleError(error: any): Observable<null> {

@@ -8,6 +8,14 @@
         <div class="ml-8"><h2>SALDO: <span class="balance">{{ employee()?.creditAccount?.balance | currency }}</span></h2></div>
       </div>
 
+      @if (operations(); as operations) {
+        @if (operations.length === 0) { <app-not-found></app-not-found> }
+        <ion-list>
+          @for (operation of operations; track $index) {
+            <app-account-item [modal]="accountModal" [operation]="operation" ></app-account-item>
+          }
+        </ion-list>
+      }
 
     </ion-content>
   </ng-template>

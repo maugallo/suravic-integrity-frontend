@@ -4,6 +4,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, catchError, combineLatest, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { OperationResponse } from '../models/interfaces/operation.model';
+import { EmployeeService } from './employee.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,8 @@ export class OperationService {
 
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/operations`;
+
+  private employeeService = inject(EmployeeService);
 
   public accountId$ = new BehaviorSubject<number>(0);
   public refreshOperations$ = new BehaviorSubject<void>(undefined);
@@ -48,17 +51,26 @@ export class OperationService {
 
   public createOperation(operationData: FormData): Observable<string> {
     return this.http.post(this.apiUrl, operationData, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => this.refreshOperations()));
+      .pipe(catchError(this.handleError), tap(() => {
+        this.refreshOperations();
+        this.employeeService.refreshEmployees();
+      }));
   }
 
   public editOperation(id: number, operationData: FormData): Observable<string> {
     return this.http.put(`${this.apiUrl}/${id}`, operationData, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => this.refreshOperations()));
+      .pipe(catchError(this.handleError), tap(() => {
+        this.refreshOperations();
+        this.employeeService.refreshEmployees();
+      }));
   }
 
-  public deleteOrRecoverOperation(id: number): Observable<string> {
+  public deleteOperation(id: number): Observable<string> {
     return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => this.refreshOperations()));
+      .pipe(catchError(this.handleError), tap(() => {
+        this.refreshOperations();
+        this.employeeService.refreshEmployees();
+      }));
   }
 
   private handleError(error: HttpErrorResponse) {

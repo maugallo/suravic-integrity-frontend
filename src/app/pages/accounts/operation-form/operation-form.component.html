@@ -16,7 +16,7 @@
         </app-select-input>
 
         <!-- Receipt File Input -->
-        <app-file-input class="mb-10" label="Foto de {{}}" [onlyPhoto]="true" [(bindedObject)]="operation()!.receipt"></app-file-input>
+        <app-file-input class="mb-10" label="Foto de {{operation()?.type ?? '' | titlecase }}" [onlyPhoto]="true" [(bindedObject)]="operation()!.receipt"></app-file-input>
         
         <!-- Total Input -->
         <app-number-input #formInput class="mb-10" inputName="totalInput" label="Total" [(bindedObject)]="operation()!.total" 
