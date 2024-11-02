@@ -1,10 +1,9 @@
 @if (isShiftEdit) {
     <app-header title="MODIFICAR TURNO" titleSize="title-large" icon="fa-solid fa-clock fa-2x"></app-header>
-  } @else {
+} @else {
     <app-header title="AGREGAR TURNO" titleSize="title-large" icon="fa-solid fa-clock fa-2x"></app-header>
-  }
+}
   
-
 <ion-content>
     <div class="px-10">
         <form #shiftForm="ngForm" id="shiftForm" (ngSubmit)="onSubmit()">

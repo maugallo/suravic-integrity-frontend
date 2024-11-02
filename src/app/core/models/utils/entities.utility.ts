@@ -1,5 +1,6 @@
 import { DayOffRequest } from "../interfaces/day-off.model";
 import { EmployeeRequest } from "../interfaces/employee.model";
+import { LicenseRequest } from "../interfaces/license.model";
 import { OperationRequest } from "../interfaces/operation.model";
 import { OrderRequest } from "../interfaces/order.model";
 import { ProductRequest } from "../interfaces/product.model";
@@ -102,6 +103,15 @@ export class EntitiesUtility {
             total: 0,
             type: 'TICKET',
             receipt: undefined
+        }
+    }
+
+    public static getEmptyLicenseRequest(): LicenseRequest {
+        return {
+            employeeId: -1,
+            type: '',
+            startDate: new Date().toISOString(),
+            endDate: new Date().toISOString()
         }
     }
 

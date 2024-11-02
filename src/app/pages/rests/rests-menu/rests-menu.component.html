@@ -1,0 +1,19 @@
+<app-header title="DESCANSOS" titleSize="title-medium" icon="fa-solid fa-bed-front fa-2x"></app-header>
+
+<ion-content>
+  <div class="pricing-menu-container mx-4 mt-8">
+    <ion-button (click)="router.navigate(['days-off', 'dashboard'])">
+      <div class="option-container">
+        <p class="label">FRANCOS</p>
+        <i class="fa-solid fa-mug-hot fa-2x mb-2"></i>
+      </div>
+    </ion-button>
+
+    <ion-button (click)="router.navigate(['licenses', 'dashboard'])">
+      <div class="option-container">
+        <p class="label">LICENCIAS</p>
+        <i class="fa-solid fa-id-badge fa-2x mb-1"></i>
+      </div>
+    </ion-button>
+  </div>
+</ion-content>

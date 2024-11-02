@@ -1,0 +1,24 @@
+@import '/src/global.scss';
+
+.add-container {
+    display: grid;
+    grid-template-columns: 20% 80%;
+    border-bottom: 1px solid #{$secondary-color-lighter};
+}
+
+ion-searchbar {
+    --box-shadow: none;
+    border: 1px #{$secondary-color} solid;
+    border-radius: 5px;
+    height: 2.8rem;
+}
+
+ion-button {
+    --box-shadow: none;
+    --background: white;
+    --ripple-color: #{$secondary-color-darker};
+}
+
+.fa-solid {
+    color: #{$primary-color};
+}

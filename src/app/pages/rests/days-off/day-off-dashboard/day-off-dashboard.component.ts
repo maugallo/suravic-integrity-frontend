@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { DayOffService } from 'src/app/core/services/day-off.service';
-import { HeaderComponent } from "../../../shared/components/header/header.component";
+import { HeaderComponent } from 'src/app/shared/components/header/header.component';
 import { IonContent, IonSearchbar, IonButton, IonList } from "@ionic/angular/standalone";
-import { NotFoundComponent } from "../../../shared/components/not-found/not-found.component";
+import { NotFoundComponent } from 'src/app/shared/components/not-found/not-found.component';
 import { DayOffItemComponent } from "./day-off-item/day-off-item.component";
 
 @Component({

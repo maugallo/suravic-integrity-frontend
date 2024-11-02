@@ -13,7 +13,9 @@ export const routes: Routes = [
   { path: '', loadChildren: () => import('./pages/shifts/shifts.routes').then(m => m.SHIFTS_ROUTES), canActivate: [authGuard] },
   { path: '', loadChildren: () => import('./pages/public-holidays/public-holidays.routes').then(m => m.PUBLIC_HOLIDAYS_ROUTES), canActivate: [authGuard] },
   { path: '', loadChildren: () => import('./pages/employees/employee.routes').then(m => m.EMPLOYEES_ROUTES), canActivate: [authGuard] },
-  { path: '', loadChildren: () => import('./pages/days-off/days-off.routes').then(m => m.DAYS_OFF_ROUTES), canActivate: [authGuard] },
   { path: '', loadChildren: () => import('./pages/operations/operations.routes').then(m => m.OPERATIONS_ROUTES), canActivate: [authGuard] },
+  { path: '', loadChildren: () => import('./pages/rests/rests.routes').then(m => m.RESTS_ROUTES), canActivate: [authGuard] },
+  { path: '', loadChildren: () => import('./pages/rests/days-off/days-off.routes').then(m => m.DAYS_OFF_ROUTES), canActivate: [authGuard] },
+  { path: '', loadChildren: () => import('./pages/rests/licenses/licenses.routes').then(m => m.LICENSES_ROUTES), canActivate: [authGuard] },
   { path: '**', redirectTo: '/tabs/home' } // Si el path es otro valor no contemplado, redirecciona a home. (Necesario que vaya último)
 ];

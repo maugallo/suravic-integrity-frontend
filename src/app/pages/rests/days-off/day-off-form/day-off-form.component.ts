@@ -1,13 +1,13 @@
 import { Component, computed, inject, QueryList, ViewChildren } from '@angular/core';
 import { DayOffService } from 'src/app/core/services/day-off.service';
 import { IonContent, IonSelectOption, IonDatetime, IonButton } from "@ionic/angular/standalone";
-import { SelectInputComponent } from "../../../shared/components/form/select-input/select-input.component";
-import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
+import { SelectInputComponent } from 'src/app/shared/components/form/select-input/select-input.component';
+import { SubmitButtonComponent } from 'src/app/shared/components/form/submit-button/submit-button.component';
 import { ShiftService } from 'src/app/core/services/shift.service';
 import { EntitiesUtility } from 'src/app/core/models/utils/entities.utility';
 import { FormsModule } from '@angular/forms';
 import { EmployeeService } from 'src/app/core/services/employee.service';
-import { HeaderComponent } from "../../../shared/components/header/header.component";
+import { HeaderComponent } from 'src/app/shared/components/header/header.component';
 import { ValidationService } from 'src/app/core/services/utils/validation.service';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
 import { Router } from '@angular/router';

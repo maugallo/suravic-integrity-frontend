@@ -1,7 +1,12 @@
 <app-header title="EMPLEADOS" titleSize="title-medium" icon="fa-solid fa-briefcase fa-2x"></app-header>
 
 <ion-content>
-  <div class="py-3 px-2">
+  <div class="p-3">
+    <div class="mb-2 mx-2">
+      <!-- Search Bar -->
+      <ion-searchbar placeholder="Buscar" [debounce]="250" (ionInput)="searchForEmployees($event)"></ion-searchbar>
+    </div>
+
     <div class="options-container mx-2">
         <!-- Add Employee Button -->
         <ion-button (click)="router.navigate(['employees', 'form'])"><i class="fa-solid fa-business-time fa-2x py-0"></i></ion-button>
@@ -9,7 +14,7 @@
         <app-deleted-button [(seeDeleted)]="seeDeleted"></app-deleted-button>
     </div>
 
-    @if (filteredEmployees(); as employees) {
+    @if (searchBarResult(); as employees) {
       @if (employees.length === 0) { <app-not-found></app-not-found> }
       <ion-list>
         @for (employee of employees; track $index) {

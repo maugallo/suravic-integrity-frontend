@@ -1,0 +1,17 @@
+<ion-item-sliding>
+  <ion-item detail="true">
+    <ion-label>
+      <p class="title-label">{{ license().type | formatEnum }}</p>
+      <p class="subtitle-label">{{ license().employee.firstName }} {{ license().employee.lastName }}</p>
+      <p class="subtitle-label">{{ license().startDate | date: 'dd/MM/yyyy' }} - {{ license().endDate | date: 'dd/MM/yyyy' }}</p>
+    </ion-label>
+  </ion-item>
+  <ion-item-options slot="end">
+    <ion-item-option (click)="router.navigate(['licenses', 'form', license().id])" color="white">
+      <i class="fa-solid fa-user-pen fa-2x mx-2"></i>
+    </ion-item-option>
+    <ion-item-option (click)="openDeleteLicenseAlert()" color="white">
+      <i class="fa-solid fa-trash fa-2x mx-2"></i>
+    </ion-item-option>
+  </ion-item-options>
+</ion-item-sliding>

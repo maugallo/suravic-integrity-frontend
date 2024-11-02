@@ -1,0 +1,38 @@
+@if (isLicenseEdit) {
+  <app-header title="MODIFICAR LICENCIA" titleSize="title-large" icon="fa-solid fa-id-badge fa-2x"></app-header>
+} @else {
+  <app-header title="AGREGAR LICENCIA" titleSize="title-large" icon="fa-solid fa-id-badge fa-2x"></app-header>
+}
+
+<ion-content>
+  <div class="px-10">
+      <form #licenseForm="ngForm" id="licenseForm" (ngSubmit)="onSubmit()">
+          
+        <!-- Employee Select Input -->
+        <app-select-input #formInput class="my-10" label="Empleado" [(bindedObject)]="license()!.employeeId"
+        [options]="employees()">
+          @for (employee of employees(); track $index) {
+            <ion-select-option [value]="employee.id">{{ employee.firstName | titlecase }} {{ employee.lastName | titlecase }}</ion-select-option>
+          }
+        </app-select-input>
+
+        <!-- Start Date Input -->
+        <app-wheel-date-input class="mb-10" inputName="startDateInput" label="Fecha de Inicio" [(bindedObject)]="license()!.startDate"></app-wheel-date-input>
+
+        <!-- End Date Input -->
+        <app-wheel-date-input class="mb-10" inputName="endDateInput" label="Fecha de Fin" [(bindedObject)]="license()!.endDate"></app-wheel-date-input>
+
+        <!-- License Type Input -->
+        <app-select-input #formInput class="mb-10" label="Tipo" [(bindedObject)]="license()!.type" [options]="['']">
+          <ion-select-option [value]="licenseType.LICENCIA_MEDICA">Licencia Médica</ion-select-option>
+          <ion-select-option [value]="licenseType.LICENCIA_POR_RAZONES_FAMILIARES">Licencia por Razones Familiares</ion-select-option>
+          <ion-select-option [value]="licenseType.LICENCIA_POR_MATRIMONIO">Licencia por Matrimonio</ion-select-option>
+          <ion-select-option [value]="licenseType.LICENCIA_POR_ESTUDIO">Licencia por Estudio</ion-select-option>
+          <ion-select-option [value]="licenseType.LICENCIA_POR_VACACIONES">Licencia por Vacaciones</ion-select-option>
+          <ion-select-option [value]="licenseType.LICENCIA_ESPECIAL">Licencia Especial</ion-select-option>
+        </app-select-input>
+    
+        <app-submit-button [isEdit]="isLicenseEdit"></app-submit-button>
+      </form>
+  </div>
+</ion-content>

@@ -1,0 +1,35 @@
+@import '/src/global.scss';
+
+.pricing-menu-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+ion-button {
+    --background: white;
+    --border-radius: 20px;
+    --border-style: solid;
+    --border-color: #{$secondary-color-lighter};
+    --border-width: 2px !important;
+    --box-shadow: 0;
+    width: 20rem;
+}
+
+.option-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.fa-solid, .label{
+    color: #{$primary-color};
+}
+
+.label {
+    font-weight: 700;
+    font-size: 1.2rem;
+}

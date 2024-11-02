@@ -13,7 +13,7 @@ export const DUENO_OPTIONS: Option[] = [
     { icon: 'fa-regular fa-clipboard-list fa-5x', label: 'PEDIDOS', url: 'orders/dashboard' },
     { icon: 'fa-solid fa-clock fa-5x', label: 'TURNOS', url: 'shifts/dashboard' },
     { icon: 'fa-regular fa-calendar-days fa-5x', label: 'FERIADOS', url: 'public-holidays/dashboard' },
-    { icon: 'fa-solid fa-bed-front fa-5x', label: 'FRANCOS', url: 'days-off/dashboard' }
+    { icon: 'fa-solid fa-bed-front fa-5x', label: 'DESCANSOS', url: 'rests/menu' }
 ]
 
 export const ENCARGADO_OPTIONS: Option[] = [
