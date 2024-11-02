@@ -21,7 +21,7 @@ import { HeaderComponent } from "../../../shared/components/header/header.compon
 import { FileInputComponent } from "../../../shared/components/form/file-input/file-input.component";
 import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
 import { FormsModule } from '@angular/forms';
-import { TitleCasePipe } from '@angular/common';
+import { Location, TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-operation-form',

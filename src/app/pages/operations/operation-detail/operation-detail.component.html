@@ -1,0 +1,39 @@
+<ion-content>
+  <app-back-button class="back-button-fixed back-button-primary"></app-back-button>
+
+  @if (operation(); as operation) {
+    @if (currentUserRole() && currentUserRole() === 'ROLE_DUENO') { 
+      <p class="last-update mt-7">Última actualización realizada por: {{ operation.user.username }}</p>
+    }
+
+    <div class="mt-10">
+      <div class="circle-container">
+        <i class="fa-regular fa-receipt fa-5x"></i>
+      </div>
+      <p class="detail-title mt-3 mb-0">{{ operation.type }}</p>
+      <p class="detail-subtitle my-0">{{ operation.total | currency  }}</p>
+    </div>
+
+    <div class="detail-container mb-2 my-6 mx-4">
+      <ion-card>
+        <ion-card-header>
+          <div class="card-header">
+            <i class="fa-regular fa-receipt fa-2x"></i>
+            <p class="card-title">Foto de {{ operation.type | titlecase }}</p>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content>
+          @if (receipt) {
+            @if (fileUtility.isPhoto(receipt); as photo) {
+              <div class="uploaded-image-container mt-3">
+                <img [src]="photo.dataUrl"/>
+              </div>
+            }
+          }
+        </ion-card-content>
+      </ion-card>
+    </div>
+  }
+
+</ion-content>

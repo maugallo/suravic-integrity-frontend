@@ -5,14 +5,14 @@ import { EmployeeService } from 'src/app/core/services/employee.service';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
 import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption, IonButton } from "@ionic/angular/standalone";
 import { TitleCasePipe, UpperCasePipe } from '@angular/common';
-import { AccountDashboardComponent } from "../../../accounts/account-dashboard/account-dashboard.component";
+import { OperationDashboardComponent } from 'src/app/pages/operations/operation-dashboard/operation-dashboard.component';
 
 @Component({
   selector: 'app-employee-item',
   templateUrl: './employee-item.component.html',
   styleUrls: ['./employee-item.component.scss'],
   standalone: true,
-  imports: [IonButton, IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, UpperCasePipe, TitleCasePipe, AccountDashboardComponent]
+  imports: [IonButton, IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, UpperCasePipe, TitleCasePipe, OperationDashboardComponent]
 })
 export class EmployeeItemComponent {
 

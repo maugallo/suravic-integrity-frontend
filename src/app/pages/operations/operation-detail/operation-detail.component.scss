@@ -1,0 +1,80 @@
+@import '/src/global.scss';
+
+.last-update {
+  color: $primary-color;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.detail-title {
+  font-weight: bold;
+  color: $primary-color;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.detail-subtitle {
+  font-size: 1.5rem;
+  color: $tertiary-color;
+  text-align: center;
+  font-weight: bold;
+}
+
+.card-header {
+  display: flex;
+  align-items: end;
+  justify-content: left;
+  gap: 10px;
+  color: $primary-color;
+}
+
+.card-header .card-title {
+  font-size: 1.45rem;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.circle-container {
+  width: 10rem;
+  height: 10rem;
+  background-color: #{$primary-color-lighter};
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.circle-container .fa-regular {
+  color: $primary-color;
+}
+
+.uploaded-image-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 3px;
+}
+
+.uploaded-image-container img {
+  width: 100%;
+  height: 100%;
+  border-radius: 3px;
+  object-fit: cover;
+  object-position: center;
+}
+
+ion-card {
+  margin-bottom: 10px;
+}
+
+ion-card-header {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+ion-card-content {
+  text-align: center;
+  padding-left: 5px;
+  padding-right: 5px;
+}

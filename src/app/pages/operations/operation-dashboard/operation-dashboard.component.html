@@ -1,0 +1,19 @@
+<ion-content>
+  <app-header title="CUENTA CORRIENTE DE {{ employee()!.firstName | uppercase }} {{ employee()!.lastName | uppercase }}" titleSize="title-small"></app-header>
+
+  <div class="balance-container mx-2 mt-2">
+    <div><ion-button (click)="router.navigate(['operations', 'form', this.employee()!.creditAccount.id]);"><i class="fa-solid fa-coin fa-2x ml-1 mt-1"></i></ion-button></div>
+    <div class="ml-8"><h2>SALDO: <span class="balance">{{ employee()?.creditAccount?.balance | currency }}</span></h2></div>
+  </div>
+
+  @if (operations(); as operations) {
+    @if (operations.length === 0) { <app-not-found></app-not-found> }
+    <ion-list>
+      @for (operation of operations; track $index) {
+        <app-operation-item [operation]="operation" (emitPriceChange)="receivePriceChange($event)" ></app-operation-item>
+      }
+    </ion-list>
+  }
+
+</ion-content>
+

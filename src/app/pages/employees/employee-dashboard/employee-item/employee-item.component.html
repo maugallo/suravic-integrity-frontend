@@ -7,7 +7,7 @@
         @if (employee().isEnabled) {
           <div>
             <!-- Credit Account Button -->
-            <ion-button id="open-credit-account-modal"><i class="fa-regular fa-wallet fa-2x py-0"></i></ion-button>
+            <ion-button (click)="router.navigate(['operations', 'dashboard', employee().id])"><i class="fa-regular fa-wallet fa-2x py-0"></i></ion-button>
             <!-- Finger Print Button -->
             <ion-button id="open-fingerprint-modal"><i class="fa-solid fa-fingerprint fa-2x py-0"></i></ion-button>
           </div>
@@ -29,5 +29,3 @@
     </ion-item-option>
   </ion-item-options>
 </ion-item-sliding>
-
-<app-account-dashboard [employee]="employee()" ></app-account-dashboard>

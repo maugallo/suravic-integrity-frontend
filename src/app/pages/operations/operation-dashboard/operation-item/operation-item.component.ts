@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { Router } from '@angular/router';
 import { OperationResponse } from 'src/app/core/models/interfaces/operation.model';
 import { OperationService } from 'src/app/core/services/operation.service';
@@ -7,13 +7,13 @@ import { IonItemSliding, IonLabel, IonItem, IonItemOptions, IonItemOption } from
 import { CurrencyPipe, UpperCasePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-account-item',
-  templateUrl: './account-item.component.html',
-  styleUrls: ['./account-item.component.scss'],
+  selector: 'app-operation-item',
+  templateUrl: './operation-item.component.html',
+  styleUrls: ['./operation-item.component.scss'],
   standalone: true,
   imports: [IonItemOption, IonItemOptions, IonItem, IonLabel, IonItemSliding, UpperCasePipe, CurrencyPipe]
 })
-export class AccountItemComponent {
+export class OperationItemComponent {
 
   public router = inject(Router);
 
@@ -21,7 +21,7 @@ export class AccountItemComponent {
   private alertService = inject(AlertService);
 
   public operation: any = input<OperationResponse>();
-  public modal: any = input<any>();
+  public emitPriceChange = output();
 
   public openDeleteOperationAlert() {
     this.alertService.getWarningConfirmationAlert(`¿Estás seguro que deseas eliminar la operación?`, 'Esta acción no se puede deshacer')
@@ -29,14 +29,12 @@ export class AccountItemComponent {
       .then((result) => { if (result.isConfirmed) this.deleteOperation(this.operation().id) });
   }
 
-  public closeAndNavigate() {
-    this.modal().dismiss();
-    this.router.navigate(['accounts', 'form', this.operation().creditAccount.id, this.operation().id])
-  }
-
   private deleteOperation(id: number) {
     this.operationService.deleteOperation(id).subscribe({
-      next: (response) => this.alertService.getSuccessToast(response).fire(),
+      next: (response) => {
+        this.emitPriceChange.emit(this.operation().total);
+        this.alertService.getSuccessToast(response).fire();
+      },
       error: (error) => this.alertService.getErrorAlert(error).fire()
     });
   }
