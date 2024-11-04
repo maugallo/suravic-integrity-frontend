@@ -1,0 +1,29 @@
+@import '/src/global.scss';
+
+.register-face-container {
+    display: grid;
+    grid-template-rows: 20% 50% 25%;
+    height: 80vh;
+}
+
+.face-not-detected {
+    text-align: center;
+    color: $primary-color;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.fa-solid {
+    color: #{$primary-color};
+}
+
+.circle-container {
+    width: 10rem;
+    height: 10rem;
+    background-color: #{$primary-color-lighter};
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}

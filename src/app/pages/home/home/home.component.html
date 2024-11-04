@@ -9,8 +9,11 @@
       @for (option of options; track $index) {
         <app-option [icon]="option.icon"  [label]="option.label" [url]="option.url"></app-option>
       }
+      <app-option icon="fa-solid fa-camera-viewfinder fa-5x" label="ASISTENCIA"
+      id="open-mark-attendance-modal" [isForModal]="true"></app-option>
   </div>
 </div>
 </ion-content>
 
-<!-- Los elementos que formen parte del tab no necesitan incluir <app-footer></app-footer> -->
+<!-- Mark Attendance Modal -->
+<app-mark-attendance-modal></app-mark-attendance-modal>

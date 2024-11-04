@@ -1,5 +1,4 @@
-import { Component, DestroyRef, inject, input, output } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, inject, input, output } from '@angular/core';
 import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from "@ionic/angular/standalone";
 import { catchError, firstValueFrom, of, tap } from 'rxjs';
 import { SectorRequest, SectorResponse } from 'src/app/core/models/interfaces/sector.model';
@@ -15,8 +14,6 @@ import Swal from 'sweetalert2';
   imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding,]
 })
 export class SectorItemComponent {
-
-  private destroyRef = inject(DestroyRef);
   
   private sectorService = inject(SectorService);
   private alertService = inject(AlertService);
@@ -77,14 +74,10 @@ export class SectorItemComponent {
   }
 
   private handleDelete() {
-    this.sectorService.deleteOrRecoverSector(this.sector()!.id).pipe(
-      tap((response) => this.alertService.getSuccessToast(response).fire()),
-      catchError((error) => {
-        console.log(error);
-        return of(null);
-      }),
-      takeUntilDestroyed(this.destroyRef)
-    ).subscribe();
+    this.sectorService.deleteOrRecoverSector(this.sector()!.id).subscribe({
+      next: (response) => this.alertService.getSuccessToast(response).fire(),
+      error: (error) => this.alertService.getErrorAlert(error.message).fire()
+    });
   }
 
 }

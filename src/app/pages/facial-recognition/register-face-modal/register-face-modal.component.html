@@ -1,0 +1,30 @@
+<ion-modal [inert]="isInert" trigger="open-register-face-modal{{employee()?.id}}" [initialBreakpoint]="1" [breakpoints]="[0, 1]" handleBehavior="cycle">
+  <ng-template>
+    <ion-content>
+      <app-header title="RECONOCIMIENTO FACIAL" titleSize="title-medium" icon="fa-solid fa-camera-viewfinder fa-2x" [modalHeader]="true"></app-header>
+
+      @if (faceImage() | async; as faceImage) {
+        @if (fileUtility.isPhoto(faceImage); as photo) {
+          <div class="face-detected-container">
+            <p>Habilitado para marcar asistencia</p>
+            <i class="fa-solid fa-badge-check fa-2x"></i>
+          </div>
+          <div class="uploaded-image-container">
+            <img [src]="photo.dataUrl"/>
+          </div>
+          <app-submit-button class="mx-3" (click)="openCamera()" label="Cambiar Foto"></app-submit-button>
+        }
+      }
+      @else {
+        <div class="register-face-container p-3">
+          <div></div>
+          <div>
+            <div class="circle-container"><i class="fa-solid fa-camera-slash fa-5x"></i></div>
+            <p class="face-not-detected">No se detectó ningún rostro enlazado a este empleado</p>
+            <app-submit-button (click)="openCamera()" label="Agregar Foto"></app-submit-button>
+          </div>
+        </div>
+      }
+    </ion-content>
+  </ng-template>
+</ion-modal>

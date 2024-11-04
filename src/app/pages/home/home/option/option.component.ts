@@ -16,5 +16,12 @@ export class OptionComponent {
   public icon = input();
   public label = input();
   public url = input();
+  public isForModal = input<boolean>(false);
+
+  public navigate() {
+    if (!this.isForModal()) {
+      this.router.navigate([this.url()]);
+    }
+  }
 
 }

@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { IonContent } from "@ionic/angular/standalone";
+import { IonContent, IonButton } from "@ionic/angular/standalone";
 import { OptionComponent } from "./option/option.component";
 import { DUENO_OPTIONS, ENCARGADO_OPTIONS, Option } from './home-options.constant';
 import { NavigationEnd, Router } from '@angular/router';
@@ -8,13 +8,14 @@ import { filter, map, switchMap, tap } from 'rxjs';
 import { StorageService } from 'src/app/core/services/utils/storage.service';
 import { StorageType } from 'src/app/core/models/enums/storage-type.enum';
 import { TokenUtility } from 'src/app/core/models/utils/token.utility';
+import { MarkAttendanceModalComponent } from "../../attendances/mark-attendance-modal/mark-attendance-modal.component";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   standalone: true,
-  imports: [IonContent, OptionComponent]
+  imports: [IonButton, IonContent, OptionComponent, MarkAttendanceModalComponent]
 })
 export class HomeComponent {
 

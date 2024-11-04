@@ -1,0 +1,60 @@
+@import '/src/global.scss';
+
+.register-face-container {
+    display: grid;
+    grid-template-rows: 20% 50% 25%;
+    height: 80vh;
+}
+
+.face-detected-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    color: $primary-color;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.face-not-detected {
+    text-align: center;
+    color: $primary-color;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.uploaded-image-container {
+    width: 90%; /* Ajusta el valor según el espacio que desees, menor porcentaje significa más espacio a los lados */
+    height: 62%;
+    border-radius: 3px;
+    margin: 0 auto; /* Esto centra el contenedor horizontalmente */
+}
+
+.uploaded-image-container img {
+    width: 100%;
+    height: 100%;
+    border-radius: 3px;
+    object-fit: cover;
+    object-position: center;
+}
+
+ion-button {
+    --box-shadow: none;
+    --background: white;
+    --ripple-color: #{$secondary-color-darker};
+}
+
+.fa-solid {
+    color: #{$primary-color};
+}
+
+.circle-container {
+    width: 10rem;
+    height: 10rem;
+    background-color: #{$primary-color-lighter};
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}

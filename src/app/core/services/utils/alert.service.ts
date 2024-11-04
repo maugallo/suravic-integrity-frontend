@@ -61,6 +61,31 @@ export class AlertService {
     });
   }
 
+  public getSuccessAlert(title: string, text?: string) {
+    return Swal.mixin({
+      icon: "success",
+      title: title,
+      text: text || '',
+      heightAuto: false,
+      customClass: {
+        title: 'sweet-modal-title',
+        confirmButton: 'sweet-modal-button',
+      }
+    });
+  }
+
+  public getWarningAlert(title: string) {
+    return Swal.mixin({
+      icon: "warning",
+      title: title,
+      heightAuto: false,
+      customClass: {
+        title: 'sweet-modal-title',
+        confirmButton: 'sweet-modal-button',
+      }
+    });
+  }
+
   public getErrorAlert(text: string) {
     return Swal.mixin({
       icon: "error",
@@ -71,34 +96,34 @@ export class AlertService {
         title: 'sweet-modal-title',
         confirmButton: 'sweet-modal-button',
       }
-  });
-  }
-
-  public getSuccessToast(title: string){
-    return Swal.mixin({
-        toast: true,
-        icon: 'success',
-        position: 'top-end',
-        title: title,
-        showConfirmButton: false,
-        timer: 1250,
-        customClass: {
-          title: ''
-        }
     });
   }
 
-  public getErrorToast(title: string){
+  public getSuccessToast(title: string) {
     return Swal.mixin({
-        toast: true,
-        icon: 'error',
-        position: 'top-end',
-        title: title,
-        showConfirmButton: false,
-        timer: 1500,
-        customClass: {
-          title: ''
-        }
+      toast: true,
+      icon: 'success',
+      position: 'top-end',
+      title: title,
+      showConfirmButton: false,
+      timer: 1250,
+      customClass: {
+        title: ''
+      }
+    });
+  }
+
+  public getErrorToast(title: string) {
+    return Swal.mixin({
+      toast: true,
+      icon: 'error',
+      position: 'top-end',
+      title: title,
+      showConfirmButton: false,
+      timer: 1500,
+      customClass: {
+        title: ''
+      }
     });
   }
 

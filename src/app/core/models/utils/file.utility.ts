@@ -31,6 +31,7 @@ export class FileUtility {
       }
 
     public static async getPhotoFromBlob(blob: Blob): Promise<Photo> {
+        console.log("Pasé por acá!");
         const format = FileUtility.getFileExtension(blob.type);
         const reader = new FileReader();
 

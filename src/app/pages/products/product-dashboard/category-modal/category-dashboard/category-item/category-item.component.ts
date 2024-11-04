@@ -1,5 +1,4 @@
-import { Component, DestroyRef, inject, input, output } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, inject, input, output } from '@angular/core';
 import { catchError, firstValueFrom, of, tap } from 'rxjs';
 import { CategoryRequest, CategoryResponse } from 'src/app/core/models/interfaces/category.model';
 import { CategoryService } from 'src/app/core/services/category.service';
@@ -15,8 +14,6 @@ import Swal from 'sweetalert2';
   imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, ]
 })
 export class CategoryItemComponent {
-
-  private destroyRef = inject(DestroyRef);
   
   private categoryService = inject(CategoryService);
   private alertService = inject(AlertService);
@@ -77,14 +74,10 @@ export class CategoryItemComponent {
   }
 
   private handleDelete() {
-    this.categoryService.deleteOrRecoverCategory(this.category()!.id).pipe(
-      tap((response) => this.alertService.getSuccessToast(response).fire()),
-      catchError((error) => {
-        console.log(error);
-        return of(null);
-      }),
-      takeUntilDestroyed(this.destroyRef)
-    ).subscribe();
+    this.categoryService.deleteOrRecoverCategory(this.category()!.id).subscribe({
+      next: (response) => this.alertService.getSuccessToast(response).fire(),
+      error: (error) => this.alertService.getErrorAlert(error.message).fire()
+    });
   }
 
 }

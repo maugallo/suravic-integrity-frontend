@@ -6,13 +6,14 @@ import { AlertService } from 'src/app/core/services/utils/alert.service';
 import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption, IonButton } from "@ionic/angular/standalone";
 import { TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { OperationDashboardComponent } from 'src/app/pages/operations/operation-dashboard/operation-dashboard.component';
+import { RegisterFaceModalComponent } from "../../../facial-recognition/register-face-modal/register-face-modal.component";
 
 @Component({
   selector: 'app-employee-item',
   templateUrl: './employee-item.component.html',
   styleUrls: ['./employee-item.component.scss'],
   standalone: true,
-  imports: [IonButton, IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, UpperCasePipe, TitleCasePipe, OperationDashboardComponent]
+  imports: [IonButton, IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, UpperCasePipe, TitleCasePipe, OperationDashboardComponent, RegisterFaceModalComponent]
 })
 export class EmployeeItemComponent {
 
