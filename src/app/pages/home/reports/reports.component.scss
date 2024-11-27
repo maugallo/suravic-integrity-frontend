@@ -1,0 +1,19 @@
+@import '/src/global.scss';
+
+.reports-container {
+    text-align: center;
+}
+
+.reports-container .reports-title {
+    font-weight: bold;
+    color: $primary-color;
+    font-size: 2rem;
+}
+
+.options-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 5px; 
+    justify-content: center; 
+    align-content: center; 
+}

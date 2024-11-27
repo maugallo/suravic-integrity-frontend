@@ -2,25 +2,13 @@
 
 <ion-content>
   <div class="pricing-menu-container mx-4 mt-8">
-    <ion-button (click)="router.navigate(['pricing', 'beef'])">
-      <div class="option-container">
-        <p class="label">CÁLCULO DE CARNE</p>
-        <i class="fa-solid fa-cow fa-2x"></i>
-      </div>
-    </ion-button>
+    <app-option-large (click)="router.navigate(['pricing', 'beef'])"
+    label="CÁLCULO DE CARNE" icon="fa-solid fa-cow fa-2x"></app-option-large>
 
-    <ion-button (click)="router.navigate(['pricing', 'chicken'])">
-      <div class="option-container">
-        <p class="label">CÁLCULO DE POLLO</p>
-        <i class="fa-solid fa-egg fa-2x"></i>
-      </div>
-    </ion-button>
+    <app-option-large (click)="router.navigate(['pricing', 'chicken'])"
+    label="CÁLCULO DE POLLO" icon="fa-solid fa-egg fa-2x"></app-option-large>
 
-    <ion-button (click)="router.navigate(['pricing', 'products'])">
-      <div class="option-container">
-        <p class="label">CÁLCULO DE PROD.</p>
-        <i class="fa-sharp fa-solid fa-box fa-2x"></i>
-      </div>
-    </ion-button>
+    <app-option-large (click)="router.navigate(['pricing', 'products'])"
+    label="CÁLCULO DE PROD." icon="fa-sharp fa-solid fa-box fa-2x"></app-option-large>
   </div>
 </ion-content>

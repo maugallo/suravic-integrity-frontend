@@ -43,7 +43,7 @@ export class SectorService {
       }));
   }
 
-  public deleteOrRecoverSector(id: number): Observable<string> {
+  public deleteSector(id: number): Observable<string> {
     return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' })
       .pipe(catchError(this.handleError), tap(() => {
         this.refreshSectors$.next();

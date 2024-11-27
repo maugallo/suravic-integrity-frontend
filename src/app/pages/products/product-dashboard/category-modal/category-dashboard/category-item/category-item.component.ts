@@ -74,7 +74,7 @@ export class CategoryItemComponent {
   }
 
   private handleDelete() {
-    this.categoryService.deleteOrRecoverCategory(this.category()!.id).subscribe({
+    this.categoryService.deleteCategory(this.category()!.id).subscribe({
       next: (response) => this.alertService.getSuccessToast(response).fire(),
       error: (error) => this.alertService.getErrorAlert(error.message).fire()
     });

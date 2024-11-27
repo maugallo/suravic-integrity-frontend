@@ -74,7 +74,7 @@ export class SectorItemComponent {
   }
 
   private handleDelete() {
-    this.sectorService.deleteOrRecoverSector(this.sector()!.id).subscribe({
+    this.sectorService.deleteSector(this.sector()!.id).subscribe({
       next: (response) => this.alertService.getSuccessToast(response).fire(),
       error: (error) => this.alertService.getErrorAlert(error.message).fire()
     });

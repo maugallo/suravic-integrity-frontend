@@ -21,14 +21,15 @@ export class FileUtility {
         return new Blob([ab], { type: mimeString });
     }
 
-    public static async fileToBase64(file: File): Promise<string> {
+    // Se puede tomar Blob | File ya que File es un tipo de Blob.
+    public static async blobToBase64(blob: Blob | File): Promise<string> {
         return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onloadend = () => resolve(reader.result as string);
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.onerror = reject;
+            reader.readAsDataURL(blob);
         });
-      }
+    }
 
     public static async getPhotoFromBlob(blob: Blob): Promise<Photo> {
         console.log("Pasé por acá!");
@@ -75,13 +76,13 @@ export class FileUtility {
     public static getFileMimeType(file: File): string {
         const extension = file.name.split('.').pop();
         switch (extension) {
-          case 'pdf': return 'application/pdf';
-          case 'jpg': return 'image/jpeg';
-          case 'png': return 'image/png';
-          case 'doc': return 'application/msword';
-          case 'docx': return 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-          default: return 'application/octet-stream';
+            case 'pdf': return 'application/pdf';
+            case 'jpg': return 'image/jpeg';
+            case 'png': return 'image/png';
+            case 'doc': return 'application/msword';
+            case 'docx': return 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+            default: return 'application/octet-stream';
         }
-      }
+    }
 
 }

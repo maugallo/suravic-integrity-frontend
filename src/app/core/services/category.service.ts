@@ -43,7 +43,7 @@ export class CategoryService {
       }));
   }
 
-  public deleteOrRecoverCategory(id: number): Observable<string> {
+  public deleteCategory(id: number): Observable<string> {
     return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' })
       .pipe(catchError(this.handleError), tap(() => {
         this.refreshCategories$.next();

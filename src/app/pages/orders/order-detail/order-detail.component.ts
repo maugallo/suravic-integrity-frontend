@@ -66,7 +66,7 @@ export class OrderDetailComponent {
     if (this.invoice instanceof File) {
       try {
         // Guardar archivo en dispositivo.
-        const base64Data = await FileUtility.fileToBase64(this.invoice);
+        const base64Data = await FileUtility.blobToBase64(this.invoice);
         const savedFile = await Filesystem.writeFile({
           path: `Download/${this.invoice.name}`,
           data: base64Data,
