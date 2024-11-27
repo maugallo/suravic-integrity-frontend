@@ -1,14 +1,3 @@
-/*
- * App Global CSS
- * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
- */
-
 /* Core CSS required for Ionic components to work properly */
 @import "@ionic/angular/css/core.css";
 
@@ -18,65 +7,31 @@
 @import "@ionic/angular/css/typography.css";
 @import "@ionic/angular/css/display.css";
 
-/* Optional CSS utils that can be commented out */
-@import "@ionic/angular/css/padding.css";
-@import "@ionic/angular/css/float-elements.css";
-@import "@ionic/angular/css/text-alignment.css";
-@import "@ionic/angular/css/text-transformation.css";
-@import "@ionic/angular/css/flex-utils.css";
-
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
-
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
-
-/* Custom styles */
+/* Custom SCSS files */
 @import '/src/theme/variables.scss';
-
-/* Custom utilities */
 @import '/src/theme/utilities.scss';
 
 /* Font Awesome Icons */
 @import '/src/theme/icons.css';
 
-/* Select options style (icon representa el contorno del radio/checkbox, inner representa el icono que se dibuja al seleccionarlo) */
-.custom-select-options .select-interface-option[aria-checked="true"] .alert-radio-icon {
-    border-color: $primary-color !important;
+/* Custom Primary Color */
+:root {
+    --ion-color-primary: #e77624;
+    --ion-color-primary-rgb: 231, 118, 36;
+    --ion-color-primary-contrast: #ffffff;
+    --ion-color-primary-contrast-rgb: 0, 0, 0;
+    --ion-color-primary-shade: #cb6820;
+    --ion-color-primary-tint: #e9843a;
+
+    --ion-color-warning: #ffc409;
+    --ion-color-warning-rgb: 255, 196, 9;
+    --ion-color-warning-contrast: #000000;
+    --ion-color-warning-contrast-rgb: 0, 0, 0;
+    --ion-color-warning-shade: #e0ac08;
+    --ion-color-warning-tint: #ffca22;
 }
 
-.custom-select-options .select-interface-option[aria-checked="true"] .alert-radio-inner,
-.custom-select-options .select-interface-option[aria-checked="false"] .alert-radio-inner {
-    background-color: $primary-color !important;
-}
-
-.custom-select-options .select-interface-option[aria-checked="true"] .alert-checkbox-icon {
-    background-color: $primary-color !important;
-    border-color: $primary-color !important;
-}
-
-.custom-select-options .alert-button {
-    color: $primary-color !important;
-}
-
-.custom-select-options .alert-title {
-    color: $primary-color !important;
-}
-
-/* Date Input style */
-ion-datetime::part(wheel-item) {
-    color: black;
-}
-
-ion-datetime::part(wheel-item active) {
-    color: $primary-color !important;
-}
-
+/* Date-scroll Input style */
 ion-datetime-button::part(native) {
     background: white;
     border: 1.5px solid $secondary-color;
@@ -88,7 +43,6 @@ ion-datetime-button::part(native) {
 /* Loader style */
 ion-loading.loader {
     --background: white;
-    --spinner-color: #{$primary-color};
     --height: 15rem;
     --width: 15rem;
 }
@@ -142,8 +96,7 @@ ion-spinner {
 }
 
 .swal2-validation-message::before {
-    content: none;
-    /* Remueve el icono de advertencia */
+    content: none; /* Remove warning icon */
 }
 
 .swal2-popup.swal2-toast {

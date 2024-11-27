@@ -5,7 +5,7 @@
       <form #userForm="ngForm" id="userForm" (ngSubmit)="onSubmit()">
         <!-- Day Input -->
         <div class="mt-10 mb-7">
-          <ion-datetime color="suravic" name="dayDateTime" [min]="minDate" [max]="maxDate"
+          <ion-datetime name="dayDateTime" [min]="minDate" [max]="maxDate"
           presentation="date" [highlightedDates]="takenDates()" [(ngModel)]="dayOff.day">
           <span slot="title">Elige un día de franco </span>
         </ion-datetime>
