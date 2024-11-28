@@ -1,4 +1,4 @@
-@import '/src/global.scss';
+@use '/src/global' as *;
 
 .selects-container {
     display: grid;

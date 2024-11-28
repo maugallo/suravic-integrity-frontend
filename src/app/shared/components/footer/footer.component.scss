@@ -1,4 +1,4 @@
-@import '/src/global.scss';
+@use '/src/global' as *;
 
 ion-tab-bar {
     --background: #{$primary-color};

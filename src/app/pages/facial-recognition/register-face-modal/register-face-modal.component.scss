@@ -1,4 +1,4 @@
-@import '/src/global.scss';
+@use '/src/global' as *;
 
 .register-face-container {
     display: grid;

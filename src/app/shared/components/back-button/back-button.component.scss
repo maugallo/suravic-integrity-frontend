@@ -1,4 +1,4 @@
-@import '/src/global.scss';
+@use '/src/global' as *;
 
 .back-button-fixed {
     position: fixed;

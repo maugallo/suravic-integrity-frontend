@@ -1,4 +1,4 @@
-@import '/src/global.scss';
+@use '/src/global' as *;
 
 .pricing-menu-container {
     display: flex;

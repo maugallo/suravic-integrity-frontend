@@ -1,18 +1,22 @@
-/* Core CSS required for Ionic components to work properly */
-@import "@ionic/angular/css/core.css";
-
-/* Basic CSS for apps built with Ionic */
-@import "@ionic/angular/css/normalize.css";
-@import "@ionic/angular/css/structure.css";
-@import "@ionic/angular/css/typography.css";
-@import "@ionic/angular/css/display.css";
-
 /* Custom SCSS files */
-@import 'src/theme/variables.scss';
-@import 'src/theme/utilities.scss';
+@use 'src/theme/variables' as *;
+@use 'src/theme/utilities' as *;
+
+@forward 'src/theme/variables';
+@forward 'src/theme/utilities';
 
 /* Font Awesome Icons */
-@import '/src/theme/icons.css';
+@import 'src/theme/icons.css';
+
+/* Core CSS required for Ionic components to work properly */
+@import '@ionic/angular/css/core.css';
+
+/* Basic CSS for apps built with Ionic */
+@import '@ionic/angular/css/normalize.css';
+@import '@ionic/angular/css/structure.css';
+@import '@ionic/angular/css/typography.css';
+@import '@ionic/angular/css/display.css';
+
 
 /* Custom Primary Color */
 :root {
@@ -34,7 +38,7 @@
 /* Date-scroll Input style */
 ion-datetime-button::part(native) {
     background: white;
-    border: 1.5px solid $secondary-color;
+    border: 1.5px solid #{$secondary-color};
     border-radius: 2px;
     width: 20rem;
     color: $primary-color;

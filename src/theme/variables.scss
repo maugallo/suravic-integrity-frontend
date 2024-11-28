@@ -1,15 +1,14 @@
-// For information on how to create your own theme, please see:
-// http://ionicframework.com/docs/theming/
+@use 'sass:color';  // Importar el módulo de colores de Sass
 
 $primary-color: #e77624;
-$primary-color-darker: darken($primary-color, 10%);
-$primary-color-lighter: lighten($primary-color, 40%);
+$primary-color-darker: color.adjust($primary-color, $lightness: -10%);  // Usar $lightness para oscurecer
+$primary-color-lighter: color.adjust($primary-color, $lightness: 40%);   // Usar $lightness para aclarar
 
 $secondary-color: #8b9a9b;
-$secondary-color-darker: darken($secondary-color, 30%);
-$secondary-color-lighter: lighten($secondary-color, 30%);
+$secondary-color-darker: color.adjust($secondary-color, $lightness: -30%);  // Usar $lightness para oscurecer
+$secondary-color-lighter: color.adjust($secondary-color, $lightness: 30%);   // Usar $lightness para aclarar
 
 $tertiary-color: #d4af97;
-$tertiary-color-darker: darken($tertiary-color, 15%);
+$tertiary-color-darker: color.adjust($tertiary-color, $lightness: -15%);  // Usar $lightness para oscurecer
 
 $error-color: #c5000f;

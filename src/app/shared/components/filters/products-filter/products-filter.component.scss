@@ -1,4 +1,4 @@
-@import '/src/global.scss';
+@use '/src/global' as *;
 
 .filter-header {
     border-bottom: 1px solid $secondary-color;

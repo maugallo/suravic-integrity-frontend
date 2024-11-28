@@ -1,6 +1,6 @@
 import { Component, computed, inject, QueryList, ViewChildren } from '@angular/core';
 import { DayOffService } from 'src/app/core/services/day-off.service';
-import { IonContent, IonSelectOption, IonDatetime, IonButton } from "@ionic/angular/standalone";
+import { IonContent, IonSelectOption, IonDatetime } from "@ionic/angular/standalone";
 import { SelectInputComponent } from 'src/app/shared/components/form/select-input/select-input.component';
 import { SubmitButtonComponent } from 'src/app/shared/components/form/submit-button/submit-button.component';
 import { ShiftService } from 'src/app/core/services/shift.service';
@@ -18,7 +18,7 @@ import { ShiftResponse } from 'src/app/core/models/interfaces/shift.model';
     selector: 'app-day-off-form',
     templateUrl: './day-off-form.component.html',
     styleUrls: ['./day-off-form.component.scss'],
-    imports: [IonButton, IonDatetime, IonContent, SelectInputComponent, SubmitButtonComponent, FormsModule, IonSelectOption, HeaderComponent]
+    imports: [IonDatetime, IonContent, SelectInputComponent, SubmitButtonComponent, FormsModule, IonSelectOption, HeaderComponent]
 })
 export class DayOffFormComponent {
 

@@ -1,4 +1,4 @@
-@import '/src/global.scss';
+@use '/src/global' as *;
 
 .menu-header {
     border-bottom: 1px solid $secondary-color;
