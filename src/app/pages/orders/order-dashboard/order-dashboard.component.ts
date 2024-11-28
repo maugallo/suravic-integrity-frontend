@@ -4,7 +4,6 @@ import { OrderService } from 'src/app/core/services/order.service';
 import { HeaderComponent } from "../../../shared/components/header/header.component";
 import { IonContent, IonSearchbar, IonButton, IonList, IonProgressBar, MenuController } from "@ionic/angular/standalone";
 import { NotFoundComponent } from "../../../shared/components/not-found/not-found.component";
-import { ProductItemComponent } from "../../products/product-dashboard/product-item/product-item.component";
 import { OrderItemComponent } from "./order-item/order-item.component";
 import { OrderResponse } from 'src/app/core/models/interfaces/order.model';
 import { OrdersFilterComponent } from "../../../shared/components/filters/orders-filter/orders-filter.component";
@@ -15,7 +14,7 @@ import { Filter } from 'src/app/core/models/interfaces/filter.model';
     selector: 'app-order-dashboard',
     templateUrl: './order-dashboard.component.html',
     styleUrls: ['./order-dashboard.component.scss'],
-    imports: [IonProgressBar, IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, NotFoundComponent, ProductItemComponent, OrderItemComponent, OrdersFilterComponent, DeletedButtonComponent]
+    imports: [IonProgressBar, IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, NotFoundComponent, OrderItemComponent, OrdersFilterComponent, DeletedButtonComponent]
 })
 export class OrderDashboardComponent {
 

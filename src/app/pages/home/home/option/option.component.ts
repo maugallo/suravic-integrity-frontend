@@ -1,12 +1,12 @@
 import { Component, inject, input } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonButton, IonContent } from "@ionic/angular/standalone";
+import { IonButton } from "@ionic/angular/standalone";
 
 @Component({
     selector: 'app-option',
     templateUrl: './option.component.html',
     styleUrls: ['./option.component.scss'],
-    imports: [IonContent, IonButton,]
+    imports: [IonButton,]
 })
 export class OptionComponent {
 

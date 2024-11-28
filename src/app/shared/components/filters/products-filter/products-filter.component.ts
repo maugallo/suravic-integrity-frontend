@@ -3,7 +3,6 @@ import { CategoryService } from 'src/app/core/services/category.service';
 import { IonContent, IonMenu, IonSelect, IonSelectOption, IonButton, MenuController, IonLabel, IonRange } from "@ionic/angular/standalone";
 import { ProviderService } from 'src/app/core/services/provider.service';
 import { FormsModule } from '@angular/forms';
-import { SelectInputComponent } from "../../form/select-input/select-input.component";
 import { ProductResponse } from 'src/app/core/models/interfaces/product.model';
 import { CurrencyPipe } from '@angular/common';
 import { Filter } from 'src/app/core/models/interfaces/filter.model';
@@ -12,7 +11,7 @@ import { Filter } from 'src/app/core/models/interfaces/filter.model';
     selector: 'app-products-filter',
     templateUrl: './products-filter.component.html',
     styleUrls: ['./products-filter.component.scss'],
-    imports: [IonRange, IonLabel, IonContent, IonMenu, IonSelect, IonSelectOption, IonButton, FormsModule, SelectInputComponent, CurrencyPipe]
+    imports: [IonRange, IonLabel, IonContent, IonMenu, IonSelect, IonSelectOption, IonButton, FormsModule, CurrencyPipe]
 })
 export class ProductsFilterComponent {
   private categoryService = inject(CategoryService);

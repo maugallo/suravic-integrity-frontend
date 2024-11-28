@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { IonContent, IonButton } from "@ionic/angular/standalone";
+import { IonContent } from "@ionic/angular/standalone";
 import { OptionComponent } from "./option/option.component";
 import { DUENO_OPTIONS, ENCARGADO_OPTIONS, Option } from './home-options.constant';
 import { NavigationEnd, Router } from '@angular/router';
@@ -14,7 +14,7 @@ import { MarkAttendanceModalComponent } from "../../attendances/mark-attendance-
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
-    imports: [IonButton, IonContent, OptionComponent, MarkAttendanceModalComponent]
+    imports: [IonContent, OptionComponent, MarkAttendanceModalComponent]
 })
 export class HomeComponent {
 

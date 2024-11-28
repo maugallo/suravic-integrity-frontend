@@ -4,15 +4,14 @@ import { EmployeeResponse } from 'src/app/core/models/interfaces/employee.model'
 import { EmployeeService } from 'src/app/core/services/employee.service';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
 import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption, IonButton } from "@ionic/angular/standalone";
-import { TitleCasePipe, UpperCasePipe } from '@angular/common';
-import { OperationDashboardComponent } from 'src/app/pages/operations/operation-dashboard/operation-dashboard.component';
+import { UpperCasePipe } from '@angular/common';
 import { RegisterFaceModalComponent } from "../../../facial-recognition/register-face-modal/register-face-modal.component";
 
 @Component({
     selector: 'app-employee-item',
     templateUrl: './employee-item.component.html',
     styleUrls: ['./employee-item.component.scss'],
-    imports: [IonButton, IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, UpperCasePipe, TitleCasePipe, OperationDashboardComponent, RegisterFaceModalComponent]
+    imports: [IonButton, IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, UpperCasePipe, RegisterFaceModalComponent]
 })
 export class EmployeeItemComponent {
 

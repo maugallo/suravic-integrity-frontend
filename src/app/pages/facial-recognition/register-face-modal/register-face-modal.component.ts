@@ -1,11 +1,11 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { EmployeeResponse } from 'src/app/core/models/interfaces/employee.model';
-import { IonModal, IonContent, IonButton, IonList, IonProgressBar } from "@ionic/angular/standalone";
+import { IonModal, IonContent } from "@ionic/angular/standalone";
 import { HeaderComponent } from "../../../shared/components/header/header.component";
 import { EmployeeService } from 'src/app/core/services/employee.service';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
 import { AsyncPipe } from '@angular/common';
-import { from, map, of, switchMap } from 'rxjs';
+import { from, of, switchMap } from 'rxjs';
 import { FileUtility } from 'src/app/core/models/utils/file.utility';
 import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
 import { Camera, CameraDirection, CameraResultType, Photo } from '@capacitor/camera';
@@ -14,7 +14,7 @@ import { Camera, CameraDirection, CameraResultType, Photo } from '@capacitor/cam
     selector: 'app-register-face-modal',
     templateUrl: './register-face-modal.component.html',
     styleUrls: ['./register-face-modal.component.scss'],
-    imports: [IonProgressBar, IonList, IonButton, IonContent, IonModal, HeaderComponent, AsyncPipe, SubmitButtonComponent]
+    imports: [IonContent, IonModal, HeaderComponent, AsyncPipe, SubmitButtonComponent]
 })
 export class RegisterFaceModalComponent {
 

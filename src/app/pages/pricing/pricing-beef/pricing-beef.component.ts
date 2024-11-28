@@ -1,6 +1,6 @@
 import { Component, computed, DestroyRef, inject, QueryList, signal, ViewChildren } from '@angular/core';
 import { HeaderComponent } from "../../../shared/components/header/header.component";
-import { IonContent, IonButton } from "@ionic/angular/standalone";
+import { IonContent } from "@ionic/angular/standalone";
 import { FormsModule } from '@angular/forms';
 import { CurrencyPipe, UpperCasePipe } from '@angular/common';
 import { ValidationService } from 'src/app/core/services/utils/validation.service';
@@ -21,7 +21,7 @@ import { MeatDetailsConstant } from 'src/app/core/models/enums/meat-details-cons
     selector: 'app-pricing-beef',
     templateUrl: './pricing-beef.component.html',
     styleUrls: ['./pricing-beef.component.scss'],
-    imports: [IonButton, IonContent, HeaderComponent, FormsModule, UpperCasePipe, WeightsAccordionComponent, SubmitButtonComponent, NumberInputComponent, CurrencyPipe, FormButtonComponent]
+    imports: [IonContent, HeaderComponent, FormsModule, UpperCasePipe, WeightsAccordionComponent, SubmitButtonComponent, NumberInputComponent, CurrencyPipe, FormButtonComponent]
 })
 export class PricingBeefComponent {
 

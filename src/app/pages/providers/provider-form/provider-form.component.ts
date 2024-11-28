@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, QueryList, Signal, ViewChildren } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonContent, IonButton, IonSelectOption } from "@ionic/angular/standalone";
+import { IonContent, IonSelectOption } from "@ionic/angular/standalone";
 import { catchError, Observable, of, switchMap, tap } from 'rxjs';
 import { ProviderRequest } from 'src/app/core/models/interfaces/provider.model';
 import { ProviderService } from 'src/app/core/services/provider.service';
@@ -24,7 +24,7 @@ import { EntitiesUtility } from 'src/app/core/models/utils/entities.utility';
     selector: 'app-provider-form',
     templateUrl: './provider-form.component.html',
     styleUrls: ['./provider-form.component.scss'],
-    imports: [IonButton, IonContent, HeaderComponent, FormsModule, IonSelectOption, TextInputComponent, SelectInputComponent, NumberInputComponent, SubmitButtonComponent]
+    imports: [IonContent, HeaderComponent, FormsModule, IonSelectOption, TextInputComponent, SelectInputComponent, NumberInputComponent, SubmitButtonComponent]
 })
 export class ProviderFormComponent {
 

@@ -1,13 +1,13 @@
 import { Component, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonSelect, IonSelectOption, IonNote } from "@ionic/angular/standalone";
+import { IonSelect, IonNote } from "@ionic/angular/standalone";
 import { BaseInputComponent } from '../base-input/base-input.component';
 
 @Component({
     selector: 'app-select-input',
     templateUrl: './select-input.component.html',
     styleUrls: ['./select-input.component.scss'],
-    imports: [IonSelect, IonSelectOption, IonNote, FormsModule]
+    imports: [IonSelect, IonNote, FormsModule]
 })
 export class SelectInputComponent extends BaseInputComponent {
 

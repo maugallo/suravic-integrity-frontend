@@ -1,7 +1,7 @@
-import { Component, computed, inject, signal, WritableSignal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductService } from 'src/app/core/services/product.service';
-import { IonSearchbar, IonButton, IonContent, IonList, IonProgressBar, MenuController } from "@ionic/angular/standalone";
+import { IonSearchbar, IonButton, IonContent, IonList, MenuController } from "@ionic/angular/standalone";
 import { HeaderComponent } from "../../../shared/components/header/header.component";
 import { CategoryModalComponent } from "./category-modal/category-modal.component";
 import { NotFoundComponent } from "../../../shared/components/not-found/not-found.component";
@@ -15,7 +15,7 @@ import { Filter } from 'src/app/core/models/interfaces/filter.model';
     selector: 'app-product-dashboard',
     templateUrl: './product-dashboard.component.html',
     styleUrls: ['./product-dashboard.component.scss'],
-    imports: [IonProgressBar, IonList, IonContent, IonButton, IonSearchbar, HeaderComponent, CategoryModalComponent, NotFoundComponent, ProductItemComponent, ProductsFilterComponent, DeletedButtonComponent]
+    imports: [IonList, IonContent, IonButton, IonSearchbar, HeaderComponent, CategoryModalComponent, NotFoundComponent, ProductItemComponent, ProductsFilterComponent, DeletedButtonComponent]
 })
 export class ProductDashboardComponent {
 

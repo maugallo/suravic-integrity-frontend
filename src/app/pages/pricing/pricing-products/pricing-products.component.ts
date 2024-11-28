@@ -7,7 +7,6 @@ import { IonSelectOption } from "@ionic/angular/standalone";
 import { ProductService } from 'src/app/core/services/product.service';
 import { UpperCasePipe } from '@angular/common';
 import { NumberInputComponent } from "../../../shared/components/form/number-input/number-input.component";
-import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
 import { FormsModule } from '@angular/forms';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
@@ -23,7 +22,7 @@ import { ProductPercentagesComponent } from "./product-percentages/product-perce
     selector: 'app-pricing-products',
     templateUrl: './pricing-products.component.html',
     styleUrls: ['./pricing-products.component.scss'],
-    imports: [IonButton, IonContent, HeaderComponent, SelectInputComponent, IonSelectOption, UpperCasePipe, NumberInputComponent, SubmitButtonComponent, FormsModule, NotFoundComponent, FormButtonComponent, ProviderPercentagesComponent, ProductPercentagesComponent]
+    imports: [IonButton, IonContent, HeaderComponent, SelectInputComponent, IonSelectOption, UpperCasePipe, NumberInputComponent, FormsModule, NotFoundComponent, FormButtonComponent, ProviderPercentagesComponent, ProductPercentagesComponent]
 })
 export class PricingProductsComponent {
 

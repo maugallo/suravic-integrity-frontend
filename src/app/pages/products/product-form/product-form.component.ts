@@ -8,7 +8,7 @@ import { CategoryService } from 'src/app/core/services/category.service';
 import { ProductService } from 'src/app/core/services/product.service';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
 import { HeaderComponent } from "../../../shared/components/header/header.component";
-import { IonContent, IonSelectOption, IonButton } from "@ionic/angular/standalone";
+import { IonContent, IonSelectOption } from "@ionic/angular/standalone";
 import { ProviderService } from 'src/app/core/services/provider.service';
 import { StorageService } from 'src/app/core/services/utils/storage.service';
 import { TextInputComponent } from "../../../shared/components/form/text-input/text-input.component";
@@ -23,7 +23,7 @@ import { EntitiesUtility } from 'src/app/core/models/utils/entities.utility';
     selector: 'app-product-form',
     templateUrl: './product-form.component.html',
     styleUrls: ['./product-form.component.scss'],
-    imports: [IonButton, IonContent, HeaderComponent, FormsModule, IonSelectOption, TextInputComponent, NumberInputComponent, SelectInputComponent, SubmitButtonComponent]
+    imports: [IonContent, HeaderComponent, FormsModule, IonSelectOption, TextInputComponent, NumberInputComponent, SelectInputComponent, SubmitButtonComponent]
 })
 export class ProductFormComponent {
 

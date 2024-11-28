@@ -1,6 +1,5 @@
 import { Component, inject, input } from '@angular/core';
 import { Location } from '@angular/common';
-import { IonButton, IonAlert, IonModal } from "@ionic/angular/standalone";
 import { Router } from '@angular/router';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
 
@@ -8,7 +7,7 @@ import { AlertService } from 'src/app/core/services/utils/alert.service';
     selector: 'app-back-button',
     templateUrl: './back-button.component.html',
     styleUrls: ['./back-button.component.scss'],
-    imports: [IonAlert, IonButton, IonModal]
+    imports: []
 })
 export class BackButtonComponent {
 

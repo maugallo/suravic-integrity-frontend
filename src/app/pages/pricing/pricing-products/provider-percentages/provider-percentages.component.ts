@@ -1,5 +1,5 @@
 import { Component, inject, model } from '@angular/core';
-import { IonContent, IonMenu, IonButton, MenuController, IonSelectOption } from "@ionic/angular/standalone";
+import { IonContent, IonMenu, MenuController, IonSelectOption } from "@ionic/angular/standalone";
 import { NumberInputComponent } from "../../../../shared/components/form/number-input/number-input.component";
 import { FormButtonComponent } from "../../../../shared/components/form/form-button/form-button.component";
 import { ProviderResponse } from 'src/app/core/models/interfaces/provider.model';
@@ -12,7 +12,7 @@ import { ProviderMapper } from 'src/app/core/models/mappers/provider.mapper';
     selector: 'app-provider-percentages',
     templateUrl: './provider-percentages.component.html',
     styleUrls: ['./provider-percentages.component.scss'],
-    imports: [IonButton, IonContent, IonMenu, NumberInputComponent, FormButtonComponent, SelectInputComponent, IonSelectOption]
+    imports: [IonContent, IonMenu, NumberInputComponent, FormButtonComponent, SelectInputComponent, IonSelectOption]
 })
 export class ProviderPercentagesComponent {
 
