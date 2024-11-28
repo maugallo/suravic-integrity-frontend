@@ -1,19 +1,19 @@
 import { Component, inject } from '@angular/core';
-import { IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent } from "@ionic/angular/standalone";
+import { IonContent, IonCard, IonCardHeader, IonCardContent } from "@ionic/angular/standalone";
 import { BackButtonComponent } from "../../../shared/components/back-button/back-button.component";
 import { ActivatedRoute, Router } from '@angular/router';
 import { of, switchMap } from 'rxjs';
 import { ProviderService } from 'src/app/core/services/provider.service';
-import { AsyncPipe } from '@angular/common';
 import { FormatEnumPipe } from 'src/app/shared/pipes/format-enum.pipe';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { DetailCardComponent } from 'src/app/shared/components/detail-card/detail-card.component';
 
 @Component({
   selector: 'app-provider-detail',
   templateUrl: './provider-detail.component.html',
   styleUrls: ['./provider-detail.component.scss'],
   standalone: true,
-  imports: [IonCardContent, IonCardSubtitle, IonCardTitle, IonCardHeader, IonCard, IonContent, BackButtonComponent, AsyncPipe, FormatEnumPipe]
+  imports: [IonCardContent, IonCardHeader, IonCard, IonContent, BackButtonComponent, FormatEnumPipe, DetailCardComponent]
 })
 export class ProviderDetailComponent {
 

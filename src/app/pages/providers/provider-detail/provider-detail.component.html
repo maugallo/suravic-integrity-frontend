@@ -10,46 +10,17 @@
     </div>
 
     <div class="detail-container mb-2 mt-6 mx-4">
-      <ion-card>
-        <ion-card-header>
-          <div class="card-header">
-            <i class="fa-regular fa-address-card fa-2x"></i>
-            <p class="card-title">Titular</p>
-          </div>
-        </ion-card-header>
+      @let NameAndLastName = provider.firstName + ' ' + provider.lastName;
+      <app-detail-card icon="fa-regular fa-address-card" title="Titular" 
+      [values]="[NameAndLastName]"></app-detail-card>
 
-        <ion-card-content>
-          <p class="card-content">{{ provider.firstName }} {{ provider.lastName }}</p>
-        </ion-card-content>
-      </ion-card>
+      <app-detail-card icon="fa-regular fa-phone" title="Contacto" 
+      [values]="provider.contact.email ?
+      [provider.contact.telephone, provider.contact.email] : 
+      [provider.contact.telephone]" ></app-detail-card>
 
-      <ion-card>
-        <ion-card-header>
-          <div class="card-header">
-            <i class="fa-regular fa-phone fa-2x"></i>
-            <p class="card-title">Contacto</p>
-          </div>
-        </ion-card-header>
-
-        <ion-card-content>
-          <p class="card-content">{{ provider.contact.telephone }}</p>
-          @if (provider.contact.email) { <p class="card-content">{{ provider.contact.email }}</p> }
-        </ion-card-content>
-      </ion-card>
-
-      <ion-card>
-        <ion-card-header>
-          <div class="card-header">
-            <i class="fa-regular fa-file-invoice fa-2x"></i>
-            <p class="card-title">Datos Fiscales</p>
-          </div>
-        </ion-card-header>
-
-        <ion-card-content>
-          <p class="card-content">{{ provider.vatCondition | formatEnum }}</p>
-          <p class="card-content">{{ provider.cuit }}</p>
-        </ion-card-content>
-      </ion-card>
+      <app-detail-card icon="fa-regular fa-file-invoice" title="Datos Fiscales"
+      [values]="[provider.vatCondition | formatEnum, provider.cuit]"></app-detail-card>
 
       <ion-card>
         <ion-card-header>
@@ -79,19 +50,8 @@
         </ion-card-content>
       </ion-card>
 
-      <ion-card>
-        <ion-card-header>
-          <div class="card-header">
-            <i class="fa-regular fa-grid-2 fa-2x"></i>
-            <p class="card-title">Rubro</p>
-          </div>
-        </ion-card-header>
-
-        <ion-card-content>
-          @if (!provider.sector.isEnabled) { <p class="card-content-deleted">{{ provider.sector.name }}</p> }
-          @else { <p class="card-content">{{ provider.sector.name }}</p> }
-        </ion-card-content>
-      </ion-card>
+      <app-detail-card icon="fa-regular fa-grid-2" title="Rubro"
+      [values]="[provider.sector.name]"></app-detail-card>
     </div>
   }
 
