@@ -22,11 +22,10 @@ import { WheelDateInputComponent } from "../../../shared/components/form/wheel-d
 import { EmployeeRole } from 'src/app/core/models/enums/employee-role.enum';
 
 @Component({
-  selector: 'app-employee-form',
-  templateUrl: './employee-form.component.html',
-  styleUrls: ['./employee-form.component.scss'],
-  standalone: true,
-  imports: [IonContent, HeaderComponent, TextInputComponent, SelectInputComponent, NumberInputComponent, SubmitButtonComponent, FormsModule, IonSelectOption, WheelDateInputComponent]
+    selector: 'app-employee-form',
+    templateUrl: './employee-form.component.html',
+    styleUrls: ['./employee-form.component.scss'],
+    imports: [IonContent, HeaderComponent, TextInputComponent, SelectInputComponent, NumberInputComponent, SubmitButtonComponent, FormsModule, IonSelectOption, WheelDateInputComponent]
 })
 export class EmployeeFormComponent {
 

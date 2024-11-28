@@ -12,11 +12,10 @@ import { DeletedButtonComponent } from "../../../shared/components/deleted-butto
 import { Filter } from 'src/app/core/models/interfaces/filter.model';
 
 @Component({
-  selector: 'app-order-dashboard',
-  templateUrl: './order-dashboard.component.html',
-  styleUrls: ['./order-dashboard.component.scss'],
-  standalone: true,
-  imports: [IonProgressBar, IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, NotFoundComponent, ProductItemComponent, OrderItemComponent, OrdersFilterComponent, DeletedButtonComponent]
+    selector: 'app-order-dashboard',
+    templateUrl: './order-dashboard.component.html',
+    styleUrls: ['./order-dashboard.component.scss'],
+    imports: [IonProgressBar, IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, NotFoundComponent, ProductItemComponent, OrderItemComponent, OrdersFilterComponent, DeletedButtonComponent]
 })
 export class OrderDashboardComponent {
 

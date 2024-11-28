@@ -11,11 +11,10 @@ import { HeaderComponent } from 'src/app/shared/components/header/header.compone
 
 
 @Component({
-  selector: 'app-sector-dashboard',
-  templateUrl: './sector-dashboard.component.html',
-  styleUrls: ['./sector-dashboard.component.scss'],
-  standalone: true,
-  imports: [IonProgressBar, IonList, IonButton, HeaderComponent, NotFoundComponent, SectorItemComponent]
+    selector: 'app-sector-dashboard',
+    templateUrl: './sector-dashboard.component.html',
+    styleUrls: ['./sector-dashboard.component.scss'],
+    imports: [IonProgressBar, IonList, IonButton, HeaderComponent, NotFoundComponent, SectorItemComponent]
 })
 export class SectorDashboardComponent {
 

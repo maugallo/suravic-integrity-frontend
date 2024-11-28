@@ -18,11 +18,10 @@ import { MeatDetailsType } from 'src/app/core/models/enums/meat-details-type.enu
 import { MeatDetailsConstant } from 'src/app/core/models/enums/meat-details-constant.enum';
 
 @Component({
-  selector: 'app-pricing-beef',
-  templateUrl: './pricing-beef.component.html',
-  styleUrls: ['./pricing-beef.component.scss'],
-  standalone: true,
-  imports: [IonButton, IonContent, HeaderComponent, FormsModule, UpperCasePipe, WeightsAccordionComponent, SubmitButtonComponent, NumberInputComponent, CurrencyPipe, FormButtonComponent],
+    selector: 'app-pricing-beef',
+    templateUrl: './pricing-beef.component.html',
+    styleUrls: ['./pricing-beef.component.scss'],
+    imports: [IonButton, IonContent, HeaderComponent, FormsModule, UpperCasePipe, WeightsAccordionComponent, SubmitButtonComponent, NumberInputComponent, CurrencyPipe, FormButtonComponent]
 })
 export class PricingBeefComponent {
 

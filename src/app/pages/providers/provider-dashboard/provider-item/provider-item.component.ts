@@ -7,11 +7,10 @@ import { ProviderService } from 'src/app/core/services/provider.service';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
 
 @Component({
-  selector: 'app-provider-item',
-  templateUrl: './provider-item.component.html',
-  styleUrls: ['./provider-item.component.scss'],
-  standalone: true,
-  imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, TitleCasePipe, UpperCasePipe]
+    selector: 'app-provider-item',
+    templateUrl: './provider-item.component.html',
+    styleUrls: ['./provider-item.component.scss'],
+    imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, TitleCasePipe, UpperCasePipe]
 })
 export class ProviderItemComponent {
 

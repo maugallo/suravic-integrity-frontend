@@ -20,11 +20,10 @@ import { ProductMapper } from 'src/app/core/models/mappers/product.mapper';
 import { EntitiesUtility } from 'src/app/core/models/utils/entities.utility';
 
 @Component({
-  selector: 'app-product-form',
-  templateUrl: './product-form.component.html',
-  styleUrls: ['./product-form.component.scss'],
-  standalone: true,
-  imports: [IonButton, IonContent, HeaderComponent, FormsModule, IonSelectOption, TextInputComponent, NumberInputComponent, SelectInputComponent, SubmitButtonComponent]
+    selector: 'app-product-form',
+    templateUrl: './product-form.component.html',
+    styleUrls: ['./product-form.component.scss'],
+    imports: [IonButton, IonContent, HeaderComponent, FormsModule, IonSelectOption, TextInputComponent, NumberInputComponent, SelectInputComponent, SubmitButtonComponent]
 })
 export class ProductFormComponent {
 

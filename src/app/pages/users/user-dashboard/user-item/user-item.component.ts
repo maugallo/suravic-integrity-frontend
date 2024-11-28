@@ -8,11 +8,10 @@ import { UserService } from 'src/app/core/services/user.service';
 import { AlertService } from 'src/app/core/services/utils/alert.service';
 
 @Component({
-  selector: 'app-user-item',
-  templateUrl: './user-item.component.html',
-  styleUrls: ['./user-item.component.scss'],
-  standalone: true,
-  imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding,]
+    selector: 'app-user-item',
+    templateUrl: './user-item.component.html',
+    styleUrls: ['./user-item.component.scss'],
+    imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding,]
 })
 export class UserItemComponent {
 

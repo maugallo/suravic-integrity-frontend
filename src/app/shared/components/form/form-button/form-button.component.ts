@@ -3,11 +3,10 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { IonButton } from "@ionic/angular/standalone";
 
 @Component({
-  selector: 'app-form-button',
-  templateUrl: './form-button.component.html',
-  styleUrls: ['./form-button.component.scss'],
-  standalone: true,
-  imports: [IonButton, ]
+    selector: 'app-form-button',
+    templateUrl: './form-button.component.html',
+    styleUrls: ['./form-button.component.scss'],
+    imports: [IonButton,]
 })
 export class FormButtonComponent {
 

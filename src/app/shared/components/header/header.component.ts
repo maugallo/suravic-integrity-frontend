@@ -3,11 +3,10 @@ import { IonHeader, IonTitle, IonToolbar, IonBackButton, IonButtons } from "@ion
 import { BackButtonComponent } from "../back-button/back-button.component";
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
-  standalone: true,
-  imports: [IonButtons, IonBackButton, IonToolbar, IonTitle, IonHeader, BackButtonComponent]
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss'],
+    imports: [IonButtons, IonBackButton, IonToolbar, IonTitle, IonHeader, BackButtonComponent]
 })
 export class HeaderComponent {
 

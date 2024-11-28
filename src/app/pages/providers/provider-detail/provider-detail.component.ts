@@ -9,11 +9,10 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { DetailCardComponent } from 'src/app/shared/components/detail-card/detail-card.component';
 
 @Component({
-  selector: 'app-provider-detail',
-  templateUrl: './provider-detail.component.html',
-  styleUrls: ['./provider-detail.component.scss'],
-  standalone: true,
-  imports: [IonCardContent, IonCardHeader, IonCard, IonContent, BackButtonComponent, FormatEnumPipe, DetailCardComponent]
+    selector: 'app-provider-detail',
+    templateUrl: './provider-detail.component.html',
+    styleUrls: ['./provider-detail.component.scss'],
+    imports: [IonCardContent, IonCardHeader, IonCard, IonContent, BackButtonComponent, FormatEnumPipe, DetailCardComponent]
 })
 export class ProviderDetailComponent {
 

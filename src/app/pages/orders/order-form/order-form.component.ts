@@ -26,11 +26,10 @@ import { PaymentMethodService } from 'src/app/core/services/payment-method.servi
 import { OrderStatus } from 'src/app/core/models/enums/order-status.enum';
 
 @Component({
-  selector: 'app-order-form',
-  templateUrl: './order-form.component.html',
-  styleUrls: ['./order-form.component.scss'],
-  standalone: true,
-  imports: [IonContent, HeaderComponent, FormsModule, IonSelectOption, WheelDateInputComponent, NumberInputComponent, SelectInputComponent, SubmitButtonComponent, FileInputComponent]
+    selector: 'app-order-form',
+    templateUrl: './order-form.component.html',
+    styleUrls: ['./order-form.component.scss'],
+    imports: [IonContent, HeaderComponent, FormsModule, IonSelectOption, WheelDateInputComponent, NumberInputComponent, SelectInputComponent, SubmitButtonComponent, FileInputComponent]
 })
 export class OrderFormComponent {
 

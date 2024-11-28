@@ -7,11 +7,10 @@ import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from
 import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-public-holiday-item',
-  templateUrl: './public-holiday-item.component.html',
-  styleUrls: ['./public-holiday-item.component.scss'],
-  standalone: true,
-  imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, DatePipe]
+    selector: 'app-public-holiday-item',
+    templateUrl: './public-holiday-item.component.html',
+    styleUrls: ['./public-holiday-item.component.scss'],
+    imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, DatePipe]
 })
 export class PublicHolidayItemComponent {
 

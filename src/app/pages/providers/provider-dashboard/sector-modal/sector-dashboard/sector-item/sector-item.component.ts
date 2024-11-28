@@ -7,11 +7,10 @@ import { AlertService } from 'src/app/core/services/utils/alert.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-sector-item',
-  templateUrl: './sector-item.component.html',
-  styleUrls: ['./sector-item.component.scss'],
-  standalone: true,
-  imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding,]
+    selector: 'app-sector-item',
+    templateUrl: './sector-item.component.html',
+    styleUrls: ['./sector-item.component.scss'],
+    imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding,]
 })
 export class SectorItemComponent {
   

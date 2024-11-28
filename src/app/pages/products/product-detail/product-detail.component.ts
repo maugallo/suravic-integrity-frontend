@@ -8,11 +8,10 @@ import { BackButtonComponent } from "../../../shared/components/back-button/back
 import { CurrencyPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-product-detail',
-  templateUrl: './product-detail.component.html',
-  styleUrls: ['./product-detail.component.scss'],
-  standalone: true,
-  imports: [IonCardContent, IonCard, IonCardHeader, IonContent, BackButtonComponent, CurrencyPipe]
+    selector: 'app-product-detail',
+    templateUrl: './product-detail.component.html',
+    styleUrls: ['./product-detail.component.scss'],
+    imports: [IonCardContent, IonCard, IonCardHeader, IonContent, BackButtonComponent, CurrencyPipe]
 })
 export class ProductDetailComponent {
 

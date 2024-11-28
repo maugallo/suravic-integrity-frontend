@@ -7,11 +7,10 @@ import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from
 import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-day-off-item',
-  templateUrl: './day-off-item.component.html',
-  styleUrls: ['./day-off-item.component.scss'],
-  standalone: true,
-  imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, DatePipe]
+    selector: 'app-day-off-item',
+    templateUrl: './day-off-item.component.html',
+    styleUrls: ['./day-off-item.component.scss'],
+    imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, DatePipe]
 })
 export class DayOffItemComponent {
 

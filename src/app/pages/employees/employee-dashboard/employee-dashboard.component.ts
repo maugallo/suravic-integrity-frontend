@@ -9,11 +9,10 @@ import { NotFoundComponent } from "../../../shared/components/not-found/not-foun
 import { EmployeeItemComponent } from "./employee-item/employee-item.component";
 
 @Component({
-  selector: 'app-employee-dashboard',
-  templateUrl: './employee-dashboard.component.html',
-  styleUrls: ['./employee-dashboard.component.scss'],
-  standalone: true,
-  imports: [IonContent, IonSearchbar, IonButton, IonList, IonProgressBar, IonToggle, HeaderComponent, DeletedButtonComponent, NotFoundComponent, EmployeeItemComponent]
+    selector: 'app-employee-dashboard',
+    templateUrl: './employee-dashboard.component.html',
+    styleUrls: ['./employee-dashboard.component.scss'],
+    imports: [IonContent, IonSearchbar, IonButton, IonList, IonProgressBar, IonToggle, HeaderComponent, DeletedButtonComponent, NotFoundComponent, EmployeeItemComponent]
 })
 export class EmployeeDashboardComponent {
 

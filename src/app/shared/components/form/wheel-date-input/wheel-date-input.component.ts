@@ -4,11 +4,10 @@ import { IonDatetimeButton, IonModal, IonDatetime, IonButton, IonNote } from "@i
 import { BaseInputComponent } from '../base-input/base-input.component';
 
 @Component({
-  selector: 'app-wheel-date-input',
-  templateUrl: './wheel-date-input.component.html',
-  styleUrls: ['./wheel-date-input.component.scss'],
-  standalone: true,
-  imports: [IonNote, IonButton, IonDatetime, IonModal, IonDatetimeButton, FormsModule]
+    selector: 'app-wheel-date-input',
+    templateUrl: './wheel-date-input.component.html',
+    styleUrls: ['./wheel-date-input.component.scss'],
+    imports: [IonNote, IonButton, IonDatetime, IonModal, IonDatetimeButton, FormsModule]
 })
 export class WheelDateInputComponent extends BaseInputComponent {
 

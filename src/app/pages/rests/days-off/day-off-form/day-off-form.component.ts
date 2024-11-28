@@ -15,11 +15,10 @@ import { Observable, of } from 'rxjs';
 import { ShiftResponse } from 'src/app/core/models/interfaces/shift.model';
 
 @Component({
-  selector: 'app-day-off-form',
-  templateUrl: './day-off-form.component.html',
-  styleUrls: ['./day-off-form.component.scss'],
-  standalone: true,
-  imports: [IonButton, IonDatetime, IonContent, SelectInputComponent, SubmitButtonComponent, FormsModule, IonSelectOption, HeaderComponent]
+    selector: 'app-day-off-form',
+    templateUrl: './day-off-form.component.html',
+    styleUrls: ['./day-off-form.component.scss'],
+    imports: [IonButton, IonDatetime, IonContent, SelectInputComponent, SubmitButtonComponent, FormsModule, IonSelectOption, HeaderComponent]
 })
 export class DayOffFormComponent {
 

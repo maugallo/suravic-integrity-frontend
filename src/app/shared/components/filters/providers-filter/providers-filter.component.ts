@@ -6,11 +6,10 @@ import { SectorService } from 'src/app/core/services/sector.service';
 import { Filter } from 'src/app/core/models/interfaces/filter.model';
 
 @Component({
-  selector: 'app-providers-filter',
-  templateUrl: './providers-filter.component.html',
-  styleUrls: ['./providers-filter.component.scss'],
-  standalone: true,
-  imports: [IonButton, IonContent, IonMenu, IonSelect, IonSelectOption, FormsModule]
+    selector: 'app-providers-filter',
+    templateUrl: './providers-filter.component.html',
+    styleUrls: ['./providers-filter.component.scss'],
+    imports: [IonButton, IonContent, IonMenu, IonSelect, IonSelectOption, FormsModule]
 })
 export class ProvidersFilterComponent {
 

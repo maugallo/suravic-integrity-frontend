@@ -10,11 +10,10 @@ import { CategoryItemComponent } from "./category-item/category-item.component";
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-category-dashboard',
-  templateUrl: './category-dashboard.component.html',
-  styleUrls: ['./category-dashboard.component.scss'],
-  standalone: true,
-  imports: [IonProgressBar, IonList, IonButton, HeaderComponent, NotFoundComponent, CategoryItemComponent]
+    selector: 'app-category-dashboard',
+    templateUrl: './category-dashboard.component.html',
+    styleUrls: ['./category-dashboard.component.scss'],
+    imports: [IonProgressBar, IonList, IonButton, HeaderComponent, NotFoundComponent, CategoryItemComponent]
 })
 export class CategoryDashboardComponent {
 

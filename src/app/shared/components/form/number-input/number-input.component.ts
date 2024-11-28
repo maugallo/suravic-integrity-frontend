@@ -6,11 +6,10 @@ import { MinValueDirective } from 'src/app/shared/validators/min-value.directive
 import { BaseInputComponent } from '../base-input/base-input.component';
 
 @Component({
-  selector: 'app-number-input',
-  templateUrl: './number-input.component.html',
-  styleUrls: ['./number-input.component.scss'],
-  standalone: true,
-  imports: [IonInput, FormsModule, MinValueDirective, MaxValueDirective]
+    selector: 'app-number-input',
+    templateUrl: './number-input.component.html',
+    styleUrls: ['./number-input.component.scss'],
+    imports: [IonInput, FormsModule, MinValueDirective, MaxValueDirective]
 })
 export class NumberInputComponent extends BaseInputComponent {
   

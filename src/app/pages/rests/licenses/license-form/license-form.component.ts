@@ -21,11 +21,10 @@ import { WheelDateInputComponent } from "../../../../shared/components/form/whee
 import { LicenseType } from 'src/app/core/models/enums/license-type-enum';
 
 @Component({
-  selector: 'app-license-form',
-  templateUrl: './license-form.component.html',
-  styleUrls: ['./license-form.component.scss'],
-  standalone: true,
-  imports: [IonContent, HeaderComponent, SubmitButtonComponent, FormsModule, SelectInputComponent, IonSelectOption, TitleCasePipe, WheelDateInputComponent]
+    selector: 'app-license-form',
+    templateUrl: './license-form.component.html',
+    styleUrls: ['./license-form.component.scss'],
+    imports: [IonContent, HeaderComponent, SubmitButtonComponent, FormsModule, SelectInputComponent, IonSelectOption, TitleCasePipe, WheelDateInputComponent]
 })
 export class LicenseFormComponent {
 

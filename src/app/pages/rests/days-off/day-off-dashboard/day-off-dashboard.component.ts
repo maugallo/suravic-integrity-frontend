@@ -7,11 +7,10 @@ import { NotFoundComponent } from 'src/app/shared/components/not-found/not-found
 import { DayOffItemComponent } from "./day-off-item/day-off-item.component";
 
 @Component({
-  selector: 'app-day-off-dashboard',
-  templateUrl: './day-off-dashboard.component.html',
-  styleUrls: ['./day-off-dashboard.component.scss'],
-  standalone: true,
-  imports: [IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, NotFoundComponent, DayOffItemComponent]
+    selector: 'app-day-off-dashboard',
+    templateUrl: './day-off-dashboard.component.html',
+    styleUrls: ['./day-off-dashboard.component.scss'],
+    imports: [IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, NotFoundComponent, DayOffItemComponent]
 })
 export class DayOffDashboardComponent {
 

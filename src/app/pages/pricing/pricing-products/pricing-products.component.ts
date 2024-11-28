@@ -20,11 +20,10 @@ import { ProviderPercentagesComponent } from "./provider-percentages/provider-pe
 import { ProductPercentagesComponent } from "./product-percentages/product-percentages.component";
 
 @Component({
-  selector: 'app-pricing-products',
-  templateUrl: './pricing-products.component.html',
-  styleUrls: ['./pricing-products.component.scss'],
-  standalone: true,
-  imports: [IonButton, IonContent, HeaderComponent, SelectInputComponent, IonSelectOption, UpperCasePipe, NumberInputComponent, SubmitButtonComponent, FormsModule, NotFoundComponent, FormButtonComponent, ProviderPercentagesComponent, ProductPercentagesComponent]
+    selector: 'app-pricing-products',
+    templateUrl: './pricing-products.component.html',
+    styleUrls: ['./pricing-products.component.scss'],
+    imports: [IonButton, IonContent, HeaderComponent, SelectInputComponent, IonSelectOption, UpperCasePipe, NumberInputComponent, SubmitButtonComponent, FormsModule, NotFoundComponent, FormButtonComponent, ProviderPercentagesComponent, ProductPercentagesComponent]
 })
 export class PricingProductsComponent {
 

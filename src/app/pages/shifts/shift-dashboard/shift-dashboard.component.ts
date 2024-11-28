@@ -8,11 +8,10 @@ import { UserItemComponent } from "../../users/user-dashboard/user-item/user-ite
 import { ShiftItemComponent } from "./shift-item/shift-item.component";
 
 @Component({
-  selector: 'app-shift-dashboard',
-  templateUrl: './shift-dashboard.component.html',
-  styleUrls: ['./shift-dashboard.component.scss'],
-  standalone: true,
-  imports: [IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, NotFoundComponent, UserItemComponent, ShiftItemComponent]
+    selector: 'app-shift-dashboard',
+    templateUrl: './shift-dashboard.component.html',
+    styleUrls: ['./shift-dashboard.component.scss'],
+    imports: [IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, NotFoundComponent, UserItemComponent, ShiftItemComponent]
 })
 export class ShiftDashboardComponent {
 

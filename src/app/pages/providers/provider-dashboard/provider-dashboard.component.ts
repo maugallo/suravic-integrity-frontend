@@ -12,11 +12,10 @@ import { DeletedButtonComponent } from "../../../shared/components/deleted-butto
 import { Filter } from 'src/app/core/models/interfaces/filter.model';
 
 @Component({
-  selector: 'app-provider-dashboard',
-  templateUrl: './provider-dashboard.component.html',
-  styleUrls: ['./provider-dashboard.component.scss'],
-  standalone: true,
-  imports: [IonToggle, IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, SectorModalComponent, NotFoundComponent, ProviderItemComponent, ProvidersFilterComponent, DeletedButtonComponent]
+    selector: 'app-provider-dashboard',
+    templateUrl: './provider-dashboard.component.html',
+    styleUrls: ['./provider-dashboard.component.scss'],
+    imports: [IonToggle, IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, SectorModalComponent, NotFoundComponent, ProviderItemComponent, ProvidersFilterComponent, DeletedButtonComponent]
 })
 export class ProviderDashboardComponent {
 

@@ -8,11 +8,10 @@ import { Directory, Filesystem } from '@capacitor/filesystem';
 import { FileOpener, FileOpenerOptions } from '@capacitor-community/file-opener';
 
 @Component({
-  selector: 'app-reports',
-  templateUrl: './reports.component.html',
-  styleUrls: ['./reports.component.scss'],
-  standalone: true,
-  imports: [IonContent, OptionLargeComponent]
+    selector: 'app-reports',
+    templateUrl: './reports.component.html',
+    styleUrls: ['./reports.component.scss'],
+    imports: [IonContent, OptionLargeComponent]
 })
 export class ReportsComponent {
 

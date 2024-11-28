@@ -8,11 +8,10 @@ import { FormatEnumPipe } from 'src/app/shared/pipes/format-enum.pipe';
 import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-license-item',
-  templateUrl: './license-item.component.html',
-  styleUrls: ['./license-item.component.scss'],
-  standalone: true,
-  imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, FormatEnumPipe, DatePipe]
+    selector: 'app-license-item',
+    templateUrl: './license-item.component.html',
+    styleUrls: ['./license-item.component.scss'],
+    imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, FormatEnumPipe, DatePipe]
 })
 export class LicenseItemComponent {
 

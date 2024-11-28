@@ -5,11 +5,10 @@ import { FormsModule } from '@angular/forms';
 import { EqualPasswordsDirective } from 'src/app/shared/validators/equal-passwords.directive';
 
 @Component({
-  selector: 'app-password-input',
-  templateUrl: './password-input.component.html',
-  styleUrls: ['./password-input.component.scss'],
-  standalone: true,
-  imports: [IonInput, FormsModule, EqualPasswordsDirective]
+    selector: 'app-password-input',
+    templateUrl: './password-input.component.html',
+    styleUrls: ['./password-input.component.scss'],
+    imports: [IonInput, FormsModule, EqualPasswordsDirective]
 })
 export class PasswordInputComponent extends BaseInputComponent {
 

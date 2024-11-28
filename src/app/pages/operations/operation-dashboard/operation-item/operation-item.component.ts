@@ -7,11 +7,10 @@ import { IonItemSliding, IonLabel, IonItem, IonItemOptions, IonItemOption } from
 import { CurrencyPipe, UpperCasePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-operation-item',
-  templateUrl: './operation-item.component.html',
-  styleUrls: ['./operation-item.component.scss'],
-  standalone: true,
-  imports: [IonItemOption, IonItemOptions, IonItem, IonLabel, IonItemSliding, UpperCasePipe, CurrencyPipe]
+    selector: 'app-operation-item',
+    templateUrl: './operation-item.component.html',
+    styleUrls: ['./operation-item.component.scss'],
+    imports: [IonItemOption, IonItemOptions, IonItem, IonLabel, IonItemSliding, UpperCasePipe, CurrencyPipe]
 })
 export class OperationItemComponent {
 

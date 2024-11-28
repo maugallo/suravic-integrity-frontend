@@ -8,11 +8,10 @@ import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-order-item',
-  templateUrl: './order-item.component.html',
-  styleUrls: ['./order-item.component.scss'],
-  standalone: true,
-  imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, DatePipe]
+    selector: 'app-order-item',
+    templateUrl: './order-item.component.html',
+    styleUrls: ['./order-item.component.scss'],
+    imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, DatePipe]
 })
 export class OrderItemComponent {
 

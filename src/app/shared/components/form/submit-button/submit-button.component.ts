@@ -3,11 +3,10 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { IonButton } from "@ionic/angular/standalone";
 
 @Component({
-  selector: 'app-submit-button',
-  templateUrl: './submit-button.component.html',
-  styleUrls: ['./submit-button.component.scss'],
-  standalone: true,
-  imports: [IonButton]
+    selector: 'app-submit-button',
+    templateUrl: './submit-button.component.html',
+    styleUrls: ['./submit-button.component.scss'],
+    imports: [IonButton]
 })
 export class SubmitButtonComponent {
 

@@ -11,11 +11,10 @@ import { EMPTY, of, switchMap } from 'rxjs';
 import { EmployeeService } from 'src/app/core/services/employee.service';
 
 @Component({
-  selector: 'app-operation-dashboard',
-  templateUrl: './operation-dashboard.component.html',
-  styleUrls: ['./operation-dashboard.component.scss'],
-  standalone: true,
-  imports: [IonList, IonButton, IonContent, HeaderComponent, UpperCasePipe, CurrencyPipe, NotFoundComponent, OperationItemComponent]
+    selector: 'app-operation-dashboard',
+    templateUrl: './operation-dashboard.component.html',
+    styleUrls: ['./operation-dashboard.component.scss'],
+    imports: [IonList, IonButton, IonContent, HeaderComponent, UpperCasePipe, CurrencyPipe, NotFoundComponent, OperationItemComponent]
 })
 export class OperationDashboardComponent {
 

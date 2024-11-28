@@ -21,11 +21,10 @@ import { ProviderMapper } from 'src/app/core/models/mappers/provider.mapper';
 import { EntitiesUtility } from 'src/app/core/models/utils/entities.utility';
 
 @Component({
-  selector: 'app-provider-form',
-  templateUrl: './provider-form.component.html',
-  styleUrls: ['./provider-form.component.scss'],
-  standalone: true,
-  imports: [IonButton, IonContent, HeaderComponent, FormsModule, IonSelectOption, TextInputComponent, SelectInputComponent, NumberInputComponent, SubmitButtonComponent]
+    selector: 'app-provider-form',
+    templateUrl: './provider-form.component.html',
+    styleUrls: ['./provider-form.component.scss'],
+    imports: [IonButton, IonContent, HeaderComponent, FormsModule, IonSelectOption, TextInputComponent, SelectInputComponent, NumberInputComponent, SubmitButtonComponent]
 })
 export class ProviderFormComponent {
 

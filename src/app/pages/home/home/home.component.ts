@@ -11,11 +11,10 @@ import { TokenUtility } from 'src/app/core/models/utils/token.utility';
 import { MarkAttendanceModalComponent } from "../../attendances/mark-attendance-modal/mark-attendance-modal.component";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
-  standalone: true,
-  imports: [IonButton, IonContent, OptionComponent, MarkAttendanceModalComponent]
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
+    imports: [IonButton, IonContent, OptionComponent, MarkAttendanceModalComponent]
 })
 export class HomeComponent {
 

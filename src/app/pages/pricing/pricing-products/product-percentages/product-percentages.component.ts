@@ -6,11 +6,10 @@ import { FormButtonComponent } from "../../../../shared/components/form/form-but
 import { ProductWithPricing } from 'src/app/core/models/interfaces/product.model';
 
 @Component({
-  selector: 'app-product-percentages',
-  templateUrl: './product-percentages.component.html',
-  styleUrls: ['./product-percentages.component.scss'],
-  standalone: true,
-  imports: [IonContent, IonMenu, SelectInputComponent, IonSelectOption, NumberInputComponent, FormButtonComponent]
+    selector: 'app-product-percentages',
+    templateUrl: './product-percentages.component.html',
+    styleUrls: ['./product-percentages.component.scss'],
+    imports: [IonContent, IonMenu, SelectInputComponent, IonSelectOption, NumberInputComponent, FormButtonComponent]
 })
 export class ProductPercentagesComponent {;
 

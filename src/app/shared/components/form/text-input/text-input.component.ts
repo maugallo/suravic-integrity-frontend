@@ -6,11 +6,10 @@ import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 import { MaskitoDirective } from '@maskito/angular';
 
 @Component({
-  selector: 'app-text-input',
-  templateUrl: './text-input.component.html',
-  styleUrls: ['./text-input.component.scss'],
-  standalone: true,
-  imports: [IonInput, FormsModule, MaskitoDirective]
+    selector: 'app-text-input',
+    templateUrl: './text-input.component.html',
+    styleUrls: ['./text-input.component.scss'],
+    imports: [IonInput, FormsModule, MaskitoDirective]
 })
 export class TextInputComponent extends BaseInputComponent {
 

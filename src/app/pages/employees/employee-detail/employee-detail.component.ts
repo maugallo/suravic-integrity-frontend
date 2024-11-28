@@ -8,11 +8,10 @@ import { BackButtonComponent } from "../../../shared/components/back-button/back
 import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-employee-detail',
-  templateUrl: './employee-detail.component.html',
-  styleUrls: ['./employee-detail.component.scss'],
-  standalone: true,
-  imports: [IonCardContent, IonCardHeader, IonCard, IonContent, BackButtonComponent, DatePipe]
+    selector: 'app-employee-detail',
+    templateUrl: './employee-detail.component.html',
+    styleUrls: ['./employee-detail.component.scss'],
+    imports: [IonCardContent, IonCardHeader, IonCard, IonContent, BackButtonComponent, DatePipe]
 })
 export class EmployeeDetailComponent {
 

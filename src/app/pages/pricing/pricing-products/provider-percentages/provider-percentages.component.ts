@@ -9,11 +9,10 @@ import { ProviderService } from 'src/app/core/services/provider.service';
 import { ProviderMapper } from 'src/app/core/models/mappers/provider.mapper';
 
 @Component({
-  selector: 'app-provider-percentages',
-  templateUrl: './provider-percentages.component.html',
-  styleUrls: ['./provider-percentages.component.scss'],
-  standalone: true,
-  imports: [IonButton, IonContent, IonMenu, NumberInputComponent, FormButtonComponent, SelectInputComponent, IonSelectOption]
+    selector: 'app-provider-percentages',
+    templateUrl: './provider-percentages.component.html',
+    styleUrls: ['./provider-percentages.component.scss'],
+    imports: [IonButton, IonContent, IonMenu, NumberInputComponent, FormButtonComponent, SelectInputComponent, IonSelectOption]
 })
 export class ProviderPercentagesComponent {
 

@@ -6,11 +6,10 @@ import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-shift-item',
-  templateUrl: './shift-item.component.html',
-  styleUrls: ['./shift-item.component.scss'],
-  standalone: true,
-  imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, ]
+    selector: 'app-shift-item',
+    templateUrl: './shift-item.component.html',
+    styleUrls: ['./shift-item.component.scss'],
+    imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding,]
 })
 export class ShiftItemComponent {
 

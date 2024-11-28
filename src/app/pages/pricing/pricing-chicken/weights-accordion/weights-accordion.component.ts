@@ -14,11 +14,10 @@ import { MeatDetailsConstant } from 'src/app/core/models/enums/meat-details-cons
 import { ProductWithMeatDetails } from 'src/app/core/models/interfaces/product.model';
 
 @Component({
-  selector: 'app-weights-accordion',
-  templateUrl: './weights-accordion.component.html',
-  styleUrls: ['./weights-accordion.component.scss'],
-  standalone: true,
-  imports: [IonBadge, IonLabel, IonItem, IonAccordion, IonAccordionGroup, UpperCasePipe, NumberInputComponent, SubmitButtonComponent, FormsModule]
+    selector: 'app-weights-accordion',
+    templateUrl: './weights-accordion.component.html',
+    styleUrls: ['./weights-accordion.component.scss'],
+    imports: [IonBadge, IonLabel, IonItem, IonAccordion, IonAccordionGroup, UpperCasePipe, NumberInputComponent, SubmitButtonComponent, FormsModule]
 })
 export class WeightsAccordionComponent {
 

@@ -8,11 +8,10 @@ import { Router } from '@angular/router';
 import { PublicHolidayItemComponent } from "./public-holiday-item/public-holiday-item.component";
 
 @Component({
-  selector: 'app-public-holiday-dashboard',
-  templateUrl: './public-holiday-dashboard.component.html',
-  styleUrls: ['./public-holiday-dashboard.component.scss'],
-  standalone: true,
-  imports: [IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, NotFoundComponent, PublicHolidayItemComponent]
+    selector: 'app-public-holiday-dashboard',
+    templateUrl: './public-holiday-dashboard.component.html',
+    styleUrls: ['./public-holiday-dashboard.component.scss'],
+    imports: [IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, NotFoundComponent, PublicHolidayItemComponent]
 })
 export class PublicHolidayDashboardComponent {
 

@@ -8,11 +8,10 @@ import { CurrencyPipe } from '@angular/common';
 import { Filter } from 'src/app/core/models/interfaces/filter.model';
 
 @Component({
-  selector: 'app-orders-filter',
-  templateUrl: './orders-filter.component.html',
-  styleUrls: ['./orders-filter.component.scss'],
-  standalone: true,
-  imports: [IonContent, IonMenu, IonSelect, IonSelectOption, IonButton, IonLabel, IonRange, FormsModule, CurrencyPipe]
+    selector: 'app-orders-filter',
+    templateUrl: './orders-filter.component.html',
+    styleUrls: ['./orders-filter.component.scss'],
+    imports: [IonContent, IonMenu, IonSelect, IonSelectOption, IonButton, IonLabel, IonRange, FormsModule, CurrencyPipe]
 })
 export class OrdersFilterComponent {
   private paymentMethodService = inject(PaymentMethodService);

@@ -7,11 +7,10 @@ import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-category-item',
-  templateUrl: './category-item.component.html',
-  styleUrls: ['./category-item.component.scss'],
-  standalone: true,
-  imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, ]
+    selector: 'app-category-item',
+    templateUrl: './category-item.component.html',
+    styleUrls: ['./category-item.component.scss'],
+    imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding,]
 })
 export class CategoryItemComponent {
   

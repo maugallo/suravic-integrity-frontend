@@ -24,11 +24,10 @@ import { FormsModule } from '@angular/forms';
 import { Location, TitleCasePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-operation-form',
-  templateUrl: './operation-form.component.html',
-  styleUrls: ['./operation-form.component.scss'],
-  standalone: true,
-  imports: [IonContent, HeaderComponent, NumberInputComponent, SelectInputComponent, FileInputComponent, IonSelectOption, SubmitButtonComponent, FormsModule, TitleCasePipe]
+    selector: 'app-operation-form',
+    templateUrl: './operation-form.component.html',
+    styleUrls: ['./operation-form.component.scss'],
+    imports: [IonContent, HeaderComponent, NumberInputComponent, SelectInputComponent, FileInputComponent, IonSelectOption, SubmitButtonComponent, FormsModule, TitleCasePipe]
 })
 export class OperationFormComponent {
 

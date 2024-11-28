@@ -11,11 +11,10 @@ import { SubmitButtonComponent } from "../../../shared/components/form/submit-bu
 import { Camera, CameraDirection, CameraResultType, Photo } from '@capacitor/camera';
 
 @Component({
-  selector: 'app-register-face-modal',
-  templateUrl: './register-face-modal.component.html',
-  styleUrls: ['./register-face-modal.component.scss'],
-  standalone: true,
-  imports: [IonProgressBar, IonList, IonButton, IonContent, IonModal, HeaderComponent, AsyncPipe, SubmitButtonComponent]
+    selector: 'app-register-face-modal',
+    templateUrl: './register-face-modal.component.html',
+    styleUrls: ['./register-face-modal.component.scss'],
+    imports: [IonProgressBar, IonList, IonButton, IonContent, IonModal, HeaderComponent, AsyncPipe, SubmitButtonComponent]
 })
 export class RegisterFaceModalComponent {
 

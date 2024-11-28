@@ -4,11 +4,10 @@ import { SectorDashboardComponent } from './sector-dashboard/sector-dashboard.co
 import { HeaderComponent } from 'src/app/shared/components/header/header.component';
 
 @Component({
-  selector: 'app-sector-modal',
-  templateUrl: './sector-modal.component.html',
-  styleUrls: ['./sector-modal.component.scss'],
-  standalone: true,
-  imports: [IonSearchbar, IonProgressBar, IonList, IonLabel, IonContent, IonTitle, IonButton, IonButtons, IonToolbar, IonHeader, IonModal, HeaderComponent, SectorDashboardComponent]
+    selector: 'app-sector-modal',
+    templateUrl: './sector-modal.component.html',
+    styleUrls: ['./sector-modal.component.scss'],
+    imports: [IonSearchbar, IonProgressBar, IonList, IonLabel, IonContent, IonTitle, IonButton, IonButtons, IonToolbar, IonHeader, IonModal, HeaderComponent, SectorDashboardComponent]
 })
 export class SectorModalComponent {
 

@@ -9,11 +9,10 @@ import { CurrencyPipe } from '@angular/common';
 import { Filter } from 'src/app/core/models/interfaces/filter.model';
 
 @Component({
-  selector: 'app-products-filter',
-  templateUrl: './products-filter.component.html',
-  styleUrls: ['./products-filter.component.scss'],
-  standalone: true,
-  imports: [IonRange, IonLabel, IonContent, IonMenu, IonSelect, IonSelectOption, IonButton, FormsModule, SelectInputComponent, CurrencyPipe]
+    selector: 'app-products-filter',
+    templateUrl: './products-filter.component.html',
+    styleUrls: ['./products-filter.component.scss'],
+    imports: [IonRange, IonLabel, IonContent, IonMenu, IonSelect, IonSelectOption, IonButton, FormsModule, SelectInputComponent, CurrencyPipe]
 })
 export class ProductsFilterComponent {
   private categoryService = inject(CategoryService);

@@ -9,11 +9,10 @@ import { SelectInputComponent } from "../../../../shared/components/form/select-
 import { EmployeeService } from 'src/app/core/services/employee.service';
 
 @Component({
-  selector: 'app-license-dashboard',
-  templateUrl: './license-dashboard.component.html',
-  styleUrls: ['./license-dashboard.component.scss'],
-  standalone: true,
-  imports: [IonList, IonButton, IonContent, HeaderComponent, NotFoundComponent, LicenseItemComponent, SelectInputComponent, IonSelectOption]
+    selector: 'app-license-dashboard',
+    templateUrl: './license-dashboard.component.html',
+    styleUrls: ['./license-dashboard.component.scss'],
+    imports: [IonList, IonButton, IonContent, HeaderComponent, NotFoundComponent, LicenseItemComponent, SelectInputComponent, IonSelectOption]
 })
 export class LicenseDashboardComponent {
 

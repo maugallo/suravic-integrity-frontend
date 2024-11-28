@@ -2,11 +2,10 @@ import { Component, input } from '@angular/core';
 import { IonContent, IonCard, IonCardHeader, IonCardContent } from "@ionic/angular/standalone";
 
 @Component({
-  selector: 'app-detail-card',
-  templateUrl: './detail-card.component.html',
-  styleUrls: ['./detail-card.component.scss'],
-  standalone:  true,
-  imports: [IonCardHeader, IonCard, IonCardContent]
+    selector: 'app-detail-card',
+    templateUrl: './detail-card.component.html',
+    styleUrls: ['./detail-card.component.scss'],
+    imports: [IonCardHeader, IonCard, IonCardContent]
 })
 export class DetailCardComponent {
 
