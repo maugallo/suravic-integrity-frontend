@@ -1,7 +1,7 @@
-/* Custom SCSS files */
+/* Custom SCSS files (use locally) */
 @use 'src/theme/variables' as *;
-@use 'src/theme/utilities' as *;
 
+/* Custom SCSS files (for export) */
 @forward 'src/theme/variables';
 @forward 'src/theme/utilities';
 
