@@ -6,7 +6,8 @@ import { IonButton } from "@ionic/angular/standalone";
     selector: 'app-submit-button',
     templateUrl: './submit-button.component.html',
     styleUrls: ['./submit-button.component.scss'],
-    imports: [IonButton]
+    imports: [IonButton],
+    standalone: true
 })
 export class SubmitButtonComponent {
 

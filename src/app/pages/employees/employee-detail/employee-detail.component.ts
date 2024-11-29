@@ -11,7 +11,8 @@ import { DatePipe } from '@angular/common';
     selector: 'app-employee-detail',
     templateUrl: './employee-detail.component.html',
     styleUrls: ['./employee-detail.component.scss'],
-    imports: [IonCardContent, IonCardHeader, IonCard, IonContent, BackButtonComponent, DatePipe]
+    imports: [IonCardContent, IonCardHeader, IonCard, IonContent, BackButtonComponent, DatePipe],
+    standalone: true
 })
 export class EmployeeDetailComponent {
 

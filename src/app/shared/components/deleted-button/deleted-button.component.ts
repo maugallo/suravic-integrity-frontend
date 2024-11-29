@@ -5,7 +5,8 @@ import { IonButton } from "@ionic/angular/standalone";
     selector: 'app-deleted-button',
     templateUrl: './deleted-button.component.html',
     styleUrls: ['./deleted-button.component.scss'],
-    imports: [IonButton,]
+    imports: [IonButton,],
+    standalone: true
 })
 export class DeletedButtonComponent {
 

@@ -12,7 +12,8 @@ import { EmployeeItemComponent } from "./employee-item/employee-item.component";
     selector: 'app-employee-dashboard',
     templateUrl: './employee-dashboard.component.html',
     styleUrls: ['./employee-dashboard.component.scss'],
-    imports: [IonContent, IonSearchbar, IonButton, IonList, HeaderComponent, DeletedButtonComponent, NotFoundComponent, EmployeeItemComponent]
+    imports: [IonContent, IonSearchbar, IonButton, IonList, HeaderComponent, DeletedButtonComponent, NotFoundComponent, EmployeeItemComponent],
+    standalone: true
 })
 export class EmployeeDashboardComponent {
 

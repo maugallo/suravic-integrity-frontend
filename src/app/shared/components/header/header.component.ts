@@ -6,7 +6,8 @@ import { BackButtonComponent } from "../back-button/back-button.component";
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
-    imports: [IonToolbar, IonHeader, BackButtonComponent]
+    imports: [IonToolbar, IonHeader, BackButtonComponent],
+    standalone: true
 })
 export class HeaderComponent {
 

@@ -11,7 +11,8 @@ import { RegisterFaceModalComponent } from "../../../facial-recognition/register
     selector: 'app-employee-item',
     templateUrl: './employee-item.component.html',
     styleUrls: ['./employee-item.component.scss'],
-    imports: [IonButton, IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, UpperCasePipe, RegisterFaceModalComponent]
+    imports: [IonButton, IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, UpperCasePipe, RegisterFaceModalComponent],
+    standalone: true
 })
 export class EmployeeItemComponent {
 

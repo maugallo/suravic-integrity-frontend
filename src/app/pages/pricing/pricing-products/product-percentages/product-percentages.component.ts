@@ -9,7 +9,8 @@ import { ProductWithPricing } from 'src/app/core/models/interfaces/product.model
     selector: 'app-product-percentages',
     templateUrl: './product-percentages.component.html',
     styleUrls: ['./product-percentages.component.scss'],
-    imports: [IonContent, IonMenu, SelectInputComponent, IonSelectOption, NumberInputComponent, FormButtonComponent]
+    imports: [IonContent, IonMenu, SelectInputComponent, IonSelectOption, NumberInputComponent, FormButtonComponent],
+    standalone: true
 })
 export class ProductPercentagesComponent {;
 

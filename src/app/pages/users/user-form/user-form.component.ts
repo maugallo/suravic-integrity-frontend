@@ -22,7 +22,8 @@ import { UserMapper } from 'src/app/core/models/mappers/user.mapper';
     selector: 'app-user-form',
     templateUrl: './user-form.component.html',
     styleUrls: ['./user-form.component.scss'],
-    imports: [IonContent, HeaderComponent, FormsModule, IonSelectOption, TextInputComponent, PasswordInputComponent, SelectInputComponent, SubmitButtonComponent]
+    imports: [IonContent, HeaderComponent, FormsModule, IonSelectOption, TextInputComponent, PasswordInputComponent, SelectInputComponent, SubmitButtonComponent],
+    standalone: true
 })
 export class UserFormComponent {
 

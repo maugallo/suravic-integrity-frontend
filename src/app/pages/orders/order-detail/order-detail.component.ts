@@ -16,7 +16,8 @@ import { OrderStatus } from 'src/app/core/models/enums/order-status.enum';
     selector: 'app-order-detail',
     templateUrl: './order-detail.component.html',
     styleUrls: ['./order-detail.component.scss'],
-    imports: [IonCardContent, IonCardHeader, IonCard, IonContent, BackButtonComponent, CurrencyPipe, DatePipe]
+    imports: [IonCardContent, IonCardHeader, IonCard, IonContent, BackButtonComponent, CurrencyPipe, DatePipe],
+    standalone: true
 })
 export class OrderDetailComponent {
 

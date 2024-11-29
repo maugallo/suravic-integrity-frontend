@@ -11,7 +11,8 @@ import { Filter } from 'src/app/core/models/interfaces/filter.model';
     selector: 'app-products-filter',
     templateUrl: './products-filter.component.html',
     styleUrls: ['./products-filter.component.scss'],
-    imports: [IonRange, IonLabel, IonContent, IonMenu, IonSelect, IonSelectOption, IonButton, FormsModule, CurrencyPipe]
+    imports: [IonRange, IonLabel, IonContent, IonMenu, IonSelect, IonSelectOption, IonButton, FormsModule, CurrencyPipe],
+    standalone: true
 })
 export class ProductsFilterComponent {
   private categoryService = inject(CategoryService);

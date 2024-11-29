@@ -11,7 +11,8 @@ import { Filter } from 'src/app/core/models/interfaces/filter.model';
     selector: 'app-orders-filter',
     templateUrl: './orders-filter.component.html',
     styleUrls: ['./orders-filter.component.scss'],
-    imports: [IonContent, IonMenu, IonSelect, IonSelectOption, IonButton, IonLabel, IonRange, FormsModule, CurrencyPipe]
+    imports: [IonContent, IonMenu, IonSelect, IonSelectOption, IonButton, IonLabel, IonRange, FormsModule, CurrencyPipe],
+    standalone: true
 })
 export class OrdersFilterComponent {
   private paymentMethodService = inject(PaymentMethodService);

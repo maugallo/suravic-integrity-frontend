@@ -10,7 +10,8 @@ describe('ShiftFormComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ShiftFormComponent ],
-      imports: [IonicModule.forRoot()]
+      imports: [IonicModule.forRoot()],
+    standalone: true
     }).compileComponents();
 
     fixture = TestBed.createComponent(ShiftFormComponent);

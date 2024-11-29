@@ -10,7 +10,8 @@ describe('DayOffDashboardComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ DayOffDashboardComponent ],
-      imports: [IonicModule.forRoot()]
+      imports: [IonicModule.forRoot()],
+    standalone: true
     }).compileComponents();
 
     fixture = TestBed.createComponent(DayOffDashboardComponent);

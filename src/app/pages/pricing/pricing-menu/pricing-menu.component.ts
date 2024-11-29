@@ -8,7 +8,8 @@ import { OptionLargeComponent } from "../../../shared/components/option-large/op
     selector: 'app-pricing-menu',
     templateUrl: './pricing-menu.component.html',
     styleUrls: ['./pricing-menu.component.scss'],
-    imports: [IonContent, HeaderComponent, OptionLargeComponent]
+    imports: [IonContent, HeaderComponent, OptionLargeComponent],
+    standalone: true
 })
 export class PricingMenuComponent {
 

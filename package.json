@@ -13,14 +13,14 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^19.0.1",
-    "@angular/common": "^19.0.1",
-    "@angular/compiler": "^19.0.1",
-    "@angular/core": "^19.0.1",
-    "@angular/forms": "^19.0.1",
-    "@angular/platform-browser": "^19.0.1",
-    "@angular/platform-browser-dynamic": "^19.0.1",
-    "@angular/router": "^19.0.1",
+    "@angular/animations": "^18.0.0",
+    "@angular/common": "^18.0.0",
+    "@angular/compiler": "^18.0.0",
+    "@angular/core": "^18.0.0",
+    "@angular/forms": "^18.0.0",
+    "@angular/platform-browser": "^18.0.0",
+    "@angular/platform-browser-dynamic": "^18.0.0",
+    "@angular/router": "^18.0.0",
     "@capacitor-community/file-opener": "^6.0.1",
     "@capacitor/android": "6.1.2",
     "@capacitor/app": "6.0.1",
@@ -39,18 +39,18 @@
     "sweetalert2": "^11.6.13",
     "tslib": "^2.3.0",
     "webpack-dev-server": "^5.0.4",
-    "zone.js": "~0.15.0"
+    "zone.js": "~0.14.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^19.0.2",
+    "@angular-devkit/build-angular": "^18.0.0",
     "@angular-eslint/builder": "^18.0.0",
     "@angular-eslint/eslint-plugin": "^18.0.0",
     "@angular-eslint/eslint-plugin-template": "^18.0.0",
     "@angular-eslint/schematics": "^18.0.0",
     "@angular-eslint/template-parser": "^18.0.0",
-    "@angular/cli": "^19.0.2",
-    "@angular/compiler-cli": "^19.0.1",
-    "@angular/language-service": "^19.0.1",
+    "@angular/cli": "^18.0.0",
+    "@angular/compiler-cli": "^18.0.0",
+    "@angular/language-service": "^18.0.0",
     "@capacitor/cli": "6.1.2",
     "@ionic/angular-toolkit": "^11.0.1",
     "@types/date-fns": "^2.5.3",
@@ -68,7 +68,11 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "5.6"
+    "typescript": "~5.4.0"
+  },
+  "overrides": {
+    "path-to-regexp": "^0.1.10",
+    "send": "0.19.0"
   },
   "description": "An Ionic project"
 }

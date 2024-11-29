@@ -11,7 +11,8 @@ import { DatePipe } from '@angular/common';
     selector: 'app-license-item',
     templateUrl: './license-item.component.html',
     styleUrls: ['./license-item.component.scss'],
-    imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, FormatEnumPipe, DatePipe]
+    imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, FormatEnumPipe, DatePipe],
+    standalone: true
 })
 export class LicenseItemComponent {
 

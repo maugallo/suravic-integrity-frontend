@@ -6,7 +6,8 @@ import { SectorDashboardComponent } from './sector-dashboard/sector-dashboard.co
     selector: 'app-sector-modal',
     templateUrl: './sector-modal.component.html',
     styleUrls: ['./sector-modal.component.scss'],
-    imports: [IonContent, IonModal, SectorDashboardComponent]
+    imports: [IonContent, IonModal, SectorDashboardComponent],
+    standalone: true
 })
 export class SectorModalComponent {
 

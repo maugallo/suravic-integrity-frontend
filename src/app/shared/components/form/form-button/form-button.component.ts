@@ -6,7 +6,8 @@ import { IonButton } from "@ionic/angular/standalone";
     selector: 'app-form-button',
     templateUrl: './form-button.component.html',
     styleUrls: ['./form-button.component.scss'],
-    imports: [IonButton,]
+    imports: [IonButton,],
+    standalone: true
 })
 export class FormButtonComponent {
 

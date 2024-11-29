@@ -17,7 +17,8 @@ import { ProductWithMeatDetails } from 'src/app/core/models/interfaces/product.m
     selector: 'app-weights-accordion',
     templateUrl: './weights-accordion.component.html',
     styleUrls: ['./weights-accordion.component.scss'],
-    imports: [IonBadge, IonLabel, IonItem, IonAccordion, IonAccordionGroup, UpperCasePipe, NumberInputComponent, SubmitButtonComponent, FormsModule]
+    imports: [IonBadge, IonLabel, IonItem, IonAccordion, IonAccordionGroup, UpperCasePipe, NumberInputComponent, SubmitButtonComponent, FormsModule],
+    standalone: true
 })
 export class WeightsAccordionComponent {
 

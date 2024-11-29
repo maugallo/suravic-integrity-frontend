@@ -11,7 +11,8 @@ import { NotFoundComponent } from 'src/app/shared/components/not-found/not-found
     selector: 'app-user-dashboard',
     templateUrl: './user-dashboard.component.html',
     styleUrls: ['./user-dashboard.component.scss'],
-    imports: [IonButton, IonList, IonSearchbar, IonContent, HeaderComponent, UserItemComponent, NotFoundComponent]
+    imports: [IonButton, IonList, IonSearchbar, IonContent, HeaderComponent, UserItemComponent, NotFoundComponent],
+    standalone: true
 })
 export class UserDashboardComponent {
 

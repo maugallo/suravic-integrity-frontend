@@ -9,7 +9,8 @@ import { Router } from '@angular/router';
     selector: 'app-shift-item',
     templateUrl: './shift-item.component.html',
     styleUrls: ['./shift-item.component.scss'],
-    imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding,]
+    imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding,],
+    standalone: true
 })
 export class ShiftItemComponent {
 

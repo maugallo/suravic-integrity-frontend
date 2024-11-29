@@ -9,7 +9,8 @@ import { Filter } from 'src/app/core/models/interfaces/filter.model';
     selector: 'app-providers-filter',
     templateUrl: './providers-filter.component.html',
     styleUrls: ['./providers-filter.component.scss'],
-    imports: [IonButton, IonContent, IonMenu, IonSelect, IonSelectOption, FormsModule]
+    imports: [IonButton, IonContent, IonMenu, IonSelect, IonSelectOption, FormsModule],
+    standalone: true
 })
 export class ProvidersFilterComponent {
 

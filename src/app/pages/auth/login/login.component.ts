@@ -17,7 +17,8 @@ import { AlertService } from 'src/app/core/services/utils/alert.service';
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
-    imports: [IonContent, FormsModule, BackButtonComponent, TextInputComponent, PasswordInputComponent, SubmitButtonComponent]
+    imports: [IonContent, FormsModule, BackButtonComponent, TextInputComponent, PasswordInputComponent, SubmitButtonComponent],
+    standalone: true
 })
 export class LoginComponent {
 

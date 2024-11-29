@@ -7,7 +7,8 @@ import { BaseInputComponent } from '../base-input/base-input.component';
   selector: 'app-wheel-date-input',
   templateUrl: './wheel-date-input.component.html',
   styleUrls: ['./wheel-date-input.component.scss'],
-  imports: [IonNote, IonButton, IonDatetime, IonModal, IonDatetimeButton, FormsModule]
+  imports: [IonNote, IonButton, IonDatetime, IonModal, IonDatetimeButton, FormsModule],
+    standalone: true
 })
 export class WheelDateInputComponent extends BaseInputComponent {
 
