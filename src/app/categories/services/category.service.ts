@@ -3,8 +3,8 @@ import { inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, catchError, Observable, switchMap, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { CategoryRequest, CategoryResponse } from '../models/interfaces/category.model';
-import { ProductService } from './product.service';
+import { CategoryRequest, CategoryResponse } from '../models/category.model';
+import { ProductService } from 'src/app/products/services/product.service';
 
 @Injectable({
   providedIn: 'root'

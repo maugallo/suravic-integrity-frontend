@@ -6,10 +6,10 @@ import { IonContent, IonButton } from "@ionic/angular/standalone";
     selector: 'app-welcome',
     templateUrl: './welcome.component.html',
     styleUrls: ['./welcome.component.scss'],
-    imports: [IonButton, IonContent,]
+    imports: [IonButton, IonContent]
 })
 export class WelcomeComponent {
 
-  router = inject(Router);
+  public router = inject(Router);
 
 }

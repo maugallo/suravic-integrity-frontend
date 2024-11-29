@@ -1,10 +1,7 @@
 import { Routes } from "@angular/router";
-import { LoginComponent } from "./components/login/login.component";
-import { ForgotPasswordComponent } from "./components/forgot-password/forgot-password.component";
-import { WelcomeComponent } from "./components/welcome/welcome.component";
 
 export const AUTH_ROUTES: Routes = [
-    { path: 'welcome', component: WelcomeComponent },
-    { path: 'login', component: LoginComponent },
-    { path: 'forgot-password', component: ForgotPasswordComponent }
-]
+    { path: 'welcome', loadComponent: () => import('./components/welcome/welcome.component').then(m => m.WelcomeComponent) },
+    { path: 'login', loadComponent: () => import('./components/login/login.component').then(m => m.LoginComponent) },
+    { path: 'forgot-password', loadComponent: () => import('./components/forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent) }
+];

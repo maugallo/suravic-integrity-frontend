@@ -1,13 +1,13 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { UserLoginRequest } from '../../core/models/interfaces/user.model';
+import { UserLoginRequest } from 'src/app/users/models/user.model';
 import { catchError, forkJoin, Observable, switchMap, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
-import { StorageService } from '../../core/services/utils/storage.service';
-import { StorageType } from '../../core/models/enums/storage-type.enum';
-import { TokenUtility } from '../../core/models/utils/token.utility';
-import { AlertService } from '../../core/services/utils/alert.service';
+import { StorageService } from 'src/shared/services/storage.service';
+import { StorageType } from 'src/shared/models/storage-type.enum';
+import { TokenUtility } from 'src/shared/utils/token.utility';
+import { AlertService } from 'src/shared/services/alert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +17,8 @@ export class AuthService {
 
   private storageService = inject(StorageService);
   private alertService = inject(AlertService);
-
   private http = inject(HttpClient);
+
   private apiUrl = environment.apiUrl;
 
   public login(user: UserLoginRequest): Observable<[void, void, void]> {
@@ -31,8 +31,6 @@ export class AuthService {
           const refreshToken = response.headers.get('Authorization-Refresh');
           if (token && refreshToken) {
             const userId = TokenUtility.getUserIdFromToken(token);
-            console.log("Se setea en storage userId");
-            console.log(userId)
             return forkJoin([
               this.storageService.setStorage(StorageType.TOKEN, token),
               this.storageService.setStorage(StorageType.REFRESH_TOKEN, refreshToken),
@@ -51,12 +49,7 @@ export class AuthService {
       this.storageService.clearStorage(StorageType.TOKEN),
       this.storageService.clearStorage(StorageType.REFRESH_TOKEN),
       this.storageService.clearStorage(StorageType.USER_ID),
-    ]).pipe(
-      tap(() => {
-        console.log("Logout realizado con éxito");
-        this.router.navigate(['welcome']);
-      })
-    );
+    ]).pipe(tap(() => this.router.navigate(['welcome'])));
   }
 
   public refresh(): Observable<void | [void, void, void]> {
