@@ -31,7 +31,9 @@
                 "output": "assets"
               }
             ],
-            "styles": ["src/global.scss", "src/theme/variables.scss", "src/theme/icons.css"],
+            "styles": [
+              "src/global.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -106,7 +108,9 @@
                 "output": "assets"
               }
             ],
-            "styles": ["src/global.scss", "src/theme/variables.scss"],
+            "styles": [
+              "src/global.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -119,7 +123,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
           }
         }
       }
