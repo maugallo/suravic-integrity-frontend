@@ -6,8 +6,7 @@ import { IonContent, IonButton } from "@ionic/angular/standalone";
     selector: 'app-welcome',
     templateUrl: './welcome.component.html',
     styleUrls: ['./welcome.component.scss'],
-    imports: [IonButton, IonContent,],
-    standalone: true
+    imports: [IonButton, IonContent,]
 })
 export class WelcomeComponent {
 

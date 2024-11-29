@@ -10,8 +10,7 @@ import { CurrencyPipe, UpperCasePipe } from '@angular/common';
     selector: 'app-operation-item',
     templateUrl: './operation-item.component.html',
     styleUrls: ['./operation-item.component.scss'],
-    imports: [IonItemOption, IonItemOptions, IonItem, IonLabel, IonItemSliding, UpperCasePipe, CurrencyPipe],
-    standalone: true
+    imports: [IonItemOption, IonItemOptions, IonItem, IonLabel, IonItemSliding, UpperCasePipe, CurrencyPipe]
 })
 export class OperationItemComponent {
 

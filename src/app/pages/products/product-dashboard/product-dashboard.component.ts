@@ -15,8 +15,7 @@ import { Filter } from 'src/app/core/models/interfaces/filter.model';
     selector: 'app-product-dashboard',
     templateUrl: './product-dashboard.component.html',
     styleUrls: ['./product-dashboard.component.scss'],
-    imports: [IonList, IonContent, IonButton, IonSearchbar, HeaderComponent, CategoryModalComponent, NotFoundComponent, ProductItemComponent, ProductsFilterComponent, DeletedButtonComponent],
-    standalone: true
+    imports: [IonList, IonContent, IonButton, IonSearchbar, HeaderComponent, CategoryModalComponent, NotFoundComponent, ProductItemComponent, ProductsFilterComponent, DeletedButtonComponent]
 })
 export class ProductDashboardComponent {
 

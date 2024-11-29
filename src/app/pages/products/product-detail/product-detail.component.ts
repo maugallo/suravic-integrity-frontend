@@ -11,8 +11,7 @@ import { CurrencyPipe } from '@angular/common';
     selector: 'app-product-detail',
     templateUrl: './product-detail.component.html',
     styleUrls: ['./product-detail.component.scss'],
-    imports: [IonCardContent, IonCard, IonCardHeader, IonContent, BackButtonComponent, CurrencyPipe],
-    standalone: true
+    imports: [IonCardContent, IonCard, IonCardHeader, IonContent, BackButtonComponent, CurrencyPipe]
 })
 export class ProductDetailComponent {
 

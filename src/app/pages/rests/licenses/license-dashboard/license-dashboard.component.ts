@@ -12,8 +12,7 @@ import { EmployeeService } from 'src/app/core/services/employee.service';
     selector: 'app-license-dashboard',
     templateUrl: './license-dashboard.component.html',
     styleUrls: ['./license-dashboard.component.scss'],
-    imports: [IonList, IonButton, IonContent, HeaderComponent, NotFoundComponent, LicenseItemComponent, SelectInputComponent, IonSelectOption],
-    standalone: true
+    imports: [IonList, IonButton, IonContent, HeaderComponent, NotFoundComponent, LicenseItemComponent, SelectInputComponent, IonSelectOption]
 })
 export class LicenseDashboardComponent {
 

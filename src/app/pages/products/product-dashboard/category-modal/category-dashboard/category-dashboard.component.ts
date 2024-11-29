@@ -13,8 +13,7 @@ import Swal from 'sweetalert2';
     selector: 'app-category-dashboard',
     templateUrl: './category-dashboard.component.html',
     styleUrls: ['./category-dashboard.component.scss'],
-    imports: [IonProgressBar, IonList, IonButton, HeaderComponent, NotFoundComponent, CategoryItemComponent],
-    standalone: true
+    imports: [IonProgressBar, IonList, IonButton, HeaderComponent, NotFoundComponent, CategoryItemComponent]
 })
 export class CategoryDashboardComponent {
 

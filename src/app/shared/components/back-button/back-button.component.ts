@@ -7,8 +7,7 @@ import { AlertService } from 'src/app/core/services/utils/alert.service';
     selector: 'app-back-button',
     templateUrl: './back-button.component.html',
     styleUrls: ['./back-button.component.scss'],
-    imports: [],
-    standalone: true
+    imports: []
 })
 export class BackButtonComponent {
 

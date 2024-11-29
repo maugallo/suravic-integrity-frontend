@@ -22,8 +22,7 @@ import { ProductPercentagesComponent } from "./product-percentages/product-perce
     selector: 'app-pricing-products',
     templateUrl: './pricing-products.component.html',
     styleUrls: ['./pricing-products.component.scss'],
-    imports: [IonButton, IonContent, HeaderComponent, SelectInputComponent, IonSelectOption, UpperCasePipe, NumberInputComponent, FormsModule, NotFoundComponent, FormButtonComponent, ProviderPercentagesComponent, ProductPercentagesComponent],
-    standalone: true
+    imports: [IonButton, IonContent, HeaderComponent, SelectInputComponent, IonSelectOption, UpperCasePipe, NumberInputComponent, FormsModule, NotFoundComponent, FormButtonComponent, ProviderPercentagesComponent, ProductPercentagesComponent]
 })
 export class PricingProductsComponent {
 

@@ -12,8 +12,7 @@ import { ProviderMapper } from 'src/app/core/models/mappers/provider.mapper';
     selector: 'app-provider-percentages',
     templateUrl: './provider-percentages.component.html',
     styleUrls: ['./provider-percentages.component.scss'],
-    imports: [IonContent, IonMenu, NumberInputComponent, FormButtonComponent, SelectInputComponent, IonSelectOption],
-    standalone: true
+    imports: [IonContent, IonMenu, NumberInputComponent, FormButtonComponent, SelectInputComponent, IonSelectOption]
 })
 export class ProviderPercentagesComponent {
 

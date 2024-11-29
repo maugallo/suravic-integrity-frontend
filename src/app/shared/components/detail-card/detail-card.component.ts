@@ -5,8 +5,7 @@ import { IonContent, IonCard, IonCardHeader, IonCardContent } from "@ionic/angul
     selector: 'app-detail-card',
     templateUrl: './detail-card.component.html',
     styleUrls: ['./detail-card.component.scss'],
-    imports: [IonCardHeader, IonCard, IonCardContent],
-    standalone: true
+    imports: [IonCardHeader, IonCard, IonCardContent]
 })
 export class DetailCardComponent {
 

@@ -6,8 +6,7 @@ import { CategoryDashboardComponent } from "./category-dashboard/category-dashbo
     selector: 'app-category-modal',
     templateUrl: './category-modal.component.html',
     styleUrls: ['./category-modal.component.scss'],
-    imports: [IonContent, IonModal, CategoryDashboardComponent],
-    standalone: true
+    imports: [IonContent, IonModal, CategoryDashboardComponent]
 })
 export class CategoryModalComponent {
 

@@ -6,8 +6,7 @@ import { IonButton } from "@ionic/angular/standalone";
     selector: 'app-option',
     templateUrl: './option.component.html',
     styleUrls: ['./option.component.scss'],
-    imports: [IonButton,],
-    standalone: true
+    imports: [IonButton,]
 })
 export class OptionComponent {
 

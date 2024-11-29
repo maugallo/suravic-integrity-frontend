@@ -10,8 +10,7 @@ import { DatePipe } from '@angular/common';
     selector: 'app-day-off-item',
     templateUrl: './day-off-item.component.html',
     styleUrls: ['./day-off-item.component.scss'],
-    imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, DatePipe],
-    standalone: true
+    imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, DatePipe]
 })
 export class DayOffItemComponent {
 

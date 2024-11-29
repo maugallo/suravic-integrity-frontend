@@ -14,8 +14,7 @@ import { Camera, CameraDirection, CameraResultType, Photo } from '@capacitor/cam
     selector: 'app-register-face-modal',
     templateUrl: './register-face-modal.component.html',
     styleUrls: ['./register-face-modal.component.scss'],
-    imports: [IonContent, IonModal, HeaderComponent, AsyncPipe, SubmitButtonComponent],
-    standalone: true
+    imports: [IonContent, IonModal, HeaderComponent, AsyncPipe, SubmitButtonComponent]
 })
 export class RegisterFaceModalComponent {
 

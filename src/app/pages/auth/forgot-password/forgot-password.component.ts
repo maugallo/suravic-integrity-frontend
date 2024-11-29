@@ -6,8 +6,7 @@ import { BackButtonComponent } from "../../../shared/components/back-button/back
     selector: 'app-forgot-password',
     templateUrl: './forgot-password.component.html',
     styleUrls: ['./forgot-password.component.scss'],
-    imports: [IonContent, BackButtonComponent],
-    standalone: true
+    imports: [IonContent, BackButtonComponent]
 })
 export class ForgotPasswordComponent {
 

@@ -10,8 +10,7 @@ import { Router } from '@angular/router';
     selector: 'app-product-item',
     templateUrl: './product-item.component.html',
     styleUrls: ['./product-item.component.scss'],
-    imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding,],
-    standalone: true
+    imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding,]
 })
 export class ProductItemComponent {
 

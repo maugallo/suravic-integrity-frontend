@@ -14,8 +14,7 @@ import { HeaderComponent } from 'src/app/shared/components/header/header.compone
     selector: 'app-sector-dashboard',
     templateUrl: './sector-dashboard.component.html',
     styleUrls: ['./sector-dashboard.component.scss'],
-    imports: [IonProgressBar, IonList, IonButton, HeaderComponent, NotFoundComponent, SectorItemComponent],
-    standalone: true
+    imports: [IonProgressBar, IonList, IonButton, HeaderComponent, NotFoundComponent, SectorItemComponent]
 })
 export class SectorDashboardComponent {
 

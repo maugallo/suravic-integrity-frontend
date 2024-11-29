@@ -11,8 +11,7 @@ import { AlertService } from 'src/app/core/services/utils/alert.service';
     selector: 'app-user-item',
     templateUrl: './user-item.component.html',
     styleUrls: ['./user-item.component.scss'],
-    imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding,],
-    standalone: true
+    imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding,]
 })
 export class UserItemComponent {
 

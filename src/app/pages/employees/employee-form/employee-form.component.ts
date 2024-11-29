@@ -25,8 +25,7 @@ import { EmployeeRole } from 'src/app/core/models/enums/employee-role.enum';
     selector: 'app-employee-form',
     templateUrl: './employee-form.component.html',
     styleUrls: ['./employee-form.component.scss'],
-    imports: [IonContent, HeaderComponent, TextInputComponent, SelectInputComponent, NumberInputComponent, SubmitButtonComponent, FormsModule, IonSelectOption, WheelDateInputComponent],
-    standalone: true
+    imports: [IonContent, HeaderComponent, TextInputComponent, SelectInputComponent, NumberInputComponent, SubmitButtonComponent, FormsModule, IonSelectOption, WheelDateInputComponent]
 })
 export class EmployeeFormComponent {
 

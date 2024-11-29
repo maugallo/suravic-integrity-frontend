@@ -6,7 +6,8 @@ import { ValidationService } from 'src/app/core/services/utils/validation.servic
 tendrán en común. */
 
 @Component({
-    template: ''
+    template: '',
+    standalone: false
 })
 export abstract class BaseInputComponent {
 

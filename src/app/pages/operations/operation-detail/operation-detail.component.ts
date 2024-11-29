@@ -16,8 +16,7 @@ import { TokenUtility } from 'src/app/core/models/utils/token.utility';
     selector: 'app-operation-detail',
     templateUrl: './operation-detail.component.html',
     styleUrls: ['./operation-detail.component.scss'],
-    imports: [IonCardContent, IonCardHeader, IonCard, IonContent, BackButtonComponent, CurrencyPipe, TitleCasePipe],
-    standalone: true
+    imports: [IonCardContent, IonCardHeader, IonCard, IonContent, BackButtonComponent, CurrencyPipe, TitleCasePipe]
 })
 export class OperationDetailComponent {
 

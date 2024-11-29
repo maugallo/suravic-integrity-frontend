@@ -21,8 +21,7 @@ import { ShiftService } from 'src/app/core/services/shift.service';
     selector: 'app-public-holiday-form',
     templateUrl: './public-holiday-form.component.html',
     styleUrls: ['./public-holiday-form.component.scss'],
-    imports: [IonContent, HeaderComponent, TextInputComponent, WheelDateInputComponent, SubmitButtonComponent, FormsModule, SelectInputComponent, IonSelectOption],
-    standalone: true
+    imports: [IonContent, HeaderComponent, TextInputComponent, WheelDateInputComponent, SubmitButtonComponent, FormsModule, SelectInputComponent, IonSelectOption]
 })
 export class PublicHolidayFormComponent {
 

@@ -23,8 +23,7 @@ import { EntitiesUtility } from 'src/app/core/models/utils/entities.utility';
     selector: 'app-product-form',
     templateUrl: './product-form.component.html',
     styleUrls: ['./product-form.component.scss'],
-    imports: [IonContent, HeaderComponent, FormsModule, IonSelectOption, TextInputComponent, NumberInputComponent, SelectInputComponent, SubmitButtonComponent],
-    standalone: true
+    imports: [IonContent, HeaderComponent, FormsModule, IonSelectOption, TextInputComponent, NumberInputComponent, SelectInputComponent, SubmitButtonComponent]
 })
 export class ProductFormComponent {
 

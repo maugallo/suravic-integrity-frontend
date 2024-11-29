@@ -14,8 +14,7 @@ import { EmployeeService } from 'src/app/core/services/employee.service';
     selector: 'app-operation-dashboard',
     templateUrl: './operation-dashboard.component.html',
     styleUrls: ['./operation-dashboard.component.scss'],
-    imports: [IonList, IonButton, IonContent, HeaderComponent, UpperCasePipe, CurrencyPipe, NotFoundComponent, OperationItemComponent],
-    standalone: true
+    imports: [IonList, IonButton, IonContent, HeaderComponent, UpperCasePipe, CurrencyPipe, NotFoundComponent, OperationItemComponent]
 })
 export class OperationDashboardComponent {
 

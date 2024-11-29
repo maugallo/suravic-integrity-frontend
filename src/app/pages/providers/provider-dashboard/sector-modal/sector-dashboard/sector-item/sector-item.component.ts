@@ -10,8 +10,7 @@ import Swal from 'sweetalert2';
     selector: 'app-sector-item',
     templateUrl: './sector-item.component.html',
     styleUrls: ['./sector-item.component.scss'],
-    imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding,],
-    standalone: true
+    imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding,]
 })
 export class SectorItemComponent {
   

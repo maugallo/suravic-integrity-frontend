@@ -24,8 +24,7 @@ import { EntitiesUtility } from 'src/app/core/models/utils/entities.utility';
     selector: 'app-provider-form',
     templateUrl: './provider-form.component.html',
     styleUrls: ['./provider-form.component.scss'],
-    imports: [IonContent, HeaderComponent, FormsModule, IonSelectOption, TextInputComponent, SelectInputComponent, NumberInputComponent, SubmitButtonComponent],
-    standalone: true
+    imports: [IonContent, HeaderComponent, FormsModule, IonSelectOption, TextInputComponent, SelectInputComponent, NumberInputComponent, SubmitButtonComponent]
 })
 export class ProviderFormComponent {
 

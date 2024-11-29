@@ -11,8 +11,7 @@ import { HeaderComponent } from "../../../shared/components/header/header.compon
     selector: 'app-mark-attendance-modal',
     templateUrl: './mark-attendance-modal.component.html',
     styleUrls: ['./mark-attendance-modal.component.scss'],
-    imports: [IonModal, IonContent, SubmitButtonComponent, HeaderComponent],
-    standalone: true
+    imports: [IonModal, IonContent, SubmitButtonComponent, HeaderComponent]
 })
 export class MarkAttendanceModalComponent {
 

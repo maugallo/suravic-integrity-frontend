@@ -24,8 +24,7 @@ import { LicenseType } from 'src/app/core/models/enums/license-type-enum';
     selector: 'app-license-form',
     templateUrl: './license-form.component.html',
     styleUrls: ['./license-form.component.scss'],
-    imports: [IonContent, HeaderComponent, SubmitButtonComponent, FormsModule, SelectInputComponent, IonSelectOption, TitleCasePipe, WheelDateInputComponent],
-    standalone: true
+    imports: [IonContent, HeaderComponent, SubmitButtonComponent, FormsModule, SelectInputComponent, IonSelectOption, TitleCasePipe, WheelDateInputComponent]
 })
 export class LicenseFormComponent {
 
