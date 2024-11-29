@@ -1,4 +1,4 @@
-import { PublicHolidayRequest, PublicHolidayResponse } from "../interfaces/public-holiday.model";
+import { PublicHolidayRequest, PublicHolidayResponse } from "src/app/public-holidays/models/public-holiday.model"
 
 export class PublicHolidayMapper {
 

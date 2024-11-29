@@ -1,9 +1,9 @@
 import { Component, computed, inject, Signal, signal } from '@angular/core';
-import { PublicHolidayResponse } from 'src/app/core/models/interfaces/public-holiday.model';
-import { PublicHolidayService } from 'src/app/core/services/public-holiday.service';
-import { HeaderComponent } from "../../../shared/components/header/header.component";
+import { PublicHolidayResponse } from '../../models/public-holiday.model';
+import { PublicHolidayService } from '../../services/public-holiday.service';
+import { HeaderComponent } from 'src/shared/components/header/header.component';
 import { IonContent, IonSearchbar, IonButton, IonList } from "@ionic/angular/standalone";
-import { NotFoundComponent } from "../../../shared/components/not-found/not-found.component";
+import { NotFoundComponent } from 'src/shared/components/not-found/not-found.component';
 import { Router } from '@angular/router';
 import { PublicHolidayItemComponent } from "./public-holiday-item/public-holiday-item.component";
 

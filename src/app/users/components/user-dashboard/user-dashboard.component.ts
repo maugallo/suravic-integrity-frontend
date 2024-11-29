@@ -1,11 +1,11 @@
 import { Component, computed, inject, Signal, signal } from '@angular/core';
 import { IonContent, IonSearchbar, IonList, IonButton } from "@ionic/angular/standalone";
-import { HeaderComponent } from "../../../shared/components/header/header.component";
+import { HeaderComponent } from 'src/shared/components/header/header.component';
 import { UserItemComponent } from './user-item/user-item.component';
-import { UserService } from 'src/app/core/services/user.service';
-import { UserResponse } from 'src/app/core/models/interfaces/user.model';
+import { UserService } from '../../services/user.service';
+import { UserResponse } from '../../models/user.model';
 import { Router } from '@angular/router';
-import { NotFoundComponent } from 'src/app/shared/components/not-found/not-found.component';
+import { NotFoundComponent } from 'src/shared/components/not-found/not-found.component';
 
 @Component({
     selector: 'app-user-dashboard',

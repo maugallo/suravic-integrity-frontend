@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable, Signal } from '@angular/core';
 import { BehaviorSubject, catchError, Observable, switchMap, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { DayOffRequest, DayOffResponse } from '../models/interfaces/day-off.model';
+import { DayOffRequest, DayOffResponse } from '../models/day-off.model';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({

@@ -1,6 +1,6 @@
-import { ContactRequest, ContactResponse } from "./contact.model";
-import { PercentagesRequest, PercentagesResponse } from "./percentages.model";
-import { SectorResponse } from "./sector.model";
+import { ContactRequest, ContactResponse } from "src/shared/models/contact.model";
+import { PercentagesRequest, PercentagesResponse } from "src/shared/models/percentages.model";
+import { SectorResponse } from "src/app/sectors/models/sector.model";
 
 export interface ProviderRequest {
     sectorId: number,

@@ -1,8 +1,8 @@
 import { Component, inject, input, output } from '@angular/core';
 import { catchError, firstValueFrom, of, tap } from 'rxjs';
-import { CategoryRequest, CategoryResponse } from 'src/app/core/models/interfaces/category.model';
-import { CategoryService } from 'src/app/core/services/category.service';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
+import { CategoryRequest, CategoryResponse } from 'src/app/categories/models/category.model';
+import { CategoryService } from 'src/app/categories/services/category.service';
+import { AlertService } from 'src/shared/services/alert.service';
 import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from "@ionic/angular/standalone";
 import Swal from 'sweetalert2';
 

@@ -1,4 +1,4 @@
-import { EmployeeResponse } from "./employee.model"
+import { EmployeeResponse } from "src/app/employees/models/employee.model"
 
 export interface LicenseRequest {
     employeeId: number,

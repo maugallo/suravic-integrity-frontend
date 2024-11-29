@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { of, switchMap } from 'rxjs';
 import { EmployeeService } from '../../services/employee.service';
 import { IonContent, IonCard, IonCardHeader, IonCardContent } from "@ionic/angular/standalone";
-import { BackButtonComponent } from "../../../shared/components/back-button/back-button.component";
+import { BackButtonComponent } from 'src/shared/components/back-button/back-button.component';
 import { DatePipe } from '@angular/common';
 
 @Component({

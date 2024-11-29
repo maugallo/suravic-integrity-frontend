@@ -1,4 +1,4 @@
-import { ProviderRequest, ProviderResponse } from "../interfaces/provider.model";
+import { ProviderRequest, ProviderResponse } from "src/app/providers/models/provider.model";
 import { ContactMapper } from "./contact.mapper";
 import { PercentagesMapper } from "./percentages.mapper";
 

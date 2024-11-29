@@ -1,9 +1,9 @@
 import { Component, inject, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonMenu, IonSelect, IonSelectOption, IonButton, MenuController } from "@ionic/angular/standalone";
-import { VAT_CONDITIONS } from 'src/app/pages/providers/provider-form/provider-selects.constant';
-import { SectorService } from 'src/app/core/services/sector.service';
-import { Filter } from 'src/app/core/models/interfaces/filter.model';
+import { VAT_CONDITIONS } from 'src/app/providers/models/provider-selects.constant';
+import { SectorService } from 'src/app/sectors/services/sector.service';
+import { Filter } from 'src/shared/models/filter.model';
 
 @Component({
     selector: 'app-providers-filter',

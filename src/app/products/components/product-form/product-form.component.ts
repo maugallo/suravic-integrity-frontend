@@ -3,21 +3,21 @@ import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, Observable, of, switchMap, tap } from 'rxjs';
-import { ProductRequest } from 'src/app/core/models/interfaces/product.model';
-import { CategoryService } from 'src/app/core/services/category.service';
-import { ProductService } from 'src/app/core/services/product.service';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
-import { HeaderComponent } from "../../../shared/components/header/header.component";
+import { ProductRequest } from '../../models/product.model';
+import { CategoryService } from 'src/app/categories/services/category.service';
+import { ProductService } from '../../services/product.service';
+import { AlertService } from 'src/shared/services/alert.service';
+import { HeaderComponent } from 'src/shared/components/header/header.component';
 import { IonContent, IonSelectOption } from "@ionic/angular/standalone";
-import { ProviderService } from 'src/app/core/services/provider.service';
-import { StorageService } from 'src/app/core/services/utils/storage.service';
-import { TextInputComponent } from "../../../shared/components/form/text-input/text-input.component";
-import { NumberInputComponent } from "../../../shared/components/form/number-input/number-input.component";
-import { SelectInputComponent } from "../../../shared/components/form/select-input/select-input.component";
-import { ValidationService } from 'src/app/core/services/utils/validation.service';
-import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
-import { ProductMapper } from 'src/app/core/models/mappers/product.mapper';
-import { EntitiesUtility } from 'src/app/core/models/utils/entities.utility';
+import { ProviderService } from 'src/app/providers/services/provider.service';
+import { StorageService } from 'src/shared/services/storage.service';
+import { TextInputComponent } from 'src/shared/components/form/text-input/text-input.component';
+import { NumberInputComponent } from 'src/shared/components/form/number-input/number-input.component';
+import { SelectInputComponent } from 'src/shared/components/form/select-input/select-input.component';
+import { ValidationService } from 'src/shared/services/validation.service';
+import { SubmitButtonComponent } from 'src/shared/components/form/submit-button/submit-button.component';
+import { ProductMapper } from 'src/shared/mappers/product.mapper';
+import { EntitiesUtility } from 'src/shared/utils/entities.utility';
 
 @Component({
     selector: 'app-product-form',

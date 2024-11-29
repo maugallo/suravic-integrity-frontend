@@ -1,7 +1,7 @@
 import { Component, inject, input } from '@angular/core';
-import { ShiftResponse } from 'src/app/core/models/interfaces/shift.model';
-import { ShiftService } from 'src/app/core/services/shift.service';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
+import { ShiftResponse } from 'src/app/shifts/models/shift.model';
+import { ShiftService } from 'src/app/shifts/services/shift.service';
+import { AlertService } from 'src/shared/services/alert.service';
 import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from "@ionic/angular/standalone";
 import { Router } from '@angular/router';
 

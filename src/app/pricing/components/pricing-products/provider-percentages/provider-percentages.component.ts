@@ -1,12 +1,12 @@
 import { Component, inject, model } from '@angular/core';
 import { IonContent, IonMenu, MenuController, IonSelectOption } from "@ionic/angular/standalone";
-import { NumberInputComponent } from "../../../../shared/components/form/number-input/number-input.component";
-import { FormButtonComponent } from "../../../../shared/components/form/form-button/form-button.component";
-import { ProviderResponse } from 'src/app/core/models/interfaces/provider.model';
-import { SelectInputComponent } from "../../../../shared/components/form/select-input/select-input.component";
-import { AlertService } from 'src/app/core/services/utils/alert.service';
-import { ProviderService } from 'src/app/core/services/provider.service';
-import { ProviderMapper } from 'src/app/core/models/mappers/provider.mapper';
+import { NumberInputComponent } from 'src/shared/components/form/number-input/number-input.component';
+import { FormButtonComponent } from 'src/shared/components/form/form-button/form-button.component';
+import { ProviderResponse } from 'src/app/providers/models/provider.model';
+import { SelectInputComponent } from 'src/shared/components/form/select-input/select-input.component';
+import { AlertService } from 'src/shared/services/alert.service';
+import { ProviderService } from 'src/app/providers/services/provider.service';
+import { ProviderMapper } from 'src/shared/mappers/provider.mapper';
 
 @Component({
     selector: 'app-provider-percentages',
@@ -18,7 +18,6 @@ export class ProviderPercentagesComponent {
 
   private alertService = inject(AlertService);
   private providerService = inject(ProviderService);
-
   private menuController = inject(MenuController);
 
   public provider = model<ProviderResponse>();

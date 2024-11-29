@@ -3,22 +3,22 @@ import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonContent, IonSelectOption } from "@ionic/angular/standalone";
 import { catchError, Observable, of, switchMap, tap } from 'rxjs';
-import { ProviderRequest } from 'src/app/core/models/interfaces/provider.model';
-import { ProviderService } from 'src/app/core/services/provider.service';
-import { ValidationService } from 'src/app/core/services/utils/validation.service';
-import { HeaderComponent } from 'src/app/shared/components/header/header.component';
+import { ProviderRequest } from '../../models/provider.model';
+import { ProviderService } from '../../services/provider.service';
+import { ValidationService } from 'src/shared/services/validation.service';
+import { HeaderComponent } from 'src/shared/components/header/header.component';
 import { FormsModule } from '@angular/forms';
-import { SectorService } from 'src/app/core/services/sector.service';
-import { cuitMask } from 'src/app/core/masks/cuit.mask';
-import { VAT_CONDITIONS, VatCondition } from './provider-selects.constant';
-import { telephoneMask } from 'src/app/core/masks/telephone.mask';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
-import { TextInputComponent } from 'src/app/shared/components/form/text-input/text-input.component';
-import { SelectInputComponent } from 'src/app/shared/components/form/select-input/select-input.component';
-import { NumberInputComponent } from 'src/app/shared/components/form/number-input/number-input.component';
-import { SubmitButtonComponent } from 'src/app/shared/components/form/submit-button/submit-button.component';
-import { ProviderMapper } from 'src/app/core/models/mappers/provider.mapper';
-import { EntitiesUtility } from 'src/app/core/models/utils/entities.utility';
+import { SectorService } from 'src/app/sectors/services/sector.service';
+import { cuitMask } from 'src/shared/masks/cuit.mask';
+import { VAT_CONDITIONS, VatCondition } from '../../models/provider-selects.constant';
+import { telephoneMask } from 'src/shared/masks/telephone.mask';
+import { AlertService } from 'src/shared/services/alert.service';
+import { TextInputComponent } from 'src/shared/components/form/text-input/text-input.component';
+import { SelectInputComponent } from 'src/shared/components/form/select-input/select-input.component';
+import { NumberInputComponent } from 'src/shared/components/form/number-input/number-input.component';
+import { SubmitButtonComponent } from 'src/shared/components/form/submit-button/submit-button.component';
+import { ProviderMapper } from 'src/shared/mappers/provider.mapper';
+import { EntitiesUtility } from 'src/shared/utils/entities.utility';
 
 @Component({
     selector: 'app-provider-form',

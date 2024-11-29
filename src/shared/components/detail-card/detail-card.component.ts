@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { IonContent, IonCard, IonCardHeader, IonCardContent } from "@ionic/angular/standalone";
+import { IonCard, IonCardHeader, IonCardContent } from "@ionic/angular/standalone";
 
 @Component({
     selector: 'app-detail-card',

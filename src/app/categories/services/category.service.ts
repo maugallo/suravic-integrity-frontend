@@ -11,11 +11,10 @@ import { ProductService } from 'src/app/products/services/product.service';
 })
 export class CategoryService {
 
-  private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/categories`;
-
   private productSerivce = inject(ProductService);
+  private http = inject(HttpClient);
 
+  private apiUrl = `${environment.apiUrl}/categories`;
   private refreshCategories$ = new BehaviorSubject<void>(undefined);
 
   public categories = toSignal(this.refreshCategories$.pipe(
@@ -63,5 +62,5 @@ export class CategoryService {
         return throwError(() => error);
     }
   }
-  
+
 }

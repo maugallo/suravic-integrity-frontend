@@ -1,4 +1,4 @@
-import { ProductRequest, ProductResponse, ProductWithPricing } from "../interfaces/product.model";
+import { ProductRequest, ProductResponse, ProductWithPricing } from "src/app/products/models/product.model";
 
 export class ProductMapper {
 

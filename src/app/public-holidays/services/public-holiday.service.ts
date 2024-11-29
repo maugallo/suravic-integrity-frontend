@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable, Signal } from '@angular/core';
 import { BehaviorSubject, catchError, Observable, switchMap, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { PublicHolidayRequest, PublicHolidayResponse } from '../models/interfaces/public-holiday.model';
+import { PublicHolidayRequest, PublicHolidayResponse } from '../models/public-holiday.model';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({

@@ -2,9 +2,9 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable, Signal } from '@angular/core';
 import { BehaviorSubject, catchError, Observable, switchMap, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ShiftRequest, ShiftResponse } from '../models/interfaces/shift.model';
+import { ShiftRequest, ShiftResponse } from '../models/shift.model';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { EmployeeService } from './employee.service';
+import { EmployeeService } from 'src/app/employees/services/employee.service';
 
 @Injectable({
   providedIn: 'root'

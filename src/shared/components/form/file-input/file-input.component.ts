@@ -2,8 +2,8 @@ import { Component, inject, input, model, ViewChild } from '@angular/core';
 import { IonButton } from "@ionic/angular/standalone";
 import { ActionSheetController } from '@ionic/angular'
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
-import { FileUtility } from 'src/app/core/models/utils/file.utility';
+import { AlertService } from 'src/shared/services/alert.service';
+import { FileUtility } from 'src/shared/utils/file.utility';
 
 @Component({
     selector: 'app-file-input',

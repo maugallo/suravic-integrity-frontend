@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, catchError, map, Observable, switchMap, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { OrderResponse } from '../models/interfaces/order.model';
+import { OrderResponse } from '../models/order.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +11,7 @@ import { OrderResponse } from '../models/interfaces/order.model';
 export class OrderService {
 
   private http = inject(HttpClient);
+
   private apiUrl = `${environment.apiUrl}/orders`;
 
   private refreshOrders$ = new BehaviorSubject<void>(undefined);
@@ -29,7 +30,7 @@ export class OrderService {
 
   public getInvoiceFile(id: number): Observable<Blob> {
     return this.http.get(`${this.apiUrl}/${id}/invoice`, { responseType: 'blob' })
-    .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleError));
   }
 
   public getPaymentReceiptFile(id: number): Observable<Blob | null> {
@@ -39,7 +40,7 @@ export class OrderService {
         catchError(this.handleError)
       );
   }
-  
+
   public createOrder(orderData: FormData): Observable<string> {
     return this.http.post(this.apiUrl, orderData, { responseType: 'text' })
       .pipe(catchError(this.handleError), tap(() => this.refreshOrders$.next()));
@@ -67,5 +68,5 @@ export class OrderService {
         return throwError(() => error);
     }
   }
-  
+
 }

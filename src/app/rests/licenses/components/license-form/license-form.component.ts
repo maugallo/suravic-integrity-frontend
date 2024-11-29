@@ -2,23 +2,23 @@ import { Component, inject, QueryList, Signal, ViewChildren } from '@angular/cor
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, switchMap } from 'rxjs';
-import { LicenseRequest } from 'src/app/core/models/interfaces/license.model';
-import { LicenseMapper } from 'src/app/core/models/mappers/license.mapper';
-import { EntitiesUtility } from 'src/app/core/models/utils/entities.utility';
-import { LicenseService } from 'src/app/core/services/license.service';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
-import { ValidationService } from 'src/app/core/services/utils/validation.service';
-import { NumberInputComponent } from 'src/app/shared/components/form/number-input/number-input.component';
-import { SelectInputComponent } from 'src/app/shared/components/form/select-input/select-input.component';
-import { TextInputComponent } from 'src/app/shared/components/form/text-input/text-input.component';
-import { HeaderComponent } from "../../../../shared/components/header/header.component";
+import { LicenseRequest } from '../../models/license.model';
+import { LicenseMapper } from 'src/shared/mappers/license.mapper';
+import { EntitiesUtility } from 'src/shared/utils/entities.utility';
+import { LicenseService } from '../../services/license.service';
+import { AlertService } from 'src/shared/services/alert.service';
+import { ValidationService } from 'src/shared/services/validation.service';
+import { NumberInputComponent } from 'src/shared/components/form/number-input/number-input.component';
+import { SelectInputComponent } from 'src/shared/components/form/select-input/select-input.component';
+import { TextInputComponent } from 'src/shared/components/form/text-input/text-input.component';
+import { HeaderComponent } from 'src/shared/components/header/header.component';
 import { IonContent, IonSelectOption } from "@ionic/angular/standalone";
-import { SubmitButtonComponent } from "../../../../shared/components/form/submit-button/submit-button.component";
+import { SubmitButtonComponent } from 'src/shared/components/form/submit-button/submit-button.component';
 import { FormsModule } from '@angular/forms';
-import { EmployeeService } from 'src/app/core/services/employee.service';
+import { EmployeeService } from 'src/app/employees/services/employee.service';
 import { TitleCasePipe } from '@angular/common';
-import { WheelDateInputComponent } from "../../../../shared/components/form/wheel-date-input/wheel-date-input.component";
-import { LicenseType } from 'src/app/core/models/enums/license-type-enum';
+import { WheelDateInputComponent } from 'src/shared/components/form/wheel-date-input/wheel-date-input.component';
+import { LicenseType } from '../../models/license-type-enum';
 
 @Component({
     selector: 'app-license-form',

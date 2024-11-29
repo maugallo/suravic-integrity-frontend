@@ -1,4 +1,4 @@
-import { ContactRequest, ContactResponse } from "../interfaces/contact.model";
+import { ContactRequest, ContactResponse } from "../models/contact.model";
 
 export class ContactMapper {
 

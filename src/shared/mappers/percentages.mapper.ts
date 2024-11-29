@@ -1,5 +1,4 @@
-import { PercentagesRequest, PercentagesResponse } from "../interfaces/percentages.model";
-
+import { PercentagesRequest, PercentagesResponse } from "../models/percentages.model";
 export class PercentagesMapper {
 
     public static toPercentagesRequest(percentages: PercentagesResponse): PercentagesRequest {

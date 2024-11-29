@@ -1,15 +1,16 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { HeaderComponent } from 'src/app/shared/components/header/header.component';
+import { HeaderComponent } from 'src/shared/components/header/header.component';
 import { IonContent, IonSearchbar, IonButton, IonList, MenuController } from "@ionic/angular/standalone";
 import { Router } from '@angular/router';
-import { ProviderService } from 'src/app/core/services/provider.service';
-import { NotFoundComponent } from 'src/app/shared/components/not-found/not-found.component';
-import { ProviderItemComponent } from "./provider-item/provider-item.component";
-import { ProvidersFilterComponent } from 'src/app/shared/components/filters/providers-filter/providers-filter.component';
-import { ProviderResponse } from 'src/app/core/models/interfaces/provider.model';
-import { SectorModalComponent } from './sector-modal/sector-modal.component';
-import { DeletedButtonComponent } from 'src/app/shared/components/deleted-button/deleted-button.component';
-import { Filter } from 'src/app/core/models/interfaces/filter.model';
+import { ProviderService } from '../../services/provider.service';
+import { NotFoundComponent } from 'src/shared/components/not-found/not-found.component';
+import { ProviderItemComponent } from './provider-item/provider-item.component';
+import { ProvidersFilterComponent } from 'src/shared/components/filters/providers-filter/providers-filter.component';
+import { ProviderResponse } from '../../models/provider.model';
+import { SectorModalComponent } from 'src/app/sectors/components/sector-modal/sector-modal.component';
+import { DeletedButtonComponent } from 'src/shared/components/deleted-button/deleted-button.component';
+import { Filter } from 'src/shared/models/filter.model';
+
 
 @Component({
     selector: 'app-provider-dashboard',
@@ -19,10 +20,9 @@ import { Filter } from 'src/app/core/models/interfaces/filter.model';
 })
 export class ProviderDashboardComponent {
 
-  public router = inject(Router);
   private menuController = inject(MenuController);
-
   private providerService = inject(ProviderService);
+  public router = inject(Router);
 
   private providers = this.providerService.providers;
   private searchQuery = signal<string>('');

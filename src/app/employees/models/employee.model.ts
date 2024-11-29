@@ -1,6 +1,6 @@
-import { CreditAccountResponse } from "./account.model";
-import { ContactRequest, ContactResponse } from "./contact.model";
-import { ShiftResponse } from "./shift.model";
+import { CreditAccountResponse } from "src/app/operations/models/operation.model";
+import { ContactRequest, ContactResponse } from "src/shared/models/contact.model";
+import { ShiftResponse } from "src/app/shifts/models/shift.model";
 
 export interface EmployeeRequest {
     contact: ContactRequest,

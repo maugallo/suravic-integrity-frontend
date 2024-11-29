@@ -1,6 +1,6 @@
 import { Component, inject, input, model, ViewChild } from '@angular/core';
 import { NgModel } from '@angular/forms';
-import { ValidationService } from 'src/app/core/services/utils/validation.service';
+import { ValidationService } from 'src/shared/services/validation.service';
 
 /* Componente base que define los campos y métodos que todos los custom-input
 tendrán en común. */

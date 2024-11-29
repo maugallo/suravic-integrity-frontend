@@ -1,4 +1,4 @@
-import { OperationRequest, OperationResponse } from "../interfaces/operation.model";
+import { OperationRequest, OperationResponse } from "src/app/operations/models/operation.model"
 
 export class OperationMapper {
 

@@ -2,9 +2,9 @@ import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of, switchMap } from 'rxjs';
-import { ProductService } from 'src/app/core/services/product.service';
+import { ProductService } from '../../services/product.service';
 import { IonContent, IonCardHeader, IonCard, IonCardContent } from "@ionic/angular/standalone";
-import { BackButtonComponent } from "../../../shared/components/back-button/back-button.component";
+import { BackButtonComponent } from 'src/shared/components/back-button/back-button.component';
 import { CurrencyPipe } from '@angular/common';
 
 @Component({

@@ -1,22 +1,22 @@
 import { Component, inject, QueryList, Signal, ViewChildren } from '@angular/core';
-import { HeaderComponent } from "../../../shared/components/header/header.component";
+import { HeaderComponent } from 'src/shared/components/header/header.component';
 import { IonContent, IonSelectOption } from "@ionic/angular/standalone";
 import { FormsModule } from '@angular/forms';
-import { UserRequest } from 'src/app/core/models/interfaces/user.model';
-import { ValidationService } from 'src/app/core/services/utils/validation.service';
+import { UserRequest } from '../../models/user.model';
+import { ValidationService } from 'src/shared/services/validation.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserService } from 'src/app/core/services/user.service';
+import { UserService } from '../../services/user.service';
 import { catchError, Observable, of, switchMap, tap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
-import { TextInputComponent } from 'src/app/shared/components/form/text-input/text-input.component';
-import { NumberInputComponent } from 'src/app/shared/components/form/number-input/number-input.component';
-import { SelectInputComponent } from 'src/app/shared/components/form/select-input/select-input.component';
-import { PasswordInputComponent } from "../../../shared/components/form/password-input/password-input.component";
-import { USER_ROLES, UserRole } from 'src/app/pages/users/user-form/user-roles.constant';
-import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
-import { EntitiesUtility } from 'src/app/core/models/utils/entities.utility';
-import { UserMapper } from 'src/app/core/models/mappers/user.mapper';
+import { AlertService } from 'src/shared/services/alert.service';
+import { TextInputComponent } from 'src/shared/components/form/text-input/text-input.component';
+import { NumberInputComponent } from 'src/shared/components/form/number-input/number-input.component';
+import { SelectInputComponent } from 'src/shared/components/form/select-input/select-input.component';
+import { PasswordInputComponent } from 'src/shared/components/form/password-input/password-input.component';
+import { USER_ROLES, UserRole } from './user-roles.constant';
+import { SubmitButtonComponent } from 'src/shared/components/form/submit-button/submit-button.component';
+import { EntitiesUtility } from 'src/shared/utils/entities.utility';
+import { UserMapper } from 'src/shared/mappers/user.mapper';
 
 @Component({
     selector: 'app-user-form',

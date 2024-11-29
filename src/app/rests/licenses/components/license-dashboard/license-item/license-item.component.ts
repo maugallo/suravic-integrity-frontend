@@ -1,10 +1,10 @@
 import { Component, inject, input } from '@angular/core';
 import { Router } from '@angular/router';
-import { LicenseResponse } from 'src/app/core/models/interfaces/license.model';
-import { LicenseService } from 'src/app/core/services/license.service';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
+import { LicenseResponse } from '../../../models/license.model';
+import { LicenseService } from '../../../services/license.service';
+import { AlertService } from 'src/shared/services/alert.service';
 import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from "@ionic/angular/standalone";
-import { FormatEnumPipe } from 'src/app/shared/pipes/format-enum.pipe';
+import { FormatEnumPipe } from 'src/shared/pipes/format-enum.pipe';
 import { DatePipe } from '@angular/common';
 
 @Component({

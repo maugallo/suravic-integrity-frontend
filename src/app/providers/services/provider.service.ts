@@ -2,9 +2,9 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, Observable, switchMap, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ProviderRequest, ProviderResponse } from '../models/interfaces/provider.model';
+import { ProviderRequest, ProviderResponse } from '../models/provider.model';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ProductService } from './product.service';
+import { ProductService } from 'src/app/products/services/product.service';
 
 @Injectable({
   providedIn: 'root'

@@ -2,9 +2,9 @@ import { TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { Component, DestroyRef, inject, input } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from "@ionic/angular/standalone";
-import { ProviderResponse } from 'src/app/core/models/interfaces/provider.model';
-import { ProviderService } from 'src/app/core/services/provider.service';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
+import { ProviderResponse } from 'src/app/providers/models/provider.model';
+import { ProviderService } from 'src/app/providers/services/provider.service';
+import { AlertService } from 'src/shared/services/alert.service';
 
 @Component({
     selector: 'app-provider-item',

@@ -3,23 +3,23 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Photo } from '@capacitor/camera';
 import { EMPTY, map, Observable, of, switchMap, tap } from 'rxjs';
-import { OperationType } from 'src/app/core/models/enums/operation-type.enum';
-import { StorageType } from 'src/app/core/models/enums/storage-type.enum';
-import { OperationRequest } from 'src/app/core/models/interfaces/operation.model';
-import { OperationMapper } from 'src/app/core/models/mappers/operation.mapper';
-import { EntitiesUtility } from 'src/app/core/models/utils/entities.utility';
-import { FileUtility } from 'src/app/core/models/utils/file.utility';
-import { OperationService } from 'src/app/core/services/operation.service';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
-import { StorageService } from 'src/app/core/services/utils/storage.service';
-import { ValidationService } from 'src/app/core/services/utils/validation.service';
-import { NumberInputComponent } from 'src/app/shared/components/form/number-input/number-input.component';
-import { SelectInputComponent } from 'src/app/shared/components/form/select-input/select-input.component';
-import { TextInputComponent } from 'src/app/shared/components/form/text-input/text-input.component';
+import { OperationType } from '../../models/operation-type.enum';
+import { StorageType } from 'src/shared/models/storage-type.enum';
+import { OperationRequest } from '../../models/operation.model';
+import { OperationMapper } from 'src/shared/mappers/operation.mapper';
+import { EntitiesUtility } from 'src/shared/utils/entities.utility';
+import { FileUtility } from 'src/shared/utils/file.utility';
+import { OperationService } from '../../services/operation.service';
+import { AlertService } from 'src/shared/services/alert.service';
+import { StorageService } from 'src/shared/services/storage.service';
+import { ValidationService } from 'src/shared/services/validation.service';
+import { NumberInputComponent } from 'src/shared/components/form/number-input/number-input.component';
+import { SelectInputComponent } from 'src/shared/components/form/select-input/select-input.component';
+import { TextInputComponent } from 'src/shared/components/form/text-input/text-input.component';
 import { IonContent, IonSelectOption } from "@ionic/angular/standalone";
-import { HeaderComponent } from "../../../shared/components/header/header.component";
-import { FileInputComponent } from "../../../shared/components/form/file-input/file-input.component";
-import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
+import { HeaderComponent } from 'src/shared/components/header/header.component';
+import { FileInputComponent } from 'src/shared/components/form/file-input/file-input.component';
+import { SubmitButtonComponent } from 'src/shared/components/form/submit-button/submit-button.component';
 import { FormsModule } from '@angular/forms';
 import { Location, TitleCasePipe } from '@angular/common';
 
@@ -30,14 +30,13 @@ import { Location, TitleCasePipe } from '@angular/common';
     imports: [IonContent, HeaderComponent, NumberInputComponent, SelectInputComponent, FileInputComponent, IonSelectOption, SubmitButtonComponent, FormsModule, TitleCasePipe]
 })
 export class OperationFormComponent {
-
-  private router = inject(Router);
-  private activatedRoute = inject(ActivatedRoute);
-
+  
   private operationService = inject(OperationService);
   private storageService = inject(StorageService);
   private alertService = inject(AlertService);
   public validationService = inject(ValidationService);
+  private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
 
   public isOperationEdit!: boolean;
   public operationId!: number;

@@ -3,9 +3,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from "@ionic/angular/standalone";
 import { catchError, of, tap } from 'rxjs';
-import { UserResponse } from 'src/app/core/models/interfaces/user.model';
-import { UserService } from 'src/app/core/services/user.service';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
+import { UserResponse } from 'src/app/users/models/user.model';
+import { UserService } from 'src/app/users/services/user.service';
+import { AlertService } from 'src/shared/services/alert.service';
 
 @Component({
     selector: 'app-user-item',

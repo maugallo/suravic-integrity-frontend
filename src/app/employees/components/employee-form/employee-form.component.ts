@@ -2,24 +2,24 @@ import { Component, inject, QueryList, Signal, ViewChildren } from '@angular/cor
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, switchMap } from 'rxjs';
-import { EmployeeRequest } from 'src/app/core/models/interfaces/employee.model';
-import { EmployeeMapper } from 'src/app/core/models/mappers/employee.mapper';
-import { EntitiesUtility } from 'src/app/core/models/utils/entities.utility';
+import { EmployeeRequest } from '../../models/employee.model';
+import { EmployeeMapper } from 'src/shared/mappers/employee.mapper';
+import { EntitiesUtility } from 'src/shared/utils/entities.utility';
 import { EmployeeService } from '../../services/employee.service';
-import { ShiftService } from 'src/app/core/services/shift.service';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
-import { ValidationService } from 'src/app/core/services/utils/validation.service';
-import { NumberInputComponent } from 'src/app/shared/components/form/number-input/number-input.component';
-import { SelectInputComponent } from 'src/app/shared/components/form/select-input/select-input.component';
-import { TextInputComponent } from 'src/app/shared/components/form/text-input/text-input.component';
-import { HeaderComponent } from "../../../shared/components/header/header.component";
+import { ShiftService } from 'src/app/shifts/services/shift.service';
+import { AlertService } from 'src/shared/services/alert.service';
+import { ValidationService } from 'src/shared/services/validation.service';
+import { NumberInputComponent } from 'src/shared/components/form/number-input/number-input.component';
+import { SelectInputComponent } from 'src/shared/components/form/select-input/select-input.component';
+import { TextInputComponent } from 'src/shared/components/form/text-input/text-input.component';
+import { HeaderComponent } from 'src/shared/components/header/header.component';
 import { IonContent, IonSelectOption } from "@ionic/angular/standalone";
-import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
+import { SubmitButtonComponent } from 'src/shared/components/form/submit-button/submit-button.component';
 import { FormsModule } from '@angular/forms';
-import { dniMask } from 'src/app/core/masks/dni.mask';
-import { telephoneMask } from 'src/app/core/masks/telephone.mask';
-import { WheelDateInputComponent } from "../../../shared/components/form/wheel-date-input/wheel-date-input.component";
-import { EmployeeRole } from 'src/app/core/models/enums/employee-role.enum';
+import { dniMask } from 'src/shared/masks/dni.mask';
+import { telephoneMask } from 'src/shared/masks/telephone.mask';
+import { WheelDateInputComponent } from 'src/shared/components/form/wheel-date-input/wheel-date-input.component';
+import { EmployeeRole } from '../../models/employee-role.enum';
 
 @Component({
     selector: 'app-employee-form',
@@ -29,16 +29,15 @@ import { EmployeeRole } from 'src/app/core/models/enums/employee-role.enum';
 })
 export class EmployeeFormComponent {
 
-  private router = inject(Router);
-  private activatedRoute = inject(ActivatedRoute);
-
   private employeeService = inject(EmployeeService);
   private shiftService = inject(ShiftService);
   private alertService = inject(AlertService);
   public validationService = inject(ValidationService);
+  private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
   
-  public readonly dniMask = dniMask;
-  public readonly telephoneMask = telephoneMask;
+  public dniMask = dniMask;
+  public telephoneMask = telephoneMask;
 
   public shifts = this.shiftService.shifts;
   public employeeRole = EmployeeRole;

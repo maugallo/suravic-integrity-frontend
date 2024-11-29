@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { HeaderComponent } from "../../../shared/components/header/header.component";
+import { HeaderComponent } from 'src/shared/components/header/header.component';
 import { IonContent, IonButton } from "@ionic/angular/standalone";
 import { Router } from '@angular/router';
 

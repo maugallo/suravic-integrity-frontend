@@ -1,6 +1,6 @@
 import { Photo } from "@capacitor/camera"
-import { ProviderResponse } from "./provider.model"
-import { UserResponse } from "./user.model"
+import { ProviderResponse } from "src/app/providers/models/provider.model"
+import { UserResponse } from "src/app/users/models/user.model"
 import { PaymentMethod } from "./payment-method.model"
 
 export interface OrderRequest {

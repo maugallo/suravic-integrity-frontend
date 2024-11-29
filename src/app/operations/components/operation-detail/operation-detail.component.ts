@@ -3,29 +3,29 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Photo } from '@capacitor/camera';
 import { map, of, switchMap, tap } from 'rxjs';
-import { FileUtility } from 'src/app/core/models/utils/file.utility';
-import { OperationService } from 'src/app/core/services/operation.service';
+import { OperationService } from '../../services/operation.service';
 import { IonContent, IonCard, IonCardHeader, IonCardContent } from "@ionic/angular/standalone";
-import { BackButtonComponent } from "../../../shared/components/back-button/back-button.component";
+import { BackButtonComponent } from 'src/shared/components/back-button/back-button.component';
 import { CurrencyPipe, TitleCasePipe } from '@angular/common';
-import { StorageService } from 'src/app/core/services/utils/storage.service';
-import { StorageType } from 'src/app/core/models/enums/storage-type.enum';
-import { TokenUtility } from 'src/app/core/models/utils/token.utility';
+import { StorageService } from 'src/shared/services/storage.service';
+import { StorageType } from 'src/shared/models/storage-type.enum';
+import { FileUtility } from 'src/shared/utils/file.utility';
+import { TokenUtility } from 'src/shared/utils/token.utility';
 
 @Component({
-    selector: 'app-operation-detail',
-    templateUrl: './operation-detail.component.html',
-    styleUrls: ['./operation-detail.component.scss'],
-    imports: [IonCardContent, IonCardHeader, IonCard, IonContent, BackButtonComponent, CurrencyPipe, TitleCasePipe]
+  selector: 'app-operation-detail',
+  templateUrl: './operation-detail.component.html',
+  styleUrls: ['./operation-detail.component.scss'],
+  imports: [IonCardContent, IonCardHeader, IonCard, IonContent, BackButtonComponent, CurrencyPipe, TitleCasePipe]
 })
 export class OperationDetailComponent {
 
-  private router = inject(Router);
-  private activatedRoute = inject(ActivatedRoute);
-  public fileUtility = FileUtility;
-
   private operationService = inject(OperationService);
   private storageService = inject(StorageService);
+  private activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
+
+  public fileUtility = FileUtility;
 
   public receipt: Photo | undefined = undefined;
 

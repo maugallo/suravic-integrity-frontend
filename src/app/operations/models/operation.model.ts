@@ -1,6 +1,5 @@
 import { Photo } from "@capacitor/camera";
-import { CreditAccountResponse } from "./account.model";
-import { UserResponse } from "./user.model";
+import { UserResponse } from "src/app/users/models/user.model";
 
 export interface OperationRequest {
     creditAccountId: number,
@@ -17,4 +16,9 @@ export interface OperationResponse {
     type: string,
     total: number,
     receipt: string
+}
+
+export interface CreditAccountResponse {
+    id: number,
+    balance: number
 }

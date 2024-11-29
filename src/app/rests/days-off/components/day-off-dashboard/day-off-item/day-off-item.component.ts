@@ -1,8 +1,8 @@
-import { Component, inject, input, OnInit } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { Router } from '@angular/router';
-import { DayOffResponse } from 'src/app/core/models/interfaces/day-off.model';
-import { DayOffService } from 'src/app/core/services/day-off.service';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
+import { DayOffResponse } from '../../../models/day-off.model';
+import { DayOffService } from '../../../services/day-off.service';
+import { AlertService } from 'src/shared/services/alert.service';
 import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from "@ionic/angular/standalone";
 import { DatePipe } from '@angular/common';
 

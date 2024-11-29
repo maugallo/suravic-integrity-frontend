@@ -1,12 +1,12 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { LicenseService } from 'src/app/core/services/license.service';
-import { HeaderComponent } from "../../../../shared/components/header/header.component";
+import { LicenseService } from '../../services/license.service';
+import { HeaderComponent } from 'src/shared/components/header/header.component';
 import { IonContent, IonButton, IonList, IonSelectOption } from "@ionic/angular/standalone";
-import { NotFoundComponent } from "../../../../shared/components/not-found/not-found.component";
-import { LicenseItemComponent } from "./license-item/license-item.component";
-import { SelectInputComponent } from "../../../../shared/components/form/select-input/select-input.component";
-import { EmployeeService } from 'src/app/core/services/employee.service';
+import { NotFoundComponent } from 'src/shared/components/not-found/not-found.component';
+import { LicenseItemComponent } from './license-item/license-item.component';
+import { SelectInputComponent } from 'src/shared/components/form/select-input/select-input.component';
+import { EmployeeService } from 'src/app/employees/services/employee.service';
 
 @Component({
     selector: 'app-license-dashboard',

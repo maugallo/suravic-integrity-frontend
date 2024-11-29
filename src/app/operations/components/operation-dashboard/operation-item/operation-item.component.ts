@@ -1,23 +1,22 @@
 import { Component, inject, input, output } from '@angular/core';
 import { Router } from '@angular/router';
-import { OperationResponse } from 'src/app/core/models/interfaces/operation.model';
-import { OperationService } from 'src/app/core/services/operation.service';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
+import { OperationResponse } from 'src/app/operations/models/operation.model';
+import { OperationService } from 'src/app/operations/services/operation.service';
+import { AlertService } from 'src/shared/services/alert.service';
 import { IonItemSliding, IonLabel, IonItem, IonItemOptions, IonItemOption } from "@ionic/angular/standalone";
 import { CurrencyPipe, UpperCasePipe } from '@angular/common';
 
 @Component({
-    selector: 'app-operation-item',
-    templateUrl: './operation-item.component.html',
-    styleUrls: ['./operation-item.component.scss'],
-    imports: [IonItemOption, IonItemOptions, IonItem, IonLabel, IonItemSliding, UpperCasePipe, CurrencyPipe]
+  selector: 'app-operation-item',
+  templateUrl: './operation-item.component.html',
+  styleUrls: ['./operation-item.component.scss'],
+  imports: [IonItemOption, IonItemOptions, IonItem, IonLabel, IonItemSliding, UpperCasePipe, CurrencyPipe]
 })
 export class OperationItemComponent {
 
-  public router = inject(Router);
-
   private operationService = inject(OperationService);
   private alertService = inject(AlertService);
+  public router = inject(Router);
 
   public operation: any = input<OperationResponse>();
   public emitPriceChange = output();

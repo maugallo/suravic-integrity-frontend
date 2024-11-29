@@ -1,11 +1,11 @@
 import { Component, computed, inject, input, output } from '@angular/core';
-import { CategoryService } from 'src/app/core/services/category.service';
+import { CategoryService } from 'src/app/categories/services/category.service';
 import { IonContent, IonMenu, IonSelect, IonSelectOption, IonButton, MenuController, IonLabel, IonRange } from "@ionic/angular/standalone";
-import { ProviderService } from 'src/app/core/services/provider.service';
+import { ProviderService } from 'src/app/providers/services/provider.service';
 import { FormsModule } from '@angular/forms';
-import { ProductResponse } from 'src/app/core/models/interfaces/product.model';
 import { CurrencyPipe } from '@angular/common';
-import { Filter } from 'src/app/core/models/interfaces/filter.model';
+import { Filter } from 'src/shared/models/filter.model';
+import { ProductResponse } from 'src/app/products/models/product.model';
 
 @Component({
     selector: 'app-products-filter',

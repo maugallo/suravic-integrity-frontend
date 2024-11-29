@@ -1,17 +1,17 @@
 import { UpperCasePipe } from '@angular/common';
 import { Component, DestroyRef, effect, inject, Signal } from '@angular/core';
 import { IonAccordionGroup, IonAccordion, IonItem, IonLabel, IonBadge } from "@ionic/angular/standalone";
-import { NumberInputComponent } from "../../../../shared/components/form/number-input/number-input.component";
-import { SubmitButtonComponent } from "../../../../shared/components/form/submit-button/submit-button.component";
+import { NumberInputComponent } from 'src/shared/components/form/number-input/number-input.component';
+import { SubmitButtonComponent } from 'src/shared/components/form/submit-button/submit-button.component';
 import { FormsModule } from '@angular/forms';
-import { StorageService } from 'src/app/core/services/utils/storage.service';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
+import { StorageService } from 'src/shared/services/storage.service';
+import { AlertService } from 'src/shared/services/alert.service';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { catchError, Observable, of, switchMap, tap } from 'rxjs';
-import { MeatDetailsService } from 'src/app/core/services/meat-details.service';
-import { MeatDetailsType } from 'src/app/core/models/enums/meat-details-type.enum';
-import { MeatDetailsConstant } from 'src/app/core/models/enums/meat-details-constant.enum';
-import { ProductWithMeatDetails } from 'src/app/core/models/interfaces/product.model';
+import { MeatDetailsService } from 'src/app/pricing/services/meat-details.service';
+import { MeatDetailsType } from 'src/app/pricing/models/meat-details-type.enum';
+import { MeatDetailsConstant } from 'src/app/pricing/models/meat-details-constant.enum';
+import { ProductWithMeatDetails } from 'src/app/products/models/product.model';
 
 @Component({
     selector: 'app-weights-accordion',

@@ -1,9 +1,10 @@
 import { Component, inject, input, output } from '@angular/core';
 import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from "@ionic/angular/standalone";
 import { catchError, firstValueFrom, of, tap } from 'rxjs';
-import { SectorRequest, SectorResponse } from 'src/app/core/models/interfaces/sector.model';
-import { SectorService } from 'src/app/core/services/sector.service';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
+import { SectorRequest, SectorResponse } from 'src/app/sectors/models/sector.model';
+import { SectorService } from 'src/app/sectors/services/sector.service';
+import { AlertService } from 'src/shared/services/alert.service';
+
 import Swal from 'sweetalert2';
 
 @Component({

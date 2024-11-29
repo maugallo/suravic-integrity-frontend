@@ -3,8 +3,8 @@ import { inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, catchError, Observable, switchMap, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ProductWithMeatDetails } from '../models/interfaces/product.model';
-import { ProductService } from './product.service';
+import { ProductWithMeatDetails } from 'src/app/products/models/product.model';
+import { ProductService } from 'src/app/products/services/product.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +12,7 @@ import { ProductService } from './product.service';
 export class MeatDetailsService {
 
   private http = inject(HttpClient);
+  
   private apiUrl = `${environment.apiUrl}/meat-products`;
 
   private productService = inject(ProductService);

@@ -1,6 +1,6 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { LoaderService } from '../services/utils/loader.service';
+import { LoaderService } from '../services/loader.service';
 import { finalize } from 'rxjs';
 import { environment } from 'src/environments/environment';
 

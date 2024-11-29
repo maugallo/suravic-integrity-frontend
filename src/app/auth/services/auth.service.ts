@@ -13,10 +13,10 @@ import { AlertService } from 'src/shared/services/alert.service';
   providedIn: 'root'
 })
 export class AuthService {
-  private router = inject(Router);
-
+  
   private storageService = inject(StorageService);
   private alertService = inject(AlertService);
+  private router = inject(Router);
   private http = inject(HttpClient);
 
   private apiUrl = environment.apiUrl;

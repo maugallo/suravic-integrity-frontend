@@ -1,4 +1,4 @@
-import { LicenseRequest, LicenseResponse } from "../interfaces/license.model";
+import { LicenseRequest, LicenseResponse } from "src/app/rests/licenses/models/license.model"
 
 export class LicenseMapper {
 

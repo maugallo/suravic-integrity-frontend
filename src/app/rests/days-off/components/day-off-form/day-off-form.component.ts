@@ -1,18 +1,18 @@
 import { Component, computed, inject, QueryList, ViewChildren } from '@angular/core';
-import { DayOffService } from 'src/app/core/services/day-off.service';
+import { DayOffService } from '../../services/day-off.service';
 import { IonContent, IonSelectOption, IonDatetime } from "@ionic/angular/standalone";
-import { SelectInputComponent } from 'src/app/shared/components/form/select-input/select-input.component';
-import { SubmitButtonComponent } from 'src/app/shared/components/form/submit-button/submit-button.component';
-import { ShiftService } from 'src/app/core/services/shift.service';
-import { EntitiesUtility } from 'src/app/core/models/utils/entities.utility';
+import { SelectInputComponent } from 'src/shared/components/form/select-input/select-input.component';
+import { SubmitButtonComponent } from 'src/shared/components/form/submit-button/submit-button.component';
+import { ShiftService } from 'src/app/shifts/services/shift.service';
+import { EntitiesUtility } from 'src/shared/utils/entities.utility';
 import { FormsModule } from '@angular/forms';
-import { EmployeeService } from 'src/app/core/services/employee.service';
-import { HeaderComponent } from 'src/app/shared/components/header/header.component';
-import { ValidationService } from 'src/app/core/services/utils/validation.service';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
+import { EmployeeService } from 'src/app/employees/services/employee.service';
+import { HeaderComponent } from 'src/shared/components/header/header.component';
+import { ValidationService } from 'src/shared/services/validation.service';
+import { AlertService } from 'src/shared/services/alert.service';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { ShiftResponse } from 'src/app/core/models/interfaces/shift.model';
+import { ShiftResponse } from 'src/app/shifts/models/shift.model';
 
 @Component({
     selector: 'app-day-off-form',

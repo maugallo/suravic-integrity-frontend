@@ -2,20 +2,20 @@ import { Component, inject, QueryList, Signal, ViewChildren } from '@angular/cor
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, switchMap } from 'rxjs';
-import { PublicHolidayRequest } from 'src/app/core/models/interfaces/public-holiday.model';
-import { PublicHolidayMapper } from 'src/app/core/models/mappers/public-holiday.mapper';
-import { EntitiesUtility } from 'src/app/core/models/utils/entities.utility';
-import { PublicHolidayService } from 'src/app/core/services/public-holiday.service';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
-import { ValidationService } from 'src/app/core/services/utils/validation.service';
-import { TextInputComponent } from 'src/app/shared/components/form/text-input/text-input.component';
-import { HeaderComponent } from "../../../shared/components/header/header.component";
+import { PublicHolidayRequest } from '../../models/public-holiday.model';
+import { PublicHolidayMapper } from 'src/shared/mappers/public-holiday.mapper';
+import { EntitiesUtility } from 'src/shared/utils/entities.utility';
+import { PublicHolidayService } from '../../services/public-holiday.service';
+import { AlertService } from 'src/shared/services/alert.service';
+import { ValidationService } from 'src/shared/services/validation.service';
+import { TextInputComponent } from 'src/shared/components/form/text-input/text-input.component';
+import { HeaderComponent } from 'src/shared/components/header/header.component';
 import { IonContent, IonSelectOption } from "@ionic/angular/standalone";
-import { WheelDateInputComponent } from "../../../shared/components/form/wheel-date-input/wheel-date-input.component";
-import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
+import { WheelDateInputComponent } from 'src/shared/components/form/wheel-date-input/wheel-date-input.component';
+import { SubmitButtonComponent } from 'src/shared/components/form/submit-button/submit-button.component';
 import { FormsModule } from '@angular/forms';
-import { SelectInputComponent } from "../../../shared/components/form/select-input/select-input.component";
-import { ShiftService } from 'src/app/core/services/shift.service';
+import { SelectInputComponent } from 'src/shared/components/form/select-input/select-input.component';
+import { ShiftService } from 'src/app/shifts/services/shift.service';
 
 @Component({
     selector: 'app-public-holiday-form',

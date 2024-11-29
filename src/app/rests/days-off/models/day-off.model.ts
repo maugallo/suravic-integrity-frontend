@@ -1,5 +1,5 @@
-import { EmployeeResponse } from "./employee.model"
-import { ShiftResponse } from "./shift.model"
+import { EmployeeResponse } from "src/app/employees/models/employee.model"
+import { ShiftResponse } from "src/app/shifts/models/shift.model"
 
 export interface DayOffRequest {
     employeeId: number,

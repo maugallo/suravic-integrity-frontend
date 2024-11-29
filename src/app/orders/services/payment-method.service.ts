@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { PaymentMethod } from '../models/interfaces/payment-method.model';
+import { PaymentMethod } from '../models/payment-method.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +11,7 @@ import { PaymentMethod } from '../models/interfaces/payment-method.model';
 export class PaymentMethodService {
 
   private http = inject(HttpClient);
+
   private apiUrl = `${environment.apiUrl}/payment-methods`;
 
   public paymentMethods = toSignal(this.getPaymentMethods(), { initialValue: [] });

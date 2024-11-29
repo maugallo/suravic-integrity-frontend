@@ -1,9 +1,9 @@
 import { Injectable, QueryList } from '@angular/core';
-import { NumberInputComponent } from 'src/app/shared/components/form/number-input/number-input.component';
-import { PasswordInputComponent } from 'src/app/shared/components/form/password-input/password-input.component';
-import { SelectInputComponent } from 'src/app/shared/components/form/select-input/select-input.component';
-import { TextInputComponent } from 'src/app/shared/components/form/text-input/text-input.component';
-import { WheelDateInputComponent } from 'src/app/shared/components/form/wheel-date-input/wheel-date-input.component';
+import { NumberInputComponent } from '../components/form/number-input/number-input.component';
+import { PasswordInputComponent } from '../components/form/password-input/password-input.component';
+import { SelectInputComponent } from '../components/form/select-input/select-input.component';
+import { TextInputComponent } from '../components/form/text-input/text-input.component';
+import { WheelDateInputComponent } from '../components/form/wheel-date-input/wheel-date-input.component';
 
 @Injectable({
   providedIn: 'root'

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonModal, IonContent } from "@ionic/angular/standalone";
-import { SectorDashboardComponent } from './sector-dashboard/sector-dashboard.component';
+import { SectorDashboardComponent } from '../sector-dashboard/sector-dashboard.component';
 
 @Component({
     selector: 'app-sector-modal',

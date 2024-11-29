@@ -9,11 +9,12 @@ import { environment } from 'src/environments/environment';
 export class ReportService {
 
   private http = inject(HttpClient);
+
   private apiUrl = `${environment.apiUrl}/reports`;
 
   public getEmployeesReport(): Observable<Blob> {
     return this.http.get(`${this.apiUrl}/employees`, { responseType: 'blob' })
-    .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleError));
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -28,5 +29,5 @@ export class ReportService {
         return throwError(() => error);
     }
   }
-  
+
 }

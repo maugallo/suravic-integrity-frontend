@@ -2,7 +2,7 @@ import { Component, input } from '@angular/core';
 import { BaseInputComponent } from '../base-input/base-input.component';
 import { IonInput } from "@ionic/angular/standalone";
 import { FormsModule } from '@angular/forms';
-import { EqualPasswordsDirective } from 'src/app/shared/validators/equal-passwords.directive';
+import { EqualPasswordsDirective } from 'src/shared/validators/equal-passwords.directive';
 
 @Component({
     selector: 'app-password-input',

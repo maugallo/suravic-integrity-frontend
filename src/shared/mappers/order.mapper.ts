@@ -1,4 +1,4 @@
-import { OrderRequest, OrderResponse } from "../interfaces/order.model";
+import { OrderRequest, OrderResponse } from "src/app/orders/models/order.model"
 
 export class OrderMapper {
 

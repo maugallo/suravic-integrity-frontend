@@ -3,27 +3,27 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EMPTY, map, Observable, of, switchMap, tap } from 'rxjs';
-import { OrderRequest } from 'src/app/core/models/interfaces/order.model';
-import { OrderService } from 'src/app/core/services/order.service';
-import { ProviderService } from 'src/app/core/services/provider.service';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
-import { StorageService } from 'src/app/core/services/utils/storage.service';
-import { ValidationService } from 'src/app/core/services/utils/validation.service';
+import { OrderRequest } from '../../models/order.model';
+import { OrderService } from '../../services/order.service';
+import { ProviderService } from 'src/app/providers/services/provider.service';
+import { AlertService } from 'src/shared/services/alert.service';
+import { StorageService } from 'src/shared/services/storage.service';
+import { ValidationService } from 'src/shared/services/validation.service';
 import { IonContent, IonSelectOption } from "@ionic/angular/standalone";
-import { HeaderComponent } from "../../../shared/components/header/header.component";
+import { HeaderComponent } from 'src/shared/components/header/header.component';
 import { Photo } from '@capacitor/camera';
-import { WheelDateInputComponent } from "../../../shared/components/form/wheel-date-input/wheel-date-input.component";
-import { NumberInputComponent } from "../../../shared/components/form/number-input/number-input.component";
-import { SelectInputComponent } from "../../../shared/components/form/select-input/select-input.component";
-import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
-import { OrderMapper } from 'src/app/core/models/mappers/order.mapper';
-import { EntitiesUtility } from 'src/app/core/models/utils/entities.utility';
-import { StorageType } from 'src/app/core/models/enums/storage-type.enum';
-import { TextInputComponent } from 'src/app/shared/components/form/text-input/text-input.component';
-import { FileInputComponent } from "../../../shared/components/form/file-input/file-input.component";
-import { FileUtility } from 'src/app/core/models/utils/file.utility';
-import { PaymentMethodService } from 'src/app/core/services/payment-method.service';
-import { OrderStatus } from 'src/app/core/models/enums/order-status.enum';
+import { WheelDateInputComponent } from 'src/shared/components/form/wheel-date-input/wheel-date-input.component';
+import { NumberInputComponent } from 'src/shared/components/form/number-input/number-input.component';
+import { SelectInputComponent } from 'src/shared/components/form/select-input/select-input.component';
+import { SubmitButtonComponent } from 'src/shared/components/form/submit-button/submit-button.component';
+import { OrderMapper } from 'src/shared/mappers/order.mapper';
+import { EntitiesUtility } from 'src/shared/utils/entities.utility';
+import { StorageType } from 'src/shared/models/storage-type.enum';
+import { TextInputComponent } from 'src/shared/components/form/text-input/text-input.component';
+import { FileInputComponent } from 'src/shared/components/form/file-input/file-input.component';
+import { FileUtility } from 'src/shared/utils/file.utility';
+import { PaymentMethodService } from '../../services/payment-method.service';
+import { OrderStatus } from '../../models/order-status.enum';
 
 @Component({
     selector: 'app-order-form',
@@ -32,16 +32,15 @@ import { OrderStatus } from 'src/app/core/models/enums/order-status.enum';
     imports: [IonContent, HeaderComponent, FormsModule, IonSelectOption, WheelDateInputComponent, NumberInputComponent, SelectInputComponent, SubmitButtonComponent, FileInputComponent]
 })
 export class OrderFormComponent {
-
-  private router = inject(Router);
-  private activatedRoute = inject(ActivatedRoute);
-
+  
   private orderService = inject(OrderService);
   private paymentMethodService = inject(PaymentMethodService);
   private providerService = inject(ProviderService);
   private storageService = inject(StorageService);
   private alertService = inject(AlertService);
   public validationService = inject(ValidationService);
+  private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
 
   public today = new Date().toISOString().split('T')[0];
 

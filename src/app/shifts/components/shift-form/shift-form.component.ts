@@ -1,19 +1,19 @@
 import { Component, inject, QueryList, Signal, ViewChildren } from '@angular/core';
-import { HeaderComponent } from "../../../shared/components/header/header.component";
+import { HeaderComponent } from 'src/shared/components/header/header.component';
 import { IonContent } from "@ionic/angular/standalone";
 import { ActivatedRoute, Router } from '@angular/router';
-import { ShiftService } from 'src/app/core/services/shift.service';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
-import { ValidationService } from 'src/app/core/services/utils/validation.service';
-import { TextInputComponent } from 'src/app/shared/components/form/text-input/text-input.component';
-import { ShiftRequest } from 'src/app/core/models/interfaces/shift.model';
+import { ShiftService } from '../../services/shift.service';
+import { AlertService } from 'src/shared/services/alert.service';
+import { ValidationService } from 'src/shared/services/validation.service';
+import { TextInputComponent } from 'src/shared/components/form/text-input/text-input.component';
+import { ShiftRequest } from '../../models/shift.model';
 import { Observable, of, switchMap } from 'rxjs';
-import { EntitiesUtility } from 'src/app/core/models/utils/entities.utility';
-import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
+import { EntitiesUtility } from 'src/shared/utils/entities.utility';
+import { SubmitButtonComponent } from 'src/shared/components/form/submit-button/submit-button.component';
 import { FormsModule } from '@angular/forms';
-import { WheelTimeInputComponent } from "../../../shared/components/form/wheel-time-input/wheel-time-input.component";
+import { WheelTimeInputComponent } from 'src/shared/components/form/wheel-time-input/wheel-time-input.component';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ShiftMapper } from 'src/app/core/models/mappers/shift.mapper';
+import { ShiftMapper } from 'src/shared/mappers/shift.mapper';
 
 @Component({
     selector: 'app-shift-form',

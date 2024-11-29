@@ -1,4 +1,4 @@
-import { EmployeeRequest, EmployeeResponse } from "../interfaces/employee.model";
+import { EmployeeRequest, EmployeeResponse } from "src/app/employees/models/employee.model"
 
 export class EmployeeMapper {
 

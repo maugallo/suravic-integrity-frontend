@@ -1,11 +1,11 @@
 import { Component, inject, output } from '@angular/core';
 import { catchError, firstValueFrom, of, tap } from 'rxjs';
-import { CategoryRequest } from 'src/app/core/models/interfaces/category.model';
-import { CategoryService } from 'src/app/core/services/category.service';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
-import { HeaderComponent } from "../../../../../shared/components/header/header.component";
+import { CategoryRequest } from '../../models/category.model';
+import { CategoryService } from '../../services/category.service';
+import { AlertService } from 'src/shared/services/alert.service';
+import { HeaderComponent } from 'src/shared/components/header/header.component';
 import { IonButton, IonList, IonProgressBar } from "@ionic/angular/standalone";
-import { NotFoundComponent } from "../../../../../shared/components/not-found/not-found.component";
+import { NotFoundComponent } from 'src/shared/components/not-found/not-found.component';
 import { CategoryItemComponent } from "./category-item/category-item.component";
 import Swal from 'sweetalert2';
 
@@ -21,6 +21,7 @@ export class CategoryDashboardComponent {
   private alertService = inject(AlertService);
 
   public turnInert = output<boolean>(); // Necesario para que el input del sweet alert no tenga conflicto con el modal de Ionic.
+  
   public categories = this.categoryService.categories;
   public category: CategoryRequest = { name: '' };
 

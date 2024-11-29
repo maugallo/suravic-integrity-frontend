@@ -1,17 +1,17 @@
 import { Component, inject } from '@angular/core';
 import { IonContent } from "@ionic/angular/standalone";
-import { OptionLargeComponent } from 'src/app/shared/components/option-large/option-large.component';
-import { ReportService } from 'src/app/core/services/report.service';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
-import { FileUtility } from 'src/app/core/models/utils/file.utility';
+import { OptionLargeComponent } from 'src/shared/components/option-large/option-large.component';
+import { ReportService } from '../../services/report.service';
+import { AlertService } from 'src/shared/services/alert.service';
+import { FileUtility } from 'src/shared/utils/file.utility';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { FileOpener, FileOpenerOptions } from '@capacitor-community/file-opener';
 
 @Component({
-    selector: 'app-reports',
-    templateUrl: './reports.component.html',
-    styleUrls: ['./reports.component.scss'],
-    imports: [IonContent, OptionLargeComponent]
+  selector: 'app-reports',
+  templateUrl: './reports.component.html',
+  styleUrls: ['./reports.component.scss'],
+  imports: [IonContent, OptionLargeComponent]
 })
 export class ReportsComponent {
 
@@ -25,7 +25,7 @@ export class ReportsComponent {
     });
   }
 
-/*   private async downloadFile(response: Blob) {
+  private async downloadFile(response: Blob) {
     try {
       // Guardar archivo en dispositivo.
       const base64Data = await FileUtility.blobToBase64(response);
@@ -48,30 +48,30 @@ export class ReportsComponent {
     } catch (error) {
       console.error('Error al descargar y abrir el archivo:', error);
     }
-  } */
-
-  private downloadFile(response: Blob) {
-    try {
-      // Crear un objeto URL desde el blob
-      const url = window.URL.createObjectURL(response);
-      const fileName = `empleados_${new Date().getTime()}.pdf`;
-  
-      // Crear un enlace de descarga temporal
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = fileName;
-  
-      // Simular el clic para iniciar la descarga
-      link.click();
-  
-      // Liberar el objeto URL una vez que no sea necesario
-      window.URL.revokeObjectURL(url);
-  
-      console.log('Archivo descargado:', fileName);
-    } catch (error) {
-      console.error('Error al descargar el archivo:', error);
-    }
   }
-  
+
+  /*   private downloadFile(response: Blob) {
+      try {
+        // Crear un objeto URL desde el blob
+        const url = window.URL.createObjectURL(response);
+        const fileName = `empleados_${new Date().getTime()}.pdf`;
+    
+        // Crear un enlace de descarga temporal
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName;
+    
+        // Simular el clic para iniciar la descarga
+        link.click();
+    
+        // Liberar el objeto URL una vez que no sea necesario
+        window.URL.revokeObjectURL(url);
+    
+        console.log('Archivo descargado:', fileName);
+      } catch (error) {
+        console.error('Error al descargar el archivo:', error);
+      }
+    } */
+
 
 }

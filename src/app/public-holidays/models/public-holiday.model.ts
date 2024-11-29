@@ -1,4 +1,4 @@
-import { ShiftResponse } from "./shift.model"
+import { ShiftResponse } from "src/app/shifts/models/shift.model"
 
 export interface PublicHolidayRequest {
     reason: string,

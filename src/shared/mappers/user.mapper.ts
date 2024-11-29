@@ -1,4 +1,4 @@
-import { UserResponse } from "../interfaces/user.model";
+import { UserResponse } from "src/app/users/models/user.model"
 
 export class UserMapper {
 

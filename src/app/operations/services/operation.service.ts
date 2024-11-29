@@ -1,20 +1,20 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { BehaviorSubject, catchError, combineLatest, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, combineLatest, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { OperationResponse } from '../models/interfaces/operation.model';
-import { EmployeeService } from './employee.service';
+import { OperationResponse } from '../models/operation.model';
+import { EmployeeService } from 'src/app/employees/services/employee.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OperationService {
 
-  private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/operations`;
-
   private employeeService = inject(EmployeeService);
+  private http = inject(HttpClient);
+
+  private apiUrl = `${environment.apiUrl}/operations`;
 
   public accountId$ = new BehaviorSubject<number>(0);
   public refreshOperations$ = new BehaviorSubject<void>(undefined);
@@ -46,7 +46,7 @@ export class OperationService {
 
   public getReceiptFile(id: number): Observable<Blob> {
     return this.http.get(`${this.apiUrl}/${id}/receipt`, { responseType: 'blob' })
-    .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleError));
   }
 
   public createOperation(operationData: FormData): Observable<string> {

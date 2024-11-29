@@ -1,21 +1,21 @@
 import { Component, computed, DestroyRef, inject, QueryList, signal, ViewChildren } from '@angular/core';
-import { HeaderComponent } from "../../../shared/components/header/header.component";
+import { HeaderComponent } from 'src/shared/components/header/header.component';
 import { IonContent } from "@ionic/angular/standalone";
 import { FormsModule } from '@angular/forms';
 import { CurrencyPipe, UpperCasePipe } from '@angular/common';
-import { ValidationService } from 'src/app/core/services/utils/validation.service';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
+import { ValidationService } from 'src/shared/services/validation.service';
+import { AlertService } from 'src/shared/services/alert.service';
 import { WeightsAccordionComponent } from "./weights-accordion/weights-accordion.component";
-import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
-import { NumberInputComponent } from "../../../shared/components/form/number-input/number-input.component";
+import { SubmitButtonComponent } from 'src/shared/components/form/submit-button/submit-button.component';
+import { NumberInputComponent } from 'src/shared/components/form/number-input/number-input.component';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { StorageService } from 'src/app/core/services/utils/storage.service';
+import { StorageService } from 'src/shared/services/storage.service';
 import { catchError, Observable, of, switchMap, tap } from 'rxjs';
-import { MeatDetailsService } from 'src/app/core/services/meat-details.service';
-import { FormButtonComponent } from "../../../shared/components/form/form-button/form-button.component";
-import { PricingService } from 'src/app/core/services/pricing.service';
-import { MeatDetailsType } from 'src/app/core/models/enums/meat-details-type.enum';
-import { MeatDetailsConstant } from 'src/app/core/models/enums/meat-details-constant.enum';
+import { MeatDetailsService } from '../../services/meat-details.service';
+import { FormButtonComponent } from 'src/shared/components/form/form-button/form-button.component';
+import { PricingService } from '../../services/pricing.service';
+import { MeatDetailsType } from '../../models/meat-details-type.enum';
+import { MeatDetailsConstant } from '../../models/meat-details-constant.enum';
 
 @Component({
     selector: 'app-pricing-beef',

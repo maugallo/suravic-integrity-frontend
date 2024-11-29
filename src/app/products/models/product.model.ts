@@ -1,5 +1,5 @@
-import { CategoryResponse } from "./category.model";
-import { ProviderResponse } from "./provider.model";
+import { CategoryResponse } from "src/app/categories/models/category.model";
+import { ProviderResponse } from "src/app/providers/models/provider.model";
 
 export interface ProductRequest {
     categoryId: number,

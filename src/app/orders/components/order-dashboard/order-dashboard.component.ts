@@ -1,29 +1,29 @@
 import { Component, computed, inject, signal, WritableSignal } from '@angular/core';
 import { Router } from '@angular/router';
-import { OrderService } from 'src/app/core/services/order.service';
-import { HeaderComponent } from "../../../shared/components/header/header.component";
+import { OrderService } from '../../services/order.service';
+import { HeaderComponent } from 'src/shared/components/header/header.component';
 import { IonContent, IonSearchbar, IonButton, IonList, IonProgressBar, MenuController } from "@ionic/angular/standalone";
-import { NotFoundComponent } from "../../../shared/components/not-found/not-found.component";
+import { NotFoundComponent } from 'src/shared/components/not-found/not-found.component';
 import { OrderItemComponent } from "./order-item/order-item.component";
-import { OrderResponse } from 'src/app/core/models/interfaces/order.model';
-import { OrdersFilterComponent } from "../../../shared/components/filters/orders-filter/orders-filter.component";
-import { DeletedButtonComponent } from "../../../shared/components/deleted-button/deleted-button.component";
-import { Filter } from 'src/app/core/models/interfaces/filter.model';
+import { OrderResponse } from '../../models/order.model';
+import { OrdersFilterComponent } from 'src/shared/components/filters/orders-filter/orders-filter.component';
+import { DeletedButtonComponent } from 'src/shared/components/deleted-button/deleted-button.component';
+import { Filter } from 'src/shared/models/filter.model';
 
 @Component({
-    selector: 'app-order-dashboard',
-    templateUrl: './order-dashboard.component.html',
-    styleUrls: ['./order-dashboard.component.scss'],
-    imports: [IonProgressBar, IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, NotFoundComponent, OrderItemComponent, OrdersFilterComponent, DeletedButtonComponent]
+  selector: 'app-order-dashboard',
+  templateUrl: './order-dashboard.component.html',
+  styleUrls: ['./order-dashboard.component.scss'],
+  imports: [IonProgressBar, IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, NotFoundComponent, OrderItemComponent, OrdersFilterComponent, DeletedButtonComponent]
 })
 export class OrderDashboardComponent {
 
-  public router = inject(Router);
   private menuController = inject(MenuController)
-
   private orderService = inject(OrderService);
+  public router = inject(Router);
 
   public orders = this.orderService.orders;
+  
   private searchQuery: WritableSignal<string> = signal('');
   private filters = signal<Filter[]>([]);
 
@@ -41,7 +41,7 @@ export class OrderDashboardComponent {
   }
 
   private sortedByDate(array: OrderResponse[]) {
-    return array.sort((a, b) => this.parseDateString(a.deliveryDate).getTime() - this.parseDateString(b.deliveryDate).getTime()); 
+    return array.sort((a, b) => this.parseDateString(a.deliveryDate).getTime() - this.parseDateString(b.deliveryDate).getTime());
   }
 
   private parseDateString(dateString: string) {
@@ -77,8 +77,8 @@ export class OrderDashboardComponent {
         const orderPaymentMethodsIds = order.paymentMethods.map(method => method.id);
 
         return (paymentMethodsFilter.length === 0 || paymentMethodsFilter.some(id => orderPaymentMethodsIds.includes(id))) &&
-        (providersFilter.length === 0 || providersFilter.includes(order.provider.id)) &&
-        (pricesFilter.length === 0 || (Number(order.total) >= pricesFilter[0] && Number(order.total) <= pricesFilter[1]))
+          (providersFilter.length === 0 || providersFilter.includes(order.provider.id)) &&
+          (pricesFilter.length === 0 || (Number(order.total) >= pricesFilter[0] && Number(order.total) <= pricesFilter[1]))
       });
     }
     return filteredOrders;

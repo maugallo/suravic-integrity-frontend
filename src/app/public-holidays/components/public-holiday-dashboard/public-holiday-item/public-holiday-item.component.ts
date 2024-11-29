@@ -1,8 +1,8 @@
 import { Component, inject, input } from '@angular/core';
 import { Router } from '@angular/router';
-import { PublicHolidayResponse } from 'src/app/core/models/interfaces/public-holiday.model';
-import { PublicHolidayService } from 'src/app/core/services/public-holiday.service';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
+import { PublicHolidayResponse } from 'src/app/public-holidays/models/public-holiday.model';
+import { PublicHolidayService } from 'src/app/public-holidays/services/public-holiday.service';
+import { AlertService } from 'src/shared/services/alert.service';
 import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from "@ionic/angular/standalone";
 import { DatePipe } from '@angular/common';
 

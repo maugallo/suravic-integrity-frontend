@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { HeaderComponent } from "../../../shared/components/header/header.component";
+import { HeaderComponent } from 'src/shared/components/header/header.component';
 import { IonContent } from "@ionic/angular/standalone";
 import { Router } from '@angular/router';
-import { OptionLargeComponent } from "../../../shared/components/option-large/option-large.component";
+import { OptionLargeComponent } from 'src/shared/components/option-large/option-large.component';
 
 @Component({
     selector: 'app-pricing-menu',

@@ -1,7 +1,7 @@
 import { Component, inject, input } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
+import { AlertService } from 'src/shared/services/alert.service';
 
 @Component({
     selector: 'app-back-button',

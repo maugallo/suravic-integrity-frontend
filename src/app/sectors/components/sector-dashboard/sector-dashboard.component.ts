@@ -1,13 +1,13 @@
 import { Component, inject, output } from '@angular/core';
 import { IonButton, IonList, IonProgressBar } from "@ionic/angular/standalone";
-import { SectorService } from 'src/app/core/services/sector.service';
+import { SectorService } from '../../services/sector.service';
 import { catchError, firstValueFrom, of, tap } from 'rxjs';
-import { SectorRequest } from 'src/app/core/models/interfaces/sector.model';
+import { SectorRequest } from '../../models/sector.model';
 import Swal from 'sweetalert2';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
-import { SectorItemComponent } from "./sector-item/sector-item.component";
-import { NotFoundComponent } from 'src/app/shared/components/not-found/not-found.component';
-import { HeaderComponent } from 'src/app/shared/components/header/header.component';
+import { AlertService } from 'src/shared/services/alert.service';
+import { SectorItemComponent } from './sector-item/sector-item.component';
+import { NotFoundComponent } from 'src/shared/components/not-found/not-found.component';
+import { HeaderComponent } from 'src/shared/components/header/header.component';
 
 
 @Component({

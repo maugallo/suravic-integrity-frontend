@@ -1,9 +1,9 @@
-import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { BehaviorSubject, catchError, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, switchMap, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { EmployeeRequest, EmployeeResponse } from 'src/app/core/models/interfaces/employee.model';
+import { EmployeeRequest, EmployeeResponse } from '../models/employee.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +11,8 @@ import { EmployeeRequest, EmployeeResponse } from 'src/app/core/models/interface
 export class EmployeeService {
 
   private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/employees`;
 
+  private apiUrl = `${environment.apiUrl}/employees`;
   private refreshEmployees$ = new BehaviorSubject<void>(undefined);
 
   public refreshEmployees() {

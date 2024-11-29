@@ -1,5 +1,4 @@
-import { ShiftRequest, ShiftResponse } from "../interfaces/shift.model";
-
+import { ShiftRequest, ShiftResponse } from "src/app/shifts/models/shift.model";
 export class ShiftMapper {
 
     public static toShiftRequest(shift: ShiftResponse): ShiftRequest {

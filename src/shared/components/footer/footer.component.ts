@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { IonTabButton, IonTabs, IonTabBar } from "@ionic/angular/standalone";
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
+import { AlertService } from 'src/shared/services/alert.service';
 
 @Component({
     selector: 'app-footer',

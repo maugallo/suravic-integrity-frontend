@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { ShiftService } from 'src/app/core/services/shift.service';
-import { HeaderComponent } from "../../../shared/components/header/header.component";
+import { ShiftService } from '../../services/shift.service';
+import { HeaderComponent } from 'src/shared/components/header/header.component';
 import { IonContent, IonButton, IonList } from "@ionic/angular/standalone";
-import { NotFoundComponent } from "../../../shared/components/not-found/not-found.component";
+import { NotFoundComponent } from 'src/shared/components/not-found/not-found.component';
 import { ShiftItemComponent } from "./shift-item/shift-item.component";
 
 @Component({

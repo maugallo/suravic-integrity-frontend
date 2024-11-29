@@ -1,8 +1,8 @@
 import { Component, DestroyRef, inject, input } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ProductResponse } from 'src/app/core/models/interfaces/product.model';
-import { ProductService } from 'src/app/core/services/product.service';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
+import { ProductResponse } from 'src/app/products/models/product.model';
+import { ProductService } from 'src/app/products/services/product.service';
+import { AlertService } from 'src/shared/services/alert.service';
 import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from "@ionic/angular/standalone";
 import { Router } from '@angular/router';
 

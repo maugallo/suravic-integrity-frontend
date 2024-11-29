@@ -1,15 +1,15 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { ProductService } from 'src/app/core/services/product.service';
+import { ProductService } from '../../services/product.service';
 import { IonSearchbar, IonButton, IonContent, IonList, MenuController } from "@ionic/angular/standalone";
-import { HeaderComponent } from "../../../shared/components/header/header.component";
-import { CategoryModalComponent } from "./category-modal/category-modal.component";
-import { NotFoundComponent } from "../../../shared/components/not-found/not-found.component";
+import { HeaderComponent } from 'src/shared/components/header/header.component';
+import { CategoryModalComponent } from 'src/app/categories/components/category-modal/category-modal.component';
+import { NotFoundComponent } from 'src/shared/components/not-found/not-found.component';
 import { ProductItemComponent } from './product-item/product-item.component';
-import { ProductResponse } from 'src/app/core/models/interfaces/product.model';
-import { ProductsFilterComponent } from "../../../shared/components/filters/products-filter/products-filter.component";
-import { DeletedButtonComponent } from "../../../shared/components/deleted-button/deleted-button.component";
-import { Filter } from 'src/app/core/models/interfaces/filter.model';
+import { ProductResponse } from '../../models/product.model';
+import { ProductsFilterComponent } from 'src/shared/components/filters/products-filter/products-filter.component';
+import { DeletedButtonComponent } from 'src/shared/components/deleted-button/deleted-button.component';
+import { Filter } from 'src/shared/models/filter.model';
 
 @Component({
     selector: 'app-product-dashboard',

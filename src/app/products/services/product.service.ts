@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, Observable, switchMap, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ProductRequest, ProductResponse } from '../models/interfaces/product.model';
+import { ProductRequest, ProductResponse } from '../models/product.model';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({

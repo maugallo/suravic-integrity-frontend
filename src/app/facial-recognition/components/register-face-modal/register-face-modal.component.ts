@@ -1,20 +1,20 @@
 import { Component, computed, inject, input } from '@angular/core';
-import { EmployeeResponse } from 'src/app/core/models/interfaces/employee.model';
+import { EmployeeResponse } from 'src/app/employees/models/employee.model';
 import { IonModal, IonContent } from "@ionic/angular/standalone";
-import { HeaderComponent } from "../../../shared/components/header/header.component";
-import { EmployeeService } from 'src/app/core/services/employee.service';
-import { AlertService } from 'src/app/core/services/utils/alert.service';
+import { HeaderComponent } from 'src/shared/components/header/header.component';
+import { EmployeeService } from 'src/app/employees/services/employee.service';
+import { AlertService } from 'src/shared/services/alert.service';
 import { AsyncPipe } from '@angular/common';
 import { from, of, switchMap } from 'rxjs';
-import { FileUtility } from 'src/app/core/models/utils/file.utility';
-import { SubmitButtonComponent } from "../../../shared/components/form/submit-button/submit-button.component";
+import { FileUtility } from 'src/shared/utils/file.utility';
+import { SubmitButtonComponent } from 'src/shared/components/form/submit-button/submit-button.component';
 import { Camera, CameraDirection, CameraResultType, Photo } from '@capacitor/camera';
 
 @Component({
-    selector: 'app-register-face-modal',
-    templateUrl: './register-face-modal.component.html',
-    styleUrls: ['./register-face-modal.component.scss'],
-    imports: [IonContent, IonModal, HeaderComponent, AsyncPipe, SubmitButtonComponent]
+  selector: 'app-register-face-modal',
+  templateUrl: './register-face-modal.component.html',
+  styleUrls: ['./register-face-modal.component.scss'],
+  imports: [IonContent, IonModal, HeaderComponent, AsyncPipe, SubmitButtonComponent]
 })
 export class RegisterFaceModalComponent {
 
@@ -22,6 +22,7 @@ export class RegisterFaceModalComponent {
   private alertService = inject(AlertService);
 
   public fileUtility = FileUtility;
+  
   public employee = input<EmployeeResponse>();
 
   public faceImage = computed(() => {
@@ -39,7 +40,7 @@ export class RegisterFaceModalComponent {
     }
     return of(null);
   });
-  
+
   public isInert = false; // Propiedad necesaria para que los alert se puedan mostrar sobre el modal.
 
   public setInert(value: boolean) {

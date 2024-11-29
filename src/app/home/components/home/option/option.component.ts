@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 import { IonButton } from "@ionic/angular/standalone";
 
 @Component({
-    selector: 'app-option',
-    templateUrl: './option.component.html',
-    styleUrls: ['./option.component.scss'],
-    imports: [IonButton,]
+  selector: 'app-option',
+  templateUrl: './option.component.html',
+  styleUrls: ['./option.component.scss'],
+  imports: [IonButton,]
 })
 export class OptionComponent {
 

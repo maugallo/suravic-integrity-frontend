@@ -1,14 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { IonContent } from "@ionic/angular/standalone";
 import { OptionComponent } from "./option/option.component";
-import { DUENO_OPTIONS, ENCARGADO_OPTIONS, Option } from './home-options.constant';
+import { DUENO_OPTIONS, ENCARGADO_OPTIONS, Option } from '../../models/home-options.constant';
 import { NavigationEnd, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map, switchMap, tap } from 'rxjs';
-import { StorageService } from 'src/app/core/services/utils/storage.service';
-import { StorageType } from 'src/app/core/models/enums/storage-type.enum';
-import { TokenUtility } from 'src/app/core/models/utils/token.utility';
-import { MarkAttendanceModalComponent } from 'src/app/pages/attendances/mark-attendance-modal/mark-attendance-modal.component';
+import { StorageService } from 'src/shared/services/storage.service';
+import { StorageType } from 'src/shared/models/storage-type.enum';
+import { TokenUtility } from 'src/shared/utils/token.utility';
+import { MarkAttendanceModalComponent } from 'src/app/attendances/components/mark-attendance-modal/mark-attendance-modal.component';
 
 @Component({
     selector: 'app-home',

@@ -1,9 +1,9 @@
-import { Component, inject, input, model, output } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { IonContent, IonMenu, IonSelectOption, MenuController } from "@ionic/angular/standalone";
-import { SelectInputComponent } from "../../../../shared/components/form/select-input/select-input.component";
-import { NumberInputComponent } from "../../../../shared/components/form/number-input/number-input.component";
-import { FormButtonComponent } from "../../../../shared/components/form/form-button/form-button.component";
-import { ProductWithPricing } from 'src/app/core/models/interfaces/product.model';
+import { SelectInputComponent } from 'src/shared/components/form/select-input/select-input.component';
+import { NumberInputComponent } from 'src/shared/components/form/number-input/number-input.component';
+import { FormButtonComponent } from 'src/shared/components/form/form-button/form-button.component';
+import { ProductWithPricing } from 'src/app/products/models/product.model';
 
 @Component({
     selector: 'app-product-percentages',

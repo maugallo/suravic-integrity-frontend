@@ -2,21 +2,21 @@ import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, of, switchMap, tap } from 'rxjs';
-import { OrderService } from 'src/app/core/services/order.service';
+import { OrderService } from '../../services/order.service';
 import { IonContent, IonCard, IonCardHeader, IonCardContent } from "@ionic/angular/standalone";
-import { BackButtonComponent } from "../../../shared/components/back-button/back-button.component";
-import { FileUtility } from 'src/app/core/models/utils/file.utility';
+import { BackButtonComponent } from 'src/shared/components/back-button/back-button.component';
+import { FileUtility } from 'src/shared/utils/file.utility';
 import { Photo } from '@capacitor/camera';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { FileOpener, FileOpenerOptions } from '@capacitor-community/file-opener';
-import { OrderStatus } from 'src/app/core/models/enums/order-status.enum';
+import { OrderStatus } from '../../models/order-status.enum';
 
 @Component({
-    selector: 'app-order-detail',
-    templateUrl: './order-detail.component.html',
-    styleUrls: ['./order-detail.component.scss'],
-    imports: [IonCardContent, IonCardHeader, IonCard, IonContent, BackButtonComponent, CurrencyPipe, DatePipe]
+  selector: 'app-order-detail',
+  templateUrl: './order-detail.component.html',
+  styleUrls: ['./order-detail.component.scss'],
+  imports: [IonCardContent, IonCardHeader, IonCard, IonContent, BackButtonComponent, CurrencyPipe, DatePipe]
 })
 export class OrderDetailComponent {
 
@@ -72,7 +72,7 @@ export class OrderDetailComponent {
           directory: Directory.Documents,
           recursive: true
         });
-        
+
         // Abrir archivo.
         const mimeType = FileUtility.getFileMimeType(this.invoice);
         const options: FileOpenerOptions = {
@@ -81,7 +81,7 @@ export class OrderDetailComponent {
           openWithDefault: true,
         };
         await FileOpener.open(options);
-  
+
         console.log('Archivo descargado y abierto:', savedFile.uri);
       } catch (error) {
         console.error('Error al descargar y abrir el archivo:', error);
