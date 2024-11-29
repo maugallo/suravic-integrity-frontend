@@ -5,6 +5,9 @@
 @forward 'src/theme/variables';
 @forward 'src/theme/utilities';
 
+/* Custom Sweet Alert 2 files (for export) */
+@forward 'src/theme/sweet-alert';
+
 /* Font Awesome Icons */
 @import 'src/theme/icons.css';
 
@@ -16,7 +19,6 @@
 @import '@ionic/angular/css/structure.css';
 @import '@ionic/angular/css/typography.css';
 @import '@ionic/angular/css/display.css';
-
 
 /* Custom Primary Color */
 :root {
@@ -54,55 +56,4 @@ ion-loading.loader {
 ion-spinner {
     width: 6rem !important;
     height: 6rem !important;
-}
-
-/* Sweet Alert 2 modal style */
-.sweet-modal-title {
-    font-size: 1.7rem;
-    color: $primary-color;
-}
-
-.sweet-modal-input {
-    border: 0.1rem solid $secondary-color-lighter;
-}
-
-.sweet-modal-input:focus {
-    border-color: $primary-color;
-    box-shadow: none;
-}
-
-.sweet-modal-input:active {
-    border-color: $primary-color;
-}
-
-.sweet-modal-button {
-    background-color: $primary-color;
-    width: 6rem;
-    height: 2.5rem;
-    font-size: 0.83rem;
-}
-
-.sweet-modal-cancel-button {
-    background-color: $secondary-color;
-    width: 6rem;
-    height: 2.5rem;
-    font-size: 0.93rem;
-}
-
-.swal2-validation-message {
-    background-color: white;
-    color: #ec3737;
-    font-weight: normal;
-    padding-left: 0;
-    margin-top: 0;
-    margin-bottom: 0;
-    padding-bottom: 0;
-}
-
-.swal2-validation-message::before {
-    content: none; /* Remove warning icon */
-}
-
-.swal2-popup.swal2-toast {
-    padding: 0.7em !important;
 }

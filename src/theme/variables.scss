@@ -1,14 +1,14 @@
-@use 'sass:color';  // Importar el módulo de colores de Sass
+@use 'sass:color';
 
 $primary-color: #e77624;
-$primary-color-darker: color.adjust($primary-color, $lightness: -10%);  // Usar $lightness para oscurecer
-$primary-color-lighter: color.adjust($primary-color, $lightness: 40%);   // Usar $lightness para aclarar
+$primary-color-darker: color.adjust($primary-color, $lightness: -10%);
+$primary-color-lighter: color.adjust($primary-color, $lightness: 40%);
 
 $secondary-color: #8b9a9b;
-$secondary-color-darker: color.adjust($secondary-color, $lightness: -30%);  // Usar $lightness para oscurecer
-$secondary-color-lighter: color.adjust($secondary-color, $lightness: 30%);   // Usar $lightness para aclarar
+$secondary-color-darker: color.adjust($secondary-color, $lightness: -30%);
+$secondary-color-lighter: color.adjust($secondary-color, $lightness: 30%);
 
 $tertiary-color: #d4af97;
-$tertiary-color-darker: color.adjust($tertiary-color, $lightness: -15%);  // Usar $lightness para oscurecer
+$tertiary-color-darker: color.adjust($tertiary-color, $lightness: -15%);
 
 $error-color: #c5000f;
