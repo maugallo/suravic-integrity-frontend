@@ -1,11 +1,11 @@
-import { Component, computed, inject, Signal, signal } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, Signal, signal } from '@angular/core';
 import { IonContent, IonSearchbar, IonList, IonButton } from "@ionic/angular/standalone";
 import { HeaderComponent } from 'src/shared/components/header/header.component';
 import { UserItemComponent } from './user-item/user-item.component';
-import { UserService } from '../../services/user.service';
 import { UserResponse } from '../../models/user.model';
 import { Router } from '@angular/router';
 import { NotFoundComponent } from 'src/shared/components/not-found/not-found.component';
+import { UsersStore } from '../../stores/users.store';
 
 @Component({
     selector: 'app-user-dashboard',
@@ -15,14 +15,12 @@ import { NotFoundComponent } from 'src/shared/components/not-found/not-found.com
 })
 export class UserDashboardComponent {
 
+  private userStore = inject(UsersStore);
   public router = inject(Router);
 
-  private userService = inject(UserService);
+  private searchQuery = signal('');
 
-  private searchQuery = signal<string>('');
-  private users = this.userService.users;
-
-  public searchBarResult: Signal<UserResponse[]> = computed(() => this.users().filter(user => user.username.toLowerCase().indexOf(this.searchQuery()) > -1));
+  public searchBarResult: Signal<UserResponse[]> = computed(() => this.userStore.users().filter(user => user.username.toLowerCase().indexOf(this.searchQuery()) > -1));
 
   public searchForUsers(event: any) {
     const query = event.target.value.toLowerCase();

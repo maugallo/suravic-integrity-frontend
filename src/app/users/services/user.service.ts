@@ -18,18 +18,14 @@ export class UserService {
   public users: Signal<UserResponse[]> = toSignal(this.refreshUsers$.pipe(
     switchMap(() => this.getUsers())), { initialValue: [] });
 
-  private getUsers(): Observable<UserResponse[]> {
+  public getUsers(): Observable<UserResponse[]> {
     return this.http.get<UserResponse[]>(this.apiUrl)
       .pipe(catchError(this.handleError));
   }
 
-  public getUserById(id: number) {
-    return this.users().find((user) => user.id === id)!;
-  }
-
-  public createUser(user: UserRequest): Observable<string> {
-    return this.http.post(this.apiUrl, user, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => this.refreshUsers$.next()));
+  public createUser(user: UserRequest): Observable<UserResponse> {
+    return this.http.post<UserResponse>(this.apiUrl, user)
+      .pipe(catchError(this.handleError));
   }
 
   public editUser(id: number, user: UserRequest): Observable<string> {

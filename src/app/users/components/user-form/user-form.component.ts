@@ -6,7 +6,7 @@ import { UserRequest } from '../../models/user.model';
 import { ValidationService } from 'src/shared/services/validation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import { catchError, Observable, of, switchMap, tap } from 'rxjs';
+import { of, switchMap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AlertService } from 'src/shared/services/alert.service';
 import { TextInputComponent } from 'src/shared/components/form/text-input/text-input.component';
@@ -17,6 +17,8 @@ import { USER_ROLES, UserRole } from './user-roles.constant';
 import { SubmitButtonComponent } from 'src/shared/components/form/submit-button/submit-button.component';
 import { EntitiesUtility } from 'src/shared/utils/entities.utility';
 import { UserMapper } from 'src/shared/mappers/user.mapper';
+import { UsersStore } from '../../stores/users.store';
+import { watchState } from '@ngrx/signals';
 
 @Component({
     selector: 'app-user-form',
@@ -26,12 +28,22 @@ import { UserMapper } from 'src/shared/mappers/user.mapper';
 })
 export class UserFormComponent {
 
-  private router = inject(Router);
-  private activatedRoute = inject(ActivatedRoute);
-
+  
   private userService = inject(UserService);
   private alertService = inject(AlertService);
   public validationService = inject(ValidationService);
+  private userStore = inject(UsersStore);
+  private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
+
+  constructor() {
+    watchState(this.userStore, () => {
+      if (this.userStore.apiResponse() !== undefined) {
+        if (this.userStore.apiResponse()?.success) this.handleSuccess(this.userStore.apiResponse()?.message!);
+        else this.handleError(this.userStore.apiResponse()?.message!);
+      }
+    })
+  }
 
   public userRoles: UserRole[] = USER_ROLES;
 
@@ -46,11 +58,11 @@ export class UserFormComponent {
     switchMap((params) => {
       const userId = params!.get('id');
       if (this.isParameterValid(userId)) {
-        const user = this.userService.getUserById(Number(userId));
+        const user = this.userStore.getUserById(Number(userId));
         if (!user) this.router.navigate(['providers', 'dashboard']);
         this.isUserEdit = true;
-        this.userId = user.id;
-        return of(UserMapper.toUserRequest(user));
+        this.userId = user!.id;
+        return of(UserMapper.toUserRequest(user!));
       } else {
         this.isUserEdit = false;
         return of(EntitiesUtility.getEmptyUserRequest());
@@ -62,28 +74,26 @@ export class UserFormComponent {
     if (!this.validationService.validateInputs(this.inputComponents)) {
       return;
     }
-    
-    this.getFormOperation().pipe(
-      tap((response) => this.handleSuccess(response)),
-      catchError((error) => this.handleError(error)),
-    ).subscribe();
+
+    if (this.isUserEdit) {
+      this.userService.editUser(this.userId, this.user()!)/* .pipe(
+        tap((response) => this.handleSuccess(response)),
+        catchError((error) => this.handleError(error)),
+      ) */.subscribe();
+    } else {
+      this.userStore.addUser(this.user()!);
+
+    }
   }
 
-  private getFormOperation(): Observable<any> {
-    return this.isUserEdit
-      ? this.userService.editUser(this.userId, this.user()!)
-      : this.userService.createUser(this.user()!);
-  }
-
-  private handleSuccess(response: any) {
+  private handleSuccess(response: string): void {
     this.alertService.getSuccessToast(response).fire();
     this.router.navigate(['users', 'dashboard']);
   }
 
-  private handleError(error: any): Observable<null> {
-    this.alertService.getErrorAlert(error.message).fire();
-    console.error(error.message);
-    return of(null);
+  private handleError(error: string): void {
+    this.alertService.getErrorAlert(error).fire();
+    console.error(error);
   }
 
   private isParameterValid(param: string | null) {
