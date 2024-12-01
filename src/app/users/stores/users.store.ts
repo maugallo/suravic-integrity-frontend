@@ -3,50 +3,59 @@ import { UserRequest, UserResponse } from "../models/user.model";
 import { inject } from "@angular/core";
 import { UserService } from "../services/user.service";
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { pipe, switchMap, tap } from "rxjs";
+import { finalize, pipe, switchMap, tap } from "rxjs";
 import { tapResponse } from "@ngrx/operators";
 import { HttpErrorResponse } from "@angular/common/http";
-
-interface ApiResponse {
-    success: boolean,
-    message: string
-}
+import { setCompleted, setError, setNone, setPending, withRequestStatus } from "src/shared/stores/api-request-status.feature";
 
 interface UsersState {
-    users: UserResponse[],
-    loading: boolean,
-    apiResponse: ApiResponse | undefined
+    users: UserResponse[]
 };
 
 const initialState: UsersState = {
-    users: [],
-    loading: false,
-    apiResponse: undefined
+    users: []
 };
 
 export const UsersStore = signalStore(
     { providedIn: 'root' },
     withState(initialState),
+    withRequestStatus(),
     withMethods((store, usersService = inject(UserService)) => ({
         getUsers: rxMethod<void>(pipe(
-            tap(() => patchState(store, { loading: true })),
+            tap(() => patchState(store, setPending())),
             switchMap(() => usersService.getUsers()),
             tapResponse({
-                next: (users) => patchState(store, { users, loading: false }),
-                error: () => null
+                next: (users) => patchState(store, { users }),
+                error: (error: HttpErrorResponse) => patchState(store, setError(error.message)),
+                finalize: () => patchState(store, setNone())
             })
         )),
         getUserById(id: number) {
             return store.users().find(user => user.id === id);
         },
         addUser: rxMethod<UserRequest>(pipe(
-            tap(() => patchState(store, { loading: true })),
+            tap(() => console.log("Calling addUser!")),
+            tap(() => patchState(store, setPending())),
             switchMap((user) => usersService.createUser(user)),
             tapResponse({
-                next: (createdUser: UserResponse) => patchState(store, (state) => ({ users: [...state.users, createdUser], apiResponse: { success: true, message: 'Usuario creado correctamente' } })),
-                error: (error: HttpErrorResponse) => patchState(store, { apiResponse: { success: false, message: error.message } }),
+                next: (createdUser: UserResponse) => patchState(store, (state) => (
+                    { users: [...state.users, createdUser] }),
+                    setCompleted('Usuario creado correctamente')
+                ),
+                error: (error: HttpErrorResponse) => patchState(store, setError(error.message))
             }),
-            tap(() => patchState(store, { loading: false, apiResponse: undefined }))
+            finalize(() => patchState(store, setNone()))
+        )),
+        editUser: rxMethod<EditUserObject>(pipe(
+            tap(() => patchState(store, setPending())),
+            switchMap((request) => usersService.editUser(request.id, request.user)),
+            tapResponse({
+                next: (editedUser: UserResponse) => patchState(store, (state) => (
+                    { users: state.users.map(user => (user.id === editedUser.id) ? editedUser : user) }),
+                    setCompleted('Usuario modificado correctamente')
+                ),
+                error: (error: HttpErrorResponse) => patchState(store, setError(error.message))
+            })
         ))
     })),
     withHooks((store) => ({
@@ -55,3 +64,8 @@ export const UsersStore = signalStore(
         }
     }))
 );
+
+interface EditUserObject {
+    id: number,
+    user: UserRequest
+}

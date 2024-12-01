@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { UserRequest } from '../../models/user.model';
 import { ValidationService } from 'src/shared/services/validation.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserService } from '../../services/user.service';
 import { of, switchMap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AlertService } from 'src/shared/services/alert.service';
@@ -19,17 +18,16 @@ import { EntitiesUtility } from 'src/shared/utils/entities.utility';
 import { UserMapper } from 'src/shared/mappers/user.mapper';
 import { UsersStore } from '../../stores/users.store';
 import { watchState } from '@ngrx/signals';
+import { ApiStatus } from 'src/shared/stores/api-request-status.feature';
 
 @Component({
-    selector: 'app-user-form',
-    templateUrl: './user-form.component.html',
-    styleUrls: ['./user-form.component.scss'],
-    imports: [IonContent, HeaderComponent, FormsModule, IonSelectOption, TextInputComponent, PasswordInputComponent, SelectInputComponent, SubmitButtonComponent]
+  selector: 'app-user-form',
+  templateUrl: './user-form.component.html',
+  styleUrls: ['./user-form.component.scss'],
+  imports: [IonContent, HeaderComponent, FormsModule, IonSelectOption, TextInputComponent, PasswordInputComponent, SelectInputComponent, SubmitButtonComponent]
 })
 export class UserFormComponent {
 
-  
-  private userService = inject(UserService);
   private alertService = inject(AlertService);
   public validationService = inject(ValidationService);
   private userStore = inject(UsersStore);
@@ -38,11 +36,12 @@ export class UserFormComponent {
 
   constructor() {
     watchState(this.userStore, () => {
-      if (this.userStore.apiResponse() !== undefined) {
-        if (this.userStore.apiResponse()?.success) this.handleSuccess(this.userStore.apiResponse()?.message!);
-        else this.handleError(this.userStore.apiResponse()?.message!);
-      }
-    })
+      console.log(this.userStore.status());
+
+      if (this.userStore.status() === ApiStatus.PENDING) null;
+      if (this.userStore.status() === ApiStatus.SUCCESS) this.handleSuccess(this.userStore.message());
+      if (this.userStore.status() === ApiStatus.ERROR) this.handleError(this.userStore.message());
+    });
   }
 
   public userRoles: UserRole[] = USER_ROLES;
@@ -53,12 +52,12 @@ export class UserFormComponent {
   public userId!: number;
 
   @ViewChildren('formInput') inputComponents!: QueryList<TextInputComponent | NumberInputComponent | SelectInputComponent>;
-  
+
   public user: Signal<UserRequest | undefined> = toSignal(this.activatedRoute.paramMap.pipe(
     switchMap((params) => {
-      const userId = params!.get('id');
+      const userId = Number(params.get('id'));
       if (this.isParameterValid(userId)) {
-        const user = this.userStore.getUserById(Number(userId));
+        const user = this.userStore.getUserById(userId);
         if (!user) this.router.navigate(['providers', 'dashboard']);
         this.isUserEdit = true;
         this.userId = user!.id;
@@ -71,18 +70,18 @@ export class UserFormComponent {
   ));
 
   public onSubmit() {
+    console.log("se apreto submit!");
     if (!this.validationService.validateInputs(this.inputComponents)) {
+      console.log("pasa por aca")
       return;
     }
 
     if (this.isUserEdit) {
-      this.userService.editUser(this.userId, this.user()!)/* .pipe(
-        tap((response) => this.handleSuccess(response)),
-        catchError((error) => this.handleError(error)),
-      ) */.subscribe();
+      this.userStore.editUser({ id: this.userId, user: this.user()! });
     } else {
-      this.userStore.addUser(this.user()!);
+      console.log("se va a llamar store.addUser!");
 
+      this.userStore.addUser(this.user()!);
     }
   }
 
@@ -96,8 +95,8 @@ export class UserFormComponent {
     console.error(error);
   }
 
-  private isParameterValid(param: string | null) {
-    return !isNaN(Number(param)) && Number(param);
+  private isParameterValid(param: number): boolean {
+    return !isNaN(param) && param > 0;
   }
-
+  
 }

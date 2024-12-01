@@ -28,9 +28,9 @@ export class UserService {
       .pipe(catchError(this.handleError));
   }
 
-  public editUser(id: number, user: UserRequest): Observable<string> {
-    return this.http.put(`${this.apiUrl}/${id}`, user, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => this.refreshUsers$.next()));
+  public editUser(id: number, user: UserRequest): Observable<UserResponse> {
+    return this.http.put<UserResponse>(`${this.apiUrl}/${id}`, user)
+      .pipe(catchError(this.handleError));
   }
 
   public deleteUser(id: number): Observable<string> {
