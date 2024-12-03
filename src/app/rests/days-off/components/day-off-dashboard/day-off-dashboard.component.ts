@@ -10,7 +10,8 @@ import { DayOffItemComponent } from "./day-off-item/day-off-item.component";
     selector: 'app-day-off-dashboard',
     templateUrl: './day-off-dashboard.component.html',
     styleUrls: ['./day-off-dashboard.component.scss'],
-    imports: [IonList, IonButton, IonContent, HeaderComponent, NotFoundComponent, DayOffItemComponent]
+    imports: [IonList, IonButton, IonContent, HeaderComponent, NotFoundComponent, DayOffItemComponent],
+standalone: true
 })
 export class DayOffDashboardComponent {
 

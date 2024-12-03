@@ -19,7 +19,8 @@ import { ShiftMapper } from 'src/shared/mappers/shift.mapper';
     selector: 'app-shift-form',
     templateUrl: './shift-form.component.html',
     styleUrls: ['./shift-form.component.scss'],
-    imports: [IonContent, HeaderComponent, SubmitButtonComponent, FormsModule, WheelTimeInputComponent, TextInputComponent]
+    imports: [IonContent, HeaderComponent, SubmitButtonComponent, FormsModule, WheelTimeInputComponent, TextInputComponent],
+standalone: true
 })
 export class ShiftFormComponent {
 

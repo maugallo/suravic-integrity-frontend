@@ -21,7 +21,8 @@ import { MeatDetailsConstant } from '../../models/meat-details-constant.enum';
     selector: 'app-pricing-beef',
     templateUrl: './pricing-beef.component.html',
     styleUrls: ['./pricing-beef.component.scss'],
-    imports: [IonContent, HeaderComponent, FormsModule, UpperCasePipe, WeightsAccordionComponent, SubmitButtonComponent, NumberInputComponent, CurrencyPipe, FormButtonComponent]
+    imports: [IonContent, HeaderComponent, FormsModule, UpperCasePipe, WeightsAccordionComponent, SubmitButtonComponent, NumberInputComponent, CurrencyPipe, FormButtonComponent],
+standalone: true
 })
 export class PricingBeefComponent {
 

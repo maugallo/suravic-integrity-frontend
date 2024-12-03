@@ -7,7 +7,8 @@ import { Router } from '@angular/router';
     selector: 'app-rests-menu',
     templateUrl: './rests-menu.component.html',
     styleUrls: ['./rests-menu.component.scss'],
-    imports: [IonButton, IonContent, HeaderComponent]
+    imports: [IonButton, IonContent, HeaderComponent],
+standalone: true
 })
 export class RestsMenuComponent {
 

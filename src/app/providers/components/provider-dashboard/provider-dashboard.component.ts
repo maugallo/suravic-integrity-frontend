@@ -16,7 +16,8 @@ import { Filter } from 'src/shared/models/filter.model';
     selector: 'app-provider-dashboard',
     templateUrl: './provider-dashboard.component.html',
     styleUrls: ['./provider-dashboard.component.scss'],
-    imports: [IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, SectorModalComponent, NotFoundComponent, ProviderItemComponent, ProvidersFilterComponent, DeletedButtonComponent]
+    imports: [IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, SectorModalComponent, NotFoundComponent, ProviderItemComponent, ProvidersFilterComponent, DeletedButtonComponent],
+standalone: true
 })
 export class ProviderDashboardComponent {
 

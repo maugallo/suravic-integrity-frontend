@@ -9,7 +9,8 @@ import { FileUtility } from 'src/shared/utils/file.utility';
     selector: 'app-file-input',
     templateUrl: './file-input.component.html',
     styleUrls: ['./file-input.component.scss'],
-    imports: [IonButton,]
+    imports: [IonButton,],
+standalone: true
 })
 export class FileInputComponent {
 

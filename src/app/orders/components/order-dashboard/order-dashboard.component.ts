@@ -14,7 +14,8 @@ import { Filter } from 'src/shared/models/filter.model';
   selector: 'app-order-dashboard',
   templateUrl: './order-dashboard.component.html',
   styleUrls: ['./order-dashboard.component.scss'],
-  imports: [IonProgressBar, IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, NotFoundComponent, OrderItemComponent, OrdersFilterComponent, DeletedButtonComponent]
+  imports: [IonProgressBar, IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, NotFoundComponent, OrderItemComponent, OrdersFilterComponent, DeletedButtonComponent],
+standalone: true
 })
 export class OrderDashboardComponent {
 

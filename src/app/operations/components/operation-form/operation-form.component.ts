@@ -27,7 +27,8 @@ import { Location, TitleCasePipe } from '@angular/common';
     selector: 'app-operation-form',
     templateUrl: './operation-form.component.html',
     styleUrls: ['./operation-form.component.scss'],
-    imports: [IonContent, HeaderComponent, NumberInputComponent, SelectInputComponent, FileInputComponent, IonSelectOption, SubmitButtonComponent, FormsModule, TitleCasePipe]
+    imports: [IonContent, HeaderComponent, NumberInputComponent, SelectInputComponent, FileInputComponent, IonSelectOption, SubmitButtonComponent, FormsModule, TitleCasePipe],
+standalone: true
 })
 export class OperationFormComponent {
   

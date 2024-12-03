@@ -29,7 +29,8 @@ import { OrderStatus } from '../../models/order-status.enum';
     selector: 'app-order-form',
     templateUrl: './order-form.component.html',
     styleUrls: ['./order-form.component.scss'],
-    imports: [IonContent, HeaderComponent, FormsModule, IonSelectOption, WheelDateInputComponent, NumberInputComponent, SelectInputComponent, SubmitButtonComponent, FileInputComponent]
+    imports: [IonContent, HeaderComponent, FormsModule, IonSelectOption, WheelDateInputComponent, NumberInputComponent, SelectInputComponent, SubmitButtonComponent, FileInputComponent],
+standalone: true
 })
 export class OrderFormComponent {
   

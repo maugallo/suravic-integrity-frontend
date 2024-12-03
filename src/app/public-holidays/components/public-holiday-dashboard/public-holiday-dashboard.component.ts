@@ -11,7 +11,8 @@ import { PublicHolidayItemComponent } from "./public-holiday-item/public-holiday
     selector: 'app-public-holiday-dashboard',
     templateUrl: './public-holiday-dashboard.component.html',
     styleUrls: ['./public-holiday-dashboard.component.scss'],
-    imports: [IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, NotFoundComponent, PublicHolidayItemComponent]
+    imports: [IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, NotFoundComponent, PublicHolidayItemComponent],
+standalone: true
 })
 export class PublicHolidayDashboardComponent {
 

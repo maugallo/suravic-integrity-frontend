@@ -11,7 +11,8 @@ import { DatePipe } from '@angular/common';
   selector: 'app-order-item',
   templateUrl: './order-item.component.html',
   styleUrls: ['./order-item.component.scss'],
-  imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, DatePipe]
+  imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, DatePipe],
+standalone: true
 })
 export class OrderItemComponent {
 

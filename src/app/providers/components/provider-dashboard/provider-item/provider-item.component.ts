@@ -10,7 +10,8 @@ import { AlertService } from 'src/shared/services/alert.service';
     selector: 'app-provider-item',
     templateUrl: './provider-item.component.html',
     styleUrls: ['./provider-item.component.scss'],
-    imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, TitleCasePipe, UpperCasePipe]
+    imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, TitleCasePipe, UpperCasePipe],
+standalone: true
 })
 export class ProviderItemComponent {
 

@@ -1,9 +1,8 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { inject, Injectable, Signal } from '@angular/core';
-import { BehaviorSubject, catchError, Observable, switchMap, tap, throwError } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { UserRequest, UserResponse } from '../models/user.model';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +10,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 export class UserService {
 
   private http = inject(HttpClient);
+  
   private apiUrl = `${environment.apiUrl}/users`;
-
-  private refreshUsers$ = new BehaviorSubject<void>(undefined);
-
-  public users: Signal<UserResponse[]> = toSignal(this.refreshUsers$.pipe(
-    switchMap(() => this.getUsers())), { initialValue: [] });
 
   public getUsers(): Observable<UserResponse[]> {
     return this.http.get<UserResponse[]>(this.apiUrl)
@@ -35,7 +30,7 @@ export class UserService {
 
   public deleteUser(id: number): Observable<string> {
     return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => this.refreshUsers$.next()));
+      .pipe(catchError(this.handleError));
   }
 
   private handleError(error: HttpErrorResponse) {

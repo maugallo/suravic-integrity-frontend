@@ -7,7 +7,8 @@ import { BaseInputComponent } from '../base-input/base-input.component';
     selector: 'app-select-input',
     templateUrl: './select-input.component.html',
     styleUrls: ['./select-input.component.scss'],
-    imports: [IonSelect, IonNote, FormsModule]
+    imports: [IonSelect, IonNote, FormsModule],
+standalone: true
 })
 export class SelectInputComponent extends BaseInputComponent {
 

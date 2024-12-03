@@ -11,7 +11,8 @@ import { FileOpener, FileOpenerOptions } from '@capacitor-community/file-opener'
   selector: 'app-reports',
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.scss'],
-  imports: [IonContent, OptionLargeComponent]
+  imports: [IonContent, OptionLargeComponent],
+standalone: true
 })
 export class ReportsComponent {
 

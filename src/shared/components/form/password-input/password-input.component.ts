@@ -8,7 +8,8 @@ import { EqualPasswordsDirective } from 'src/shared/validators/equal-passwords.d
     selector: 'app-password-input',
     templateUrl: './password-input.component.html',
     styleUrls: ['./password-input.component.scss'],
-    imports: [IonInput, FormsModule, EqualPasswordsDirective]
+    imports: [IonInput, FormsModule, EqualPasswordsDirective],
+standalone: true
 })
 export class PasswordInputComponent extends BaseInputComponent {
 

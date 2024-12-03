@@ -7,7 +7,8 @@ import { AlertService } from 'src/shared/services/alert.service';
     selector: 'app-footer',
     templateUrl: './footer.component.html',
     styleUrls: ['./footer.component.scss'],
-    imports: [IonTabBar, IonTabs, IonTabButton]
+    imports: [IonTabBar, IonTabs, IonTabButton],
+standalone: true
 })
 export class FooterComponent {
 

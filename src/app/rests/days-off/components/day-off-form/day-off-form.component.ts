@@ -18,7 +18,8 @@ import { ShiftResponse } from 'src/app/shifts/models/shift.model';
     selector: 'app-day-off-form',
     templateUrl: './day-off-form.component.html',
     styleUrls: ['./day-off-form.component.scss'],
-    imports: [IonDatetime, IonContent, SelectInputComponent, SubmitButtonComponent, FormsModule, IonSelectOption, HeaderComponent]
+    imports: [IonDatetime, IonContent, SelectInputComponent, SubmitButtonComponent, FormsModule, IonSelectOption, HeaderComponent],
+standalone: true
 })
 export class DayOffFormComponent {
 

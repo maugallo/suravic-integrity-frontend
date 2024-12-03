@@ -9,7 +9,8 @@ import { BaseInputComponent } from '../base-input/base-input.component';
     selector: 'app-number-input',
     templateUrl: './number-input.component.html',
     styleUrls: ['./number-input.component.scss'],
-    imports: [IonInput, FormsModule, MinValueDirective, MaxValueDirective]
+    imports: [IonInput, FormsModule, MinValueDirective, MaxValueDirective],
+standalone: true
 })
 export class NumberInputComponent extends BaseInputComponent {
   

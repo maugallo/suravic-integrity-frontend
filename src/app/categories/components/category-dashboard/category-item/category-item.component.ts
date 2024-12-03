@@ -10,7 +10,8 @@ import Swal from 'sweetalert2';
     selector: 'app-category-item',
     templateUrl: './category-item.component.html',
     styleUrls: ['./category-item.component.scss'],
-    imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding,]
+    imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding,],
+standalone: true
 })
 export class CategoryItemComponent {
   
