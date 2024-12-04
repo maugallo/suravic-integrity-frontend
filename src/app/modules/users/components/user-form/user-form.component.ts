@@ -30,8 +30,8 @@ export class UserFormComponent {
   private alertService = inject(AlertService);
   public validationService = inject(ValidationService);
   private userStore = inject(UserStore);
-  private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
 
   public userRoles: UserRole[] = USER_ROLES;
 
@@ -51,15 +51,15 @@ export class UserFormComponent {
 
   public idParam = toSignal(this.activatedRoute.paramMap.pipe(
     switchMap((params) => of(Number(params.get('id')) || 0))
-  ));
+  ), { initialValue: 0 });
 
   public user = computed(() => {
-    const idParam = this.idParam()!;
+    const idParam = this.idParam();
 
     if (idParam !== 0) {
-      const user = this.userStore.getUserById(idParam);
+      const user = this.userStore.getEntityById(idParam);
       this.isUserEdit = true;
-      this.userId = user!.id;
+      this.userId = user.id!;
       return UserMapper.toUserRequest(user!);
     } else {
       this.isUserEdit = false;
@@ -73,9 +73,9 @@ export class UserFormComponent {
     }
 
     if (this.isUserEdit) {
-      this.userStore.editUser({ id: this.userId, user: this.user()! });
+      this.userStore.editEntity({ id: this.userId, entity: this.user() });
     } else {
-      this.userStore.addUser(this.user()!);
+      this.userStore.addEntity(this.user());
     }
   }
 

@@ -1,49 +1,39 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { UserRequest, UserResponse } from '../models/user.model';
+import { ErrorService } from 'src/app/shared/services/error.service';
+import { BaseService } from 'src/app/shared/models/base-service.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserService implements BaseService<UserRequest, UserResponse> {
 
+  private errorService = inject(ErrorService);
   private http = inject(HttpClient);
-  
+
   private apiUrl = `${environment.apiUrl}/users`;
 
-  public getUsers(): Observable<UserResponse[]> {
+  public getEntities(): Observable<UserResponse[]> {
     return this.http.get<UserResponse[]>(this.apiUrl)
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.errorService.handleError));
   }
 
-  public createUser(user: UserRequest): Observable<UserResponse> {
+  public createEntity(user: UserRequest): Observable<UserResponse> {
     return this.http.post<UserResponse>(this.apiUrl, user)
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.errorService.handleError));
   }
 
-  public editUser(id: number, user: UserRequest): Observable<UserResponse> {
+  public editEntity(id: number, user: UserRequest): Observable<UserResponse> {
     return this.http.put<UserResponse>(`${this.apiUrl}/${id}`, user)
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.errorService.handleError));
   }
 
-  public deleteUser(id: number): Observable<string> {
+  public deleteEntity(id: number): Observable<string> {
     return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' })
-      .pipe(catchError(this.handleError));
-  }
-
-  private handleError(error: HttpErrorResponse) {
-    switch (error.status) {
-      case 400:
-        return throwError(() => new Error(error.error));
-      case 403:
-        return throwError(() => new Error("No tienes los permisos para realizar esta acción"));
-      case 500:
-        return throwError(() => new Error("Ocurrió un error en el servidor"));
-      default:
-        return throwError(() => error);
-    }
+      .pipe(catchError(this.errorService.handleError));
   }
 
 }

@@ -4,7 +4,6 @@ import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from
 import { UserResponse } from '../../../models/user.model';
 import { UserStore } from '../../../stores/user.store';
 import { AlertService } from 'src/app/shared/services/alert.service';
-import { watchState } from '@ngrx/signals';
 
 @Component({
   selector: 'app-user-item',
@@ -15,16 +14,9 @@ import { watchState } from '@ngrx/signals';
 })
 export class UserItemComponent {
 
-  constructor() {
-    watchState(this.userStore, () => {
-      if (this.userStore.success()) this.handleSuccess(this.userStore.message());
-      if (this.userStore.error()) this.handleError(this.userStore.message());
-    })
-  }
-
   private alertService = inject(AlertService);
-  public router = inject(Router);
   private userStore = inject(UserStore);
+  public router = inject(Router);
 
   public user: any = input<UserResponse>();
 
@@ -33,17 +25,8 @@ export class UserItemComponent {
       .fire()
       .then((result: any) => {
         if (result.isConfirmed)
-          this.userStore.deleteUser(this.user().id);
+          this.userStore.deleteEntity(this.user().id);
       });
-  }
-
-  private handleSuccess(message: string) {
-    this.alertService.getSuccessToast(message).fire();
-    this.router.navigate(['users', 'dashboard']);
-  }
-
-  private handleError(message: string) {
-    this.alertService.getErrorAlert(message).fire();
   }
 
 }

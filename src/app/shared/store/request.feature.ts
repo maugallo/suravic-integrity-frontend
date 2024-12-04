@@ -4,10 +4,7 @@ import { signalStoreFeature, withComputed, withState } from "@ngrx/signals";
 /* Feature que ayuda a todos los stores a gestionar la devolución de una llamada
 a una API, ya sea success, error o pending. */
 
-/* Custom feature para NgRx Signal Store. */
-
 enum ApiStatus {
-    PENDING = 'pending',
     COMPLETED = 'completed',
     SUCCESS = 'success',
     ERROR = 'error'
@@ -23,23 +20,14 @@ const apiRequest: ApiRequestState = {
     message: ''
 }
 
-export type RequestStatus = 'idle' | 'pending' | 'fulfilled' | { error: string };
-export type RequestStatusState = { requestStatus: RequestStatus };
-
 export function withRequestStatus() {
     return signalStoreFeature(
         withState(apiRequest),
         withComputed((apiRequest) => ({
-            pending: computed(() => apiRequest.status() === ApiStatus.PENDING),
             success: computed(() => apiRequest.status() === ApiStatus.SUCCESS),
             error: computed(() => apiRequest.status() === ApiStatus.ERROR)
         }))
     );
-}
-
-export function setPending(): ApiRequestState {
-    console.log("set pending")
-    return { status: ApiStatus.PENDING, message: '' }
 }
 
 export function setSuccess(successMessage: string): ApiRequestState {

@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { UserLoginRequest } from 'src/app/modules/users/models/user.model';
@@ -8,23 +8,25 @@ import { StorageService } from 'src/app/shared/services/storage.service';
 import { StorageType } from 'src/app/shared/models/storage-type.enum';
 import { TokenUtility } from 'src/app/shared/utils/token.utility';
 import { AlertService } from 'src/app/shared/services/alert.service';
+import { ErrorService } from 'src/app/shared/services/error.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  
+
   private storageService = inject(StorageService);
   private alertService = inject(AlertService);
+  private errorService = inject(ErrorService);
   private router = inject(Router);
   private http = inject(HttpClient);
 
-  private apiUrl = environment.apiUrl;
+  private apiUrl = `${environment.apiUrl}/auth`;
 
   public login(user: UserLoginRequest): Observable<[void, void, void]> {
     const headers = new HttpHeaders({ 'Authorization': 'Basic ' + btoa(`${user.username}:${user.password}`) });
 
-    return this.http.get(`${this.apiUrl}/auth/login`, { headers, observe: 'response' })
+    return this.http.get(`${this.apiUrl}/login`, { headers, observe: 'response' })
       .pipe(
         switchMap((response) => {
           const token = response.headers.get('Authorization');
@@ -40,7 +42,7 @@ export class AuthService {
             return throwError(() => new Error("No se recibió un token o un refreshToken de los headers durante el login."));
           }
         }),
-        catchError(this.handleError)
+        catchError(this.errorService.handleError)
       );
   }
 
@@ -56,7 +58,7 @@ export class AuthService {
     return this.storageService.getStorage(StorageType.REFRESH_TOKEN).pipe(
       switchMap((refreshToken) => {
         const headers = new HttpHeaders({ 'Authorization-Refresh': refreshToken });
-        return this.http.get(`${this.apiUrl}/auth/refresh`, { headers, observe: 'response' })
+        return this.http.get(`${this.apiUrl}/refresh`, { headers, observe: 'response' })
       }),
       switchMap((response) => {
         const newToken = response.headers.get('Authorization');
@@ -74,17 +76,6 @@ export class AuthService {
         return this.logout()
       })
     );
-  }
-
-  private handleError(error: HttpErrorResponse) {
-    switch (error.status) {
-      case 401:
-        return throwError(() => new Error("Usuario o contraseña incorrectos"));
-      case 500:
-        return throwError(() => new Error("Ocurrió un error en el servidor"));
-      default:
-        return throwError(() => error);
-    }
   }
 
 }

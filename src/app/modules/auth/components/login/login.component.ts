@@ -5,28 +5,27 @@ import { IonContent } from "@ionic/angular/standalone";
 import { BackButtonComponent } from 'src/app/shared/components/back-button/back-button.component';
 import { ValidationService } from 'src/app/shared/services/validation.service';
 import { UserLoginRequest } from 'src/app/modules/users/models/user.model';
-import { AuthService } from 'src/app/modules/auth/services/auth.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TextInputComponent } from 'src/app/shared/components/form/text-input/text-input.component';
 import { PasswordInputComponent } from 'src/app/shared/components/form/password-input/password-input.component';
 import { SubmitButtonComponent } from 'src/app/shared/components/form/submit-button/submit-button.component';
 import { AlertService } from 'src/app/shared/services/alert.service';
+import { AuthService } from '../../services/auth.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss'],
-    imports: [IonContent, FormsModule, BackButtonComponent, TextInputComponent, PasswordInputComponent, SubmitButtonComponent],
-standalone: true
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
+  imports: [IonContent, FormsModule, BackButtonComponent, TextInputComponent, PasswordInputComponent, SubmitButtonComponent],
+  standalone: true
 })
 export class LoginComponent {
-
-  public router = inject(Router);
-  private destroyRef = inject(DestroyRef);
 
   private authService = inject(AuthService);
   private alertService = inject(AlertService);
   private validationService = inject(ValidationService);
+  private destroyRef = inject(DestroyRef);
+  public router = inject(Router);
 
   public user: UserLoginRequest = {
     username: '',
@@ -40,16 +39,11 @@ export class LoginComponent {
       return;
     }
 
-    this.handleLogin();
-  }
-
-  private handleLogin() {
-    this.authService.login(this.user).pipe(
-      takeUntilDestroyed(this.destroyRef)
-    ).subscribe({
-      next: () => this.router.navigate(['tabs', 'home']),
-      error: (error) => this.alertService.getErrorAlert(error.message).fire()
-    });
+    this.authService.login(this.user).pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => this.router.navigate(['tabs', 'home']),
+        error: (error) => this.alertService.getErrorAlert(error.message()).fire()
+      })
   }
 
 }

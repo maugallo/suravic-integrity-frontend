@@ -25,7 +25,7 @@ export class ProviderService {
   public providers = toSignal(this.refreshProviders$.pipe(
     switchMap(() => this.getProviders())), { initialValue: [] });
 
-  private getProviders(): Observable<ProviderResponse[]> {
+  public getProviders(): Observable<ProviderResponse[]> {
     return this.http.get<ProviderResponse[]>(this.apiUrl)
       .pipe(catchError(this.handleError));
   }
