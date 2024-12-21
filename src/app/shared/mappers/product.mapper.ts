@@ -13,7 +13,7 @@ export class ProductMapper {
     public static toProductRequest(product: ProductResponse): ProductRequest {
         return {
             categoryId: product.category.id,
-            providerId: product.provider.id,
+            providerId: product.provider.id!,
             plu: product.plu,
             title: product.title,
             price: product.price

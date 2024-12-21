@@ -24,7 +24,8 @@ export class UserDashboardComponent {
 
   private searchQuery = signal('');
 
-  public searchBarResult: Signal<UserResponse[]> = computed(() => this.userStore.entities().filter(user => user.username.toLowerCase().indexOf(this.searchQuery()) > -1));
+  public searchBarResult: Signal<UserResponse[]> = computed(() => 
+    this.userStore.entities().filter(user => user.username.toLowerCase().indexOf(this.searchQuery()) > -1));
 
   constructor() {
     watchState(this.userStore, () => {
@@ -39,12 +40,12 @@ export class UserDashboardComponent {
   }
 
   private handleSuccess(message: string) {
-    this.alertService.getSuccessToast(message).fire();
+    this.alertService.getSuccessToast(message);
     this.router.navigate(['users', 'dashboard']);
   }
 
   private handleError(message: string) {
-    this.alertService.getErrorAlert(message).fire();
+    this.alertService.getErrorAlert(message);
   }
 
 }

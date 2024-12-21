@@ -1,14 +1,11 @@
-import { Component, DestroyRef, inject, QueryList, Signal, ViewChildren } from '@angular/core';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { Component, computed, inject, QueryList, ViewChildren } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonContent, IonSelectOption } from "@ionic/angular/standalone";
-import { catchError, Observable, of, switchMap, tap } from 'rxjs';
-import { ProviderRequest } from '../../models/provider.model';
-import { ProviderService } from '../../services/provider.service';
+import { of, switchMap } from 'rxjs';
 import { ValidationService } from 'src/app/shared/services/validation.service';
 import { HeaderComponent } from 'src/app/shared/components/header/header.component';
 import { FormsModule } from '@angular/forms';
-import { SectorService } from 'src/app/modules/sectors/services/sector.service';
 import { cuitMask } from 'src/app/shared/masks/cuit.mask';
 import { VAT_CONDITIONS, VatCondition } from '../../models/provider-selects.constant';
 import { telephoneMask } from 'src/app/shared/masks/telephone.mask';
@@ -19,83 +16,82 @@ import { NumberInputComponent } from 'src/app/shared/components/form/number-inpu
 import { SubmitButtonComponent } from 'src/app/shared/components/form/submit-button/submit-button.component';
 import { ProviderMapper } from 'src/app/shared/mappers/provider.mapper';
 import { EntitiesUtility } from 'src/app/shared/utils/entities.utility';
+import { ProviderStore } from '../../stores/provider.store';
+import { watchState } from '@ngrx/signals';
+import { SectorStore } from 'src/app/modules/sectors/stores/sector.store';
+import { ProductStore } from 'src/app/modules/products/store/product.store';
 
 @Component({
-    selector: 'app-provider-form',
-    templateUrl: './provider-form.component.html',
-    styleUrls: ['./provider-form.component.scss'],
-    imports: [IonContent, HeaderComponent, FormsModule, IonSelectOption, TextInputComponent, SelectInputComponent, NumberInputComponent, SubmitButtonComponent],
-standalone: true
+  selector: 'app-provider-form',
+  templateUrl: './provider-form.component.html',
+  styleUrls: ['./provider-form.component.scss'],
+  imports: [IonContent, HeaderComponent, FormsModule, IonSelectOption, TextInputComponent, SelectInputComponent, NumberInputComponent, SubmitButtonComponent],
+  standalone: true
 })
 export class ProviderFormComponent {
 
-  private router = inject(Router);
-  private activatedRoute = inject(ActivatedRoute);
-  private destroyRef = inject(DestroyRef);
-
-  private providerService = inject(ProviderService);
-  private sectorService = inject(SectorService);
   private alertService = inject(AlertService);
   public validationService = inject(ValidationService);
+  private providerStore = inject(ProviderStore);
+  private sectorStore = inject(SectorStore);
+  private productStore = inject(ProductStore);
+  private activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
 
-  public sectors = this.sectorService.sectors;
+  public sectors = this.sectorStore.entities();
   public vatConditions: VatCondition[] = VAT_CONDITIONS;
+
+  public providerId = 0;
 
   public readonly cuitMask = cuitMask;
   public readonly telephoneMask = telephoneMask;
 
-  public isProviderEdit!: boolean;
-  public providerId: number = 0;
-
   @ViewChildren('formInput') inputComponents!: QueryList<any>;
 
-  public provider: Signal<ProviderRequest | undefined> = toSignal(this.activatedRoute.paramMap.pipe(
-    switchMap((params) => {
-      const providerId = params.get('id');
-      if (this.isParameterValid(providerId)) {
-        const provider = this.providerService.getProviderById(Number(providerId));
-        if (!provider) this.router.navigate(['providers', 'dashboard']);
-        this.isProviderEdit = true;
-        this.providerId = provider.id;
-        return of(ProviderMapper.toProviderRequest(provider));
-      } else {
-        this.isProviderEdit = false;
-        return of(EntitiesUtility.getEmptyProviderRequest());
-      }
-    })
+  constructor() {
+    watchState(this.providerStore, () => {
+      if (this.providerStore.success()) this.handleSuccess(this.providerStore.message());
+      if (this.providerStore.error()) this.handleError(this.providerStore.message());
+    });
+  }
+
+  public idParam = toSignal(this.activatedRoute.paramMap.pipe(
+    switchMap((params) => of(Number(params.get('id')) || undefined))
   ));
+
+  public provider = computed(() => {
+    if (this.idParam()) {
+      const provider = this.providerStore.getEntityById(this.idParam()!);
+      this.providerId = provider.id!;
+      return ProviderMapper.toProviderRequest(provider!);
+    } else {
+      return EntitiesUtility.getEmptyProviderRequest();
+    }
+  });
 
   public onSubmit() {
     if (!this.validationService.validateInputs(this.inputComponents)) {
       return;
     }
 
-    this.getFormOperation().pipe(
-      tap((response) => this.handleSuccess(response)),
-      catchError((error) => this.handleError(error)),
-      takeUntilDestroyed(this.destroyRef)
-    ).subscribe();
+    if (this.idParam()) {
+      this.providerStore.editEntity({ id: this.providerId, entity: this.provider() });
+    } else {
+      this.providerStore.addEntity(this.provider());
+    }
   }
 
-  private getFormOperation(): Observable<any> {
-    return this.isProviderEdit
-      ? this.providerService.editProvider(this.providerId, this.provider()!)
-      : this.providerService.createProvider(this.provider()!);
-  }
-
-  private handleSuccess(response: any) {
-    this.alertService.getSuccessToast(response).fire();
+  private handleSuccess(message: string) {
+    if (message.includes('Modificado')) {
+      this.productStore.updateEntitiesByProvider(this.providerStore.lastUpdatedEntity()!);
+    }
+    this.alertService.getSuccessToast(message);
     this.router.navigate(['providers', 'dashboard']);
   }
 
-  private handleError(error: any): Observable<null> {
-    this.alertService.getErrorAlert(error.message).fire();
+  private handleError(error: any) {
+    this.alertService.getErrorAlert(error.message);
     console.error(error.message);
-    return of(null);
-  }
-
-  private isParameterValid(param: string | null) {
-    return !isNaN(Number(param)) && Number(param);
   }
 
 } 

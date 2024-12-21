@@ -1,7 +1,8 @@
 import { CategoryResponse } from "src/app/modules/categories/models/category.model";
 import { ProviderResponse } from "src/app/modules/providers/models/provider.model";
+import { BaseEntity } from "src/app/shared/models/base-entity.model";
 
-export interface ProductRequest {
+export interface ProductRequest extends BaseEntity {
     categoryId: number,
     providerId: number,
     plu: string,
@@ -9,7 +10,7 @@ export interface ProductRequest {
     price: string
 }
 
-export interface ProductResponse {
+export interface ProductResponse extends BaseEntity {
     id: number,
     category: CategoryResponse,
     provider: ProviderResponse,

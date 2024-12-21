@@ -17,7 +17,7 @@ export class FooterComponent {
 
   public logout() {
     this.alertService.getConfirmationAlert('¿Estás seguro que deseas cerrar sesión?')
-    .fire()
+    
     .then((result: any) => {
       if (result.isConfirmed) this.authService.logout().subscribe();
     });

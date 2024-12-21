@@ -62,7 +62,7 @@ export class RegisterFaceModalComponent {
       this.submitImage(image);
     } catch (error) {
       console.error('Error al obtener la imagen:', error);
-      this.alertService.getErrorToast('No se pudo cargar la imagen').fire();
+      this.alertService.getErrorToast('No se pudo cargar la imagen');
     }
   }
 
@@ -73,8 +73,8 @@ export class RegisterFaceModalComponent {
     formData.append('faceImage', blob, 'face.jpg');
 
     this.employeeService.createFaceImage(this.employee()!.id, formData).subscribe({
-      next: (response) => this.alertService.getSuccessAlert(response).fire(),
-      error: (error) => this.alertService.getErrorAlert(error.message).fire()
+      next: (response) => this.alertService.getSuccessAlert(response),
+      error: (error) => this.alertService.getErrorAlert(error.message)
     });
   }
 

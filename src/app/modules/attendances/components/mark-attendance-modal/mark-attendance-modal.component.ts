@@ -40,7 +40,7 @@ export class MarkAttendanceModalComponent {
       this.submitImage(image);
     } catch (error) {
       console.error('Error al obtener la imagen:', error);
-      this.alertService.getErrorToast('No se pudo cargar la imagen').fire();
+      this.alertService.getErrorToast('No se pudo cargar la imagen');
     }
   }
 
@@ -52,10 +52,10 @@ export class MarkAttendanceModalComponent {
 
     this.attendanceService.checkAttendance(formData).subscribe({
       next: (response) => {
-        if (response.includes("no corresponde")) this.alertService.getWarningAlert(response).fire();
-        else this.alertService.getSuccessAlert(response).fire();
+        if (response.includes("no corresponde")) this.alertService.getWarningAlert(response);
+        else this.alertService.getSuccessAlert(response);
       },
-      error: (error) => this.alertService.getErrorAlert(error.message).fire()
+      error: (error) => this.alertService.getErrorAlert(error.message)
     });
   }
 

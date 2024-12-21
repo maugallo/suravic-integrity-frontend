@@ -4,7 +4,7 @@
       <!-- Sectors filter -->
       <p class="filter-subtitle mb-3">Rubros</p>
       <ion-select [(ngModel)]="filters[0].value" aria-label="Sectors" placeholder="Selecciona rubros para filtrar" fill="outline" [interfaceOptions]="customInterfaceOptions" [multiple]="true">
-        @for (sector of sectors(); track $index) {
+        @for (sector of sectors; track $index) {
           <ion-select-option [value]="sector.id">{{ sector.name }}</ion-select-option>
         }
       </ion-select>

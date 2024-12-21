@@ -6,15 +6,16 @@ import Swal from 'sweetalert2';
 })
 export class AlertService {
 
-  public getInputAlert(title: string, placeholder: string, confirmButtontext: string, preConfirm: (inputValue: string) => boolean | Promise<any>, inputValue?: string) {
-    return Swal.mixin({
-      title: title,
-      input: "text",
+  public showInputAlert(
+    title: string, placeholder: string, confirmButtonText: string, preConfirm: (inputValue: string) => boolean | Promise<any>, inputValue?: string) {
+    return Swal.fire({
+      title,
+      input: 'text',
       inputValue: inputValue || '',
       inputPlaceholder: placeholder,
       showCancelButton: true,
-      confirmButtonText: confirmButtontext,
-      cancelButtonText: "CERRAR",
+      confirmButtonText,
+      cancelButtonText: 'CERRAR',
       allowOutsideClick: false,
       heightAuto: false,
       focusConfirm: false,
@@ -24,12 +25,12 @@ export class AlertService {
         confirmButton: 'sweet-modal-button',
         cancelButton: 'sweet-modal-cancel-button'
       },
-      preConfirm: preConfirm
-    })
+      preConfirm
+    });
   }
 
   public getWarningConfirmationAlert(title: string, text?: string, confirmButton?: string) {
-    return Swal.mixin({
+    return Swal.fire({
       title: title,
       text: text || '',
       icon: "warning",
@@ -46,7 +47,7 @@ export class AlertService {
   }
 
   public getConfirmationAlert(title: string, text?: string) {
-    return Swal.mixin({
+    return Swal.fire({
       title: title,
       text: text || '',
       showCancelButton: true,
@@ -62,7 +63,7 @@ export class AlertService {
   }
 
   public getSuccessAlert(title: string, text?: string) {
-    return Swal.mixin({
+    return Swal.fire({
       icon: "success",
       title: title,
       text: text || '',
@@ -75,7 +76,7 @@ export class AlertService {
   }
 
   public getWarningAlert(title: string) {
-    return Swal.mixin({
+    return Swal.fire({
       icon: "warning",
       title: title,
       heightAuto: false,
@@ -87,7 +88,7 @@ export class AlertService {
   }
 
   public getErrorAlert(text: string) {
-    return Swal.mixin({
+    return Swal.fire({
       icon: "error",
       title: "Error",
       text: text,
@@ -100,7 +101,7 @@ export class AlertService {
   }
 
   public getSuccessToast(title: string) {
-    return Swal.mixin({
+    return Swal.fire({
       toast: true,
       icon: 'success',
       position: 'top-end',
@@ -114,7 +115,7 @@ export class AlertService {
   }
 
   public getErrorToast(title: string) {
-    return Swal.mixin({
+    return Swal.fire({
       toast: true,
       icon: 'error',
       position: 'top-end',

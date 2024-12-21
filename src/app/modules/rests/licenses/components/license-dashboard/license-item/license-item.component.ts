@@ -25,14 +25,14 @@ export class LicenseItemComponent {
 
   public openDeleteLicenseAlert() {
     this.alertService.getWarningConfirmationAlert(`¿Estás seguro que deseas eliminar la licencia?`, 'Esta acción no se puede deshacer')
-      .fire()
+      
       .then((result) => { if (result.isConfirmed) this.deleteLicense(this.license().id) });
   }
 
   private deleteLicense(id: number) {
     this.licenseService.deleteLicense(id).subscribe({
-      next: (response) => this.alertService.getSuccessToast(response).fire(),
-      error: (error) => this.alertService.getErrorAlert(error).fire()
+      next: (response) => this.alertService.getSuccessToast(response),
+      error: (error) => this.alertService.getErrorAlert(error)
     });
   }
 

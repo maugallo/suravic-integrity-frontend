@@ -1,1 +1,1 @@
-export type BaseEntity = { id?: number };
+export type BaseEntity = { id?: number, isEnabled?: boolean };

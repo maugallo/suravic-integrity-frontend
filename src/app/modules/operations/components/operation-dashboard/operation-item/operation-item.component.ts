@@ -24,7 +24,7 @@ export class OperationItemComponent {
 
   public openDeleteOperationAlert() {
     this.alertService.getWarningConfirmationAlert(`¿Estás seguro que deseas eliminar la operación?`, 'Esta acción no se puede deshacer')
-      .fire()
+      
       .then((result) => { if (result.isConfirmed) this.deleteOperation(this.operation().id) });
   }
 
@@ -32,9 +32,9 @@ export class OperationItemComponent {
     this.operationService.deleteOperation(id).subscribe({
       next: (response) => {
         this.emitPriceChange.emit(this.operation().total);
-        this.alertService.getSuccessToast(response).fire();
+        this.alertService.getSuccessToast(response);
       },
-      error: (error) => this.alertService.getErrorAlert(error).fire()
+      error: (error) => this.alertService.getErrorAlert(error)
     });
   }
 

@@ -24,6 +24,7 @@ import { FileInputComponent } from 'src/app/shared/components/form/file-input/fi
 import { FileUtility } from 'src/app/shared/utils/file.utility';
 import { PaymentMethodService } from '../../services/payment-method.service';
 import { OrderStatus } from '../../models/order-status.enum';
+import { ProviderStore } from 'src/app/modules/providers/stores/provider.store';
 
 @Component({
     selector: 'app-order-form',
@@ -36,10 +37,10 @@ export class OrderFormComponent {
   
   private orderService = inject(OrderService);
   private paymentMethodService = inject(PaymentMethodService);
-  private providerService = inject(ProviderService);
   private storageService = inject(StorageService);
   private alertService = inject(AlertService);
   public validationService = inject(ValidationService);
+  private providerStore = inject(ProviderStore);
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
 
@@ -49,7 +50,7 @@ export class OrderFormComponent {
   public orderId!: number;
 
   public orderStatus = OrderStatus;
-  public providers = this.providerService.providers;
+  public providers = this.providerStore.entities();
   public paymentMethods = this.paymentMethodService.paymentMethods;
 
   @ViewChildren('formInput') inputComponents!: QueryList<TextInputComponent | NumberInputComponent | SelectInputComponent | WheelDateInputComponent>;
@@ -103,7 +104,7 @@ export class OrderFormComponent {
     }
 
     if (!this.order()!.invoice) {
-      this.alertService.getErrorToast("Debes cargar una imagen o archivo para la factura de pedido").fire();
+      this.alertService.getErrorToast("Debes cargar una imagen o archivo para la factura de pedido");
       return;
     }
 
@@ -164,12 +165,12 @@ export class OrderFormComponent {
   }
 
   private handleSuccess(response: any) {
-    this.alertService.getSuccessToast(response).fire();
+    this.alertService.getSuccessToast(response);
     this.router.navigate(['orders', 'dashboard']);
   }
 
   private handleError(error: any): Observable<null> {
-    this.alertService.getErrorAlert(error.message).fire();
+    this.alertService.getErrorAlert(error.message);
     console.error(error);
     return of(null);
   }

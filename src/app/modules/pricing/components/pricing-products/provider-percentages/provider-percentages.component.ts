@@ -5,8 +5,9 @@ import { FormButtonComponent } from 'src/app/shared/components/form/form-button/
 import { ProviderResponse } from 'src/app/modules/providers/models/provider.model';
 import { SelectInputComponent } from 'src/app/shared/components/form/select-input/select-input.component';
 import { AlertService } from 'src/app/shared/services/alert.service';
-import { ProviderService } from 'src/app/modules/providers/services/provider.service';
 import { ProviderMapper } from 'src/app/shared/mappers/provider.mapper';
+import { ProviderStore } from 'src/app/modules/providers/stores/provider.store';
+import { watchState } from '@ngrx/signals';
 
 @Component({
     selector: 'app-provider-percentages',
@@ -18,14 +19,21 @@ standalone: true
 export class ProviderPercentagesComponent {
 
   private alertService = inject(AlertService);
-  private providerService = inject(ProviderService);
+  private providerStore = inject(ProviderStore);
   private menuController = inject(MenuController);
 
   public provider = model<ProviderResponse>();
 
+  constructor() {
+    watchState(this.providerStore, () => {
+      if (this.providerStore.success()) this.alertService.getSuccessToast(this.providerStore.message());
+      if (this.providerStore.error()) this.alertService.getErrorAlert(this.providerStore.message());
+    });
+  }
+
   public savePercentages() {
     this.alertService.getWarningConfirmationAlert('¿Estás seguro que deseas continuar?', 'Se modificarán los porcentajes del proveedor seleccionado', 'APLICAR')
-      .fire()
+      
       .then((result: any) => { if (result.isConfirmed) this.applyNewPercentages(); });
   }
 
@@ -33,12 +41,8 @@ export class ProviderPercentagesComponent {
     const provider = this.provider()!;
     const providerRequest = ProviderMapper.toProviderRequest(provider);
 
-    this.providerService.editProvider(provider.id, providerRequest).subscribe({
-      next: (response) => this.alertService.getSuccessToast(response).fire(),
-      error: (error) => this.alertService.getErrorAlert(error.message).fire()
-    });
-
-    this.menuController.close('provider-percentages-menu');
+    this.providerStore.editEntity({ id: provider.id!, entity: providerRequest });
+    this.menuController.close('provider-percentages-menu');    
   }
 
 }

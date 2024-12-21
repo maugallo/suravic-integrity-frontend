@@ -8,6 +8,8 @@ import { Observable, throwError } from 'rxjs';
 export class ErrorService {
 
   public handleError(error: HttpErrorResponse): Observable<never> {
+    console.error(error);
+    
     switch (error.status) {
       case 400:
         return throwError(() => new Error(error.error));

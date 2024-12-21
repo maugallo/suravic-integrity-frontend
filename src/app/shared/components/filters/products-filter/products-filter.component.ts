@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { CurrencyPipe } from '@angular/common';
 import { Filter } from 'src/app/shared/models/filter.model';
 import { ProductResponse } from 'src/app/modules/products/models/product.model';
+import { ProviderStore } from 'src/app/modules/providers/stores/provider.store';
 
 @Component({
     selector: 'app-products-filter',
@@ -16,12 +17,12 @@ standalone: true
 })
 export class ProductsFilterComponent {
   private categoryService = inject(CategoryService);
-  private providerService = inject(ProviderService);
+  private providerStore = inject(ProviderStore);
 
   private menuController = inject(MenuController);
 
   public categories = this.categoryService.categories;
-  public providers = this.providerService.providers;
+  public providers = this.providerStore.entities();
   public products = input<ProductResponse[]>();
 
   public lowestPrice = computed(() => (this.products() && this.products()!.length > 0) ? this.getLowestPrice(this.products()!) : 0);

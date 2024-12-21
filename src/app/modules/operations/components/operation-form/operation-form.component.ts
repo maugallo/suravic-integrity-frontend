@@ -82,7 +82,7 @@ export class OperationFormComponent {
     }
 
     if (!this.operation()!.receipt) {
-      this.alertService.getErrorToast("Debes cargar una imagen o archivo").fire();
+      this.alertService.getErrorToast("Debes cargar una imagen o archivo");
       return;
     }
 
@@ -115,12 +115,12 @@ export class OperationFormComponent {
   }
 
   private handleSuccess(response: any) {
-    this.alertService.getSuccessToast(response).fire();
+    this.alertService.getSuccessToast(response);
     this.router.navigate(['employees', 'dashboard']);
   }
 
   private handleError(error: any): Observable<null> {
-    this.alertService.getErrorAlert(error.message).fire();
+    this.alertService.getErrorAlert(error.message);
     console.error(error);
     return of(null);
   }

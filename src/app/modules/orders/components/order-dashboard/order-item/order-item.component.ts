@@ -29,7 +29,7 @@ export class OrderItemComponent {
     const confirmLabel = this.order().isEnabled ? 'ELIMINAR' : 'ACEPTAR';
 
     this.alertService.getWarningConfirmationAlert(`¿Estás seguro que deseas ${action} el producto?`, '', confirmLabel)
-      .fire()
+      
       .then((result) => { if (result.isConfirmed) this.deleteOrRecoverOrder(this.order().id) });
   }
 
@@ -37,7 +37,7 @@ export class OrderItemComponent {
     this.orderService.deleteOrRecoverOrder(id).pipe(
       takeUntilDestroyed(this.destroyRef)
     ).subscribe({
-      next: (response) => this.alertService.getSuccessToast(response).fire(),
+      next: (response) => this.alertService.getSuccessToast(response),
       error: (error) => console.log(error)
     });
   }

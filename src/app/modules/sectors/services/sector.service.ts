@@ -1,67 +1,35 @@
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, Observable, switchMap, tap, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { SectorRequest, SectorResponse } from '../models/sector.model';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { ProviderService } from 'src/app/modules/providers/services/provider.service';
+import { BaseService } from 'src/app/shared/models/base-service.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SectorService {
+export class SectorService implements BaseService<SectorRequest, SectorResponse> {
 
   private http = inject(HttpClient);
+
   private apiUrl = `${environment.apiUrl}/sectors`;
 
-  private providerService = inject(ProviderService);
+  public getEntities(): Observable<SectorResponse[]> {
+    const params = new HttpParams().set('isEnabled', true);
 
-  private refreshSectors$ = new BehaviorSubject<void>(undefined);
-
-  public sectors = toSignal(this.refreshSectors$.pipe(
-    switchMap(() => this.getSectors(true))), { initialValue: [] });
-
-  private getSectors(isEnabled: boolean): Observable<SectorResponse[]> {
-    let params = new HttpParams();
-
-    params = params.append('isEnabled', isEnabled);
-
-    return this.http.get<SectorResponse[]>(this.apiUrl, { params })
-      .pipe(catchError(this.handleError));
+    return this.http.get<SectorResponse[]>(this.apiUrl, { params });
   }
 
-  public createSector(sector: SectorRequest): Observable<string> {
-    return this.http.post(this.apiUrl, sector, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => this.refreshSectors$.next()));
+  public createEntity(sector: SectorRequest): Observable<SectorResponse> {
+    return this.http.post<SectorResponse>(this.apiUrl, sector);
   }
 
-  public editSector(id: number, sector: SectorRequest): Observable<string> {
-    return this.http.put(`${this.apiUrl}/${id}`, sector, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => {
-        this.refreshSectors$.next();
-        this.providerService.refreshProviders();
-      }));
+  public editEntity(id: number, sector: SectorRequest): Observable<SectorResponse> {
+    return this.http.put<SectorResponse>(`${this.apiUrl}/${id}`, sector);
   }
 
-  public deleteSector(id: number): Observable<string> {
-    return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => {
-        this.refreshSectors$.next();
-        this.providerService.refreshProviders();
-      }));
-  }
-
-  private handleError(error: HttpErrorResponse) {
-    switch (error.status) {
-      case 400:
-        return throwError(() => new Error(error.error));
-      case 403:
-        return throwError(() => new Error("No tienes los permisos para realizar esta acción"));
-      case 500:
-        return throwError(() => new Error("Ocurrió un error en el servidor"));
-      default:
-        return throwError(() => error);
-    }
+  public deleteEntity(id: number): Observable<SectorResponse> {
+    return this.http.delete<SectorResponse>(`${this.apiUrl}/${id}`);
   }
 
 }

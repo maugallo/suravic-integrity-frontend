@@ -42,7 +42,7 @@ export class LoginComponent {
     this.authService.login(this.user).pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => this.router.navigate(['tabs', 'home']),
-        error: (error) => this.alertService.getErrorAlert(error.message()).fire()
+        error: (error) => this.alertService.getErrorAlert(error.message)
       })
   }
 

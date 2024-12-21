@@ -4,7 +4,7 @@
       <!-- Providers filter -->
       <p class="filter-subtitle mb-3">Proveedores</p>
       <ion-select [(ngModel)]="filters[1].value" aria-label="Providers" placeholder="Selecciona proveedores para filtrar" fill="outline" [interfaceOptions]="customInterfaceOptions" [multiple]="true">
-        @for (provider of providers(); track $index) {
+        @for (provider of providers; track $index) {
             <ion-select-option [value]="provider.id">{{ provider.companyName }}</ion-select-option>
           }
       </ion-select>

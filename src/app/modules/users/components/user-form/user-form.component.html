@@ -1,4 +1,4 @@
-@if (isUserEdit) {
+@if (idParam()) {
   <app-header title="MODIFICAR USUARIO" titleSize="title-large" icon="fa-solid fa-user-pen fa-2x"></app-header>
 } @else {
   <app-header title="AGREGAR USUARIO" titleSize="title-large" icon="fa-solid fa-user-plus fa-2x"></app-header>
@@ -22,13 +22,13 @@
 
             <!-- Role selector input -->
             <app-select-input #formInput class="mb-10" inputName="roleSelect" [(bindedObject)]="user()!.role" 
-            label="Rol" [options]="userRoles" [disabled]="(isUserEdit && userId === 1)">
+            label="Rol" [options]="userRoles" [disabled]="(idParam() !== undefined && userId === 1)">
               @for (userRole of userRoles; track $index) {
                 <ion-select-option [value]="userRole.value">{{ userRole.title }}</ion-select-option>
               }
             </app-select-input>
       
-            <app-submit-button [isEdit]="isUserEdit"></app-submit-button>
+            <app-submit-button [isEdit]="idParam() !== undefined"></app-submit-button>
         </form>
     </div>
 </ion-content>

@@ -27,15 +27,15 @@ export class EmployeeItemComponent {
     const confirmLabel = this.employee().isEnabled ? 'ELIMINAR' : 'ACEPTAR';
 
     this.alertService.getWarningConfirmationAlert(`¿Estás seguro que deseas ${action} el empleado?`, '', confirmLabel)
-      .fire()
+      
       .then((result) => { if (result.isConfirmed) this.deleteOrRecoverEmployee(this.employee().id) });
   }
 
   private deleteOrRecoverEmployee(id: number) {
     this.employeeService.deleteOrRecoverEmployee(id).subscribe({
-      next: (response) => this.alertService.getSuccessToast(response).fire(),
+      next: (response) => this.alertService.getSuccessToast(response),
       error: (error) => {
-        this.alertService.getErrorAlert(error).fire();
+        this.alertService.getErrorAlert(error);
         console.log(error);
       }
     });

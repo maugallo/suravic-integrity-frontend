@@ -1,4 +1,4 @@
-@if (isProviderEdit) {
+@if (idParam()) {
   <app-header title="MODIFICAR PROVEEDOR" titleSize="title-large" icon="fa-solid fa-user-pen fa-2x"></app-header>
 } @else {
   <app-header title="AGREGAR PROVEEDOR" titleSize="title-large" icon="fa-solid fa-user-plus fa-2x"></app-header>
@@ -30,8 +30,8 @@
 
           <!-- Sector Select Input -->
           <app-select-input #formInput class="mb-8" inputName="sectorSelect" [(bindedObject)]="provider()!.sectorId"
-          label="Rubro" [options]="sectors()" [disabled]="(isProviderEdit && [1,2].includes(providerId))">
-            @if (sectors(); as sectors) {
+          label="Rubro" [options]="sectors" [disabled]="(idParam() !== undefined && [1,2].includes(providerId))">
+            @if (sectors) {
               @for (sector of sectors; track $index) {
                 <ion-select-option [value]="sector.id">{{ sector.name }}</ion-select-option>
               }
@@ -72,7 +72,7 @@
           <app-number-input #formInput class="mb-8" inputName="grossIncomePercentageInput" [(bindedObject)]="provider()!.percentages.grossIncomePercentage" 
           label="Porcentaje de Ingresos Brutos" placeHolder="3%" [minValue]="-1" [maxValue]="9999999"></app-number-input>
     
-          <app-submit-button class="mb-5" [isEdit]="isProviderEdit"></app-submit-button>
+          <app-submit-button class="mb-5" [isEdit]="idParam() !== undefined"></app-submit-button>
       </form>
   </div>
 </ion-content>

@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { CurrencyPipe } from '@angular/common';
 import { Filter } from 'src/app/shared/models/filter.model';
 import { OrderResponse } from 'src/app/modules/orders/models/order.model';
+import { ProviderStore } from 'src/app/modules/providers/stores/provider.store';
 
 @Component({
     selector: 'app-orders-filter',
@@ -16,12 +17,12 @@ standalone: true
 })
 export class OrdersFilterComponent {
   private paymentMethodService = inject(PaymentMethodService);
-  private providerService = inject(ProviderService);
+  private providerStore = inject(ProviderStore);
 
   private menuController = inject(MenuController);
 
   public paymentMethods = this.paymentMethodService.paymentMethods;
-  public providers = this.providerService.providers;
+  public providers = this.providerStore.entities();
   public orders = input<OrderResponse[]>();
 
   public lowestPrice = computed(() => (this.orders() && this.orders()!.length > 0) ? this.getLowestPrice(this.orders()!) : 0);

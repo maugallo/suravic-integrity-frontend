@@ -1,4 +1,4 @@
-@if (isProductEdit) {
+@if (idParam()) {
   <app-header title="MODIFICAR PRODUCTO" titleSize="title-large" icon="fa-sharp fa-solid fa-box-taped fa-2x"></app-header>
 } @else {
   <app-header title="AGREGAR PRODUCTO" titleSize="title-large" icon="fa-sharp fa-solid fa-box-taped fa-2x"></app-header>
@@ -23,15 +23,15 @@
 
       <!-- Provider Input -->
       <app-select-input #formInput class="mb-10" inputName="providerSelect" [(bindedObject)]="product()!.providerId"
-        label="Proveedor" [options]="providers()" [disabled]="(isProductEdit && (productId >= 1 && productId <= 35))">
-        @for (provider of providers(); track $index) {
+        label="Proveedor" [options]="providers" [disabled]="(idParam() !== undefined && (productId >= 1 && productId <= 35))">
+        @for (provider of providers; track $index) {
           <ion-select-option [value]="provider.id">{{ provider.companyName }}</ion-select-option>
         }
       </app-select-input>
 
       <!-- Category Input -->
       <app-select-input #formInput class="mb-10" inputName="categorySelect" [(bindedObject)]="product()!.categoryId"
-        label="Categoría" [options]="categories()" [disabled]="(isProductEdit && (productId >= 1 && productId <= 35))">
+        label="Categoría" [options]="categories()" [disabled]="(idParam() !== undefined && (productId >= 1 && productId <= 35))">
         @if (categories(); as categories) {
           @for (category of categories; track $index) {
             <ion-select-option [value]="category.id">{{ category.name }}</ion-select-option>
@@ -39,7 +39,7 @@
         }
       </app-select-input>
 
-      <app-submit-button [isEdit]="isProductEdit"></app-submit-button>
+      <app-submit-button [isEdit]="idParam() !== undefined"></app-submit-button>
     </form>
   </div>
 </ion-content>

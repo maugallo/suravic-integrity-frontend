@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonMenu, IonSelect, IonSelectOption, IonButton, MenuController } from "@ionic/angular/standalone";
 import { VAT_CONDITIONS } from 'src/app/modules/providers/models/provider-selects.constant';
 import { SectorService } from 'src/app/modules/sectors/services/sector.service';
+import { SectorStore } from 'src/app/modules/sectors/stores/sector.store';
 import { Filter } from 'src/app/shared/models/filter.model';
 
 @Component({
@@ -14,10 +15,10 @@ standalone: true
 })
 export class ProvidersFilterComponent {
 
-  private sectorService = inject(SectorService);
+  private sectorStore = inject(SectorStore);
   private menuController = inject(MenuController);
 
-  public sectors = this.sectorService.sectors;
+  public sectors = this.sectorStore.entities();
   public vatConditions = VAT_CONDITIONS;
 
   public filtersEmitter = output<Filter[]>();

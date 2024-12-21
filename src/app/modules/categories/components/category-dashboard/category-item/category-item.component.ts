@@ -30,9 +30,9 @@ export class CategoryItemComponent {
   public openEditCategoryAlert() {
     this.turnInert.emit(true);
 
-    this.alertService.getInputAlert('EDITAR CATEGORÍA <i class="fa-solid fa-pen-to-square fa-1x"></i>', 'Ingrese un nombre', 'EDITAR', this.handleValidations(), this.category()!.name)
-      .fire()
-      .finally(() => this.turnInert.emit(false));
+/*     this.alertService.getInputAlert('EDITAR CATEGORÍA <i class="fa-solid fa-pen-to-square fa-1x"></i>', 'Ingrese un nombre', 'EDITAR', this.handleValidations(), this.category()!.name)
+      
+      .finally(() => this.turnInert.emit(false)); */
   }
 
   private handleValidations() {
@@ -54,7 +54,7 @@ export class CategoryItemComponent {
   // Usamos firstValueFrom para obtener el primero (y único) valor que el observable devuelve, y transformarlo en una Promise.
   private handleEdit() {
     return firstValueFrom(this.categoryService.editCategory(this.category()!.id, this.updatedCategory).pipe(
-      tap((response) => this.alertService.getSuccessToast(response).fire()),
+      tap((response) => this.alertService.getSuccessToast(response)),
       catchError((error) => {
         Swal.showValidationMessage(error.message);
         return of(null);
@@ -65,7 +65,7 @@ export class CategoryItemComponent {
   // Delete category.
   public openDeleteCategoryAlert() {
     this.alertService.getWarningConfirmationAlert('¿Estás seguro que deseas eliminar la categoría?')
-      .fire()
+      
       .then((result) => {
         if (result.isConfirmed) {
           this.handleDelete();
@@ -75,8 +75,8 @@ export class CategoryItemComponent {
 
   private handleDelete() {
     this.categoryService.deleteCategory(this.category()!.id).subscribe({
-      next: (response) => this.alertService.getSuccessToast(response).fire(),
-      error: (error) => this.alertService.getErrorAlert(error.message).fire()
+      next: (response) => this.alertService.getSuccessToast(response),
+      error: (error) => this.alertService.getErrorAlert(error.message)
     });
   }
 

@@ -80,7 +80,7 @@ export class PricingBeefComponent {
     }
 
     this.alertService.getWarningConfirmationAlert('¿Estás seguro que deseas continuar?', 'Se modificarán los precios de todos los productos de la lista', 'APLICAR')
-      .fire()
+      
       .then((result: any) => { if (result.isConfirmed) this.applyNewPrices(); });
   }
 
@@ -88,19 +88,19 @@ export class PricingBeefComponent {
     const updatedMeatDetails = this.pricingService.calculateAdjustedPrices(this.meatDetails()(), this.pricesDifference()!, this.beefCutCurrentPricesSum()());
 
     this.meatDetails().set(updatedMeatDetails);
-    this.alertService.getSuccessToast('Precios calculados correctamente').fire();
+    this.alertService.getSuccessToast('Precios calculados correctamente');
   }
 
   private applyNewPrices() {
     this.meatDetailService.editMeatDetails(this.meatDetails()()).pipe(
-      tap((response) => this.alertService.getSuccessToast(response).fire()),
+      tap((response) => this.alertService.getSuccessToast(response)),
       catchError((error) => this.handleError(error)),
       takeUntilDestroyed(this.destroyRef)
     ).subscribe();
   }
 
   private handleError(error: any): Observable<null> {
-    this.alertService.getErrorAlert(error.message).fire();
+    this.alertService.getErrorAlert(error.message);
     console.error(error.message);
     return of(null);
   }

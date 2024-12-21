@@ -37,7 +37,6 @@ export class UserFormComponent {
 
   public confirmPassword: string = '';
 
-  public isUserEdit!: boolean;
   public userId!: number;
 
   @ViewChildren('formInput') inputComponents!: QueryList<TextInputComponent | NumberInputComponent | SelectInputComponent>;
@@ -50,19 +49,15 @@ export class UserFormComponent {
   }
 
   public idParam = toSignal(this.activatedRoute.paramMap.pipe(
-    switchMap((params) => of(Number(params.get('id')) || 0))
-  ), { initialValue: 0 });
+    switchMap((params) => of(Number(params.get('id')) || undefined))
+  ));
 
   public user = computed(() => {
-    const idParam = this.idParam();
-
-    if (idParam !== 0) {
-      const user = this.userStore.getEntityById(idParam);
-      this.isUserEdit = true;
+    if (this.idParam()) {
+      const user = this.userStore.getEntityById(this.idParam()!);
       this.userId = user.id!;
       return UserMapper.toUserRequest(user!);
     } else {
-      this.isUserEdit = false;
       return EntitiesUtility.getEmptyUserRequest();
     }
   });
@@ -72,7 +67,7 @@ export class UserFormComponent {
       return;
     }
 
-    if (this.isUserEdit) {
+    if (this.idParam()) {
       this.userStore.editEntity({ id: this.userId, entity: this.user() });
     } else {
       this.userStore.addEntity(this.user());
@@ -80,12 +75,12 @@ export class UserFormComponent {
   }
 
   private handleSuccess(message: string) {
-    this.alertService.getSuccessToast(message).fire();
+    this.alertService.getSuccessToast(message);
     this.router.navigate(['users', 'dashboard']);
   }
 
   private handleError(message: string) {
-    this.alertService.getErrorAlert(message).fire();
+    this.alertService.getErrorAlert(message);
   }
 
 }

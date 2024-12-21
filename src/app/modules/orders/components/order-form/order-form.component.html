@@ -32,8 +32,8 @@
       <div class="provider-method-container mb-10">
         <!-- Provider Input -->
         <app-select-input #formInput class="select" inputName="providerSelect" [(bindedObject)]="order()!.providerId"
-        label="Proveedor" [options]="providers()">
-          @for (provider of providers(); track $index) {
+        label="Proveedor" [options]="providers">
+          @for (provider of providers; track $index) {
             <ion-select-option [value]="provider.id">{{ provider.companyName }}</ion-select-option>
           }
         </app-select-input>

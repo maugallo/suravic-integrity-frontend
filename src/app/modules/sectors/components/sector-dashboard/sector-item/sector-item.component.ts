@@ -1,39 +1,33 @@
 import { Component, inject, input, output } from '@angular/core';
 import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from "@ionic/angular/standalone";
-import { catchError, firstValueFrom, of, tap } from 'rxjs';
 import { SectorRequest, SectorResponse } from 'src/app/modules/sectors/models/sector.model';
-import { SectorService } from 'src/app/modules/sectors/services/sector.service';
 import { AlertService } from 'src/app/shared/services/alert.service';
-
+import { SectorStore } from '../../../stores/sector.store';
 import Swal from 'sweetalert2';
 
 @Component({
-    selector: 'app-sector-item',
-    templateUrl: './sector-item.component.html',
-    styleUrls: ['./sector-item.component.scss'],
-    imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding,],
-standalone: true
+  selector: 'app-sector-item',
+  templateUrl: './sector-item.component.html',
+  styleUrls: ['./sector-item.component.scss'],
+  imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding,],
+  standalone: true
 })
 export class SectorItemComponent {
-  
-  private sectorService = inject(SectorService);
-  private alertService = inject(AlertService);
 
-  public sector = input<SectorResponse>();
+  private alertService = inject(AlertService);
+  private sectorStore = inject(SectorStore);
 
   public turnInert = output<boolean>(); // Necesario para que el input del sweet alert no tenga conflicto con el modal de Ionic.
+  public sector = input<SectorResponse>();
 
-  public updatedSector: SectorRequest = {
-    name: ''
-  }
+  public updatedSector: SectorRequest = { name: '' }
 
-  // Edit sector.
   public openEditSectorAlert() {
     this.turnInert.emit(true);
-
-    this.alertService.getInputAlert('EDITAR RUBRO <i class="fa-solid fa-pen-to-square fa-1x"></i>', 'Ingrese un nombre', 'EDITAR', this.handleValidations(), this.sector()!.name)
-      .fire()
-      .finally(() => this.turnInert.emit(false));
+    this.alertService.showInputAlert(
+      'EDITAR RUBRO <i class="fa-solid fa-pen-to-square fa-1x"></i>', 'Ingrese un nombre',
+      'AGREGAR', this.handleValidations()
+    ).finally(() => this.turnInert.emit(false));
   }
 
   private handleValidations() {
@@ -46,39 +40,20 @@ export class SectorItemComponent {
         return false;
       } else if (value !== this.sector()!.name) {
         this.updatedSector.name = value;
-        return this.handleEdit();
+        this.sectorStore.editEntity({ id: this.sector()!.id, entity: this.updatedSector });
+        return true;
       }
       return false;
     }
   }
 
-  // Usamos firstValueFrom para obtener el primero (y único) valor que el observable devuelve, y transformarlo en una Promise.
-  private handleEdit() {
-    return firstValueFrom(this.sectorService.editSector(this.sector()!.id, this.updatedSector).pipe(
-      tap((response) => this.alertService.getSuccessToast(response).fire()),
-      catchError((error) => {
-        Swal.showValidationMessage(error.message);
-        return of(null);
-      })
-    ));
-  }
-
-  // Delete sector.
   public openDeleteSectorAlert() {
     this.alertService.getWarningConfirmationAlert('¿Estás seguro que deseas eliminar el rubro?')
-      .fire()
       .then((result: any) => {
         if (result.isConfirmed) {
-          this.handleDelete();
+          this.sectorStore.deleteEntity(this.sector()!.id);
         }
       });
-  }
-
-  private handleDelete() {
-    this.sectorService.deleteSector(this.sector()!.id).subscribe({
-      next: (response) => this.alertService.getSuccessToast(response).fire(),
-      error: (error) => this.alertService.getErrorAlert(error.message).fire()
-    });
   }
 
 }

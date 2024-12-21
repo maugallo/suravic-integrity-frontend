@@ -24,14 +24,14 @@ export class PublicHolidayItemComponent {
 
   public openDeletePublicHolidayAlert() {
     this.alertService.getWarningConfirmationAlert(`¿Estás seguro que deseas eliminar el feriado?`, 'Esta acción no se puede deshacer')
-      .fire()
+      
       .then((result) => { if (result.isConfirmed) this.deletePublicHoliday(this.publicHoliday().id) });
   }
 
   private deletePublicHoliday(id: number) {
     this.publicHolidayService.deletePublicHoliday(id).subscribe({
-      next: (response) => this.alertService.getSuccessToast(response).fire(),
-      error: (error) => this.alertService.getErrorAlert(error).fire()
+      next: (response) => this.alertService.getSuccessToast(response),
+      error: (error) => this.alertService.getErrorAlert(error)
     });
   }
 

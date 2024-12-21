@@ -60,14 +60,14 @@ export class WeightsAccordionComponent {
   }
 
   private handleSuccess(response: string) {
-    this.alertService.getSuccessToast(response).fire();
+    this.alertService.getSuccessToast(response);
     this.storageService.setStorage(MeatDetailsType.CHICKEN, this.chickenWeightValue);
 
     this.showForm = false; // ANALIZAR SI DEJARLO O NO USAR UNA VARIABLE PARA MANEJAR LA VISIBILIDAD DEL FORM.
   }
 
   private handleError(error: any): Observable<null> {
-    this.alertService.getErrorAlert(error.message).fire();
+    this.alertService.getErrorAlert(error.message);
     console.error(error.message);
     return of(null);
   }

@@ -48,11 +48,6 @@ export class ProductDashboardComponent {
 
   public receiveFilters(filters: any) {
     this.filters.set([...filters]);
-    /* IMPORTANTE: Angular compara la referencia del array y,
-    al no cambiar la referencia del array en sí
-    (solo sus elementos internos), no dispara la reactividad.
-    Por eso tenemos que asignar un array completamente nuevo,
-    pisando el anterior. */
   }
 
   private filterProducts(products: ProductResponse[], filters: Filter[], seeDeleted: boolean) {

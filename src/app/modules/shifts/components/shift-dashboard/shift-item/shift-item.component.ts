@@ -23,14 +23,14 @@ export class ShiftItemComponent {
 
   public openDeleteShiftAlert() {
     this.alertService.getWarningConfirmationAlert(`¿Estás seguro que deseas eliminar el turno?`, 'Esta acción no se puede deshacer')
-      .fire()
+      
       .then((result) => { if (result.isConfirmed) this.deleteShift(this.shift().id) });
   }
 
   private deleteShift(id: number) {
     this.shiftService.deleteShift(id).subscribe({
-      next: (response) => this.alertService.getSuccessToast(response).fire(),
-      error: (error) => this.alertService.getErrorAlert(error).fire()
+      next: (response) => this.alertService.getSuccessToast(response),
+      error: (error) => this.alertService.getErrorAlert(error)
     });
   }
 

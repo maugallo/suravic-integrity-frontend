@@ -1,10 +1,10 @@
-import { patchState, signalStoreFeature, type, withHooks, withMethods } from "@ngrx/signals";
+import { patchState, signalStoreFeature, type, withComputed, withHooks, withMethods } from "@ngrx/signals";
 import { BaseEntity } from "../models/base-entity.model";
 import { BaseService } from "../models/base-service.model";
-import { inject, Type } from "@angular/core";
+import { computed, inject, Type } from "@angular/core";
 import { setCompleted, setError, setSuccess, withRequestStatus } from "../store/request.feature";
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
-import { pipe, switchMap, tap } from "rxjs";
+import { pipe, switchMap } from "rxjs";
 import { tapResponse } from "@ngrx/operators";
 import { HttpErrorResponse } from "@angular/common/http";
 
@@ -42,6 +42,7 @@ export function withCrudOperations<EntityRequest extends BaseEntity, EntityRespo
                     tapResponse({
                         next: (editedEntity) => patchState(store, (state) => (
                             { entities: state.entities.map(entity => (entity.id === editedEntity.id) ? editedEntity : entity) }),
+                            { lastUpdatedEntity: editedEntity },
                             setSuccess('Modificado correctamente!')),
                         error: (error: HttpErrorResponse) => patchState(store, setError(error.message)),
                         finalize: () => patchState(store, setCompleted())
@@ -51,9 +52,10 @@ export function withCrudOperations<EntityRequest extends BaseEntity, EntityRespo
             deleteEntity: rxMethod<number>(pipe(
                 switchMap((entityId) => service.deleteEntity(entityId).pipe(
                     tapResponse({
-                        next: () => patchState(store, (state) => (
-                            { entities: state.entities.filter(entity => entity.id !== entityId) }),
-                            setSuccess('Eliminado correctamente!')),
+                        next: (editedEntity) => patchState(store, (state) => (
+                            { entities: state.entities.map(entity => (entity.id === editedEntity.id) ? editedEntity : entity) }),
+                            { lastUpdatedEntity: editedEntity },
+                            setSuccess(editedEntity.isEnabled ? 'Recuperado correctamente!' : 'Eliminado correctamente!')),
                         error: (error: HttpErrorResponse) => patchState(store, setError(error.message)),
                         finalize: () => patchState(store, setCompleted())
                     })
@@ -62,6 +64,10 @@ export function withCrudOperations<EntityRequest extends BaseEntity, EntityRespo
             getEntityById(id: number) {
                 return store.entities().find(entity => entity.id === id)!;
             }
+        })),
+        withComputed((state) => ({
+            enabledEntities: computed(() => state.entities().filter(entity => entity.isEnabled)),
+            deletedEntities: computed(() => state.entities().filter(entity => !entity.isEnabled))
         })),
         withHooks((store) => ({
             onInit: () => {
@@ -72,5 +78,6 @@ export function withCrudOperations<EntityRequest extends BaseEntity, EntityRespo
 }
 
 export interface BaseState<EntityResponse> {
-    entities: EntityResponse[]
+    entities: EntityResponse[],
+    lastUpdatedEntity: EntityResponse | undefined
 };

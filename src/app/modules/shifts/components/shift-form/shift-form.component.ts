@@ -70,12 +70,12 @@ export class ShiftFormComponent {
   }
 
   private handleSuccess(response: any) {
-    this.alertService.getSuccessToast(response).fire();
+    this.alertService.getSuccessToast(response);
     this.router.navigate(['shifts', 'dashboard']);
   }
 
   private handleError(error: any): Observable<null> {
-    this.alertService.getErrorAlert(error.message).fire();
+    this.alertService.getErrorAlert(error.message);
     console.error(error.message);
     return of(null);
   }

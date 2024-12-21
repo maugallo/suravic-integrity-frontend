@@ -52,10 +52,6 @@ export const tokenInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next:
         console.warn("Interceptor: No hay token almacenado, procediendo sin encabezado de autorización");
         return next(req);
       }
-    }),
-    catchError(error => {
-      console.error("Interceptor: Error al manejar el token", error);
-      return throwError(() => error);
     })
   );
 };

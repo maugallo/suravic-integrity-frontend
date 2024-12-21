@@ -60,7 +60,7 @@ export class FileInputComponent {
       this.bindedObject.set(image);
     } catch (error) {
       console.error('Error al obtener la imagen:', error);
-      this.alertService.getErrorToast('No se pudo cargar la imagen').fire();
+      this.alertService.getErrorToast('No se pudo cargar la imagen');
     }
   }
 
@@ -74,7 +74,7 @@ export class FileInputComponent {
       console.log('Archivo seleccionado:', file);
       this.bindedObject.set(file);
     } else {
-      this.alertService.getErrorToast('No se pudo cargar el archivo').fire();
+      this.alertService.getErrorToast('No se pudo cargar el archivo');
     }
   }
 

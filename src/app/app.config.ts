@@ -5,12 +5,13 @@ import { routes } from "./app.routes";
 import { provideHttpClient, withInterceptors } from "@angular/common/http";
 import { tokenInterceptor } from "./shared/interceptors/token.interceptor";
 import { loaderInterceptor } from "./shared/interceptors/loader.interceptor";
+import { catchErrorInterceptor } from "./shared/interceptors/catch-error.interceptor";
 
 export const appConfig: ApplicationConfig = {
     providers: [
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
         provideIonicAngular(),
-        provideHttpClient(withInterceptors([tokenInterceptor, loaderInterceptor])),
+        provideHttpClient(withInterceptors([tokenInterceptor, loaderInterceptor, catchErrorInterceptor])),
         provideRouter(routes, withPreloading(PreloadAllModules))
     ]
   };

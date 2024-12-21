@@ -1,71 +1,33 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, Observable, switchMap, tap, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ProviderRequest, ProviderResponse } from '../models/provider.model';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { ProductService } from 'src/app/modules/products/services/product.service';
+import { BaseService } from 'src/app/shared/models/base-service.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProviderService {
+export class ProviderService implements BaseService<ProviderRequest, ProviderResponse> {
 
   private http = inject(HttpClient);
+
   private apiUrl = `${environment.apiUrl}/providers`;
 
-  private productService = inject(ProductService);
-
-  private refreshProviders$ = new BehaviorSubject<void>(undefined);
-
-  public refreshProviders() {
-    this.refreshProviders$.next();
+  public getEntities(): Observable<ProviderResponse[]> {
+    return this.http.get<ProviderResponse[]>(this.apiUrl);
   }
 
-  public providers = toSignal(this.refreshProviders$.pipe(
-    switchMap(() => this.getProviders())), { initialValue: [] });
-
-  public getProviders(): Observable<ProviderResponse[]> {
-    return this.http.get<ProviderResponse[]>(this.apiUrl)
-      .pipe(catchError(this.handleError));
+  public createEntity(provider: ProviderRequest): Observable<ProviderResponse> {
+    return this.http.post<ProviderResponse>(this.apiUrl, provider);
   }
 
-  public getProviderById(id: number) {
-    return this.providers().find(provider => provider.id === id)!;
+  public editEntity(id: number, provider: ProviderRequest): Observable<ProviderResponse> {
+    return this.http.put<ProviderResponse>(`${this.apiUrl}/${id}`, provider); // Modificar productStore.
   }
 
-  public createProvider(provider: ProviderRequest): Observable<string> {
-    return this.http.post(this.apiUrl, provider, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => this.refreshProviders$.next()));
-  }
-
-  public editProvider(id: number, provider: ProviderRequest): Observable<string> {
-    return this.http.put(`${this.apiUrl}/${id}`, provider, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => {
-        this.refreshProviders$.next();
-        this.productService.refreshProducts();
-      }));
-  }
-
-  public deleteOrRecoverProvider(id: number): Observable<string> {
-    return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => {
-        this.refreshProviders$.next()
-        this.productService.refreshProducts();
-      }));
-  }
-
-  private handleError(error: HttpErrorResponse) {
-    switch (error.status) {
-      case 400:
-        return throwError(() => new Error(error.error));
-      case 403:
-        return throwError(() => new Error("No tienes los permisos para realizar esta acción"));
-      case 500:
-        return throwError(() => new Error(error.message));
-      default:
-        return throwError(() => error);
-    }
+  public deleteEntity(id: number): Observable<ProviderResponse> {
+    return this.http.delete<ProviderResponse>(`${this.apiUrl}/${id}`); // Modificar productStore.
   }
 
 }

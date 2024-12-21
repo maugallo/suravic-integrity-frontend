@@ -17,6 +17,7 @@ import { ProductMapper } from 'src/app/shared/mappers/product.mapper';
 import { FormButtonComponent } from 'src/app/shared/components/form/form-button/form-button.component';
 import { ProviderPercentagesComponent } from "./provider-percentages/provider-percentages.component";
 import { ProductPercentagesComponent } from "./product-percentages/product-percentages.component";
+import { ProviderStore } from 'src/app/modules/providers/stores/provider.store';
 
 @Component({
     selector: 'app-pricing-products',
@@ -27,18 +28,18 @@ standalone: true
 })
 export class PricingProductsComponent {
 
-  private providerService = inject(ProviderService);
   private productService = inject(ProductService);
+  private providerStore = inject(ProviderStore);
   private alertService = inject(AlertService);
 
   private destroyRef = inject(DestroyRef);
   private menuController = inject(MenuController)
 
-  public providers = computed(() => this.providerService.providers().filter(provider => provider.id > 2));
+  public providers = computed(() => this.providerStore.entities().filter(provider => provider.id! > 2));
 
   public selectedProviderId = signal<number>(0);
 
-  public provider = computed(() => this.selectedProviderId() ? this.providerService.getProviderById(this.selectedProviderId()!) : null);
+  public provider = computed(() => this.selectedProviderId() ? this.providerStore.getEntityById(this.selectedProviderId()) : null);
   public selectedProduct: ProductWithPricing | null = null;
 
   public products = computed(() => signal(this.productService.getProductsByProvider(this.selectedProviderId()!).filter(product => product.isEnabled)));
@@ -84,12 +85,12 @@ export class PricingProductsComponent {
     });
 
     this.productsWithPricing().set(modifiedProductsWithPricing);
-    this.alertService.getSuccessToast('Precios calculados correctamente').fire();
+    this.alertService.getSuccessToast('Precios calculados correctamente');
   }
 
   public onApplySubmit() {
     this.alertService.getWarningConfirmationAlert('¿Estás seguro que deseas continuar?', 'Se modificarán los precios de los productos calculados', 'APLICAR')
-    .fire()
+    
     .then((result: any) => { if (result.isConfirmed) this.applyNewPrices(); });
   }
 
@@ -105,12 +106,12 @@ export class PricingProductsComponent {
   }
 
   private handleSuccess(response: string): void {
-    this.alertService.getSuccessToast(response).fire();
+    this.alertService.getSuccessToast(response);
     this.productsWithPricing().set(this.getProductsWithPricing());
   }
 
   private handleError(error: any): Observable<null> {
-    this.alertService.getErrorAlert(error.message).fire();
+    this.alertService.getErrorAlert(error.message);
     console.error(error.message);
     return of(null);
   }

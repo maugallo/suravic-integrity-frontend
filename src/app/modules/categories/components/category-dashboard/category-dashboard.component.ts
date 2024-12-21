@@ -28,9 +28,9 @@ export class CategoryDashboardComponent {
 
   public openAddCategoryAlert() {
     this.turnInert.emit(true);
-    this.alertService.getInputAlert('AGREGAR CATEGORÍA <i class="fa-duotone fa-solid fa-tags fa-1x"></i>', 'Ingrese un nombre', 'AGREGAR', this.handleValidations())
-      .fire()
-      .finally(() => this.turnInert.emit(false));
+/*     this.alertService.getInputAlert('AGREGAR CATEGORÍA <i class="fa-duotone fa-solid fa-tags fa-1x"></i>', 'Ingrese un nombre', 'AGREGAR', this.handleValidations())
+      
+      .finally(() => this.turnInert.emit(false)) */;
   }
 
   private handleValidations() {
@@ -51,7 +51,7 @@ export class CategoryDashboardComponent {
   // Usamos firstValueFrom para obtener el primero (y único) valor que el observable devuelve, y transformarlo en una Promise.
   private handleCreation() {
     return firstValueFrom(this.categoryService.createCategory(this.category).pipe(
-      tap((response) => this.alertService.getSuccessToast(response).fire()),
+      tap((response) => this.alertService.getSuccessToast(response)),
       catchError((error) => {
         Swal.showValidationMessage(error.message);
         return of(null);
