@@ -5,7 +5,7 @@ import { UserLoginRequest } from 'src/app/modules/users/models/user.model';
 import { forkJoin, Observable, switchMap, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { StorageService } from 'src/app/shared/services/storage.service';
-import { StorageType } from 'src/app/shared/models/storage-type.enum';
+import { StorageType } from 'src/app/shared/services/storage.service';
 import { TokenUtility } from 'src/app/shared/utils/token.utility';
 import { AlertService } from 'src/app/shared/services/alert.service';
 

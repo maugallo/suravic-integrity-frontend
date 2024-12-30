@@ -1,40 +1,50 @@
-import { Component, computed, inject, signal, WritableSignal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { OrderService } from '../../services/order.service';
 import { HeaderComponent } from 'src/app/shared/components/header/header.component';
-import { IonContent, IonSearchbar, IonButton, IonList, IonProgressBar, MenuController } from "@ionic/angular/standalone";
+import { IonContent, IonSearchbar, IonButton, IonList, MenuController } from "@ionic/angular/standalone";
 import { NotFoundComponent } from 'src/app/shared/components/not-found/not-found.component';
 import { OrderItemComponent } from "./order-item/order-item.component";
 import { OrderResponse } from '../../models/order.model';
-import { OrdersFilterComponent } from 'src/app/shared/components/filters/orders-filter/orders-filter.component';
+import { MAX_TOTAL, MIN_TOTAL, OrderFilterComponent, OrderFilters } from 'src/app/modules/orders/components/order-dashboard/order-filter/order-filter.component';
 import { DeletedButtonComponent } from 'src/app/shared/components/deleted-button/deleted-button.component';
-import { Filter } from 'src/app/shared/models/filter.model';
+import { OrderStore } from '../../stores/order.store';
+import { AlertService } from 'src/app/shared/services/alert.service';
+import { watchState } from '@ngrx/signals';
 
 @Component({
   selector: 'app-order-dashboard',
   templateUrl: './order-dashboard.component.html',
   styleUrls: ['./order-dashboard.component.scss'],
-  imports: [IonProgressBar, IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, NotFoundComponent, OrderItemComponent, OrdersFilterComponent, DeletedButtonComponent],
-standalone: true
+  imports: [IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, NotFoundComponent, OrderItemComponent, OrderFilterComponent, DeletedButtonComponent],
+  standalone: true
 })
 export class OrderDashboardComponent {
 
-  private menuController = inject(MenuController)
-  private orderService = inject(OrderService);
+  private alertService = inject(AlertService);
+  private orderStore = inject(OrderStore);
+  private menuController = inject(MenuController);
   public router = inject(Router);
 
-  public orders = this.orderService.orders;
-  
-  private searchQuery: WritableSignal<string> = signal('');
-  private filters = signal<Filter[]>([]);
+  public seeDeleted = signal(false);
+  private searchQuery = signal('');
+  private filters = signal<OrderFilters>({
+    providers: [],
+    paymentMethods: [],
+    totals: [MIN_TOTAL, MAX_TOTAL]
+  });
 
-  public filteredOrders = computed(() => {
-    const orders = this.filterOrders(this.orders(), this.filters(), this.seeDeleted());
+  public orders = computed(() => {
+    const orders = this.filterOrders(this.filters(), this.seeDeleted());
 
     return this.sortedByDate(orders.filter(order => order.provider.companyName.toLowerCase().includes(this.searchQuery())));
   });
 
-  public seeDeleted = signal(false);
+  constructor() {
+    watchState(this.orderStore, () => {
+      if (this.orderStore.success()) this.alertService.getSuccessToast(this.orderStore.message());
+      if (this.orderStore.error()) this.alertService.getErrorAlert(this.orderStore.message());
+    });
+  }
 
   public searchForOrders(event: any) {
     const query = event.target.value.toLowerCase();
@@ -51,38 +61,23 @@ export class OrderDashboardComponent {
   }
 
   public openFilterMenu() {
-    this.menuController.open("filter-menu");
-  }
-  public receiveFilters(filters: any) {
-    this.filters.set([...filters]);
-    /* IMPORTANTE: Angular compara la referencia del array y,
-    al no cambiar la referencia del array en sí
-    (solo sus elementos internos), no dispara la reactividad.
-    Por eso tenemos que asignar un array completamente nuevo,
-    pisando el anterior. */
+    this.menuController.open("filter-order-menu");
   }
 
-  private filterOrders(orders: OrderResponse[], filters: Filter[], seeDeleted: boolean) {
-    let filteredOrders = orders.filter(order => order.isEnabled !== seeDeleted);
+  public receiveFilters(filters: OrderFilters) {
+    this.filters.set({ ...filters });
+  }
 
-    if (filters.length > 0) {
-      const paymentMethodsFilter = filters[0].value;
-      const providersFilter = filters[1].value;
-      const pricesFilter = filters[2].value;
+  private filterOrders(filters: OrderFilters, seeDeleted: boolean) {
+    let filteredOrders = seeDeleted ? this.orderStore.deletedEntities() : this.orderStore.enabledEntities();
 
-      console.log(paymentMethodsFilter);
-      console.log(providersFilter);
-      console.log(pricesFilter);
+    return filteredOrders.filter(order => {
+      const orderPaymentMethodsIds = order.paymentMethods.map(method => method.id);
 
-      return filteredOrders.filter(order => {
-        const orderPaymentMethodsIds = order.paymentMethods.map(method => method.id);
-
-        return (paymentMethodsFilter.length === 0 || paymentMethodsFilter.some(id => orderPaymentMethodsIds.includes(id))) &&
-          (providersFilter.length === 0 || providersFilter.includes(order.provider.id)) &&
-          (pricesFilter.length === 0 || (Number(order.total) >= pricesFilter[0] && Number(order.total) <= pricesFilter[1]))
-      });
-    }
-    return filteredOrders;
+      return (filters.paymentMethods.length === 0 || filters.paymentMethods.some(id => orderPaymentMethodsIds.includes(id))) &&
+        (filters.providers.length === 0 || filters.providers.includes(order.provider.id)) &&
+        (filters.totals.length === 0 || (Number(order.total) >= filters.totals[0] && Number(order.total) <= filters.totals[1]))
+    });
   }
 
 }

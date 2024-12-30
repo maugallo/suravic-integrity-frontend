@@ -1,13 +1,9 @@
-import { Component, inject, QueryList, Signal, ViewChildren } from '@angular/core';
+import { Component, computed, inject, QueryList, ViewChildren } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EMPTY, map, Observable, of, switchMap, tap } from 'rxjs';
-import { OrderRequest } from '../../models/order.model';
-import { OrderService } from '../../services/order.service';
-import { ProviderService } from 'src/app/modules/providers/services/provider.service';
+import { of, switchMap, tap } from 'rxjs';
 import { AlertService } from 'src/app/shared/services/alert.service';
-import { StorageService } from 'src/app/shared/services/storage.service';
 import { ValidationService } from 'src/app/shared/services/validation.service';
 import { IonContent, IonSelectOption } from "@ionic/angular/standalone";
 import { HeaderComponent } from 'src/app/shared/components/header/header.component';
@@ -18,84 +14,87 @@ import { SelectInputComponent } from 'src/app/shared/components/form/select-inpu
 import { SubmitButtonComponent } from 'src/app/shared/components/form/submit-button/submit-button.component';
 import { OrderMapper } from 'src/app/shared/mappers/order.mapper';
 import { EntitiesUtility } from 'src/app/shared/utils/entities.utility';
-import { StorageType } from 'src/app/shared/models/storage-type.enum';
 import { TextInputComponent } from 'src/app/shared/components/form/text-input/text-input.component';
 import { FileInputComponent } from 'src/app/shared/components/form/file-input/file-input.component';
 import { FileUtility } from 'src/app/shared/utils/file.utility';
-import { PaymentMethodService } from '../../services/payment-method.service';
 import { OrderStatus } from '../../models/order-status.enum';
 import { ProviderStore } from 'src/app/modules/providers/stores/provider.store';
+import { OrderStore } from '../../stores/order.store';
+import { PaymentMethodStore } from '../../stores/payment-method.store';
+import { watchState } from '@ngrx/signals';
+import { StorageService, StorageType } from 'src/app/shared/services/storage.service';
 
 @Component({
-    selector: 'app-order-form',
-    templateUrl: './order-form.component.html',
-    styleUrls: ['./order-form.component.scss'],
-    imports: [IonContent, HeaderComponent, FormsModule, IonSelectOption, WheelDateInputComponent, NumberInputComponent, SelectInputComponent, SubmitButtonComponent, FileInputComponent],
-standalone: true
+  selector: 'app-order-form',
+  templateUrl: './order-form.component.html',
+  styleUrls: ['./order-form.component.scss'],
+  imports: [IonContent, HeaderComponent, FormsModule, IonSelectOption, WheelDateInputComponent, NumberInputComponent, SelectInputComponent, SubmitButtonComponent, FileInputComponent],
+  standalone: true
 })
 export class OrderFormComponent {
-  
-  private orderService = inject(OrderService);
-  private paymentMethodService = inject(PaymentMethodService);
-  private storageService = inject(StorageService);
+
   private alertService = inject(AlertService);
+  private storageService = inject(StorageService);
   public validationService = inject(ValidationService);
+  private orderStore = inject(OrderStore);
+  private paymentMethodStore = inject(PaymentMethodStore);
   private providerStore = inject(ProviderStore);
-  private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
 
   public today = new Date().toISOString().split('T')[0];
 
-  public isOrderEdit!: boolean;
-  public orderId!: number;
-
+  public providers = this.providerStore.enabledEntities();
+  public paymentMethods = this.paymentMethodStore.paymentMethods();
   public orderStatus = OrderStatus;
-  public providers = this.providerStore.entities();
-  public paymentMethods = this.paymentMethodService.paymentMethods;
+
+  public orderId = 0;
 
   @ViewChildren('formInput') inputComponents!: QueryList<TextInputComponent | NumberInputComponent | SelectInputComponent | WheelDateInputComponent>;
 
-  public order: Signal<OrderRequest | undefined> = toSignal(this.activatedRoute.paramMap.pipe(
-    switchMap((params) => {
-      const orderId = params.get('id');
-      if (this.isParameterValid(orderId)) {
-        const order = this.orderService.getOrderById(Number(orderId));
-        if (!order) {
-          this.router.navigate(['orders', 'dashboard']);
-          return EMPTY; // Nos aseguramos de no continuar si la orden no existe
-        }
-        this.isOrderEdit = true;
-        this.orderId = order.id;
-        const orderRequest = OrderMapper.toOrderRequest(order);
-        return this.orderService.getInvoiceFile(this.orderId).pipe(
-          tap(async (invoice) => (invoice.type.startsWith('image/'))
-            ? orderRequest.invoice = await FileUtility.getPhotoFromBlob(invoice)
-            : orderRequest.invoice = FileUtility.getFileFromBlob(invoice, 'factura')),
-          switchMap(() => {
-            if (order.status === OrderStatus.PAGO) {
-              return this.orderService.getPaymentReceiptFile(this.orderId).pipe(
-                tap(async (paymentReceipt) => {
-                  if (paymentReceipt && paymentReceipt.size > 0) {
-                    (paymentReceipt.type.startsWith('image/'))
-                      ? orderRequest.paymentReceipt = await FileUtility.getPhotoFromBlob(paymentReceipt)
-                      : orderRequest.paymentReceipt = FileUtility.getFileFromBlob(paymentReceipt, 'comprobante')
-                  }
-                }),
-                map(() => orderRequest)
-              );
-            }
-            return of(orderRequest);
-          })
-        );
-      } else {
-        this.isOrderEdit = false;
-        return of(EntitiesUtility.getEmptyOrderRequest());
-      }
-    })
+  constructor() {
+    watchState(this.orderStore, () => {
+      if (this.orderStore.success()) this.handleSuccess(this.orderStore.message());
+      if (this.orderStore.error()) this.handleError(this.orderStore.message());
+    });
+  }
+
+  public idParam = toSignal(this.activatedRoute.paramMap.pipe(
+    switchMap((params) => of(Number(params.get('id')) || undefined)),
+    tap((id) => { if (id) this.orderStore.getInvoiceFile(id) }),
+    tap((id) => { if (id) this.orderStore.getPaymentReceiptFile(id) })
   ));
 
+  public order = computed(() => {
+    if (this.idParam()) {
+      const order = this.orderStore.getEntityById(this.idParam()!);
+      this.orderId = order!.id!;
+
+      const orderRequest = OrderMapper.toOrderRequest(order!);
+
+      this.getOrderFile(this.orderStore.invoice(), 'factura').then((invoice) => {
+        orderRequest.invoice = invoice;
+      });
+      this.getOrderFile(this.orderStore.paymentReceipt(), 'comprobante').then((paymentReceipt) => {
+        orderRequest.paymentReceipt = paymentReceipt;
+      });
+
+      return orderRequest;
+    } else {
+      return EntitiesUtility.getEmptyOrderRequest();
+    }
+  });
+
+  private async getOrderFile(file: Blob | null, text: string) {
+    if (file && file.size > 0) {
+      if (file.type.startsWith('image/')) return FileUtility.getPhotoFromBlob(file);
+      else return FileUtility.getFileFromBlob(file, text);
+    }
+    return undefined;
+  }
+
   public onProviderChange(selectedProviderId: any) {
-    this.order()!.providerId = selectedProviderId;
+    this.order().providerId = selectedProviderId;
   }
 
   public onSubmit() {
@@ -103,80 +102,70 @@ export class OrderFormComponent {
       return;
     }
 
-    if (!this.order()!.invoice) {
+    if (!this.order().invoice) {
       this.alertService.getErrorToast("Debes cargar una imagen o archivo para la factura de pedido");
       return;
     }
 
-    this.storageService.getStorage(StorageType.USER_ID).pipe(
-      switchMap((userId) => {
-        const order = this.order()!;
-        const formData = new FormData();
-
-        formData.append('providerId', order.providerId.toString());
+    const formData = this.getFormData();
+    this.storageService.getStorage(StorageType.USER_ID).subscribe({
+      next: (userId) => {
         formData.append('userId', userId);
-        formData.append('status', order.status);
-        formData.append('total', order.total);
-
-        const deliveryDate = new Date(order.deliveryDate).toISOString().split('T')[0];
-        formData.append('deliveryDate', deliveryDate);
-
-        order.paymentMethodIds.forEach((id: number) => {
-          console.log(id);
-          formData.append('paymentMethodIds', id.toString());
-        });
-
-        if (FileUtility.isPhoto(order.invoice)) {
-          const photo = order.invoice as Photo;
-          const blob = FileUtility.dataUrlToBlob(photo.dataUrl!);
-
-          formData.append('invoice', blob, 'imagenc.jpg');
-        } else if (FileUtility.isFile(order.invoice)) {
-          const file = order.invoice as File;
-
-          formData.append('invoice', file);
-        }
-
-        if (order.paymentReceipt) {
-          if (FileUtility.isPhoto(order.paymentReceipt)) {
-            const photo = order.paymentReceipt as Photo;
-            const blob = FileUtility.dataUrlToBlob(photo.dataUrl!);
-
-            formData.append('paymentReceipt', blob, 'imagenc.jpg');
-          } else if (FileUtility.isFile(order.paymentReceipt)) {
-            const file = order.paymentReceipt as File;
-
-            formData.append('paymentReceipt', file);
-          }
-        }
-
-        return this.getFormOperation(formData);
-      })
-    ).subscribe({
-      next: (response) => this.handleSuccess(response),
-      error: (error) => this.handleError(error)
+      }
     });
+    if (this.idParam()) {
+      this.orderStore.editEntity({ id: this.orderId, entity: formData })
+    } else {
+      this.orderStore.addEntity(formData);
+    }
+
   }
 
-  private getFormOperation(formData: FormData): Observable<any> {
-    return this.isOrderEdit
-      ? this.orderService.editOrder(this.orderId, formData)
-      : this.orderService.createOrder(formData);
+  private getFormData(): FormData {
+    const formData = new FormData();
+
+    const order = this.order();
+    const userId = this.storageStore.userId().toString();
+
+    formData.append('providerId', order.providerId.toString());
+    formData.append('status', order.status);
+    formData.append('total', order.total);
+
+    const deliveryDate = new Date(order.deliveryDate).toISOString().split('T')[0];
+    formData.append('deliveryDate', deliveryDate);
+
+    order.paymentMethodIds.forEach((id: number) =>
+      formData.append('paymentMethodIds', id.toString()));
+
+    this.appendFile(formData, 'invoice', order.invoice!);
+
+    if (order.paymentReceipt) {
+      this.appendFile(formData, 'paymentReceipt', order.paymentReceipt);
+    }
+
+    return formData;
   }
 
-  private handleSuccess(response: any) {
+  private appendFile(formData: FormData, fieldName: string, data: File | Photo) {
+    if (FileUtility.isPhoto(data)) {
+      const photo = data as Photo;
+      const blob = FileUtility.dataUrlToBlob(photo.dataUrl!);
+      formData.append(fieldName, blob, 'attachment.jpg');
+    } 
+    if (FileUtility.isFile(data)) {
+      const file = data as File;
+      formData.append(fieldName, file, file.name);
+    }
+  }
+
+  private handleSuccess(response: string) {
     this.alertService.getSuccessToast(response);
     this.router.navigate(['orders', 'dashboard']);
   }
 
-  private handleError(error: any): Observable<null> {
-    this.alertService.getErrorAlert(error.message);
+  private handleError(error: string) {
+    this.alertService.getErrorAlert(error);
     console.error(error);
-    return of(null);
-  }
-
-  private isParameterValid(param: string | null) {
-    return !isNaN(Number(param)) && Number(param);
   }
 
 }

@@ -5,8 +5,7 @@
   </div>
 
   <div class="options-container mb-4 mx-3">
-      @let options = role() === 'ROLE_DUENO' ? duenoOptions : encargadoOptions;
-      @for (option of options; track $index) {
+      @for (option of options(); track $index) {
         <app-option [icon]="option.icon"  [label]="option.label" [url]="option.url"></app-option>
       }
       <app-option icon="fa-solid fa-camera-viewfinder fa-5x" label="ASISTENCIA"

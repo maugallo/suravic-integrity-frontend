@@ -20,6 +20,7 @@ import { ProviderStore } from '../../stores/provider.store';
 import { watchState } from '@ngrx/signals';
 import { SectorStore } from 'src/app/modules/sectors/stores/sector.store';
 import { ProductStore } from 'src/app/modules/products/store/product.store';
+import { SectorResponse } from 'src/app/modules/sectors/models/sector.model';
 
 @Component({
   selector: 'app-provider-form',
@@ -38,7 +39,7 @@ export class ProviderFormComponent {
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
 
-  public sectors = this.sectorStore.entities();
+  public sectors = this.sectorStore.enabledEntities();
   public vatConditions: VatCondition[] = VAT_CONDITIONS;
 
   public providerId = 0;
@@ -62,7 +63,9 @@ export class ProviderFormComponent {
   public provider = computed(() => {
     if (this.idParam()) {
       const provider = this.providerStore.getEntityById(this.idParam()!);
+      if (this.isProviderSectorDeleted(provider.sector)) provider.sector.id = -1
       this.providerId = provider.id!;
+
       return ProviderMapper.toProviderRequest(provider!);
     } else {
       return EntitiesUtility.getEmptyProviderRequest();
@@ -92,6 +95,10 @@ export class ProviderFormComponent {
   private handleError(error: any) {
     this.alertService.getErrorAlert(error.message);
     console.error(error.message);
+  }
+
+  private isProviderSectorDeleted(sectorResponse: SectorResponse) {
+    return !this.sectors.some(sector => sector.id === sectorResponse.id);
   }
 
 } 

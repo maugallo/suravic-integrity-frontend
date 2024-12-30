@@ -15,18 +15,10 @@ ion-item-option {
     color: #{$tertiary-color};
 }
 
-.fa-solid {
-    color: #{$primary-color};
-}
-
 ion-button {
     --box-shadow: none;
     --background: white;
     --ripple-color: #{$secondary-color-darker};
-}
-
-.fa-solid, .fa-regular {
-    color: #{$primary-color};
 }
 
 .employee-container {

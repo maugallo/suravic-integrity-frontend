@@ -15,6 +15,7 @@ export interface ProviderRequest extends BaseEntity {
 }
 
 export interface ProviderResponse extends BaseEntity {
+    id: number,
     sector: SectorResponse,
     contact: ContactResponse,
     percentages: PercentagesResponse,
@@ -22,5 +23,6 @@ export interface ProviderResponse extends BaseEntity {
     companyName: string,
     firstName: string,
     lastName: string,
-    cuit: string
+    cuit: string,
+    isEnabled: boolean
 }

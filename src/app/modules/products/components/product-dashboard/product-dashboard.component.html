@@ -8,7 +8,7 @@
       <!-- Filter Button -->
       <ion-button id="product-content" (click)="openFilterMenu()"><i class="fa-solid fa-filter fa-2x py-0"></i></ion-button>
       <!-- Filter menu -->
-      <app-products-filter [products]="products()" (filtersEmitter)="receiveFilters($event)"></app-products-filter>
+      <app-product-filter (filtersEmitter)="receiveFilters($event)"></app-product-filter>
     </div>
     
     <div class="options-container">
@@ -24,14 +24,12 @@
       <app-deleted-button [(seeDeleted)]="seeDeleted"></app-deleted-button>
     </div>
 
-    @if (filteredProducts(); as products) {
-      @if (products.length === 0) { <app-not-found></app-not-found> }
-        <ion-list>
-          @for (product of products; track $index) {
-            <app-product-item [product]="product" ></app-product-item>
-          }
-        </ion-list>
-    }
+    @if (products().length === 0) { <app-not-found></app-not-found> }
+    <ion-list>
+      @for (product of products(); track $index) {
+        <app-product-item [product]="product"></app-product-item>
+      }
+    </ion-list>
     
   </div>
 </ion-content>

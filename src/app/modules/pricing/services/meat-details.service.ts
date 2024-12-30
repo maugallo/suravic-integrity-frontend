@@ -33,7 +33,7 @@ export class MeatDetailsService {
     return this.http.put(this.apiUrl, meatDetails, { responseType: 'text' })
       .pipe(catchError(this.handleError), tap(() => {
         this.refreshMeatDetails$.next();
-        this.productService.refreshProducts();
+        /* this.productService.refreshProducts(); */
       }));
   }
 

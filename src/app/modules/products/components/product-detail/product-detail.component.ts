@@ -16,8 +16,8 @@ import { ProductStore } from '../../store/product.store';
 })
 export class ProductDetailComponent {
 
-  private activatedRoute = inject(ActivatedRoute);
   private productStore = inject(ProductStore);
+  private activatedRoute = inject(ActivatedRoute);
 
   public product = toSignal(this.activatedRoute.paramMap.pipe(
     switchMap((params) => of(Number(params.get('id')))),

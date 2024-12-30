@@ -18,6 +18,7 @@ import { FormButtonComponent } from 'src/app/shared/components/form/form-button/
 import { ProviderPercentagesComponent } from "./provider-percentages/provider-percentages.component";
 import { ProductPercentagesComponent } from "./product-percentages/product-percentages.component";
 import { ProviderStore } from 'src/app/modules/providers/stores/provider.store';
+import { ProductStore } from 'src/app/modules/products/store/product.store';
 
 @Component({
     selector: 'app-pricing-products',
@@ -29,6 +30,7 @@ standalone: true
 export class PricingProductsComponent {
 
   private productService = inject(ProductService);
+  private productStore = inject(ProductStore);
   private providerStore = inject(ProviderStore);
   private alertService = inject(AlertService);
 
@@ -42,7 +44,7 @@ export class PricingProductsComponent {
   public provider = computed(() => this.selectedProviderId() ? this.providerStore.getEntityById(this.selectedProviderId()) : null);
   public selectedProduct: ProductWithPricing | null = null;
 
-  public products = computed(() => signal(this.productService.getProductsByProvider(this.selectedProviderId()!).filter(product => product.isEnabled)));
+  public products = computed(() => /* signal(this.productService.getProductsByProvider(this.selectedProviderId()!).filter(product => product.isEnabled)) */ null);
   public productsWithPricing = computed(() => signal(this.getProductsWithPricing()));
 
   public openProviderPercentagesMenu() {
@@ -58,7 +60,7 @@ export class PricingProductsComponent {
   }
 
   private getProductsWithPricing(): ProductWithPricing[] {
-    return this.products()().map(product => ProductMapper.toProductWithPricing(product));
+    return /* this.products()().map(product => ProductMapper.toProductWithPricing(product)) */ [];
   }
 
   public receiveProductPercentages(product: ProductWithPricing | null | undefined) {
@@ -96,13 +98,13 @@ export class PricingProductsComponent {
 
   private applyNewPrices() {
     const modifiedProducts = this.productsWithPricing()().map(productWithPricing => ProductMapper.toProductResponse(productWithPricing));
-    this.products().set(modifiedProducts);
+    /* this.products().set(modifiedProducts); */
 
-    this.productService.editProductsPrice(this.products()()).pipe(
+/*     this.productService.editProductsPrice(this.products()()).pipe(
       tap((response) => this.handleSuccess(response)),
       catchError((error) => this.handleError(error)),
       takeUntilDestroyed(this.destroyRef)
-    ).subscribe();
+    ).subscribe(); */
   }
 
   private handleSuccess(response: string): void {

@@ -12,7 +12,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 - Services extend BaseService.
 - Models extend BaseEntity. */
 
-export function withCrudOperations<EntityRequest extends BaseEntity, EntityResponse extends BaseEntity>(entityService: Type<BaseService<EntityRequest, EntityResponse>>) {
+export function withCrudOperations<EntityRequest extends BaseEntity | FormData, EntityResponse extends BaseEntity>(entityService: Type<BaseService<EntityRequest, EntityResponse>>) {
     return signalStoreFeature(
         { state: type<BaseState<EntityResponse>>() },
         withRequestStatus(),
@@ -24,7 +24,7 @@ export function withCrudOperations<EntityRequest extends BaseEntity, EntityRespo
                         error: (error: HttpErrorResponse) => patchState(store, setError(error.message)),
                         finalize: () => patchState(store, setCompleted())
                     })
-                )),
+                ))
             )),
             addEntity: rxMethod<EntityRequest>(pipe(
                 switchMap((entity) => service.createEntity(entity).pipe(

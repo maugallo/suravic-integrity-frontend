@@ -1,16 +1,15 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
-import { map, of, switchMap, tap } from 'rxjs';
-import { OrderService } from '../../services/order.service';
+import { ActivatedRoute } from '@angular/router';
+import { of, switchMap, tap } from 'rxjs';
 import { IonContent, IonCard, IonCardHeader, IonCardContent } from "@ionic/angular/standalone";
 import { BackButtonComponent } from 'src/app/shared/components/back-button/back-button.component';
 import { FileUtility } from 'src/app/shared/utils/file.utility';
-import { Photo } from '@capacitor/camera';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { FileOpener, FileOpenerOptions } from '@capacitor-community/file-opener';
 import { OrderStatus } from '../../models/order-status.enum';
+import { OrderStore } from '../../stores/order.store';
 
 @Component({
   selector: 'app-order-detail',
@@ -21,51 +20,25 @@ standalone: true
 })
 export class OrderDetailComponent {
 
-  private router = inject(Router);
+  private orderStore = inject(OrderStore);
   private activatedRoute = inject(ActivatedRoute);
+
   public fileUtility = FileUtility;
-
-  private orderService = inject(OrderService);
-
   public orderStatus = OrderStatus;
 
-  public invoice: File | Photo | undefined = undefined;
-  public paymentReceipt: File | Photo | undefined = undefined;
+  public invoice = computed(() => this.orderStore.invoice());
+  public paymentReceipt = computed(() => this.orderStore.paymentReceipt());
 
   public order = toSignal(this.activatedRoute.paramMap.pipe(
-    switchMap((params) => {
-      if (this.isParameterValid(params.get('id'))) {
-        const order = this.orderService.getOrderById(Number(params.get('id')));
-        if (!order) this.router.navigate(['orders', 'dashboard']);
-        return this.orderService.getInvoiceFile(order.id).pipe(
-          tap(async (invoice) => (invoice.type.startsWith('image/'))
-            ? this.invoice = await FileUtility.getPhotoFromBlob(invoice)
-            : this.invoice = FileUtility.getFileFromBlob(invoice, 'factura')),
-          switchMap(() => {
-            if (order.status === OrderStatus.PAGO) {
-              return this.orderService.getPaymentReceiptFile(order.id).pipe(
-                tap(async (paymentReceipt) => {
-                  if (paymentReceipt && paymentReceipt.size > 0) {
-                    (paymentReceipt.type.startsWith('image/'))
-                      ? this.paymentReceipt = await FileUtility.getPhotoFromBlob(paymentReceipt)
-                      : this.paymentReceipt = FileUtility.getFileFromBlob(paymentReceipt, 'comprobante')
-                  }
-                }),
-                map(() => order)
-              );
-            }
-            return of(order);
-          })
-        );
-      }
-      return of(null);
-    })
+    switchMap((params) => of(Number(params.get('id')))),
+    tap((id) => this.orderStore.getInvoiceFile(id) ),
+    tap((id) => this.orderStore.getPaymentReceiptFile(id) ),
+    switchMap((orderId) => of(this.orderStore.getEntityById(orderId)))
   ));
 
   public async downloadFile() {
     if (this.invoice instanceof File) {
       try {
-        // Guardar archivo en dispositivo.
         const base64Data = await FileUtility.blobToBase64(this.invoice);
         const savedFile = await Filesystem.writeFile({
           path: `Download/${this.invoice.name}`,
@@ -74,7 +47,6 @@ export class OrderDetailComponent {
           recursive: true
         });
 
-        // Abrir archivo.
         const mimeType = FileUtility.getFileMimeType(this.invoice);
         const options: FileOpenerOptions = {
           filePath: savedFile.uri,
@@ -90,10 +62,6 @@ export class OrderDetailComponent {
     } else {
       console.error("No hay archivo para descargar.");
     }
-  }
-
-  private isParameterValid(param: string | null) {
-    return !isNaN(Number(param)) && Number(param);
   }
 
 }

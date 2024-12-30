@@ -3,11 +3,11 @@ import { IonModal, IonContent } from "@ionic/angular/standalone";
 import { CategoryDashboardComponent } from '../category-dashboard/category-dashboard.component';
 
 @Component({
-    selector: 'app-category-modal',
-    templateUrl: './category-modal.component.html',
-    styleUrls: ['./category-modal.component.scss'],
-    imports: [IonContent, IonModal, CategoryDashboardComponent],
-standalone: true
+  selector: 'app-category-modal',
+  templateUrl: './category-modal.component.html',
+  styleUrls: ['./category-modal.component.scss'],
+  imports: [IonContent, IonModal, CategoryDashboardComponent],
+  standalone: true
 })
 export class CategoryModalComponent {
 

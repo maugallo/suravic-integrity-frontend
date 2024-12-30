@@ -6,7 +6,7 @@
     <ion-button (click)="openAddCategoryAlert()"><i class="fa-duotone fa-solid fa-tags fa-2x py-0"></i></ion-button>
   </div>
 
-  @if (categories(); as categories) {
+  @if (categories) {
     @if (categories.length === 0) { <app-not-found></app-not-found> }
     <ion-list>
       @for (category of categories; track $index) {

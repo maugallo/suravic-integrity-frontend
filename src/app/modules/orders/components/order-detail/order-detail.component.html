@@ -20,7 +20,7 @@
         </ion-card-header>
 
         <ion-card-content>
-          @if (invoice) {
+          @if (invoice()) {
             @if (fileUtility.isPhoto(invoice); as photo) {
               <div class="uploaded-image-container mt-3">
                 <img [src]="photo.dataUrl"/>
@@ -84,7 +84,7 @@
           </ion-card-header>
   
           <ion-card-content>
-            @if (paymentReceipt) {
+            @if (paymentReceipt()) {
               @if (fileUtility.isPhoto(paymentReceipt); as photo) {
                 <div class="uploaded-image-container mt-3">
                   <img [src]="photo.dataUrl"/>

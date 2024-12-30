@@ -1,4 +1,4 @@
-@if (isOrderEdit) {
+@if (idParam()) {
   <app-header title="MODIFICAR PEDIDO" titleSize="title-large" icon="fa-solid fa-clipboard-medical fa-box-taped fa-2x"></app-header>
 } @else {
   <app-header title="AGREGAR PEDIDO" titleSize="title-large" icon="fa-solid fa-clipboard-medical fa-box-taped fa-2x"></app-header>
@@ -40,19 +40,19 @@
         
         <!-- Payment Method Input -->
         <app-select-input #formInput class="select" inputName="paymentMethodSelect" label="Método de pago" [(bindedObject)]="order()!.paymentMethodIds"
-         [disabled]="(order()!.status !== orderStatus.PAGO)" [multiple]="true" [options]="paymentMethods()" [required]="(order()!.status === orderStatus.PAGO)">
-          @for (paymentMethod of paymentMethods(); track $index) {
+         [disabled]="(order()!.status !== orderStatus.PAGO)" [multiple]="true" [options]="paymentMethods" [required]="(order()!.status === orderStatus.PAGO)">
+          @for (paymentMethod of paymentMethods; track $index) {
             <ion-select-option [value]="paymentMethod.id">{{ paymentMethod.name }}</ion-select-option>
           }
         </app-select-input>
       </div>
 
-      @if (order()?.status === orderStatus.PAGO) {
+      @if (order().status === orderStatus.PAGO) {
         <!-- Payment Receipt File Input -->
         <app-file-input class="mb-10" label="Comprobante de Pago (Opcional)" [(bindedObject)]="order()!.paymentReceipt"></app-file-input>
       }
 
-      <app-submit-button class="mb-5" [isEdit]="isOrderEdit"></app-submit-button>
+      <app-submit-button class="mb-5" [isEdit]="idParam() !== undefined"></app-submit-button>
     }
     </form>
   </div>

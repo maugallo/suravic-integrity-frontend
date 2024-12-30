@@ -1,0 +1,42 @@
+<ion-menu side="end" menuId="filter-order-menu" contentId="order-content">
+  <ion-content>
+    <div class="filter mt-0 mb-4 mx-4 pb-4">
+      <!-- Providers filter -->
+      <p class="filter-subtitle mb-3">Proveedores</p>
+      <app-select-input [(bindedObject)]="filters.providers" label="Selecciona para filtrar"
+      [multiple]="true" [options]="providers()" [required]="false">
+        @for (provider of providers(); track $index) {
+          <ion-select-option [value]="provider.id">{{ provider.companyName }}</ion-select-option>
+        }
+      </app-select-input>
+    </div>
+
+    <div class="filter mt-0 mx-4 pb-4">
+      <!-- Payment Methods filter -->
+      <p class="filter-subtitle mb-3">Métodos de Pago</p>
+      <app-select-input [(bindedObject)]="filters.paymentMethods" label="Selecciona para filtrar"
+      [multiple]="true" [options]="paymentMethods" [required]="false">
+        @for (paymentMethod of paymentMethods; track $index) {
+          <ion-select-option [value]="paymentMethod.id">{{ paymentMethod.name }}</ion-select-option>
+        }
+      </app-select-input>
+    </div>
+
+    <div class="filter mt-0 mb-4 mx-4 pb-4">
+      <!-- Prices filter -->
+      <p class="filter-subtitle mb-1">Precio</p>
+      <ion-range [min]="MIN_TOTAL" [max]="MAX_TOTAL" step="1" dualKnobs="true" [(ngModel)]="totalRange" (ionChange)="onPriceRangeChange()">
+      </ion-range>      
+      <div class="range-labels">
+        <ion-label slot="start">{{ totalRange.lower | currency }}</ion-label>
+        <ion-label slot="end">{{ totalRange.upper | currency }}</ion-label>
+      </div>
+    </div>
+    
+    <!-- Filter button -->
+    <div class="filter-button mb-4 mx-4">
+      <ion-button (click)="clearFilter()" expand="block">Limpiar</ion-button>
+      <ion-button (click)="filterOders()" expand="block">Filtrar</ion-button>
+    </div>
+  </ion-content>
+</ion-menu>

@@ -1,66 +1,34 @@
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { BehaviorSubject, catchError, Observable, switchMap, tap, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CategoryRequest, CategoryResponse } from '../models/category.model';
-import { ProductService } from 'src/app/modules/products/services/product.service';
+import { BaseService } from 'src/app/shared/models/base-service.model';
+import { SectorResponse } from '../../sectors/models/sector.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CategoryService {
+export class CategoryService implements BaseService<CategoryRequest, CategoryResponse> {
 
-  private productSerivce = inject(ProductService);
   private http = inject(HttpClient);
 
   private apiUrl = `${environment.apiUrl}/categories`;
-  private refreshCategories$ = new BehaviorSubject<void>(undefined);
 
-  public categories = toSignal(this.refreshCategories$.pipe(
-    switchMap(() => this.getCategories(true))), { initialValue: [] });
-
-  private getCategories(isEnabled: boolean): Observable<CategoryResponse[]> {
-    let params = new HttpParams();
-
-    params = params.append('isEnabled', isEnabled);
-
-    return this.http.get<CategoryResponse[]>(this.apiUrl, { params })
-      .pipe(catchError(this.handleError));
+  public getEntities(): Observable<CategoryResponse[]> {
+    return this.http.get<CategoryResponse[]>(this.apiUrl);
   }
 
-  public createCategory(category: CategoryRequest): Observable<string> {
-    return this.http.post(this.apiUrl, category, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => this.refreshCategories$.next()));
+  public createEntity(category: CategoryRequest): Observable<CategoryResponse> {
+    return this.http.post<SectorResponse>(this.apiUrl, category);
   }
 
-  public editCategory(id: number, category: CategoryRequest): Observable<string> {
-    return this.http.put(`${this.apiUrl}/${id}`, category, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => {
-        this.refreshCategories$.next();
-        this.productSerivce.refreshProducts();
-      }));
+  public editEntity(id: number, category: CategoryRequest): Observable<CategoryResponse> {
+    return this.http.put<SectorResponse>(`${this.apiUrl}/${id}`, category); // Modificar products.
   }
 
-  public deleteCategory(id: number): Observable<string> {
-    return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => {
-        this.refreshCategories$.next();
-        this.productSerivce.refreshProducts();
-      }));
-  }
-
-  private handleError(error: HttpErrorResponse) {
-    switch (error.status) {
-      case 400:
-        return throwError(() => new Error(error.error));
-      case 403:
-        return throwError(() => new Error("No tienes los permisos para realizar esta acción"));
-      case 500:
-        return throwError(() => new Error("Ocurrió un error en el servidor"));
-      default:
-        return throwError(() => error);
-    }
+  public deleteEntity(id: number): Observable<CategoryResponse> {
+    return this.http.delete<SectorResponse>(`${this.apiUrl}/${id}`); // Modificar products.
   }
 
 }

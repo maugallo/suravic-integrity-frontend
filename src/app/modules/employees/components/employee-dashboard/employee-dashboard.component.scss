@@ -26,9 +26,7 @@ ion-button {
     --ripple-color: #{$secondary-color-darker};
 }
 
-.fa-solid, .fa-regular {
-    color: #{$primary-color};
-}
+
 
 ion-progress-bar {
     --background: #{$secondary-color-lighter};

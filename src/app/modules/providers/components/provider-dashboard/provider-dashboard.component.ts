@@ -4,10 +4,9 @@ import { IonContent, IonSearchbar, IonButton, IonList, MenuController } from "@i
 import { Router } from '@angular/router';
 import { NotFoundComponent } from 'src/app/shared/components/not-found/not-found.component';
 import { ProviderItemComponent } from './provider-item/provider-item.component';
-import { ProvidersFilterComponent } from 'src/app/shared/components/filters/providers-filter/providers-filter.component';
+import { ProviderFilters, ProviderFilterComponent } from 'src/app/modules/providers/components/provider-dashboard/provider-filter/provider-filter.component';
 import { SectorModalComponent } from 'src/app/modules/sectors/components/sector-modal/sector-modal.component';
 import { DeletedButtonComponent } from 'src/app/shared/components/deleted-button/deleted-button.component';
-import { Filter } from 'src/app/shared/models/filter.model';
 import { ProviderStore } from '../../stores/provider.store';
 import { watchState } from '@ngrx/signals';
 import { AlertService } from 'src/app/shared/services/alert.service';
@@ -16,7 +15,7 @@ import { AlertService } from 'src/app/shared/services/alert.service';
   selector: 'app-provider-dashboard',
   templateUrl: './provider-dashboard.component.html',
   styleUrls: ['./provider-dashboard.component.scss'],
-  imports: [IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, SectorModalComponent, NotFoundComponent, ProviderItemComponent, ProvidersFilterComponent, DeletedButtonComponent],
+  imports: [IonList, IonButton, IonSearchbar, IonContent, HeaderComponent, SectorModalComponent, NotFoundComponent, ProviderItemComponent, ProviderFilterComponent, DeletedButtonComponent],
   standalone: true
 })
 export class ProviderDashboardComponent {
@@ -26,16 +25,18 @@ export class ProviderDashboardComponent {
   private menuController = inject(MenuController);
   public router = inject(Router);
 
+  public seeDeleted = signal(false);
   private searchQuery = signal('');
-  private filters = signal<Filter[]>([]);
+  private filters = signal<ProviderFilters>({
+    sectors: [],
+    vatConditions: []
+  });
 
   public filteredProviders = computed(() => {
     const providers = this.filterProviders(this.filters(), this.seeDeleted());
 
     return providers.filter(provider => provider.companyName.toLowerCase().includes(this.searchQuery()));
   });
-
-  public seeDeleted = signal(false);
 
   constructor() {
     watchState(this.providerStore, () => {
@@ -50,26 +51,20 @@ export class ProviderDashboardComponent {
   }
 
   public openFilterMenu() {
-    this.menuController.open("filter-menu");
+    this.menuController.open("filter-provider-menu");
   }
 
-  public receiveFilters(filters: any) {
-    this.filters.set([...filters]);
+  public receiveFilters(filters: ProviderFilters) {
+    this.filters.set({ ...filters });
   }
 
-  private filterProviders(filters: Filter[], seeDeleted: boolean) {
+  private filterProviders(filters: ProviderFilters, seeDeleted: boolean) {
     let filteredProviders = seeDeleted ? this.providerStore.deletedEntities() : this.providerStore.enabledEntities();
 
-    if (filters.length > 0) {
-      const sectorsFilter = filters[0].value;
-      const vatConditionsFilter = filters[1].value;
-
-      filteredProviders = filteredProviders.filter(provider =>
-        (sectorsFilter.length === 0 || sectorsFilter.includes(provider.sector.id)) &&
-        (vatConditionsFilter.length === 0 || vatConditionsFilter.includes(provider.vatCondition))
-      );
-    }
-
+    filteredProviders = filteredProviders.filter(provider =>
+      (filters.sectors.length === 0 || filters.sectors.includes(provider.sector.id)) &&
+      (filters.vatConditions.length === 0 || filters.vatConditions.includes(provider.vatCondition))
+    );
     return filteredProviders;
   }
 

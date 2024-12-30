@@ -2,8 +2,9 @@ import { Photo } from "@capacitor/camera"
 import { ProviderResponse } from "src/app/modules/providers/models/provider.model"
 import { UserResponse } from "src/app/modules/users/models/user.model"
 import { PaymentMethod } from "./payment-method.model"
+import { BaseEntity } from "src/app/shared/models/base-entity.model"
 
-export interface OrderRequest {
+export interface OrderRequest extends BaseEntity {
     providerId: number,
     userId: number,
     status: string,
@@ -14,7 +15,7 @@ export interface OrderRequest {
     paymentReceipt: File | Photo | undefined
 }
 
-export interface OrderResponse {
+export interface OrderResponse extends BaseEntity {
     id: number,
     provider: ProviderResponse,
     user: UserResponse,

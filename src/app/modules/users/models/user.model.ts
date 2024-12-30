@@ -12,6 +12,7 @@ export interface UserRequest extends BaseEntity {
 }
 
 export interface UserResponse extends BaseEntity {
+    id: number,
     username: string,
     role: string,
     isEnabled: boolean

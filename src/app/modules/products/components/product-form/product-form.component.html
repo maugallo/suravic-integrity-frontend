@@ -31,8 +31,8 @@
 
       <!-- Category Input -->
       <app-select-input #formInput class="mb-10" inputName="categorySelect" [(bindedObject)]="product()!.categoryId"
-        label="Categoría" [options]="categories()" [disabled]="(idParam() !== undefined && (productId >= 1 && productId <= 35))">
-        @if (categories(); as categories) {
+        label="Categoría" [options]="categories" [disabled]="(idParam() !== undefined && (productId >= 1 && productId <= 35))">
+        @if (categories) {
           @for (category of categories; track $index) {
             <ion-select-option [value]="category.id">{{ category.name }}</ion-select-option>
           }

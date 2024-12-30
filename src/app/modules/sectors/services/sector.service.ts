@@ -15,9 +15,7 @@ export class SectorService implements BaseService<SectorRequest, SectorResponse>
   private apiUrl = `${environment.apiUrl}/sectors`;
 
   public getEntities(): Observable<SectorResponse[]> {
-    const params = new HttpParams().set('isEnabled', true);
-
-    return this.http.get<SectorResponse[]>(this.apiUrl, { params });
+    return this.http.get<SectorResponse[]>(this.apiUrl);
   }
 
   public createEntity(sector: SectorRequest): Observable<SectorResponse> {

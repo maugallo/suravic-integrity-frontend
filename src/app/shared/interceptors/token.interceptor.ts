@@ -1,10 +1,10 @@
 import { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
-import { catchError, Observable, switchMap, throwError } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { inject } from '@angular/core';
 import { AuthService } from 'src/app/modules/auth/services/auth.service';
 import { StorageService } from '../services/storage.service';
-import { StorageType } from '../models/storage-type.enum';
 import { TokenUtility } from '../utils/token.utility';
+import { StorageType } from '../store/storage.store';
 
 export const tokenInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
   const storageService = inject(StorageService);

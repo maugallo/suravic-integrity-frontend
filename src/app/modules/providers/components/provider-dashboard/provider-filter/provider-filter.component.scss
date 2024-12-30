@@ -1,18 +1,8 @@
 @use '/src/global' as *;
 
-.filter-header {
-    border-bottom: 1px solid $secondary-color;
-}
-
 .filter-subtitle {
     color: $primary-color;
     font-weight: bold;
-}
-
-ion-select {
-    --placeholder-color: #{$secondary-color};
-    --border-width: 0.10rem;
-    --highlight-color: #{$primary-color};
 }
 
 .filter-button {
@@ -22,6 +12,12 @@ ion-select {
     position: fixed;
     bottom: 0;
     width: 90%;
+}
+
+ion-select {
+    --placeholder-color: #{$secondary-color};
+    --border-width: 0.10rem;
+    --highlight-color: #{$primary-color};
 }
 
 ion-button {

@@ -23,11 +23,11 @@ export class ProductService implements BaseService<ProductRequest, ProductRespon
   }
 
   public editEntity(id: number, product: ProductRequest): Observable<ProductResponse> {
-    return this.http.put<ProductResponse>(`this.apiUrl/${id}`, product);
+    return this.http.put<ProductResponse>(`${this.apiUrl}/${id}`, product);
   }
 
   public deleteEntity(id: number): Observable<ProductResponse> {
-    return this.http.delete<ProductResponse>(`this.apiUrl/${id}`);
+    return this.http.delete<ProductResponse>(`${this.apiUrl}/${id}`);
   }
 
 }

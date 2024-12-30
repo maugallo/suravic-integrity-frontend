@@ -1,7 +1,7 @@
 import { Observable } from "rxjs";
 
 export interface BaseService<TRequest, TResponse> {
-    getEntities(isEnabled?: boolean): Observable<TResponse[]>,
+    getEntities(): Observable<TResponse[]>,
 
     createEntity(entity: TRequest): Observable<TResponse>,
 

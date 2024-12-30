@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { map } from 'rxjs';
 import { StorageService } from '../services/storage.service';
-import { StorageType } from '../models/storage-type.enum';
+import { StorageType } from '../store/storage.store';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);

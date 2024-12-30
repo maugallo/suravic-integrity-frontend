@@ -25,11 +25,8 @@ ion-button {
     gap: 20px;
 }
 
-.fa-solid, .label{
-    color: #{$primary-color};
-}
-
 .label {
+    color: #{$primary-color};
     font-weight: 700;
     font-size: 1.2rem;
 }

@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Photo } from '@capacitor/camera';
 import { EMPTY, map, Observable, of, switchMap, tap } from 'rxjs';
 import { OperationType } from '../../models/operation-type.enum';
-import { StorageType } from 'src/app/shared/models/storage-type.enum';
+import { StorageType } from 'src/app/shared/store/storage.store';
 import { OperationRequest } from '../../models/operation.model';
 import { OperationMapper } from 'src/app/shared/mappers/operation.mapper';
 import { EntitiesUtility } from 'src/app/shared/utils/entities.utility';

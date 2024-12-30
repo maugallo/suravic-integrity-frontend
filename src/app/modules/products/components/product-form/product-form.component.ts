@@ -3,7 +3,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of, switchMap } from 'rxjs';
-import { CategoryService } from 'src/app/modules/categories/services/category.service';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { HeaderComponent } from 'src/app/shared/components/header/header.component';
 import { IonContent, IonSelectOption } from "@ionic/angular/standalone";
@@ -17,6 +16,8 @@ import { EntitiesUtility } from 'src/app/shared/utils/entities.utility';
 import { ProviderStore } from 'src/app/modules/providers/stores/provider.store';
 import { ProductStore } from '../../store/product.store';
 import { watchState } from '@ngrx/signals';
+import { CategoryStore } from 'src/app/modules/categories/stores/category.store';
+import { CategoryResponse } from 'src/app/modules/categories/models/category.model';
 
 @Component({
   selector: 'app-product-form',
@@ -27,16 +28,16 @@ import { watchState } from '@ngrx/signals';
 })
 export class ProductFormComponent {
 
-  private categoryService = inject(CategoryService);
   private alertService = inject(AlertService);
   private validationService = inject(ValidationService);
+  private categoryStore = inject(CategoryStore);
   private productStore = inject(ProductStore);
   private providerStore = inject(ProviderStore);
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
 
-  public providers = this.providerStore.entities();
-  public categories = this.categoryService.categories;
+  public providers = this.providerStore.enabledEntities();
+  public categories = this.categoryStore.enabledEntities();
 
   public productId = 0;
 
@@ -56,7 +57,9 @@ export class ProductFormComponent {
   public product = computed(() => {
     if (this.idParam()) {
       const product = this.productStore.getEntityById(this.idParam()!);
+      if (this.isProductCategoryDeleted(product.category)) product.category.id = -1
       this.productId = product.id!;
+
       return ProductMapper.toProductRequest(product!);
     } else {
       return EntitiesUtility.getEmptyProductRequest();
@@ -75,14 +78,18 @@ export class ProductFormComponent {
     }
   }
 
-  private handleSuccess(response: any) {
+  private handleSuccess(response: string) {
     this.alertService.getSuccessToast(response);
     this.router.navigate(['products', 'dashboard']);
   }
 
-  private handleError(error: any) {
-    this.alertService.getErrorAlert(error.message);
-    console.error(error.message);
+  private handleError(error: string) {
+    this.alertService.getErrorAlert(error);
+    console.error(error);
+  }
+
+  private isProductCategoryDeleted(categoryResponse: CategoryResponse) {
+    return !this.categories.some(category => category.id === categoryResponse.id);
   }
 
 }

@@ -1,45 +1,35 @@
-import { Component, DestroyRef, inject, input, output } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, inject, input } from '@angular/core';
 import { OrderResponse } from 'src/app/modules/orders/models/order.model';
-import { OrderService } from 'src/app/modules/orders/services/order.service';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from "@ionic/angular/standalone";
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { OrderStore } from '../../../stores/order.store';
 
 @Component({
   selector: 'app-order-item',
   templateUrl: './order-item.component.html',
   styleUrls: ['./order-item.component.scss'],
   imports: [IonItemOption, IonItemOptions, IonLabel, IonItem, IonItemSliding, DatePipe],
-standalone: true
+  standalone: true
 })
 export class OrderItemComponent {
 
-  private destroyRef = inject(DestroyRef);
-  private orderService = inject(OrderService);
   private alertService = inject(AlertService);
+  private orderStore = inject(OrderStore);
   public router = inject(Router);
-  
+
   public order: any = input<OrderResponse>();
-  public refreshDashboard = output<void>();
 
   public openDeleteOrRecoverOrderAlert() {
     const action = this.order().isEnabled ? 'eliminar' : 'recuperar';
     const confirmLabel = this.order().isEnabled ? 'ELIMINAR' : 'ACEPTAR';
 
-    this.alertService.getWarningConfirmationAlert(`¿Estás seguro que deseas ${action} el producto?`, '', confirmLabel)
-      
-      .then((result) => { if (result.isConfirmed) this.deleteOrRecoverOrder(this.order().id) });
-  }
-
-  private deleteOrRecoverOrder(id: number) {
-    this.orderService.deleteOrRecoverOrder(id).pipe(
-      takeUntilDestroyed(this.destroyRef)
-    ).subscribe({
-      next: (response) => this.alertService.getSuccessToast(response),
-      error: (error) => console.log(error)
-    });
+    this.alertService.getWarningConfirmationAlert(`¿Estás seguro que deseas ${action} el pedido?`, '', confirmLabel)
+      .then((result: any) => {
+        if (result.isConfirmed)
+          this.orderStore.deleteEntity(this.order().id);
+      });
   }
 
 }
