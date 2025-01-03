@@ -6,7 +6,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map, switchMap, tap } from 'rxjs';
 import { StorageService } from 'src/app/shared/services/storage.service';
-import { StorageType } from 'src/app/shared/store/storage.store';
+import { StorageType } from 'src/app/shared/services/storage.service';
 import { TokenUtility } from 'src/app/shared/utils/token.utility';
 import { MarkAttendanceModalComponent } from 'src/app/modules/attendances/components/mark-attendance-modal/mark-attendance-modal.component';
 

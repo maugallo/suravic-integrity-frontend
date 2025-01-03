@@ -9,7 +9,7 @@ import { setCompleted, setError, withRequestStatus } from "src/app/shared/store/
 import { PaymentMethod } from "../models/payment-method.model";
 
 const initialState: PaymentMethodState = {
-    paymentMethods: []
+    entities: []
 }
 
 export const PaymentMethodStore = signalStore(
@@ -20,7 +20,7 @@ export const PaymentMethodStore = signalStore(
         getPaymentMethods: rxMethod<void>(pipe(
             switchMap(() => service.getPaymentMethods().pipe(
                 tapResponse({
-                    next: (paymentMethods) => patchState(store, { paymentMethods }),
+                    next: (paymentMethods) => patchState(store, { entities: paymentMethods }),
                     error: (error: HttpErrorResponse) => patchState(store, setError(error.message)),
                     finalize: () => patchState(store, setCompleted())
                 })
@@ -35,5 +35,5 @@ export const PaymentMethodStore = signalStore(
 );
 
 interface PaymentMethodState {
-    paymentMethods: PaymentMethod[]
+    entities: PaymentMethod[]
 }

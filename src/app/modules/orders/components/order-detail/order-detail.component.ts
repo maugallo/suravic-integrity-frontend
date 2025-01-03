@@ -16,7 +16,7 @@ import { OrderStore } from '../../stores/order.store';
   templateUrl: './order-detail.component.html',
   styleUrls: ['./order-detail.component.scss'],
   imports: [IonCardContent, IonCardHeader, IonCard, IonContent, BackButtonComponent, CurrencyPipe, DatePipe],
-standalone: true
+  standalone: true
 })
 export class OrderDetailComponent {
 
@@ -31,15 +31,15 @@ export class OrderDetailComponent {
 
   public order = toSignal(this.activatedRoute.paramMap.pipe(
     switchMap((params) => of(Number(params.get('id')))),
-    tap((id) => this.orderStore.getInvoiceFile(id) ),
-    tap((id) => this.orderStore.getPaymentReceiptFile(id) ),
+    tap((id) => this.orderStore.getInvoiceFile(id)),
+    tap((id) => this.orderStore.getPaymentReceiptFile(id)),
     switchMap((orderId) => of(this.orderStore.getEntityById(orderId)))
   ));
 
   public async downloadFile() {
-    if (this.invoice instanceof File) {
+    if (this.invoice() instanceof File) {
       try {
-        const base64Data = await FileUtility.blobToBase64(this.invoice);
+        const base64Data = await FileUtility.blobToBase64(this.invoice() as File);
         const savedFile = await Filesystem.writeFile({
           path: `Download/${this.invoice.name}`,
           data: base64Data,
@@ -47,7 +47,7 @@ export class OrderDetailComponent {
           recursive: true
         });
 
-        const mimeType = FileUtility.getFileMimeType(this.invoice);
+        const mimeType = FileUtility.getFileMimeType(this.invoice() as File);
         const options: FileOpenerOptions = {
           filePath: savedFile.uri,
           contentType: mimeType,

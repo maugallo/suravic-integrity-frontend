@@ -45,7 +45,7 @@ export class OrderFormComponent {
   public today = new Date().toISOString().split('T')[0];
 
   public providers = this.providerStore.enabledEntities();
-  public paymentMethods = this.paymentMethodStore.paymentMethods();
+  public paymentMethods = this.paymentMethodStore.entities();
   public orderStatus = OrderStatus;
 
   public orderId = 0;
@@ -59,6 +59,8 @@ export class OrderFormComponent {
     });
   }
 
+  public userId = toSignal(this.storageService.getStorage(StorageType.USER_ID));
+
   public idParam = toSignal(this.activatedRoute.paramMap.pipe(
     switchMap((params) => of(Number(params.get('id')) || undefined)),
     tap((id) => { if (id) this.orderStore.getInvoiceFile(id) }),
@@ -71,27 +73,14 @@ export class OrderFormComponent {
       this.orderId = order!.id!;
 
       const orderRequest = OrderMapper.toOrderRequest(order!);
-
-      this.getOrderFile(this.orderStore.invoice(), 'factura').then((invoice) => {
-        orderRequest.invoice = invoice;
-      });
-      this.getOrderFile(this.orderStore.paymentReceipt(), 'comprobante').then((paymentReceipt) => {
-        orderRequest.paymentReceipt = paymentReceipt;
-      });
+      orderRequest.invoice = this.orderStore.invoice();
+      orderRequest.paymentReceipt = this.orderStore.paymentReceipt();
 
       return orderRequest;
     } else {
       return EntitiesUtility.getEmptyOrderRequest();
     }
   });
-
-  private async getOrderFile(file: Blob | null, text: string) {
-    if (file && file.size > 0) {
-      if (file.type.startsWith('image/')) return FileUtility.getPhotoFromBlob(file);
-      else return FileUtility.getFileFromBlob(file, text);
-    }
-    return undefined;
-  }
 
   public onProviderChange(selectedProviderId: any) {
     this.order().providerId = selectedProviderId;
@@ -108,11 +97,6 @@ export class OrderFormComponent {
     }
 
     const formData = this.getFormData();
-    this.storageService.getStorage(StorageType.USER_ID).subscribe({
-      next: (userId) => {
-        formData.append('userId', userId);
-      }
-    });
     if (this.idParam()) {
       this.orderStore.editEntity({ id: this.orderId, entity: formData })
     } else {
@@ -123,11 +107,10 @@ export class OrderFormComponent {
 
   private getFormData(): FormData {
     const formData = new FormData();
-
     const order = this.order();
-    const userId = this.storageStore.userId().toString();
 
     formData.append('providerId', order.providerId.toString());
+    formData.append('userId', this.userId().toString());
     formData.append('status', order.status);
     formData.append('total', order.total);
 
@@ -151,7 +134,7 @@ export class OrderFormComponent {
       const photo = data as Photo;
       const blob = FileUtility.dataUrlToBlob(photo.dataUrl!);
       formData.append(fieldName, blob, 'attachment.jpg');
-    } 
+    }
     if (FileUtility.isFile(data)) {
       const file = data as File;
       formData.append(fieldName, file, file.name);

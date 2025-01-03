@@ -8,7 +8,7 @@ import { IonContent, IonCard, IonCardHeader, IonCardContent } from "@ionic/angul
 import { BackButtonComponent } from 'src/app/shared/components/back-button/back-button.component';
 import { CurrencyPipe, TitleCasePipe } from '@angular/common';
 import { StorageService } from 'src/app/shared/services/storage.service';
-import { StorageType } from 'src/app/shared/store/storage.store';
+import { StorageType } from 'src/app/shared/services/storage.service';
 import { FileUtility } from 'src/app/shared/utils/file.utility';
 import { TokenUtility } from 'src/app/shared/utils/token.utility';
 

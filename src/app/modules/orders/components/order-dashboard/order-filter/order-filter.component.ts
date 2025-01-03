@@ -21,7 +21,7 @@ export class OrderFilterComponent {
 
   public filtersEmitter = output<OrderFilters>();
 
-  public paymentMethods = this.paymentMethodStore.paymentMethods();
+  public paymentMethods = computed(() => this.paymentMethodStore.entities());
   public providers = computed(() => this.providerStore.enabledEntities());
 
   public MIN_TOTAL = MIN_TOTAL;

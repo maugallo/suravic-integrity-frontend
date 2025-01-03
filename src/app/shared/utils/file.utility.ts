@@ -3,11 +3,11 @@ import { Photo } from "@capacitor/camera";
 export class FileUtility {
 
     public static isPhoto(file: any): Photo | null {
-        return 'dataUrl' in file ? file as Photo : null;
+        return ('dataUrl' in file) ? file as Photo : null;
     }
 
     public static isFile(file: any): File | null {
-        return file instanceof File ? file as File : null;
+        return (file instanceof File) ? file as File : null;
     }
 
     public static dataUrlToBlob(dataUrl: string): Blob {

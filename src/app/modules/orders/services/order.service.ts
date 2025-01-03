@@ -34,9 +34,9 @@ export class OrderService implements BaseService<FormData, OrderResponse> {
     return this.http.get(`${this.apiUrl}/${id}/invoice`, { responseType: 'blob' });
   }
 
-  public getPaymentReceiptFile(id: number): Observable<Blob | null> {
+  public getPaymentReceiptFile(id: number): Observable<Blob | undefined> {
     return this.http.get(`${this.apiUrl}/${id}/payment-receipt`, { responseType: 'blob' })
-      .pipe(map((blob) => (!blob || blob.size === 0) ? null : blob));
+      .pipe(map((blob) => (!blob || blob.size === 0) ? undefined : blob));
   }
 
 }

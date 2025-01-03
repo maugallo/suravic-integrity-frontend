@@ -15,8 +15,8 @@
       <!-- Payment Methods filter -->
       <p class="filter-subtitle mb-3">Métodos de Pago</p>
       <app-select-input [(bindedObject)]="filters.paymentMethods" label="Selecciona para filtrar"
-      [multiple]="true" [options]="paymentMethods" [required]="false">
-        @for (paymentMethod of paymentMethods; track $index) {
+      [multiple]="true" [options]="paymentMethods()" [required]="false">
+        @for (paymentMethod of paymentMethods(); track $index) {
           <ion-select-option [value]="paymentMethod.id">{{ paymentMethod.name }}</ion-select-option>
         }
       </app-select-input>

@@ -2,9 +2,8 @@ import { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angul
 import { Observable, switchMap } from 'rxjs';
 import { inject } from '@angular/core';
 import { AuthService } from 'src/app/modules/auth/services/auth.service';
-import { StorageService } from '../services/storage.service';
+import { StorageService, StorageType } from '../services/storage.service';
 import { TokenUtility } from '../utils/token.utility';
-import { StorageType } from '../store/storage.store';
 
 export const tokenInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
   const storageService = inject(StorageService);
