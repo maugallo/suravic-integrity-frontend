@@ -66,7 +66,7 @@ export class ProviderFormComponent {
       if (this.isProviderSectorDeleted(provider.sector)) provider.sector.id = -1
       this.providerId = provider.id!;
 
-      return ProviderMapper.toProviderRequest(provider!);
+      return ProviderMapper.toProviderRequest(provider);
     } else {
       return EntitiesUtility.getEmptyProviderRequest();
     }

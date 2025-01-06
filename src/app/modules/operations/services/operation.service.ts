@@ -52,24 +52,21 @@ export class OperationService {
   public createOperation(operationData: FormData): Observable<string> {
     return this.http.post(this.apiUrl, operationData, { responseType: 'text' })
       .pipe(catchError(this.handleError), tap(() => {
-        this.refreshOperations();
-        this.employeeService.refreshEmployees();
+        this.refreshOperations(); // Refresh employees
       }));
   }
 
   public editOperation(id: number, operationData: FormData): Observable<string> {
     return this.http.put(`${this.apiUrl}/${id}`, operationData, { responseType: 'text' })
       .pipe(catchError(this.handleError), tap(() => {
-        this.refreshOperations();
-        this.employeeService.refreshEmployees();
+        this.refreshOperations(); // Refresh employees
       }));
   }
 
   public deleteOperation(id: number): Observable<string> {
     return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' })
       .pipe(catchError(this.handleError), tap(() => {
-        this.refreshOperations();
-        this.employeeService.refreshEmployees();
+        this.refreshOperations(); // Refresh employees
       }));
   }
 

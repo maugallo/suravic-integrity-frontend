@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { OrderRequest, OrderResponse } from '../models/order.model';
+import { OrderResponse } from '../models/order.model';
 import { BaseService } from 'src/app/shared/models/base-service.model';
 
 @Injectable({

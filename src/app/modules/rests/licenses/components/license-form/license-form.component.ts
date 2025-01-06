@@ -1,4 +1,4 @@
-import { Component, inject, QueryList, Signal, ViewChildren } from '@angular/core';
+import { Component, computed, inject, QueryList, Signal, ViewChildren } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, switchMap } from 'rxjs';
@@ -19,6 +19,7 @@ import { EmployeeService } from 'src/app/modules/employees/services/employee.ser
 import { TitleCasePipe } from '@angular/common';
 import { WheelDateInputComponent } from 'src/app/shared/components/form/wheel-date-input/wheel-date-input.component';
 import { LicenseType } from '../../models/license-type-enum';
+import { EmployeeStore } from 'src/app/modules/employees/stores/employee.store';
 
 @Component({
     selector: 'app-license-form',
@@ -33,11 +34,11 @@ export class LicenseFormComponent {
   private activatedRoute = inject(ActivatedRoute);
 
   private licenseService = inject(LicenseService);
-  private employeeService = inject(EmployeeService);
+  private employeeStore = inject(EmployeeStore);
   private alertService = inject(AlertService);
   public validationService = inject(ValidationService);
 
-  public employees = this.employeeService.employees;
+  public employees = computed(() => this.employeeStore.enabledEntities());
   public licenseType = LicenseType;
 
   public isLicenseEdit!: boolean;

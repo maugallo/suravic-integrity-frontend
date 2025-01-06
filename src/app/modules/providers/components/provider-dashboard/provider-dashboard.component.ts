@@ -32,7 +32,7 @@ export class ProviderDashboardComponent {
     vatConditions: []
   });
 
-  public filteredProviders = computed(() => {
+  public providers = computed(() => {
     const providers = this.filterProviders(this.filters(), this.seeDeleted());
 
     return providers.filter(provider => provider.companyName.toLowerCase().includes(this.searchQuery()));

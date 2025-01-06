@@ -1,52 +1,37 @@
-import { Component, computed, inject, input } from '@angular/core';
-import { EmployeeResponse } from 'src/app/modules/employees/models/employee.model';
+import { Component, computed, effect, inject, input } from '@angular/core';
 import { IonModal, IonContent } from "@ionic/angular/standalone";
 import { HeaderComponent } from 'src/app/shared/components/header/header.component';
-import { EmployeeService } from 'src/app/modules/employees/services/employee.service';
 import { AlertService } from 'src/app/shared/services/alert.service';
-import { AsyncPipe } from '@angular/common';
-import { from, of, switchMap } from 'rxjs';
 import { FileUtility } from 'src/app/shared/utils/file.utility';
 import { SubmitButtonComponent } from 'src/app/shared/components/form/submit-button/submit-button.component';
 import { Camera, CameraDirection, CameraResultType, Photo } from '@capacitor/camera';
+import { FacialRecognitionStore } from '../../stores/facial-recognition.store';
+import { watchState } from '@ngrx/signals';
 
 @Component({
   selector: 'app-register-face-modal',
   templateUrl: './register-face-modal.component.html',
   styleUrls: ['./register-face-modal.component.scss'],
-  imports: [IonContent, IonModal, HeaderComponent, AsyncPipe, SubmitButtonComponent],
+  imports: [IonContent, IonModal, HeaderComponent, SubmitButtonComponent],
+  providers: [FacialRecognitionStore],
   standalone: true
 })
 export class RegisterFaceModalComponent {
 
-  private employeeService = inject(EmployeeService);
   private alertService = inject(AlertService);
+  private recognitionStore = inject(FacialRecognitionStore);
 
-  public fileUtility = FileUtility;
-  
-  public employee = input<EmployeeResponse>();
+  public employeeId = input<number>(0);
 
-  public faceImage = computed(() => {
-    if (this.employee()) {
-      return this.employeeService.getFaceImageFile(this.employee()!.id).pipe(
-        switchMap((faceImage) => {
-          if (faceImage instanceof Blob) {
-            // Convertimos la promesa a un observable
-            return from(FileUtility.getPhotoFromBlob(faceImage));
-          } else {
-            return of(null);
-          }
-        })
-      );
-    }
-    return of(null);
-  });
-
-  public isInert = false; // Propiedad necesaria para que los alert se puedan mostrar sobre el modal.
-
-  public setInert(value: boolean) {
-    this.isInert = value;
+  constructor() {
+    effect(() => this.recognitionStore.getFaceImageFile(this.employeeId())),
+    watchState(this.recognitionStore, () => {
+      if (this.recognitionStore.success()) this.alertService.getSuccessAlert(this.recognitionStore.message());
+      if (this.recognitionStore.error()) this.alertService.getErrorAlert(this.recognitionStore.message());
+    })
   }
+
+  public faceImage = computed(() => this.recognitionStore.faceImage());
 
   public async openCamera() {
     try {
@@ -67,15 +52,14 @@ export class RegisterFaceModalComponent {
   }
 
   private submitImage(image: Photo) {
-    const formData = new FormData();
-
+    const employeeId = this.employeeId();
     const blob = FileUtility.dataUrlToBlob(image.dataUrl!);
+
+    const formData = new FormData();
     formData.append('faceImage', blob, 'face.jpg');
 
-    this.employeeService.createFaceImage(this.employee()!.id, formData).subscribe({
-      next: (response) => this.alertService.getSuccessAlert(response),
-      error: (error) => this.alertService.getErrorAlert(error.message)
-    });
+    this.recognitionStore.createFaceImage({ id: employeeId, faceImageData: formData });
   }
 
 }
+

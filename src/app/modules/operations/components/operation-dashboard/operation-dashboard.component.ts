@@ -9,6 +9,7 @@ import { OperationItemComponent } from "./operation-item/operation-item.componen
 import { toSignal } from '@angular/core/rxjs-interop';
 import { EMPTY, of, switchMap } from 'rxjs';
 import { EmployeeService } from 'src/app/modules/employees/services/employee.service';
+import { EmployeeStore } from 'src/app/modules/employees/stores/employee.store';
 
 @Component({
   selector: 'app-operation-dashboard',
@@ -20,7 +21,7 @@ standalone: true
 export class OperationDashboardComponent {
 
   private operationService = inject(OperationService);
-  private employeeService = inject(EmployeeService);
+  private employeeStore = inject(EmployeeStore);
   public router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
 
@@ -29,7 +30,7 @@ export class OperationDashboardComponent {
   public employee = toSignal(this.activatedRoute.paramMap.pipe(
     switchMap((params) => {
       if (this.isParameterValid(params.get('employeeId'))) {
-        const employee = this.employeeService.getEmployeeById(Number(params.get('employeeId')));
+        const employee = this.employeeStore.getEntityById(Number(params.get('employeeId')));
         this.operationService.setAccountId(employee.creditAccount.id);
         return of(employee);
       }

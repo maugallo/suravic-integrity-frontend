@@ -7,6 +7,7 @@ import { NotFoundComponent } from 'src/app/shared/components/not-found/not-found
 import { LicenseItemComponent } from './license-item/license-item.component';
 import { SelectInputComponent } from 'src/app/shared/components/form/select-input/select-input.component';
 import { EmployeeService } from 'src/app/modules/employees/services/employee.service';
+import { EmployeeStore } from 'src/app/modules/employees/stores/employee.store';
 
 @Component({
     selector: 'app-license-dashboard',
@@ -20,10 +21,10 @@ export class LicenseDashboardComponent {
   public router = inject(Router);
 
   private licenseService = inject(LicenseService);
-  private employeeService = inject(EmployeeService);
+  private employeeStore = inject(EmployeeStore);
 
   public licenses = this.licenseService.licenses;
-  public employees = this.employeeService.employees;
+  public employees = this.employeeStore.enabledEntities();
 
   public selectedEmployeeId = signal(-1);
 

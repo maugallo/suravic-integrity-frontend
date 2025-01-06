@@ -38,8 +38,7 @@ export class ShiftService {
   public editShift(id: number, shift: ShiftRequest): Observable<string> {
     return this.http.put(`${this.apiUrl}/${id}`, shift, { responseType: 'text' })
       .pipe(catchError(this.handleError), tap(() => {
-        this.refreshShifts$.next();
-        this.employeeService.refreshEmployees();
+        this.refreshShifts$.next(); // Update employees
       }));
   }
 

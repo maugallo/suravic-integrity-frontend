@@ -14,14 +14,12 @@
         <app-deleted-button [(seeDeleted)]="seeDeleted"></app-deleted-button>
     </div>
 
-    @if (searchBarResult(); as employees) {
-      @if (employees.length === 0) { <app-not-found></app-not-found> }
-      <ion-list>
-        @for (employee of employees; track $index) {
-        <app-employee-item [employee]="employee"></app-employee-item>
-        }
-      </ion-list>
-    }
+    @if (employees().length === 0) { <app-not-found></app-not-found> }
+    <ion-list>
+      @for (employee of employees(); track $index) {
+      <app-employee-item [employee]="employee"></app-employee-item>
+      }
+    </ion-list>
 
   </div>
 </ion-content>

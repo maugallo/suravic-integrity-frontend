@@ -1,8 +1,9 @@
 import { CreditAccountResponse } from "src/app/modules/operations/models/operation.model";
 import { ContactRequest, ContactResponse } from "src/app/shared/models/contact.model";
 import { ShiftResponse } from "src/app/modules/shifts/models/shift.model";
+import { BaseEntity } from "src/app/shared/models/base-entity.model";
 
-export interface EmployeeRequest {
+export interface EmployeeRequest extends BaseEntity {
     contact: ContactRequest,
     shiftIds: number[],
     role: string,
@@ -17,7 +18,7 @@ export interface EmployeeRequest {
     vacationDays: number
 }
 
-export interface EmployeeResponse {
+export interface EmployeeResponse extends BaseEntity {
     id: number,
     creditAccount: CreditAccountResponse,
     contact: ContactResponse,

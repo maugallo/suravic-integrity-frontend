@@ -1,77 +1,53 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { BehaviorSubject, catchError, map, Observable, switchMap, tap, throwError } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { EmployeeRequest, EmployeeResponse } from '../models/employee.model';
+import { BaseService } from 'src/app/shared/models/base-service.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EmployeeService {
+export class EmployeeService implements BaseService<EmployeeRequest, EmployeeResponse> {
 
   private http = inject(HttpClient);
 
   private apiUrl = `${environment.apiUrl}/employees`;
-  private refreshEmployees$ = new BehaviorSubject<void>(undefined);
 
-  public refreshEmployees() {
-    this.refreshEmployees$.next();
+  public getEntities(): Observable<EmployeeResponse[]> {
+    return this.http.get<EmployeeResponse[]>(this.apiUrl);
   }
 
-  public employees = toSignal(this.refreshEmployees$.pipe(
-    switchMap(() => this.getEmployees())), { initialValue: [] });
-
-  private getEmployees(): Observable<EmployeeResponse[]> {
-    return this.http.get<EmployeeResponse[]>(this.apiUrl)
-      .pipe(catchError(this.handleError));
+  public createEntity(employee: EmployeeRequest): Observable<EmployeeResponse> {
+    return this.http.post<EmployeeResponse>(this.apiUrl, employee);
   }
 
-  public getEmployeeById(id: number) {
-    return this.employees().find(employee => employee.id === id)!;
+  public editEntity(id: number, employee: EmployeeRequest): Observable<EmployeeResponse> {
+    return this.http.put<EmployeeResponse>(`${this.apiUrl}/${id}`, employee);
   }
 
-  public getFaceImageFile(id: number): Observable<Blob | null> {
+  public deleteEntity(id: number): Observable<EmployeeResponse> {
+    return this.http.delete<EmployeeResponse>(`${this.apiUrl}/${id}`);
+  }
+
+  public createFaceImage(id: number, faceImageData: FormData): Observable<Blob | undefined> {
+    return this.http.post(`${this.apiUrl}/${id}/face-image`, faceImageData, { responseType: 'blob' })
+      .pipe(map((response) => {
+        if (response instanceof Blob && response.size > 0) {
+          return response;
+        }
+        return undefined;
+      }));
+  }
+
+  public getFaceImageFile(id: number): Observable<Blob | undefined> {
     return this.http.get(`${this.apiUrl}/${id}/face-image`, { responseType: 'blob' })
       .pipe(map((response) => {
         if (response instanceof Blob && response.size > 0 && (response.type === 'image/jpeg' || response.type === 'image/png')) {
           return response;
         }
-        return null;
+        return undefined;
       }));
-  }
-
-  public createEmployee(employee: EmployeeRequest): Observable<string> {
-    return this.http.post(this.apiUrl, employee, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => this.refreshEmployees$.next()));
-  }
-
-  public createFaceImage(id: number, faceImageData: FormData): Observable<string> {
-    return this.http.post(`${this.apiUrl}/${id}/face-image`, faceImageData, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => this.refreshEmployees$.next()));
-  }
-
-  public editEmployee(id: number, employee: EmployeeRequest): Observable<string> {
-    return this.http.put(`${this.apiUrl}/${id}`, employee, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => this.refreshEmployees$.next()));
-  }
-
-  public deleteOrRecoverEmployee(id: number): Observable<string> {
-    return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => this.refreshEmployees$.next()));
-  }
-
-  private handleError(error: HttpErrorResponse) {
-    switch (error.status) {
-      case 400:
-        return throwError(() => new Error(error.error));
-      case 403:
-        return throwError(() => new Error("No tienes los permisos para realizar esta acción"));
-      case 500:
-        return throwError(() => new Error(error.message));
-      default:
-        return throwError(() => error);
-    }
   }
 
 }

@@ -24,14 +24,12 @@
       <app-deleted-button [(seeDeleted)]="seeDeleted"></app-deleted-button>
     </div>
 
-    @if (filteredProviders(); as providers) {
-      @if (providers.length === 0) { <app-not-found></app-not-found> }
-      <ion-list>
-        @for (provider of providers; track $index) {
-        <app-provider-item [provider]="provider"></app-provider-item>
-        }
-      </ion-list>
-    }
+    @if (providers().length === 0) { <app-not-found></app-not-found> }
+    <ion-list>
+      @for (provider of providers(); track $index) {
+      <app-provider-item [provider]="provider"></app-provider-item>
+      }
+    </ion-list>
 
   </div>
 </ion-content>

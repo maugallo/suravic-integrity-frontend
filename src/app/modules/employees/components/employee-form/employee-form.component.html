@@ -1,4 +1,4 @@
-@if (isEmployeeEdit) {
+@if (idParam()) {
   <app-header title="MODIFICAR EMPLEADO" titleSize="title-large" icon="fa-solid fa-business-time fa-2x"></app-header>
 } @else {
   <app-header title="AGREGAR EMPLEADO" titleSize="title-large" icon="fa-solid fa-business-time fa-2x"></app-header>
@@ -53,12 +53,12 @@
           <!-- Role Select -->
           <app-select-input #formInput class="mb-8" inputName="roleSelect" label="Rol" [(bindedObject)]="employee.role"
           [options]="['']">
-            <ion-select-option [value]="employeeRole.CAJERO">Cajero</ion-select-option>
-            <ion-select-option [value]="employeeRole.VENDEDOR">Vendedor</ion-select-option>
-            <ion-select-option [value]="employeeRole.CARNICERO">Carnicero</ion-select-option>
-            <ion-select-option [value]="employeeRole.ELABORADOR">Elaborador</ion-select-option>
-            <ion-select-option [value]="employeeRole.TROZADOR">Trozador</ion-select-option>
-            <ion-select-option [value]="employeeRole.REPARTO">Reparto</ion-select-option>
+            <ion-select-option [value]="employeeRoles.CAJERO">Cajero</ion-select-option>
+            <ion-select-option [value]="employeeRoles.VENDEDOR">Vendedor</ion-select-option>
+            <ion-select-option [value]="employeeRoles.CARNICERO">Carnicero</ion-select-option>
+            <ion-select-option [value]="employeeRoles.ELABORADOR">Elaborador</ion-select-option>
+            <ion-select-option [value]="employeeRoles.TROZADOR">Trozador</ion-select-option>
+            <ion-select-option [value]="employeeRoles.REPARTO">Reparto</ion-select-option>
           </app-select-input>
 
           <!-- Shifts Select -->
@@ -79,7 +79,7 @@
 
           <!-- <p class="section-title pb-2 mt-6">INFORMACIÓN DE VESTIMENTA</p> -->
           
-          <app-submit-button class="mb-5" [isEdit]="isEmployeeEdit"></app-submit-button>
+          <app-submit-button class="mb-5" [isEdit]="idParam() !== undefined"></app-submit-button>
       </form>
       }
   </div>

@@ -13,6 +13,7 @@ import { AlertService } from 'src/app/shared/services/alert.service';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { ShiftResponse } from 'src/app/modules/shifts/models/shift.model';
+import { EmployeeStore } from 'src/app/modules/employees/stores/employee.store';
 
 @Component({
     selector: 'app-day-off-form',
@@ -26,13 +27,13 @@ export class DayOffFormComponent {
   private router = inject(Router);
 
   private dayOffService = inject(DayOffService);
-  private employeeService = inject(EmployeeService);
+  private employeeStore = inject(EmployeeStore);
   private shiftService = inject(ShiftService);
   private validationService = inject(ValidationService);
   private alertService = inject(AlertService);
 
   public daysOff = this.dayOffService.daysOff;
-  public employees = this.employeeService.employees;
+  public employees = this.employeeStore.enabledEntities();
   public shifts = this.shiftService.shifts;
 
   public employeeShifts: ShiftResponse[] = [];
@@ -49,7 +50,7 @@ export class DayOffFormComponent {
   });
 
   public changeEmployeeShifts() {
-    const employee = this.employeeService.getEmployeeById(this.dayOff.employeeId);
+    const employee = this.employeeStore.getEntityById(this.dayOff.employeeId);
     const employeeShiftsIds = employee.shifts.map(shift => shift.id);
     this.employeeShifts = this.shifts().filter(shift => employeeShiftsIds.includes(shift.id));
   }
