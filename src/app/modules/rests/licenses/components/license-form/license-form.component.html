@@ -1,4 +1,4 @@
-@if (isLicenseEdit) {
+@if (idParam()) {
   <app-header title="MODIFICAR LICENCIA" titleSize="title-large" icon="fa-solid fa-id-badge fa-2x"></app-header>
 } @else {
   <app-header title="AGREGAR LICENCIA" titleSize="title-large" icon="fa-solid fa-id-badge fa-2x"></app-header>
@@ -32,7 +32,7 @@
           <ion-select-option [value]="licenseType.LICENCIA_ESPECIAL">Licencia Especial</ion-select-option>
         </app-select-input>
     
-        <app-submit-button [isEdit]="isLicenseEdit"></app-submit-button>
+        <app-submit-button [isEdit]="idParam() !== undefined"></app-submit-button>
       </form>
   </div>
 </ion-content>

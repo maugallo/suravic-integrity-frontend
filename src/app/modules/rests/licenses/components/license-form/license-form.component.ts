@@ -2,10 +2,8 @@ import { Component, computed, inject, QueryList, Signal, ViewChildren } from '@a
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, switchMap } from 'rxjs';
-import { LicenseRequest } from '../../models/license.model';
 import { LicenseMapper } from 'src/app/shared/mappers/license.mapper';
 import { EntitiesUtility } from 'src/app/shared/utils/entities.utility';
-import { LicenseService } from '../../services/license.service';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { ValidationService } from 'src/app/shared/services/validation.service';
 import { NumberInputComponent } from 'src/app/shared/components/form/number-input/number-input.component';
@@ -15,83 +13,78 @@ import { HeaderComponent } from 'src/app/shared/components/header/header.compone
 import { IonContent, IonSelectOption } from "@ionic/angular/standalone";
 import { SubmitButtonComponent } from 'src/app/shared/components/form/submit-button/submit-button.component';
 import { FormsModule } from '@angular/forms';
-import { EmployeeService } from 'src/app/modules/employees/services/employee.service';
 import { TitleCasePipe } from '@angular/common';
 import { WheelDateInputComponent } from 'src/app/shared/components/form/wheel-date-input/wheel-date-input.component';
 import { LicenseType } from '../../models/license-type-enum';
 import { EmployeeStore } from 'src/app/modules/employees/stores/employee.store';
+import { LicenseStore } from '../../store/licenses.store';
+import { watchState } from '@ngrx/signals';
 
 @Component({
-    selector: 'app-license-form',
-    templateUrl: './license-form.component.html',
-    styleUrls: ['./license-form.component.scss'],
-    imports: [IonContent, HeaderComponent, SubmitButtonComponent, FormsModule, SelectInputComponent, IonSelectOption, TitleCasePipe, WheelDateInputComponent],
-standalone: true
+  selector: 'app-license-form',
+  templateUrl: './license-form.component.html',
+  styleUrls: ['./license-form.component.scss'],
+  imports: [IonContent, HeaderComponent, SubmitButtonComponent, FormsModule, SelectInputComponent, IonSelectOption, TitleCasePipe, WheelDateInputComponent],
+  standalone: true
 })
 export class LicenseFormComponent {
 
-  private router = inject(Router);
-  private activatedRoute = inject(ActivatedRoute);
-
-  private licenseService = inject(LicenseService);
-  private employeeStore = inject(EmployeeStore);
   private alertService = inject(AlertService);
   public validationService = inject(ValidationService);
+  private licenseStore = inject(LicenseStore);
+  private employeeStore = inject(EmployeeStore);
+  private activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
 
   public employees = computed(() => this.employeeStore.enabledEntities());
   public licenseType = LicenseType;
 
-  public isLicenseEdit!: boolean;
-  private licenseId!: number;
+  public licenseId = 0;
 
   @ViewChildren('formInput') inputComponents!: QueryList<TextInputComponent | NumberInputComponent | SelectInputComponent>;
 
-  public license: Signal<LicenseRequest | undefined> = toSignal(this.activatedRoute.paramMap.pipe(
-    switchMap((params) => {
-      const licenseId = params!.get('id');
-      if (this.isParameterValid(licenseId)) {
-        const license = this.licenseService.getLicenseById(Number(licenseId));
-        if (!license) this.router.navigate(['providers', 'dashboard']);
-        this.isLicenseEdit = true;
-        this.licenseId = license.id;
-        return of(LicenseMapper.toLicenseRequest(license));
-      } else {
-        this.isLicenseEdit = false;
-        return of(EntitiesUtility.getEmptyLicenseRequest());
-      }
-    })
+  constructor() {
+    watchState(this.licenseStore, () => {
+      if (this.licenseStore.success()) this.handleSuccess(this.licenseStore.message());
+      if (this.licenseStore.error()) this.handleError(this.licenseStore.message());
+    });
+  }
+
+  public idParam = toSignal(this.activatedRoute.paramMap.pipe(
+    switchMap((params) => of(Number(params.get('id')) || undefined))
   ));
+
+  public license = computed(() => {
+    if (this.idParam()) {
+      const license = this.licenseStore.getEntityById(this.idParam()!);
+      this.licenseId = license.id!;
+
+      return LicenseMapper.toLicenseRequest(license);
+    } else {
+      return EntitiesUtility.getEmptyLicenseRequest();
+    }
+  });
 
   public onSubmit() {
     if (!this.validationService.validateInputs(this.inputComponents)) {
       return;
     }
 
-    this.getFormOperation().subscribe({
-      next: (response) => this.handleSuccess(response),
-      error: (error) => this.handleError(error)
-    });
+    if (this.idParam()) {
+      this.licenseStore.editEntity({ id: this.licenseId, entity: this.license() });
+    } else {
+      this.licenseStore.addEntity(this.license());
+    }
   }
 
-  private getFormOperation(): Observable<any> {
-    return this.isLicenseEdit
-      ? this.licenseService.editLicense(this.licenseId, this.license()!)
-      : this.licenseService.createLicense(this.license()!);
-  }
-
-  private handleSuccess(response: any) {
+  private handleSuccess(response: string) {
     this.alertService.getSuccessToast(response);
     this.router.navigate(['licenses', 'dashboard']);
   }
 
-  private handleError(error: any): Observable<null> {
-    this.alertService.getErrorAlert(error.message);
-    console.error(error.message);
-    return of(null);
-  }
-
-  private isParameterValid(param: string | null) {
-    return !isNaN(Number(param)) && Number(param);
+  private handleError(error: string) {
+    this.alertService.getErrorAlert(error);
+    console.error(error);
   }
 
 }
