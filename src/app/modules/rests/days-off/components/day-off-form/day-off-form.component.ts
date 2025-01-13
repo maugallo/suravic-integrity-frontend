@@ -1,5 +1,4 @@
 import { Component, computed, inject, QueryList, ViewChildren } from '@angular/core';
-import { DayOffService } from '../../services/day-off.service';
 import { IonContent, IonSelectOption, IonDatetime } from "@ionic/angular/standalone";
 import { SelectInputComponent } from 'src/app/shared/components/form/select-input/select-input.component';
 import { SubmitButtonComponent } from 'src/app/shared/components/form/submit-button/submit-button.component';
@@ -9,37 +8,44 @@ import { HeaderComponent } from 'src/app/shared/components/header/header.compone
 import { ValidationService } from 'src/app/shared/services/validation.service';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
 import { ShiftResponse } from 'src/app/modules/shifts/models/shift.model';
 import { EmployeeStore } from 'src/app/modules/employees/stores/employee.store';
 import { ShiftStore } from 'src/app/modules/shifts/store/shift.store';
+import { DayOffStore } from '../../store/days-off.store';
+import { watchState } from '@ngrx/signals';
 
 @Component({
-    selector: 'app-day-off-form',
-    templateUrl: './day-off-form.component.html',
-    styleUrls: ['./day-off-form.component.scss'],
-    imports: [IonDatetime, IonContent, SelectInputComponent, SubmitButtonComponent, FormsModule, IonSelectOption, HeaderComponent],
-standalone: true
+  selector: 'app-day-off-form',
+  templateUrl: './day-off-form.component.html',
+  styleUrls: ['./day-off-form.component.scss'],
+  imports: [IonDatetime, IonContent, SelectInputComponent, SubmitButtonComponent, FormsModule, IonSelectOption, HeaderComponent],
+  standalone: true
 })
 export class DayOffFormComponent {
 
-  private router = inject(Router);
-
-  private dayOffService = inject(DayOffService);
+  private alertService = inject(AlertService);
+  public validationService = inject(ValidationService);
+  private dayOffStore = inject(DayOffStore);
   private employeeStore = inject(EmployeeStore);
   private shiftStore = inject(ShiftStore);
-  private validationService = inject(ValidationService);
-  private alertService = inject(AlertService);
+  private router = inject(Router);
 
-  public daysOff = this.dayOffService.daysOff;
   public employees = computed(() => this.employeeStore.enabledEntities());
   private shifts = computed(() => this.shiftStore.enabledEntities());
+  private daysOff = computed(() => this.dayOffStore.enabledEntities());
 
   public employeeShifts: ShiftResponse[] = [];
 
+  public dayOff = EntitiesUtility.getEmptyDayOffRequest();
+
   @ViewChildren('formInput') inputComponents!: QueryList<SelectInputComponent>;
 
-  public dayOff = EntitiesUtility.getEmptyDayOffRequest();
+  constructor() {
+    watchState(this.dayOffStore, () => {
+      if (this.dayOffStore.success()) this.handleSuccess("Asignado correctamente!");
+      if (this.dayOffStore.error()) this.handleError(this.dayOffStore.message());
+    });
+  }
 
   public takenDates = computed(() => {
     if (this.daysOff()) {
@@ -76,10 +82,7 @@ export class DayOffFormComponent {
       return;
     }
 
-    this.dayOffService.createDayOff(this.dayOff).subscribe({
-      next: (response) => this.handleSuccess(response),
-      error: (error) => this.handleError(error)
-    })
+    this.dayOffStore.addEntity(this.dayOff);
   }
 
   private handleSuccess(response: any) {
@@ -87,10 +90,9 @@ export class DayOffFormComponent {
     this.router.navigate(['days-off', 'dashboard']);
   }
 
-  private handleError(error: any): Observable<null> {
+  private handleError(error: any) {
     this.alertService.getErrorAlert(error.message);
     console.error(error.message);
-    return of(null);
   }
 
 }

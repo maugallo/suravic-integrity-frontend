@@ -7,14 +7,12 @@
       <ion-button (click)="router.navigate(['days-off', 'form'])"><i class="fa-regular fa-mug-hot fa-2x py-0"></i></ion-button>
     </div>
 
-    @if (daysOff(); as daysOff) {
-      @if (daysOff.length === 0) { <app-not-found></app-not-found> }
-      <ion-list>
-        @for (dayOff of daysOff; track $index) {
-          <app-day-off-item [dayOff]="dayOff"></app-day-off-item>
-        }
-      </ion-list>
-    }
+    @if (daysOff().length === 0) { <app-not-found></app-not-found> }
+    <ion-list>
+      @for (dayOff of daysOff(); track $index) {
+        <app-day-off-item [dayOff]="dayOff"></app-day-off-item>
+      }
+    </ion-list>
     
   </div>
 </ion-content>

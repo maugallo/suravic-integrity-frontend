@@ -1,57 +1,33 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { inject, Injectable, Signal } from '@angular/core';
-import { BehaviorSubject, catchError, Observable, switchMap, tap, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DayOffRequest, DayOffResponse } from '../models/day-off.model';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { BaseService } from 'src/app/shared/models/base-service.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DayOffService {
+export class DayOffService implements BaseService<DayOffRequest, DayOffResponse> {
 
   private http = inject(HttpClient);
+
   private apiUrl = `${environment.apiUrl}/days-off`;
 
-  private refreshDaysOff$ = new BehaviorSubject<void>(undefined);
-
-  public daysOff: Signal<DayOffResponse[]> = toSignal(this.refreshDaysOff$.pipe(
-    switchMap(() => this.getDaysOff())), { initialValue: [] });
-
-  public getDaysOffByEmployeeId(id: number) {
-    return this.daysOff().filter(dayOff => dayOff.employee.id === id);
+  public getEntities(): Observable<DayOffResponse[]> {
+    return this.http.get<DayOffResponse[]>(this.apiUrl);
   }
 
-  private getDaysOff(): Observable<DayOffResponse[]> {
-    return this.http.get<DayOffResponse[]>(this.apiUrl)
-      .pipe(catchError(this.handleError));
+  public createEntity(dayOff: DayOffRequest): Observable<DayOffResponse> {
+    return this.http.post<DayOffResponse>(this.apiUrl, dayOff);
   }
 
-  public getDaysOffById(id: number): DayOffResponse[] {
-    return this.daysOff().filter((dayOff) => dayOff.id === id)!;
+  public editEntity(id: number, dayOff: DayOffRequest): Observable<DayOffResponse> {
+    return this.http.put<DayOffResponse>(`${this.apiUrl}/${id}`, dayOff);
   }
 
-  public createDayOff(dayOff: DayOffRequest): Observable<string> {
-    return this.http.post(this.apiUrl, dayOff, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => this.refreshDaysOff$.next()));
-  }
-
-  public deleteDayOff(id: number): Observable<string> {
-    return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => this.refreshDaysOff$.next()));
-  }
-
-  private handleError(error: HttpErrorResponse) {
-    switch (error.status) {
-      case 400:
-        return throwError(() => new Error(error.error));
-      case 403:
-        return throwError(() => new Error("No tienes los permisos para realizar esta acción"));
-      case 500:
-        return throwError(() => new Error("Ocurrió un error en el servidor"));
-      default:
-        return throwError(() => error);
-    }
+  public deleteEntity(id: number): Observable<DayOffResponse> {
+    return this.http.delete<DayOffResponse>(`${this.apiUrl}/${id}`);
   }
 
 }

@@ -1,5 +1,4 @@
-import { Component, computed, inject, Signal, signal } from '@angular/core';
-import { PublicHolidayResponse } from '../../models/public-holiday.model';
+import { Component, computed, inject, signal } from '@angular/core';
 import { HeaderComponent } from 'src/app/shared/components/header/header.component';
 import { IonContent, IonSearchbar, IonButton, IonList } from "@ionic/angular/standalone";
 import { NotFoundComponent } from 'src/app/shared/components/not-found/not-found.component';
@@ -18,8 +17,8 @@ import { watchState } from '@ngrx/signals';
 })
 export class PublicHolidayDashboardComponent {
 
-  private publicHolidayStore = inject(PublicHolidayStore);
   private alertService = inject(AlertService);
+  private publicHolidayStore = inject(PublicHolidayStore);
   public router = inject(Router);
 
   private searchQuery = signal('');
