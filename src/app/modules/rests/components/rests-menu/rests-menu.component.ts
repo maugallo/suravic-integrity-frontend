@@ -4,14 +4,18 @@ import { IonContent, IonButton } from "@ionic/angular/standalone";
 import { Router } from '@angular/router';
 
 @Component({
-    selector: 'app-rests-menu',
-    templateUrl: './rests-menu.component.html',
-    styleUrls: ['./rests-menu.component.scss'],
-    imports: [IonButton, IonContent, HeaderComponent],
-standalone: true
+  selector: 'app-rests-menu',
+  templateUrl: './rests-menu.component.html',
+  styleUrls: ['./rests-menu.component.scss'],
+  imports: [IonButton, IonContent, HeaderComponent],
+  standalone: true
 })
 export class RestsMenuComponent {
 
-  public router = inject(Router);
+  private router = inject(Router);
+
+  public navigate(route: string): void {
+    this.router.navigate([route, 'dashboard']);
+  }
 
 }

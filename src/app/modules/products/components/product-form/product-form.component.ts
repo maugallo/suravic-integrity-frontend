@@ -60,7 +60,7 @@ export class ProductFormComponent {
       if (this.isProductCategoryDeleted(product.category)) product.category.id = -1
       this.productId = product.id!;
 
-      return ProductMapper.toProductRequest(product!);
+      return ProductMapper.toProductRequest(product);
     } else {
       return EntitiesUtility.getEmptyProductRequest();
     }

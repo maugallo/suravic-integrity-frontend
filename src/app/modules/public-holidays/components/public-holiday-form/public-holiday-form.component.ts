@@ -1,11 +1,9 @@
-import { Component, computed, inject, QueryList, Signal, ViewChildren } from '@angular/core';
+import { Component, computed, inject, QueryList, ViewChildren } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, of, switchMap } from 'rxjs';
-import { PublicHolidayRequest } from '../../models/public-holiday.model';
+import { of, switchMap } from 'rxjs';
 import { PublicHolidayMapper } from 'src/app/shared/mappers/public-holiday.mapper';
 import { EntitiesUtility } from 'src/app/shared/utils/entities.utility';
-import { PublicHolidayService } from '../../services/public-holiday.service';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { ValidationService } from 'src/app/shared/services/validation.service';
 import { TextInputComponent } from 'src/app/shared/components/form/text-input/text-input.component';
@@ -15,79 +13,74 @@ import { WheelDateInputComponent } from 'src/app/shared/components/form/wheel-da
 import { SubmitButtonComponent } from 'src/app/shared/components/form/submit-button/submit-button.component';
 import { FormsModule } from '@angular/forms';
 import { SelectInputComponent } from 'src/app/shared/components/form/select-input/select-input.component';
-import { ShiftService } from 'src/app/modules/shifts/services/shift.service';
 import { ShiftStore } from 'src/app/modules/shifts/store/shift.store';
+import { PublicHolidayStore } from '../../store/public-holidays.store';
+import { watchState } from '@ngrx/signals';
 
 @Component({
-    selector: 'app-public-holiday-form',
-    templateUrl: './public-holiday-form.component.html',
-    styleUrls: ['./public-holiday-form.component.scss'],
-    imports: [IonContent, HeaderComponent, TextInputComponent, WheelDateInputComponent, SubmitButtonComponent, FormsModule, SelectInputComponent, IonSelectOption],
-standalone: true
+  selector: 'app-public-holiday-form',
+  templateUrl: './public-holiday-form.component.html',
+  styleUrls: ['./public-holiday-form.component.scss'],
+  imports: [IonContent, HeaderComponent, TextInputComponent, WheelDateInputComponent, SubmitButtonComponent, FormsModule, SelectInputComponent, IonSelectOption],
+  standalone: true
 })
 export class PublicHolidayFormComponent {
 
-  private router = inject(Router);
-  private activatedRoute = inject(ActivatedRoute);
-
-  private publicHolidayService = inject(PublicHolidayService);
-  private shiftStore = inject(ShiftStore);
   private alertService = inject(AlertService);
   public validationService = inject(ValidationService);
+  private publicHolidayStore = inject(PublicHolidayStore);
+  private shiftStore = inject(ShiftStore);
+  private activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
 
   public shifts = computed(() => this.shiftStore.enabledEntities());
 
-  public isPublicHolidayEdit!: boolean;
-  private publicHolidayId!: number;
+  public publicHolidayId = 0;
 
   @ViewChildren('formInput') inputComponents!: QueryList<TextInputComponent>;
 
-  public publicHoliday: Signal<PublicHolidayRequest | undefined> = toSignal(this.activatedRoute.paramMap.pipe(
-    switchMap((params) => {
-      const publicHolidayId = params!.get('id');
-      if (this.isParameterValid(publicHolidayId)) {
-        const publicHoliday = this.publicHolidayService.getPublicHolidayById(Number(publicHolidayId));
-        if (!publicHoliday) this.router.navigate(['providers', 'dashboard']);
-        this.isPublicHolidayEdit = true;
-        this.publicHolidayId = publicHoliday.id;
-        return of(PublicHolidayMapper.toPublicHolidayRequest(publicHoliday));
-      } else {
-        this.isPublicHolidayEdit = false;
-        return of(EntitiesUtility.getEmptyPublicHolidayRequest());
-      }
-    })
+  constructor() {
+    watchState(this.publicHolidayStore, () => {
+      if (this.publicHolidayStore.success()) this.handleSuccess(this.publicHolidayStore.message());
+      if (this.publicHolidayStore.error()) this.handleError(this.publicHolidayStore.message());
+    });
+  }
+
+  public idParam = toSignal(this.activatedRoute.paramMap.pipe(
+    switchMap((params) => of(Number(params.get('id')) || undefined))
   ));
+
+  public publicHoliday = computed(() => {
+    if (this.idParam()) {
+      const publicHoliday = this.publicHolidayStore.getEntityById(this.idParam()!);
+      this.publicHolidayId = publicHoliday.id!;
+
+      return PublicHolidayMapper.toPublicHolidayRequest(publicHoliday);
+    } else {
+      return EntitiesUtility.getEmptyPublicHolidayRequest();
+    }
+  });
 
   public onSubmit() {
     if (!this.validationService.validateInputs(this.inputComponents)) {
       return;
     }
-    
-    this.getFormOperation().subscribe({
-      next: (response) => this.handleSuccess(response),
-      error: (error) => this.handleError(error)
-    });
+
+    if (this.idParam()) {
+      this.publicHolidayStore.editEntity({ id: this.publicHolidayId, entity: this.publicHoliday() });
+    } else {
+      this.publicHolidayStore.addEntity(this.publicHoliday());
+    }
   }
 
-  private getFormOperation(): Observable<any> {
-    return this.isPublicHolidayEdit
-      ? this.publicHolidayService.editPublicHoliday(this.publicHolidayId, this.publicHoliday()!)
-      : this.publicHolidayService.createPublicHoliday(this.publicHoliday()!);
-  }
-
-  private handleSuccess(response: any) {
+  private handleSuccess(response: string) {
     this.alertService.getSuccessToast(response);
     this.router.navigate(['public-holidays', 'dashboard']);
   }
 
-  private handleError(error: any): Observable<null> {
-    this.alertService.getErrorAlert(error.message);
-    console.error(error.message);
-    return of(null);
-  }
-
-  private isParameterValid(param: string | null) {
-    return !isNaN(Number(param)) && Number(param);
+  private handleError(error: string) {
+    this.alertService.getErrorAlert(error);
+    console.error(error);
   }
 
 }

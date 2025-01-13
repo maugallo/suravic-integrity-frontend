@@ -1,58 +1,33 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { inject, Injectable, Signal } from '@angular/core';
-import { BehaviorSubject, catchError, Observable, switchMap, tap, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { PublicHolidayRequest, PublicHolidayResponse } from '../models/public-holiday.model';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { BaseService } from 'src/app/shared/models/base-service.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PublicHolidayService {
+export class PublicHolidayService implements BaseService<PublicHolidayRequest, PublicHolidayResponse> {
 
   private http = inject(HttpClient);
+
   private apiUrl = `${environment.apiUrl}/public-holidays`;
 
-  private refreshPublicHolidays$ = new BehaviorSubject<void>(undefined);
-
-  public publicHolidays: Signal<PublicHolidayResponse[]> = toSignal(this.refreshPublicHolidays$.pipe(
-    switchMap(() => this.getPublicHolidays())), { initialValue: [] });
-
-  private getPublicHolidays(): Observable<PublicHolidayResponse[]> {
-    return this.http.get<PublicHolidayResponse[]>(this.apiUrl)
-      .pipe(catchError(this.handleError));
+  public getEntities(): Observable<PublicHolidayResponse[]> {
+    return this.http.get<PublicHolidayResponse[]>(this.apiUrl);
   }
 
-  public getPublicHolidayById(id: number) {
-    return this.publicHolidays().find((publicHoliday) => publicHoliday.id === id)!;
+  public createEntity(publicHoliday: PublicHolidayRequest): Observable<PublicHolidayResponse> {
+    return this.http.post<PublicHolidayResponse>(this.apiUrl, publicHoliday);
   }
 
-  public createPublicHoliday(publicHoliday: PublicHolidayRequest): Observable<string> {
-    return this.http.post(this.apiUrl, publicHoliday, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => this.refreshPublicHolidays$.next()));
+  public editEntity(id: number, publicHoliday: PublicHolidayRequest): Observable<PublicHolidayResponse> {
+    return this.http.put<PublicHolidayResponse>(`${this.apiUrl}/${id}`, publicHoliday);
   }
 
-  public editPublicHoliday(id: number, publicHoliday: PublicHolidayRequest): Observable<string> {
-    return this.http.put(`${this.apiUrl}/${id}`, publicHoliday, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => this.refreshPublicHolidays$.next()));
-  }
-
-  public deletePublicHoliday(id: number): Observable<string> {
-    return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' })
-      .pipe(catchError(this.handleError), tap(() => this.refreshPublicHolidays$.next()));
-  }
-
-  private handleError(error: HttpErrorResponse) {
-    switch (error.status) {
-      case 400:
-        return throwError(() => new Error(error.error));
-      case 403:
-        return throwError(() => new Error("No tienes los permisos para realizar esta acción"));
-      case 500:
-        return throwError(() => new Error("Ocurrió un error en el servidor"));
-      default:
-        return throwError(() => error);
-    }
+  public deleteEntity(id: number): Observable<PublicHolidayResponse> {
+    return this.http.delete<PublicHolidayResponse>(`${this.apiUrl}/${id}`);
   }
 
 }

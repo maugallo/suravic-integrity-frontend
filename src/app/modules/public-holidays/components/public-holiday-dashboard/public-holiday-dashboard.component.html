@@ -12,14 +12,12 @@
       <ion-button (click)="router.navigate(['public-holidays', 'form'])"><i class="fa-solid fa-calendar-plus fa-2x py-0"></i></ion-button>
     </div>
 
-    @if (searchBarResult(); as publicHolidays) {
-      @if (publicHolidays.length === 0) { <app-not-found></app-not-found> }
-      <ion-list>
-        @for (publicHoliday of publicHolidays; track $index) {
-          <app-public-holiday-item [publicHoliday]="publicHoliday"></app-public-holiday-item>
-        }
-      </ion-list>
-    }
+    @if (publicHolidays().length === 0) { <app-not-found></app-not-found> }
+    <ion-list>
+      @for (publicHoliday of publicHolidays(); track $index) {
+        <app-public-holiday-item [publicHoliday]="publicHoliday"></app-public-holiday-item>
+      }
+    </ion-list>
     
   </div>
 </ion-content>

@@ -1,4 +1,4 @@
-@if (isPublicHolidayEdit) {
+@if (idParam()) {
   <app-header title="MODIFICAR FERIADO" titleSize="title-large" icon="fa-solid fa-calendar-pen fa-2x"></app-header>
 } @else {
   <app-header title="AGREGAR FERIADO" titleSize="title-large" icon="fa-solid fa-calendar-plus fa-2x"></app-header>
@@ -19,7 +19,7 @@
               }
           </app-select-input>
     
-          <app-submit-button [isEdit]="isPublicHolidayEdit"></app-submit-button>
+          <app-submit-button [isEdit]="idParam() !== undefined"></app-submit-button>
       </form>
   </div>
 </ion-content>
