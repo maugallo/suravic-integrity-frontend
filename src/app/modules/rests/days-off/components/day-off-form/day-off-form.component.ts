@@ -3,10 +3,8 @@ import { DayOffService } from '../../services/day-off.service';
 import { IonContent, IonSelectOption, IonDatetime } from "@ionic/angular/standalone";
 import { SelectInputComponent } from 'src/app/shared/components/form/select-input/select-input.component';
 import { SubmitButtonComponent } from 'src/app/shared/components/form/submit-button/submit-button.component';
-import { ShiftService } from 'src/app/modules/shifts/services/shift.service';
 import { EntitiesUtility } from 'src/app/shared/utils/entities.utility';
 import { FormsModule } from '@angular/forms';
-import { EmployeeService } from 'src/app/modules/employees/services/employee.service';
 import { HeaderComponent } from 'src/app/shared/components/header/header.component';
 import { ValidationService } from 'src/app/shared/services/validation.service';
 import { AlertService } from 'src/app/shared/services/alert.service';
@@ -14,6 +12,7 @@ import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { ShiftResponse } from 'src/app/modules/shifts/models/shift.model';
 import { EmployeeStore } from 'src/app/modules/employees/stores/employee.store';
+import { ShiftStore } from 'src/app/modules/shifts/store/shift.store';
 
 @Component({
     selector: 'app-day-off-form',
@@ -28,13 +27,13 @@ export class DayOffFormComponent {
 
   private dayOffService = inject(DayOffService);
   private employeeStore = inject(EmployeeStore);
-  private shiftService = inject(ShiftService);
+  private shiftStore = inject(ShiftStore);
   private validationService = inject(ValidationService);
   private alertService = inject(AlertService);
 
   public daysOff = this.dayOffService.daysOff;
-  public employees = this.employeeStore.enabledEntities();
-  public shifts = this.shiftService.shifts;
+  public employees = computed(() => this.employeeStore.enabledEntities());
+  private shifts = computed(() => this.shiftStore.enabledEntities());
 
   public employeeShifts: ShiftResponse[] = [];
 
@@ -73,9 +72,6 @@ export class DayOffFormComponent {
   }
 
   public onSubmit() {
-    console.log("Se quiere enviar al back");
-    console.log(this.dayOff);
-
     if (!this.validationService.validateInputs(this.inputComponents)) {
       return;
     }

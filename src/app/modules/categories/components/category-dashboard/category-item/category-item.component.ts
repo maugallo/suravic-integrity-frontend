@@ -52,7 +52,7 @@ export class CategoryItemComponent {
   }
 
   public openDeleteCategoryAlert() {
-    this.alertService.getWarningConfirmationAlert('¿Estás seguro que deseas eliminar la categoría?')
+    this.alertService.getWarningConfirmationAlert('¿Estás seguro que deseas eliminar la categoría?', 'Esta acción no se puede deshacer')
       .then((result: any) => {
         if (result.isConfirmed) {
           this.categoryStore.deleteEntity(this.category()!.id);

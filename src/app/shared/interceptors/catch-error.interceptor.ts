@@ -1,28 +1,24 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { ErrorService } from '../services/error.service';
-import { catchError, EMPTY, switchMap, throwError } from 'rxjs';
-import { AuthService } from 'src/app/modules/auth/services/auth.service';
-import { AlertService } from '../services/alert.service';
+import { catchError } from 'rxjs';
 
 export const catchErrorInterceptor: HttpInterceptorFn = (req, next) => {
+
   const errorService = inject(ErrorService);
-  const authService = inject(AuthService);
-  const alertService = inject(AlertService);
 
   if (req.url.includes('refresh')) {
     return next(req).pipe(
-      catchError(error => {
-        console.error('Error al querer llamar al endpoint api/auth/refresh:', error);
-        console.error("Procediendo a desloguearse");
-        alertService.getErrorAlert("La sesión expiró");
-        
-        return authService.logout().pipe(switchMap(() => EMPTY));
-      })
+      catchError((error) => errorService.handleRefreshError(error))
     );
   }
 
   return next(req).pipe(
-    catchError((error) => errorService.handleError(error))
+    catchError((error) => {
+      if (error.error instanceof Blob)
+        return errorService.handleBlobError(error.error);
+      else
+        return errorService.handleError(error);
+    })
   );
 };

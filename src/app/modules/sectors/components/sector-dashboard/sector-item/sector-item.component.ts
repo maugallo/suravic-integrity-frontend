@@ -48,7 +48,7 @@ export class SectorItemComponent {
   }
 
   public openDeleteSectorAlert() {
-    this.alertService.getWarningConfirmationAlert('¿Estás seguro que deseas eliminar el rubro?')
+    this.alertService.getWarningConfirmationAlert('¿Estás seguro que deseas eliminar el rubro?', 'Esta acción no se puede deshacer')
       .then((result: any) => {
         if (result.isConfirmed) {
           this.sectorStore.deleteEntity(this.sector()!.id);

@@ -14,8 +14,8 @@
         <div class="selects-container mb-8">
           <!-- Employee Select -->
           <app-select-input #formInput inputName="roleSelect" [(bindedObject)]="dayOff.employeeId" 
-          label="Empleado" [options]="employees" (bindedObjectChange)="changeEmployeeShifts()">
-            @for (employee of employees; track $index) {
+          label="Empleado" [options]="employees()" (bindedObjectChange)="changeEmployeeShifts()">
+            @for (employee of employees(); track $index) {
               <ion-select-option [value]="employee.id">{{ employee.firstName }}  {{ employee.lastName }}</ion-select-option>
             }
           </app-select-input>

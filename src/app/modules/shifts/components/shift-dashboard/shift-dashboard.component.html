@@ -7,14 +7,12 @@
       <ion-button (click)="router.navigate(['shifts', 'form'])"><i class="fa-solid fa-clock fa-2x py-0"></i></ion-button>
     </div>
 
-    @if (shifts(); as shifts) {
-      @if (shifts.length === 0) { <app-not-found></app-not-found> }
-      <ion-list>
-        @for (shift of shifts; track $index) {
-          <app-shift-item [shift]="shift"></app-shift-item>
-        }
-      </ion-list>
-    }
+    @if (shifts().length === 0) { <app-not-found></app-not-found> }
+    <ion-list>
+      @for (shift of shifts(); track $index) {
+        <app-shift-item [shift]="shift"></app-shift-item>
+      }
+    </ion-list>
     
   </div>
 </ion-content>

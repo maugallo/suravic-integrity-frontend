@@ -8,21 +8,21 @@
   <div class="px-10">
     <form #productForm="ngForm" id="productForm" (ngSubmit)="onSubmit()">
       <!-- Title Input -->
-      <app-text-input #formInput class="my-10" inputName="titleInput" [(bindedObject)]="product()!.title" label="Nombre"
+      <app-text-input #formInput class="my-10" inputName="titleInput" [(bindedObject)]="product().title" label="Nombre"
         placeHolder="Ingrese el nombre" pattern="^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$"></app-text-input>
 
       <div class="price-plu-container mb-10">
         <!-- Price Input -->
-        <app-number-input #formInput inputName="priceInput" [(bindedObject)]="product()!.price" label="Precio" placeHolder="$1500"
+        <app-number-input #formInput inputName="priceInput" [(bindedObject)]="product().price" label="Precio" placeHolder="$1500"
           [minValue]="0" [maxValue]="9999999"></app-number-input>
 
         <!-- PLU Input -->
-        <app-text-input #formInput inputName="pluInput" [(bindedObject)]="product()!.plu" label="PLU(Opcional)" placeHolder="158"
+        <app-text-input #formInput inputName="pluInput" [(bindedObject)]="product().plu" label="PLU(Opcional)" placeHolder="158"
           [required]="false" maxlength="5"></app-text-input>
       </div>
 
       <!-- Provider Input -->
-      <app-select-input #formInput class="mb-10" inputName="providerSelect" [(bindedObject)]="product()!.providerId"
+      <app-select-input #formInput class="mb-10" inputName="providerSelect" [(bindedObject)]="product().providerId"
         label="Proveedor" [options]="providers" [disabled]="(idParam() !== undefined && (productId >= 1 && productId <= 35))">
         @for (provider of providers; track $index) {
           <ion-select-option [value]="provider.id">{{ provider.companyName }}</ion-select-option>
@@ -30,7 +30,7 @@
       </app-select-input>
 
       <!-- Category Input -->
-      <app-select-input #formInput class="mb-10" inputName="categorySelect" [(bindedObject)]="product()!.categoryId"
+      <app-select-input #formInput class="mb-10" inputName="categorySelect" [(bindedObject)]="product().categoryId"
         label="Categoría" [options]="categories" [disabled]="(idParam() !== undefined && (productId >= 1 && productId <= 35))">
         @if (categories) {
           @for (category of categories; track $index) {

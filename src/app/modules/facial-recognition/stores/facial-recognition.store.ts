@@ -14,7 +14,7 @@ const initialState: FacialRecognitionState = {
 }
 
 export const FacialRecognitionStore = signalStore(
-    // { providedIn: 'root' } No usa providedIn: 'root' dado que debe usarse en cada componente individualmente. No es un manejo de state global.
+    // { providedIn: 'root' } No se utiliza dado que debe usarse en cada componente individualmente. No es un manejo de state global.
     withState(initialState),
     withRequestStatus(),
     withMethods((store, service = inject(EmployeeService)) => ({

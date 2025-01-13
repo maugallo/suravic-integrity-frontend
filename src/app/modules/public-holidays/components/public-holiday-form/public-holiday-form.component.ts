@@ -1,4 +1,4 @@
-import { Component, inject, QueryList, Signal, ViewChildren } from '@angular/core';
+import { Component, computed, inject, QueryList, Signal, ViewChildren } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, switchMap } from 'rxjs';
@@ -16,6 +16,7 @@ import { SubmitButtonComponent } from 'src/app/shared/components/form/submit-but
 import { FormsModule } from '@angular/forms';
 import { SelectInputComponent } from 'src/app/shared/components/form/select-input/select-input.component';
 import { ShiftService } from 'src/app/modules/shifts/services/shift.service';
+import { ShiftStore } from 'src/app/modules/shifts/store/shift.store';
 
 @Component({
     selector: 'app-public-holiday-form',
@@ -30,11 +31,11 @@ export class PublicHolidayFormComponent {
   private activatedRoute = inject(ActivatedRoute);
 
   private publicHolidayService = inject(PublicHolidayService);
-  private shiftService = inject(ShiftService);
+  private shiftStore = inject(ShiftStore);
   private alertService = inject(AlertService);
   public validationService = inject(ValidationService);
 
-  public shifts = this.shiftService.shifts;
+  public shifts = computed(() => this.shiftStore.enabledEntities());
 
   public isPublicHolidayEdit!: boolean;
   private publicHolidayId!: number;

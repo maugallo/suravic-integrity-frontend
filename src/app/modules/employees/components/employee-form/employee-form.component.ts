@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { of, switchMap } from 'rxjs';
 import { EmployeeMapper } from 'src/app/shared/mappers/employee.mapper';
 import { EntitiesUtility } from 'src/app/shared/utils/entities.utility';
-import { ShiftService } from 'src/app/modules/shifts/services/shift.service';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { ValidationService } from 'src/app/shared/services/validation.service';
 import { NumberInputComponent } from 'src/app/shared/components/form/number-input/number-input.component';
@@ -20,6 +19,7 @@ import { WheelDateInputComponent } from 'src/app/shared/components/form/wheel-da
 import { EmployeeRole } from '../../models/employee-role.enum';
 import { EmployeeStore } from '../../stores/employee.store';
 import { watchState } from '@ngrx/signals';
+import { ShiftStore } from 'src/app/modules/shifts/store/shift.store';
 
 @Component({
   selector: 'app-employee-form',
@@ -32,12 +32,12 @@ export class EmployeeFormComponent {
 
   private alertService = inject(AlertService);
   private validationService = inject(ValidationService);
-  private shiftService = inject(ShiftService);
+  private shiftStore = inject(ShiftStore);
   private employeeStore = inject(EmployeeStore);
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
 
-  public shifts = this.shiftService.shifts;
+  public shifts = computed(() => this.shiftStore.enabledEntities());
   public employeeRoles = EmployeeRole;
 
   public employeeId = 0;
