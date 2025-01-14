@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { ValidationService } from 'src/app/shared/services/validation.service';
 import { TextInputComponent } from 'src/app/shared/components/form/text-input/text-input.component';
-import { Observable, of, switchMap } from 'rxjs';
+import { of, switchMap } from 'rxjs';
 import { EntitiesUtility } from 'src/app/shared/utils/entities.utility';
 import { SubmitButtonComponent } from 'src/app/shared/components/form/submit-button/submit-button.component';
 import { FormsModule } from '@angular/forms';
@@ -65,21 +65,22 @@ export class ShiftFormComponent {
 
     if (this.idParam()) {
       this.shiftStore.editEntity({ id: this.shiftId, entity: this.shift() });
-      this.employeeStore.updateEntitiesByShift(this.shiftStore.lastUpdatedEntity()!);
     } else {
       this.shiftStore.addEntity(this.shift());
     }
   }
 
-  private handleSuccess(response: any) {
-    this.alertService.getSuccessToast(response);
+  private handleSuccess(message: string) {
+    if (message.includes('Modificado')) {
+      this.employeeStore.updateEntitiesByShift(this.shiftStore.lastUpdatedEntity()!);
+    }
+    this.alertService.getSuccessToast(message);
     this.router.navigate(['shifts', 'dashboard']);
   }
 
-  private handleError(error: any): Observable<null> {
-    this.alertService.getErrorAlert(error.message);
-    console.error(error.message);
-    return of(null);
+  private handleError(error: string) {
+    this.alertService.getErrorAlert(error);
+    console.error(error);
   }
 
 }
