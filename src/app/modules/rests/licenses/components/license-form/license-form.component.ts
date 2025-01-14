@@ -1,7 +1,7 @@
-import { Component, computed, inject, QueryList, Signal, ViewChildren } from '@angular/core';
+import { Component, computed, inject, QueryList, ViewChildren } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, of, switchMap } from 'rxjs';
+import { of, switchMap } from 'rxjs';
 import { LicenseMapper } from 'src/app/shared/mappers/license.mapper';
 import { EntitiesUtility } from 'src/app/shared/utils/entities.utility';
 import { AlertService } from 'src/app/shared/services/alert.service';
@@ -70,11 +70,23 @@ export class LicenseFormComponent {
       return;
     }
 
+    if (!this.endDateGreaterThanStartDate()) {
+      this.alertService.getWarningAlert('Atención', 'La fecha de inicio no puede ser igual o mayor a la fecha de fin');
+      return;
+    }
+
     if (this.idParam()) {
       this.licenseStore.editEntity({ id: this.licenseId, entity: this.license() });
     } else {
       this.licenseStore.addEntity(this.license());
     }
+  }
+
+  private endDateGreaterThanStartDate() {
+    const start = new Date(this.license().startDate);
+    const end = new Date(this.license().endDate);
+
+    return end > start;
   }
 
   private handleSuccess(response: string) {

@@ -75,10 +75,11 @@ export class AlertService {
     });
   }
 
-  public getWarningAlert(title: string) {
+  public getWarningAlert(title: string, text?: string) {
     return Swal.fire({
       icon: "warning",
       title: title,
+      text: text || '',
       heightAuto: false,
       customClass: {
         title: 'sweet-modal-title',
