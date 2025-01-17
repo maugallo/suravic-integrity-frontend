@@ -5,14 +5,18 @@ import { Router } from '@angular/router';
 import { OptionLargeComponent } from 'src/app/shared/components/option-large/option-large.component';
 
 @Component({
-    selector: 'app-pricing-menu',
-    templateUrl: './pricing-menu.component.html',
-    styleUrls: ['./pricing-menu.component.scss'],
-    imports: [IonContent, HeaderComponent, OptionLargeComponent],
-standalone: true
+  selector: 'app-pricing-menu',
+  templateUrl: './pricing-menu.component.html',
+  styleUrls: ['./pricing-menu.component.scss'],
+  imports: [IonContent, HeaderComponent, OptionLargeComponent],
+  standalone: true
 })
 export class PricingMenuComponent {
 
-  public router = inject(Router);
+  private router = inject(Router);
+
+  public navigate(route: string) {
+    this.router.navigate(['pricing', route]);
+  }
 
 }

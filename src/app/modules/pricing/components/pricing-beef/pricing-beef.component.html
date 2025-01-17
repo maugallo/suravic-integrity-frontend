@@ -16,8 +16,8 @@
         placeHolder="30%" [minValue]="0" [maxValue]="9999999" labelPlacement="stacked"></app-number-input>
       </div>
       <div class="calculate-submit-container my-5">
-        <p class="calculate-label mt-0 mb-5">PRECIO DE VENTA DE MEDIA RES: {{ halfCarcassSelingCost() | currency }}</p>
-        <p class="calculate-label mt-0 mb-5">PRECIO TOTAL DE CORTES ACTUALES: {{ beefCutCurrentPricesSum()() | currency }}</p>
+        <p class="calculate-label mt-0 mb-5">PRECIO DE VENTA DE MEDIA RES: {{ halfCarcassSellingCost() | currency }}</p>
+        <p class="calculate-label mt-0 mb-5">PRECIO TOTAL DE CORTES ACTUALES: {{ beefCutCurrentPricesSum() | currency }}</p>
           <p class="difference-label mt-0 mb-5">PORCENTAJE DE DIFERENCIA ENTRE PRECIOS: {{ pricesDifferencePercentage()? pricesDifferencePercentage()!.toFixed(2) + '%' : '--' }}</p>
           @if (pricesDifferencePercentage()! > tolerancePercentage) {
             @if (pricesDifference()! > 0) { <p class="notice-difference mt-0">SE RECOMIENDA <u>AUMENTAR</u> LOS PRECIOS DE LOS CORTES</p> }
@@ -35,17 +35,15 @@
 
     <!-- Modificar manualmente y aplicar precios -->
     <form #applyForm="ngForm" id="applyForm" (ngSubmit)="onApplySubmit()">
-      @if (meatDetails()()!.length > 0) {
-        <div class="pricing-container mb-4">
-          @for (product of meatDetails()(); track $index) {
-            <p class="product-title">{{ product.title | uppercase }}</p>
-            
-            <!-- Product Price Input -->
-            <app-number-input #priceInput inputName="productPriceInput{{$index}}" placeholder="$1000" 
-            [(bindedObject)]="product.price" [minValue]="0" (bindedObjectChange)="onPriceChange()"></app-number-input>
-          }
-        </div>
-      }
+      <div class="pricing-container mb-4">
+        @for (product of meatDetails(); track $index) {
+          <p class="product-title">{{ product.title | uppercase }}</p>
+          
+          <!-- Product Price Input -->
+          <app-number-input #priceInput inputName="productPriceInput{{$index}}" placeholder="$1000" 
+          [(bindedObject)]="product.price" [minValue]="0" (bindedObjectChange)="onPriceChange()"></app-number-input>
+        }
+      </div>
       <app-submit-button class="my-4" label="Aplicar Precios"></app-submit-button>
     </form>
   </div>
