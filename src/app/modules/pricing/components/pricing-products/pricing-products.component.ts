@@ -1,16 +1,12 @@
-import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { IonContent, MenuController, IonButton } from "@ionic/angular/standalone";
 import { HeaderComponent } from 'src/app/shared/components/header/header.component';
 import { SelectInputComponent } from 'src/app/shared/components/form/select-input/select-input.component';
-import { ProviderService } from 'src/app/modules/providers/services/provider.service';
 import { IonSelectOption } from "@ionic/angular/standalone";
-import { ProductService } from 'src/app/modules/products/services/product.service';
 import { UpperCasePipe } from '@angular/common';
 import { NumberInputComponent } from 'src/app/shared/components/form/number-input/number-input.component';
 import { FormsModule } from '@angular/forms';
-import { catchError, Observable, of, tap } from 'rxjs';
 import { AlertService } from 'src/app/shared/services/alert.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NotFoundComponent } from 'src/app/shared/components/not-found/not-found.component';
 import { ProductWithPricing } from 'src/app/modules/products/models/product.model';
 import { ProductMapper } from 'src/app/shared/mappers/product.mapper';
@@ -21,20 +17,18 @@ import { ProviderStore } from 'src/app/modules/providers/stores/provider.store';
 import { ProductStore } from 'src/app/modules/products/store/product.store';
 
 @Component({
-    selector: 'app-pricing-products',
-    templateUrl: './pricing-products.component.html',
-    styleUrls: ['./pricing-products.component.scss'],
-    imports: [IonButton, IonContent, HeaderComponent, SelectInputComponent, IonSelectOption, UpperCasePipe, NumberInputComponent, FormsModule, NotFoundComponent, FormButtonComponent, ProviderPercentagesComponent, ProductPercentagesComponent],
-standalone: true
+  selector: 'app-pricing-products',
+  templateUrl: './pricing-products.component.html',
+  styleUrls: ['./pricing-products.component.scss'],
+  imports: [IonButton, IonContent, HeaderComponent, SelectInputComponent, IonSelectOption, UpperCasePipe, NumberInputComponent, FormsModule, NotFoundComponent, FormButtonComponent, ProviderPercentagesComponent, ProductPercentagesComponent],
+  standalone: true
 })
 export class PricingProductsComponent {
 
-  private productService = inject(ProductService);
-  private productStore = inject(ProductStore);
   private providerStore = inject(ProviderStore);
+  private productStore = inject(ProductStore);
   private alertService = inject(AlertService);
 
-  private destroyRef = inject(DestroyRef);
   private menuController = inject(MenuController)
 
   public providers = computed(() => this.providerStore.entities().filter(provider => provider.id! > 2));
@@ -56,11 +50,11 @@ export class PricingProductsComponent {
   }
 
   public areSubmitButtonsValid() {
-    return (this.selectedProviderId() ? true:false) && this.productsWithPricing()().some(product => product.subtotal > 0 && product.quantity > 0);
+    return (this.selectedProviderId() ? true : false) && this.productsWithPricing()().some(product => product.subtotal > 0 && product.quantity > 0);
   }
 
   private getProductsWithPricing(): ProductWithPricing[] {
-    return /* this.products()().map(product => ProductMapper.toProductWithPricing(product)) */ [];
+    return /* this.products()().map(product => ProductMapper.toProductWithPricing(product)) */[];
   }
 
   public receiveProductPercentages(product: ProductWithPricing | null | undefined) {
@@ -75,7 +69,7 @@ export class PricingProductsComponent {
         const productBasePrice = (product.subtotal / product.quantity);
         const productProfit = productBasePrice * (product.profitPercentage / 100);
         const productVat = productBasePrice * (product.vatPercentage / 100);
-  
+
         const productNewPrice = productBasePrice + productProfit + productVat;
         return {
           ...product,
@@ -92,19 +86,19 @@ export class PricingProductsComponent {
 
   public onApplySubmit() {
     this.alertService.getWarningConfirmationAlert('¿Estás seguro que deseas continuar?', 'Se modificarán los precios de los productos calculados', 'APLICAR')
-    
-    .then((result: any) => { if (result.isConfirmed) this.applyNewPrices(); });
+
+      .then((result: any) => { if (result.isConfirmed) this.applyNewPrices(); });
   }
 
   private applyNewPrices() {
     const modifiedProducts = this.productsWithPricing()().map(productWithPricing => ProductMapper.toProductResponse(productWithPricing));
     /* this.products().set(modifiedProducts); */
 
-/*     this.productService.editProductsPrice(this.products()()).pipe(
-      tap((response) => this.handleSuccess(response)),
-      catchError((error) => this.handleError(error)),
-      takeUntilDestroyed(this.destroyRef)
-    ).subscribe(); */
+    /*     this.productService.editProductsPrice(this.products()()).pipe(
+          tap((response) => this.handleSuccess(response)),
+          catchError((error) => this.handleError(error)),
+          takeUntilDestroyed(this.destroyRef)
+        ).subscribe(); */
   }
 
   private handleSuccess(response: string): void {
@@ -112,10 +106,9 @@ export class PricingProductsComponent {
     this.productsWithPricing().set(this.getProductsWithPricing());
   }
 
-  private handleError(error: any): Observable<null> {
-    this.alertService.getErrorAlert(error.message);
-    console.error(error.message);
-    return of(null);
+  private handleError(error: string) {
+    this.alertService.getErrorAlert(error);
+    console.error(error);
   }
 
 }

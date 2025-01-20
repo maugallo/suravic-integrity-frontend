@@ -1,8 +1,10 @@
 <div [class]="class()">
   @if (isEdit()) {
     <ion-button type="submit" expand="block">Modificar</ion-button>
-  } @else if(sanitizeIcon()) {
-    <ion-button [disabled]="disabled()" type="submit" expand="block" [innerHTML]="sanitizeIcon()"></ion-button>
+  } @else if(icon()) {
+    <ion-button [disabled]="disabled()" type="submit" expand="block">
+      <i class="{{icon()}}"></i>
+    </ion-button>
   } @else {
     <ion-button [disabled]="disabled()" type="submit" expand="block">{{ label() }}</ion-button>
   }

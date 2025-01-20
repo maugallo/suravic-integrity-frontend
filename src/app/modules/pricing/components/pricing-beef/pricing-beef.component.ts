@@ -28,7 +28,7 @@ export class PricingBeefComponent {
   private meatDetailsStore = inject(MeatDetailsStore);
 
   public meatDetails = computed(() => this.meatDetailsStore.beefEntities());
-  private rawMeatDetails = computed(() => this.meatDetailsStore.beefEntities());
+  private rawMeatDetails = computed(() => this.meatDetailsStore.rawBeefEntities())
 
   public halfCarcassCostPerKg = signal(0);
   public profitPercentage = signal(0);
@@ -50,16 +50,20 @@ export class PricingBeefComponent {
 
   constructor() {
     watchState(this.meatDetailsStore, () => {
-      if (this.meatDetailsStore.success()) this.alertService.getSuccessToast(this.meatDetailsStore.message());
+      if (this.meatDetailsStore.success()) this.handleSuccess(this.meatDetailsStore.message());
       if (this.meatDetailsStore.error()) this.handleError(this.meatDetailsStore.message());
     });
   }
 
   public clearPrices() {
+    console.log(this.meatDetails()[0].price);
+    console.log(this.rawMeatDetails()[0].price);
     this.meatDetailsStore.setBeefEntities(this.rawMeatDetails());
   }
 
   public onPriceChange() {
+    console.log(this.meatDetails()[0].price);
+    console.log(this.rawMeatDetails()[0].price);
     this.meatDetailsStore.setBeefEntities(this.meatDetails()); // Fuerza un nuevo seteo que vuelve a desatar el meatDetails().
   }
 
@@ -91,6 +95,10 @@ export class PricingBeefComponent {
 
   private applyNewPrices() {
     this.meatDetailsStore.editBeefEntities(this.meatDetails());
+  }
+
+  private handleSuccess(message: string) {
+    this.alertService.getSuccessToast(message);
   }
 
   private handleError(error: string) {

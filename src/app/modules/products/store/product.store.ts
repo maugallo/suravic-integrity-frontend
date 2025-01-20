@@ -1,5 +1,5 @@
 import { BaseState, withCrudOperations } from "src/app/shared/store/crud.feature";
-import { ProductRequest, ProductResponse } from "../models/product.model";
+import { ProductRequest, ProductResponse, ProductWithMeatDetails } from "../models/product.model";
 import { patchState, signalStore, withMethods, withState } from "@ngrx/signals";
 import { ProductService } from "../services/product.service";
 import { ProviderResponse } from "../../providers/models/provider.model";
@@ -29,6 +29,15 @@ export const ProductStore = signalStore(
                     (product.category.id === category.id)
                     ? { ...product, category: { ...category } }
                     : product)
+            }))
+        },
+        updateEntitiesByPricing(pricingProducts: ProductWithMeatDetails[]) {
+            patchState(store, (state) => ({
+                entities: state.entities.map(product => {
+                    const updatedProduct = pricingProducts.find(
+                        (pricingProduct) => pricingProduct.id === product.id)!;
+                    return { ...product, price: updatedProduct.price };
+                })
             }))
         }
     }))

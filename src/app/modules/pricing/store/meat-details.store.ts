@@ -12,7 +12,9 @@ import { MeatDetailsConstant } from "../models/meat-details-constant.enum";
 
 const initialState: MeatDetailsState = {
     beefEntities: [],
+    rawBeefEntities: [],
     chickenEntities: [],
+    rawChickenEntities: [],
     halfCarcassWeight: MeatDetailsConstant.DEFAULT_HALF_CARCASS_WEIGHT,
     chickenWeight: MeatDetailsConstant.DEFAULT_CHICKEN_WEIGHT
 }
@@ -25,7 +27,9 @@ export const MeatDetailsStore = signalStore(
         getBeefEntities: rxMethod<void>(pipe(
             switchMap(() => service.getMeatDetails(MeatDetailsType.BEEF).pipe(
                 tapResponse({
-                    next: (meatDetails) => patchState(store, { beefEntities: meatDetails }),
+                    next: (meatDetails) => patchState(store,
+                        { beefEntities: meatDetails },
+                        { rawBeefEntities: meatDetails }),
                     error: (error: HttpErrorResponse) => patchState(store, setError(error.message)),
                     finalize: () => patchState(store, setCompleted())
                 })
@@ -34,7 +38,9 @@ export const MeatDetailsStore = signalStore(
         getChickenEntities: rxMethod<void>(pipe(
             switchMap(() => service.getMeatDetails(MeatDetailsType.CHICKEN).pipe(
                 tapResponse({
-                    next: (meatDetails) => patchState(store, { chickenEntities: meatDetails }),
+                    next: (meatDetails) => patchState(store,
+                        { chickenEntities: meatDetails },
+                        { rawChickenEntities: meatDetails }),
                     error: (error: HttpErrorResponse) => patchState(store, setError(error.message)),
                     finalize: () => patchState(store, setCompleted())
                 })
@@ -44,10 +50,10 @@ export const MeatDetailsStore = signalStore(
         editBeefEntities: rxMethod<ProductWithMeatDetails[]>(pipe(
             switchMap((entities) => service.editMeatDetails(entities).pipe(
                 tapResponse({
-                    next: (editedMeatDetails) => {
-                        patchState(store, { beefEntities: editedMeatDetails });
-                        setSuccess("Modificados correctamente!");
-                    },
+                    next: (editedMeatDetails) => patchState(store,
+                        { beefEntities: editedMeatDetails },
+                        { rawBeefEntities: editedMeatDetails },
+                        setSuccess("Modificados correctamente!")),
                     error: (error: HttpErrorResponse) => patchState(store, setError(error.message)),
                     finalize: () => patchState(store, setCompleted())
                 })
@@ -56,10 +62,10 @@ export const MeatDetailsStore = signalStore(
         editChickenEntities: rxMethod<ProductWithMeatDetails[]>(pipe(
             switchMap((entities) => service.editMeatDetails(entities).pipe(
                 tapResponse({
-                    next: (editedMeatDetails) => {
-                        patchState(store, { chickenEntities: editedMeatDetails });
-                        setSuccess("Modificados correctamente!");
-                    },
+                    next: (editedMeatDetails) => patchState(store,
+                        { chickenEntities: editedMeatDetails },
+                        { rawChickenEntities: editedMeatDetails },
+                        setSuccess("Modificados correctamente!")),
                     error: (error: HttpErrorResponse) => patchState(store, setError(error.message)),
                     finalize: () => patchState(store, setCompleted())
                 })
@@ -67,10 +73,10 @@ export const MeatDetailsStore = signalStore(
         )),
 
         setBeefEntities(newBeefEntities: ProductWithMeatDetails[]) {
-            patchState(store, { beefEntities: newBeefEntities });
+            patchState(store, { beefEntities: [...newBeefEntities] });
         },
         setChickenEntities(newChickenEntities: ProductWithMeatDetails[]) {
-            patchState(store, { chickenEntities: newChickenEntities });
+            patchState(store, { chickenEntities: [...newChickenEntities] });
         },
 
         setHalfCarcassWeight(weight: number) {
@@ -82,15 +88,17 @@ export const MeatDetailsStore = signalStore(
     })),
     withHooks((store) => ({
         onInit() {
-           store.getBeefEntities();
-           store.getChickenEntities();
+            store.getBeefEntities();
+            store.getChickenEntities();
         }
     }))
 );
 
 interface MeatDetailsState {
     beefEntities: ProductWithMeatDetails[],
+    rawBeefEntities: ProductWithMeatDetails[],
     chickenEntities: ProductWithMeatDetails[],
+    rawChickenEntities: ProductWithMeatDetails[],
     halfCarcassWeight: number,
     chickenWeight: number
 }

@@ -17,10 +17,4 @@ export class SubmitButtonComponent {
   public class = input<string>('');
   public disabled = input<boolean>(false);
 
-  private sanitizer = inject(DomSanitizer);
-
-  public sanitizeIcon(): string | null {
-    return this.sanitizer.sanitize(SecurityContext.HTML, this.icon());
-  }
-
 }
