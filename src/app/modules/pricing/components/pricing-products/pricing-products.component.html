@@ -12,7 +12,7 @@
       </app-select-input>
 
       <!-- Provider Percentages Menu -->
-      <app-provider-percentages [provider]="provider()!"></app-provider-percentages>
+      <app-provider-percentages [provider]="selectedProvider()!"></app-provider-percentages>
       
       <app-form-button icon="<i class='fa-solid fa-percent'></i> Porcentajes globales" [disabled]="selectedProviderId() === 0" id="provider-percentages-content" class="mb-8" (click)="openProviderPercentagesMenu()"></app-form-button>
     </div>

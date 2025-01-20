@@ -10,11 +10,11 @@ import { ProviderStore } from 'src/app/modules/providers/stores/provider.store';
 import { watchState } from '@ngrx/signals';
 
 @Component({
-    selector: 'app-provider-percentages',
-    templateUrl: './provider-percentages.component.html',
-    styleUrls: ['./provider-percentages.component.scss'],
-    imports: [IonContent, IonMenu, NumberInputComponent, FormButtonComponent, SelectInputComponent, IonSelectOption],
-standalone: true
+  selector: 'app-provider-percentages',
+  templateUrl: './provider-percentages.component.html',
+  styleUrls: ['./provider-percentages.component.scss'],
+  imports: [IonContent, IonMenu, NumberInputComponent, FormButtonComponent, SelectInputComponent, IonSelectOption],
+  standalone: true
 })
 export class ProviderPercentagesComponent {
 
@@ -33,8 +33,9 @@ export class ProviderPercentagesComponent {
 
   public savePercentages() {
     this.alertService.getWarningConfirmationAlert('¿Estás seguro que deseas continuar?', 'Se modificarán los porcentajes del proveedor seleccionado', 'APLICAR')
-      
-      .then((result: any) => { if (result.isConfirmed) this.applyNewPercentages(); });
+      .then((result: any) => { 
+        if (result.isConfirmed) this.applyNewPercentages(); 
+      });
   }
 
   private applyNewPercentages() {
@@ -42,7 +43,7 @@ export class ProviderPercentagesComponent {
     const providerRequest = ProviderMapper.toProviderRequest(provider);
 
     this.providerStore.editEntity({ id: provider.id!, entity: providerRequest });
-    this.menuController.close('provider-percentages-menu');    
+    this.menuController.close('provider-percentages-menu');
   }
 
 }

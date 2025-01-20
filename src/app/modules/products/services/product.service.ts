@@ -30,4 +30,8 @@ export class ProductService implements BaseService<ProductRequest, ProductRespon
     return this.http.delete<ProductResponse>(`${this.apiUrl}/${id}`);
   }
 
+  public editPrices(products: ProductResponse[]) {
+    return this.http.put<ProductResponse[]>(this.apiUrl, products);
+  }
+
 }

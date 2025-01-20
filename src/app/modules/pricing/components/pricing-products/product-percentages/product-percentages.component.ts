@@ -6,13 +6,13 @@ import { FormButtonComponent } from 'src/app/shared/components/form/form-button/
 import { ProductWithPricing } from 'src/app/modules/products/models/product.model';
 
 @Component({
-    selector: 'app-product-percentages',
-    templateUrl: './product-percentages.component.html',
-    styleUrls: ['./product-percentages.component.scss'],
-    imports: [IonContent, IonMenu, SelectInputComponent, IonSelectOption, NumberInputComponent, FormButtonComponent],
-standalone: true
+  selector: 'app-product-percentages',
+  templateUrl: './product-percentages.component.html',
+  styleUrls: ['./product-percentages.component.scss'],
+  imports: [IonContent, IonMenu, SelectInputComponent, IonSelectOption, NumberInputComponent, FormButtonComponent],
+  standalone: true
 })
-export class ProductPercentagesComponent {;
+export class ProductPercentagesComponent {
 
   private menuController = inject(MenuController);
 

@@ -15,6 +15,7 @@ import { ProviderPercentagesComponent } from "./provider-percentages/provider-pe
 import { ProductPercentagesComponent } from "./product-percentages/product-percentages.component";
 import { ProviderStore } from 'src/app/modules/providers/stores/provider.store';
 import { ProductStore } from 'src/app/modules/products/store/product.store';
+import { watchState } from '@ngrx/signals';
 
 @Component({
   selector: 'app-pricing-products',
@@ -34,12 +35,18 @@ export class PricingProductsComponent {
   public providers = computed(() => this.providerStore.entities().filter(provider => provider.id! > 2));
 
   public selectedProviderId = signal<number>(0);
-
-  public provider = computed(() => this.selectedProviderId() ? this.providerStore.getEntityById(this.selectedProviderId()) : null);
+  public selectedProvider = computed(() => this.selectedProviderId() ? this.providerStore.getEntityById(this.selectedProviderId()) : null);
   public selectedProduct: ProductWithPricing | null = null;
 
-  public products = computed(() => /* signal(this.productService.getProductsByProvider(this.selectedProviderId()!).filter(product => product.isEnabled)) */ null);
+  public products = computed(() => this.productStore.getEntitiesByProvider(this.selectedProviderId()));
   public productsWithPricing = computed(() => signal(this.getProductsWithPricing()));
+
+  constructor() {
+    watchState(this.productStore, () => {
+      if (this.productStore.success()) this.handleSuccess(this.productStore.message());
+      if (this.productStore.error()) this.handleError(this.productStore.message());
+    });
+  }
 
   public openProviderPercentagesMenu() {
     if (this.selectedProviderId() !== 0) this.menuController.open("provider-percentages-menu");
@@ -54,7 +61,7 @@ export class PricingProductsComponent {
   }
 
   private getProductsWithPricing(): ProductWithPricing[] {
-    return /* this.products()().map(product => ProductMapper.toProductWithPricing(product)) */[];
+    return this.products().map(product => ProductMapper.toProductWithPricing(product));
   }
 
   public receiveProductPercentages(product: ProductWithPricing | null | undefined) {
@@ -64,6 +71,10 @@ export class PricingProductsComponent {
   }
 
   public onCalculateSubmit() {
+    if (!this.areSubmitButtonsValid()) {
+      return;
+    }
+
     const modifiedProductsWithPricing = this.productsWithPricing()().map(product => {
       if (product.subtotal > 0 && product.quantity > 0) {
         const productBasePrice = (product.subtotal / product.quantity);
@@ -85,20 +96,19 @@ export class PricingProductsComponent {
   }
 
   public onApplySubmit() {
-    this.alertService.getWarningConfirmationAlert('¿Estás seguro que deseas continuar?', 'Se modificarán los precios de los productos calculados', 'APLICAR')
+    if (!this.areSubmitButtonsValid()) {
+      return;
+    }
 
-      .then((result: any) => { if (result.isConfirmed) this.applyNewPrices(); });
+    this.alertService.getWarningConfirmationAlert('¿Estás seguro que deseas continuar?', 'Se modificarán los precios de los productos calculados', 'APLICAR')
+      .then((result: any) => {
+        if (result.isConfirmed) this.applyNewPrices();
+      });
   }
 
   private applyNewPrices() {
     const modifiedProducts = this.productsWithPricing()().map(productWithPricing => ProductMapper.toProductResponse(productWithPricing));
-    /* this.products().set(modifiedProducts); */
-
-    /*     this.productService.editProductsPrice(this.products()()).pipe(
-          tap((response) => this.handleSuccess(response)),
-          catchError((error) => this.handleError(error)),
-          takeUntilDestroyed(this.destroyRef)
-        ).subscribe(); */
+    this.productStore.updateEntitiesPrice(modifiedProducts);
   }
 
   private handleSuccess(response: string): void {
