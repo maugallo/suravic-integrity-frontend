@@ -26,7 +26,7 @@ export class ReportsComponent {
     });
   }
 
-  private async downloadFile(response: Blob) {
+/*   private async downloadFile(response: Blob) {
     try {
       // Guardar archivo en dispositivo.
       const base64Data = await FileUtility.blobToBase64(response);
@@ -49,9 +49,9 @@ export class ReportsComponent {
     } catch (error) {
       console.error('Error al descargar y abrir el archivo:', error);
     }
-  }
+  } */
 
-  /*   private downloadFile(response: Blob) {
+    private downloadFile(response: Blob) {
       try {
         // Crear un objeto URL desde el blob
         const url = window.URL.createObjectURL(response);
@@ -72,7 +72,7 @@ export class ReportsComponent {
       } catch (error) {
         console.error('Error al descargar el archivo:', error);
       }
-    } */
+    }
 
 
 }
