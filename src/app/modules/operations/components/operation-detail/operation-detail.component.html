@@ -24,8 +24,8 @@
         </ion-card-header>
 
         <ion-card-content>
-          @if (receipt) {
-            @if (fileUtility.isPhoto(receipt); as photo) {
+          @if (receipt()) {
+            @if (fileUtility.isPhoto(receipt()); as photo) {
               <div class="uploaded-image-container mt-3">
                 <img [src]="photo.dataUrl"/>
               </div>

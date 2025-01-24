@@ -1,4 +1,4 @@
-@if (isOperationEdit) {
+@if (idParam()) {
   <app-header title="MODIFICAR OPERACIÓN" titleSize="title-large" icon="fa-solid fa-wallet fa-2x"></app-header>
 } @else {
   <app-header title="AGREGAR OPERACIÓN" titleSize="title-large" icon="fa-solid fa-wallet fa-2x"></app-header>
@@ -16,13 +16,13 @@
         </app-select-input>
 
         <!-- Receipt File Input -->
-        <app-file-input class="mb-10" label="Foto de {{operation()?.type ?? '' | titlecase }}" [onlyPhoto]="true" [(bindedObject)]="operation()!.receipt"></app-file-input>
+        <app-file-input class="mb-10" label="Foto de {{operation().type | titlecase }}" [onlyPhoto]="true" [(bindedObject)]="operation()!.receipt"></app-file-input>
         
         <!-- Total Input -->
         <app-number-input #formInput class="mb-10" inputName="totalInput" label="Total" [(bindedObject)]="operation()!.total" 
         placeHolder="$15000" [minValue]="0" [maxValue]="9999999"></app-number-input>
 
-      <app-submit-button class="mb-5" [isEdit]="isOperationEdit"></app-submit-button>
+      <app-submit-button class="mb-5" [isEdit]="idParam() !== undefined"></app-submit-button>
     }
     </form>
   </div>

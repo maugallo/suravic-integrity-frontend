@@ -1,15 +1,13 @@
-import { Component, inject, QueryList, Signal, ViewChildren } from '@angular/core';
+import { Component, computed, inject, QueryList, ViewChildren } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Photo } from '@capacitor/camera';
-import { EMPTY, map, Observable, of, switchMap, tap } from 'rxjs';
+import { of, switchMap, tap } from 'rxjs';
 import { OperationType } from '../../models/operation-type.enum';
 import { StorageType } from 'src/app/shared/services/storage.service';
-import { OperationRequest } from '../../models/operation.model';
 import { OperationMapper } from 'src/app/shared/mappers/operation.mapper';
 import { EntitiesUtility } from 'src/app/shared/utils/entities.utility';
 import { FileUtility } from 'src/app/shared/utils/file.utility';
-import { OperationService } from '../../services/operation.service';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { StorageService } from 'src/app/shared/services/storage.service';
 import { ValidationService } from 'src/app/shared/services/validation.service';
@@ -21,112 +19,127 @@ import { HeaderComponent } from 'src/app/shared/components/header/header.compone
 import { FileInputComponent } from 'src/app/shared/components/form/file-input/file-input.component';
 import { SubmitButtonComponent } from 'src/app/shared/components/form/submit-button/submit-button.component';
 import { FormsModule } from '@angular/forms';
-import { Location, TitleCasePipe } from '@angular/common';
+import { TitleCasePipe } from '@angular/common';
+import { watchState } from '@ngrx/signals';
+import { OperationStore } from '../../store/operation.store';
+import { EmployeeStore } from 'src/app/modules/employees/stores/employee.store';
 
 @Component({
-    selector: 'app-operation-form',
-    templateUrl: './operation-form.component.html',
-    styleUrls: ['./operation-form.component.scss'],
-    imports: [IonContent, HeaderComponent, NumberInputComponent, SelectInputComponent, FileInputComponent, IonSelectOption, SubmitButtonComponent, FormsModule, TitleCasePipe],
-standalone: true
+  selector: 'app-operation-form',
+  templateUrl: './operation-form.component.html',
+  styleUrls: ['./operation-form.component.scss'],
+  
+  imports: [IonContent, HeaderComponent, NumberInputComponent, SelectInputComponent, FileInputComponent, IonSelectOption, SubmitButtonComponent, FormsModule, TitleCasePipe],
+  standalone: true
 })
 export class OperationFormComponent {
-  
-  private operationService = inject(OperationService);
+
+  public validationService = inject(ValidationService);
   private storageService = inject(StorageService);
   private alertService = inject(AlertService);
-  public validationService = inject(ValidationService);
-  private router = inject(Router);
+  private operationStore = inject(OperationStore);
+  private employeeStore = inject(EmployeeStore);
   private activatedRoute = inject(ActivatedRoute);
-
-  public isOperationEdit!: boolean;
-  public operationId!: number;
+  private router = inject(Router);
 
   public operationType = OperationType;
 
+  public operationId = 0;
+  public oldTotal = 0;
+
   @ViewChildren('formInput') inputComponents!: QueryList<TextInputComponent | NumberInputComponent | SelectInputComponent>;
 
-  public operation: Signal<OperationRequest | undefined> = toSignal(this.activatedRoute.paramMap.pipe(
-    switchMap((params) => {
-      const accountId = params.get('accountId');
-      if (!accountId) {
-        this.router.navigate(['operations', 'dashboard']);
-        return EMPTY;
-      }
-      const operationId = params.get('id');
-      if (this.isParameterValid(operationId)) {
-        const operation = this.operationService.getOperationById(Number(operationId));
-        if (!operation) {
-          this.router.navigate(['operations', 'dashboard']);
-          return EMPTY;
-        }
-        this.isOperationEdit = true;
-        this.operationId = operation.id;
-        const operationRequest = OperationMapper.toOperationRequest(operation);
-        return this.operationService.getReceiptFile(this.operationId).pipe(
-          tap(async (receipt) => (operationRequest.receipt = await FileUtility.getPhotoFromBlob(receipt))),
-          map(() => operationRequest)
-        );
-      } else {
-        this.isOperationEdit = false;
-        const operationRequest = EntitiesUtility.getEmptyOperationRequest();
-        operationRequest.creditAccountId = Number(accountId);
-        return of(operationRequest);
-      }
-    })
-  ));
+  constructor() {
+    watchState(this.operationStore, () => {
+      if (this.operationStore.success()) this.handleSuccess(this.operationStore.message());
+      if (this.operationStore.error()) this.handleError(this.operationStore.message());
+    });
+  }
+
+  public userId = toSignal(this.storageService.getStorage(StorageType.USER_ID));
+
+  public idAccount = toSignal(this.activatedRoute.paramMap.pipe(
+    switchMap((params) => of(Number(params.get('accountId')) || undefined))
+  )); // Necesario que esté.
+
+  public idParam = toSignal(this.activatedRoute.paramMap.pipe(
+    switchMap((params) => of(Number(params.get('id')) || undefined)),
+    tap((id) => { if (id) this.operationStore.getReceiptFile(id) })
+  )); // Opcional, si está significa que se va a editar una operation.
+
+  public operation = computed(() => {
+    if (this.idParam()) {
+      const operation = this.operationStore.getEntityById(this.idParam()!);
+      console.log(operation); 
+      this.operationId = operation.id;
+
+      const operationRequest = OperationMapper.toOperationRequest(operation);
+      operationRequest.receipt = this.operationStore.receipt();
+      this.oldTotal = operationRequest.total;
+
+      return operationRequest;
+    } else {
+      const operationRequest = EntitiesUtility.getEmptyOperationRequest();
+      operationRequest.creditAccountId = Number(this.idAccount());
+      
+      return operationRequest;
+    }
+  });
 
   public onSubmit() {
     if (!this.validationService.validateInputs(this.inputComponents)) {
       return;
     }
 
-    if (!this.operation()!.receipt) {
+    if (!this.operation().receipt) {
       this.alertService.getErrorToast("Debes cargar una imagen o archivo");
       return;
     }
 
-    this.storageService.getStorage(StorageType.USER_ID).pipe(
-      switchMap((userId) => {
-        const operation = this.operation()!;
-        const formData = new FormData();
+    const formData = this.getFormData();
+    if (this.idParam()) {
+      this.operationStore.editEntity({ id: this.operationId, entity: formData })
+    } else {
+      this.operationStore.addEntity(formData);
+    }
 
-        formData.append('creditAccountId', operation.creditAccountId.toString());
-        formData.append('userId', userId);
-        formData.append('total', operation.total.toString());
-        formData.append('type', operation.type);
-
-        const photo = operation.receipt as Photo;
-        const blob = FileUtility.dataUrlToBlob(photo.dataUrl!);
-        formData.append('receipt', blob, 'imagenc.jpg');
-
-        return this.getFormOperation(formData);
-      })
-    ).subscribe({
-      next: (response) => this.handleSuccess(response),
-      error: (error) => this.handleError(error)
-    });
   }
 
-  private getFormOperation(formData: FormData): Observable<any> {
-    return this.isOperationEdit
-      ? this.operationService.editOperation(this.operationId, formData)
-      : this.operationService.createOperation(formData);
+  private getFormData(): FormData {
+    const formData = new FormData();
+    const operation = this.operation()!;
+
+    formData.append('creditAccountId', operation.creditAccountId.toString());
+    formData.append('userId', this.userId().toString());
+    formData.append('total', operation.total.toString());
+    formData.append('type', operation.type);
+
+    this.appendFile(formData, 'receipt', operation.receipt!);
+
+    return formData;
   }
 
-  private handleSuccess(response: any) {
+  private appendFile(formData: FormData, fieldName: string, data: File | Photo) {
+    const photo = data as Photo;
+    const blob = FileUtility.dataUrlToBlob(photo.dataUrl!);
+    formData.append(fieldName, blob, 'imagenc.jpg');
+  }
+
+
+  private handleSuccess(response: string) {
+    if (response.includes('Creado'))
+      console.log('Debería sumar: ' + this.operationStore.lastUpdatedEntity()?.total);
+      this.employeeStore.addCreditAccountOperation(this.idAccount()!, this.operationStore.lastUpdatedEntity()!);
+    if (response.includes('Modificado'))
+      console.log('Debería modificar: ' + this.operationStore.lastUpdatedEntity()?.total);
+      this.employeeStore.modifyCreditAccountOperation(this.idAccount()!, this.operationStore.lastUpdatedEntity()!, this.oldTotal);
     this.alertService.getSuccessToast(response);
-    this.router.navigate(['employees', 'dashboard']);
+    this.router.navigate(['operations', 'dashboard', this.idAccount()]);
   }
 
-  private handleError(error: any): Observable<null> {
-    this.alertService.getErrorAlert(error.message);
+  private handleError(error: string) {
+    this.alertService.getErrorAlert(error);
     console.error(error);
-    return of(null);
-  }
-
-  private isParameterValid(param: string | null) {
-    return !isNaN(Number(param)) && Number(param);
   }
 
 }

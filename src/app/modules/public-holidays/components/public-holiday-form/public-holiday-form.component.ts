@@ -53,7 +53,7 @@ export class PublicHolidayFormComponent {
   public publicHoliday = computed(() => {
     if (this.idParam()) {
       const publicHoliday = this.publicHolidayStore.getEntityById(this.idParam()!);
-      this.publicHolidayId = publicHoliday.id!;
+      this.publicHolidayId = publicHoliday.id;
 
       return PublicHolidayMapper.toPublicHolidayRequest(publicHoliday);
     } else {

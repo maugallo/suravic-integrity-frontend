@@ -15,7 +15,8 @@ export interface OperationResponse {
     user: UserResponse,
     type: string,
     total: number,
-    receipt: string
+    receipt: string,
+    isEnabled: boolean
 }
 
 export interface CreditAccountResponse {

@@ -64,7 +64,7 @@ export class ProviderFormComponent {
     if (this.idParam()) {
       const provider = this.providerStore.getEntityById(this.idParam()!);
       if (this.isProviderSectorDeleted(provider.sector)) provider.sector.id = -1
-      this.providerId = provider.id!;
+      this.providerId = provider.id;
 
       return ProviderMapper.toProviderRequest(provider);
     } else {

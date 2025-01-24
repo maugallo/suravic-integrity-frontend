@@ -57,7 +57,7 @@ export class LicenseFormComponent {
   public license = computed(() => {
     if (this.idParam()) {
       const license = this.licenseStore.getEntityById(this.idParam()!);
-      this.licenseId = license.id!;
+      this.licenseId = license.id;
 
       return LicenseMapper.toLicenseRequest(license);
     } else {

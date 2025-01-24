@@ -58,7 +58,7 @@ export class ProductFormComponent {
     if (this.idParam()) {
       const product = this.productStore.getEntityById(this.idParam()!);
       if (this.isProductCategoryDeleted(product.category)) product.category.id = -1
-      this.productId = product.id!;
+      this.productId = product.id;
 
       return ProductMapper.toProductRequest(product);
     } else {

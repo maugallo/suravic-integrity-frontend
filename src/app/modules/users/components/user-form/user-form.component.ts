@@ -55,8 +55,8 @@ export class UserFormComponent {
   public user = computed(() => {
     if (this.idParam()) {
       const user = this.userStore.getEntityById(this.idParam()!);
-      this.userId = user.id!;
-      return UserMapper.toUserRequest(user!);
+      this.userId = user.id;
+      return UserMapper.toUserRequest(user);
     } else {
       return EntitiesUtility.getEmptyUserRequest();
     }

@@ -70,9 +70,9 @@ export class OrderFormComponent {
   public order = computed(() => {
     if (this.idParam()) {
       const order = this.orderStore.getEntityById(this.idParam()!);
-      this.orderId = order!.id!;
+      this.orderId = order.id;
 
-      const orderRequest = OrderMapper.toOrderRequest(order!);
+      const orderRequest = OrderMapper.toOrderRequest(order);
       orderRequest.invoice = this.orderStore.invoice();
       orderRequest.paymentReceipt = this.orderStore.paymentReceipt();
 

@@ -61,7 +61,7 @@ export class EmployeeFormComponent {
   public employee = computed(() => {
     if (this.idParam()) {
       const employee = this.employeeStore.getEntityById(this.idParam()!);
-      this.employeeId = employee.id!;
+      this.employeeId = employee.id;
 
       return EmployeeMapper.toEmployeeRequest(employee);
     } else {
