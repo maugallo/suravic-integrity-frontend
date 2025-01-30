@@ -51,6 +51,8 @@ export class OperationDashboardComponent {
     return undefined;
   });
 
+  public accountBalance = computed(() => this.operations().reduce((sum, operation) => sum + operation.total, 0));
+
   constructor() {
     watchState(this.operationStore, () => {
       if (this.operationStore.success()) this.handleSuccess();

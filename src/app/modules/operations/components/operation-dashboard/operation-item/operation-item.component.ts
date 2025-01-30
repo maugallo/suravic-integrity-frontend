@@ -5,13 +5,14 @@ import { AlertService } from 'src/app/shared/services/alert.service';
 import { IonItemSliding, IonLabel, IonItem, IonItemOptions, IonItemOption } from "@ionic/angular/standalone";
 import { CurrencyPipe, UpperCasePipe } from '@angular/common';
 import { OperationStore } from '../../../store/operation.store';
+import { CreatedAtPipe } from '../../../pipes/created-at.pipe';
 
 @Component({
   selector: 'app-operation-item',
   templateUrl: './operation-item.component.html',
   styleUrls: ['./operation-item.component.scss'],
   
-  imports: [IonItemOption, IonItemOptions, IonItem, IonLabel, IonItemSliding, UpperCasePipe, CurrencyPipe],
+  imports: [IonItemOption, IonItemOptions, IonItem, IonLabel, IonItemSliding, UpperCasePipe, CurrencyPipe, CreatedAtPipe],
   standalone: true
 })
 export class OperationItemComponent {

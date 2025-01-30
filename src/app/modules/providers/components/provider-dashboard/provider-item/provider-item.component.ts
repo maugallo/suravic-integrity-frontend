@@ -20,6 +20,7 @@ export class ProviderItemComponent {
   public router = inject(Router);
 
   public provider: any = input<ProviderResponse>();
+  public role = input();
 
   public openDeleteOrRecoverProviderAlert() {
     const action = this.provider().isEnabled ? 'eliminar' : 'recuperar';

@@ -7,17 +7,19 @@
       <ion-searchbar placeholder="Buscar" [debounce]="250" (ionInput)="searchForEmployees($event)"></ion-searchbar>
     </div>
 
-    <div class="options-container mx-2">
+    @if (role() === 'ROLE_DUENO') {
+      <div class="options-container mx-2">
         <!-- Add Employee Button -->
         <ion-button (click)="router.navigate(['employees', 'form'])"><i class="fa-solid fa-business-time fa-2x py-0"></i></ion-button>
         <!-- See Deleted Button -->
-        <app-deleted-button [(seeDeleted)]="seeDeleted"></app-deleted-button>
-    </div>
+          <app-deleted-button [(seeDeleted)]="seeDeleted"></app-deleted-button>
+      </div>
+    }
 
     @if (employees().length === 0) { <app-not-found></app-not-found> }
     <ion-list>
       @for (employee of employees(); track $index) {
-      <app-employee-item [employee]="employee"></app-employee-item>
+      <app-employee-item [employee]="employee" [role]="role()"></app-employee-item>
       }
     </ion-list>
 

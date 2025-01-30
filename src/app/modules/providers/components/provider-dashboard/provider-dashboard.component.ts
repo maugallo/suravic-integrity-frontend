@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { HeaderComponent } from 'src/app/shared/components/header/header.component';
 import { IonContent, IonSearchbar, IonButton, IonList, MenuController } from "@ionic/angular/standalone";
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { NotFoundComponent } from 'src/app/shared/components/not-found/not-found.component';
 import { ProviderItemComponent } from './provider-item/provider-item.component';
 import { ProviderFilters, ProviderFilterComponent } from 'src/app/modules/providers/components/provider-dashboard/provider-filter/provider-filter.component';
@@ -10,6 +10,10 @@ import { DeletedButtonComponent } from 'src/app/shared/components/deleted-button
 import { ProviderStore } from '../../stores/provider.store';
 import { watchState } from '@ngrx/signals';
 import { AlertService } from 'src/app/shared/services/alert.service';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { filter, map, switchMap, tap } from 'rxjs';
+import { StorageService, StorageType } from 'src/app/shared/services/storage.service';
+import { TokenUtility } from 'src/app/shared/utils/token.utility';
 
 @Component({
   selector: 'app-provider-dashboard',
@@ -21,6 +25,7 @@ import { AlertService } from 'src/app/shared/services/alert.service';
 export class ProviderDashboardComponent {
 
   private alertService = inject(AlertService);
+  private storageService = inject(StorageService);
   private providerStore = inject(ProviderStore);
   private menuController = inject(MenuController);
   public router = inject(Router);
@@ -31,6 +36,13 @@ export class ProviderDashboardComponent {
     sectors: [],
     vatConditions: []
   });
+
+  public role = toSignal(this.router.events.pipe(
+    filter((event) => event instanceof NavigationEnd),
+    switchMap(() => this.storageService.getStorage(StorageType.TOKEN)),
+    tap((token) => token ?? this.router.navigate(['welcome'])),
+    map((token) => TokenUtility.getRoleFromToken(token))
+  ));
 
   public providers = computed(() => {
     const providers = this.filterProviders(this.filters(), this.seeDeleted());

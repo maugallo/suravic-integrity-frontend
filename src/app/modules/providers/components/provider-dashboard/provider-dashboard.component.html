@@ -11,23 +11,25 @@
       <app-provider-filter (filtersEmitter)="receiveFilters($event)"></app-provider-filter>
     </div>
 
-    <div class="options-container">
-      <div>
-        <!-- Add Provider Button -->
-        <ion-button (click)="router.navigate(['providers', 'form'])"><i class="fa-solid fa-users-medical fa-2x py-0"></i></ion-button>
-        <!-- Sector Dashboard Button -->
-        <ion-button id="open-sector-modal"><i class="fa-solid fa-grid-2 fa-2x py-0"></i></ion-button>
-        <!-- Sector Modal -->
-        <app-sector-modal></app-sector-modal>
+    @if (role() === 'ROLE_DUENO') {
+      <div class="options-container">
+        <div>
+          <!-- Add Provider Button -->
+          <ion-button (click)="router.navigate(['providers', 'form'])"><i class="fa-solid fa-users-medical fa-2x py-0"></i></ion-button>
+          <!-- Sector Dashboard Button -->
+          <ion-button id="open-sector-modal"><i class="fa-solid fa-grid-2 fa-2x py-0"></i></ion-button>
+          <!-- Sector Modal -->
+          <app-sector-modal></app-sector-modal>
+        </div>
+        <!-- See Deleted Button -->
+        <app-deleted-button [(seeDeleted)]="seeDeleted"></app-deleted-button>
       </div>
-      <!-- See Deleted Button -->
-      <app-deleted-button [(seeDeleted)]="seeDeleted"></app-deleted-button>
-    </div>
+    }
 
     @if (providers().length === 0) { <app-not-found></app-not-found> }
     <ion-list>
       @for (provider of providers(); track $index) {
-      <app-provider-item [provider]="provider"></app-provider-item>
+      <app-provider-item [provider]="provider" [role]="role()"></app-provider-item>
       }
     </ion-list>
 

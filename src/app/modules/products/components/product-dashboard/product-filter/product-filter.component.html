@@ -25,7 +25,7 @@
     <div class="filter mt-0 mb-4 mx-4 pb-4">
       <!-- Prices filter -->
       <p class="filter-subtitle mb-1">Precio</p>
-      <ion-range [min]="MIN_PRICE" [max]="MAX_PRICE" step="1" dualKnobs="true" [(ngModel)]="priceRange"
+      <ion-range [min]="minPrice()" [max]="maxPrice()" step="1" dualKnobs="true" [(ngModel)]="priceRange"
       (ionChange)="onPriceRangeChange()"></ion-range>
       <div class="range-labels">
         <ion-label slot="start">{{ priceRange.lower | currency }}</ion-label>

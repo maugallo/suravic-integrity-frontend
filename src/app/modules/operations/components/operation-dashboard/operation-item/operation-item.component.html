@@ -1,7 +1,10 @@
 <ion-item-sliding>
   <ion-item detail="true">
     <ion-label>
-      <p class="title-label">{{ operation().type | uppercase }}</p>
+      <div style="display: flex; justify-content: space-between;">
+        <p class="title-label">{{ operation().type | uppercase }}</p>
+        <p class="title-label">{{ operation().createdAt | createdAt }}</p>
+      </div>
       <p class="subtitle-label">{{ operation().total | currency }}</p>
     </ion-label>
   </ion-item>

@@ -92,7 +92,7 @@ export class OrderDashboardComponent {
 
   private getMaxValue(orders: OrderResponse[]) {
     if (orders.length > 0)
-      return Number(orders.reduce((max, current) => Number(current.total) > Number(max.total) ? current : max).total) || 0;
+      return Number(orders.reduce((max, current) => Number(current.total) > Number(max.total) ? current : max).total);
     else
       return 0;
   }

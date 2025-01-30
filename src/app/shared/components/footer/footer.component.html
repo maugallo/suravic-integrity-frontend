@@ -3,9 +3,11 @@
     <ion-tab-button tab="home">
       <i name="home" class="fa-solid fa-house fa-3x pb-1"></i>
     </ion-tab-button>
+    @if (role() === 'ROLE_DUENO') {
     <ion-tab-button tab="reports">
       <i name="reports" class="fa-solid fa-megaphone fa-3x pb-1"></i>
     </ion-tab-button>
+    }
     <ion-tab-button (click)="logout()">
       <i name="logout" class="fa-solid fa-right-from-bracket fa-3x"></i>
     </ion-tab-button>

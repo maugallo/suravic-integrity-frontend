@@ -9,7 +9,9 @@
             <!-- Credit Account Button -->
             <ion-button (click)="router.navigate(['operations', 'dashboard', employee().id])"><i class="fa-regular fa-wallet fa-2x py-0"></i></ion-button>
             <!-- Facial Recognition Button -->
+            @if (role() === 'ROLE_DUENO') {
             <ion-button id="open-register-face-modal{{employee().id}}"><i class="fa-regular fa-camera-viewfinder fa-2x py-0"></i></ion-button>
+            }
             <!-- Facial Recognition Modal -->
             <app-register-face-modal [employeeId]="employee().id"></app-register-face-modal>
           </div>
@@ -18,16 +20,18 @@
     </ion-label>
   </ion-item>
   <ion-item-options slot="end">
-    @if (employee().isEnabled) {
-      <ion-item-option (click)="router.navigate(['employees', 'detail', employee().id])" color="white">
-        <i class="fa-solid fa-eye fa-2x mx-2"></i>
-      </ion-item-option>
-      <ion-item-option (click)="router.navigate(['employees', 'form', employee().id])" color="white">
-        <i class="fa-solid fa-pen fa-2x mx-2"></i>
+    @if (role() === 'ROLE_DUENO') {
+      @if (employee().isEnabled) {
+        <ion-item-option (click)="router.navigate(['employees', 'detail', employee().id])" color="white">
+          <i class="fa-solid fa-eye fa-2x mx-2"></i>
+        </ion-item-option>
+        <ion-item-option (click)="router.navigate(['employees', 'form', employee().id])" color="white">
+          <i class="fa-solid fa-pen fa-2x mx-2"></i>
+        </ion-item-option>
+      }
+      <ion-item-option (click)="openDeleteOrRecoverEmployeeAlert()" color="white">
+        <i class="fa-solid {{ employee().isEnabled ? 'fa-trash' : 'fa-trash-undo' }} fa-2x mx-2"></i>
       </ion-item-option>
     }
-    <ion-item-option (click)="openDeleteOrRecoverEmployeeAlert()" color="white">
-      <i class="fa-solid {{ employee().isEnabled ? 'fa-trash' : 'fa-trash-undo' }} fa-2x mx-2"></i>
-    </ion-item-option>
   </ion-item-options>
 </ion-item-sliding>

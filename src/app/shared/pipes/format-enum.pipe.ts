@@ -9,7 +9,6 @@ export class FormatEnumPipe implements PipeTransform {
   transform(value: string): string {
     if (!value) return value; 
 
-    // Split the string by underscore, capitalize the first letter of each word
     const formattedValue = value
       .toLowerCase()
       .split('_')

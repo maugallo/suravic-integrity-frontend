@@ -1,4 +1,4 @@
-import { Component, computed, inject, output } from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
 import { IonContent, IonMenu, IonSelectOption, IonButton, MenuController, IonLabel, IonRange } from "@ionic/angular/standalone";
 import { FormsModule } from '@angular/forms';
 import { CurrencyPipe } from '@angular/common';
@@ -24,9 +24,10 @@ export class ProductFilterComponent {
   public categories = computed(() => this.categoryStore.enabledEntities());
   public providers = computed(() => this.providerStore.enabledEntities());
 
-  public MIN_PRICE = MIN_PRICE;
-  public MAX_PRICE = MAX_PRICE;
-  public priceRange = { lower: MIN_PRICE, upper: MAX_PRICE };
+  public minPrice = input(0);
+  public maxPrice = input(500000);
+
+  public priceRange = { lower: this.minPrice(), upper: this.maxPrice() };
 
   public filters: ProductFilters = {
     categories: [],
@@ -45,7 +46,7 @@ export class ProductFilterComponent {
       providers: [],
       prices: []
     }
-    this.priceRange = { lower: MIN_PRICE, upper: MAX_PRICE };
+    this.priceRange = { lower: this.minPrice(), upper: this.maxPrice() };
 
     this.filtersEmitter.emit(this.filters);
   }

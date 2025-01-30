@@ -10,6 +10,7 @@ import { DeletedButtonComponent } from 'src/app/shared/components/deleted-button
 import { ProductStore } from '../../store/product.store';
 import { watchState } from '@ngrx/signals';
 import { AlertService } from 'src/app/shared/services/alert.service';
+import { ProductResponse } from '../../models/product.model';
 
 @Component({
   selector: 'app-product-dashboard',
@@ -25,16 +26,15 @@ export class ProductDashboardComponent {
   private menuController = inject(MenuController)
   public router = inject(Router);
 
+  public minPrice = computed(() => this.getMinValue(this.productStore.enabledEntities()));
+  public maxPrice = computed(() => this.getMaxValue(this.productStore.enabledEntities()));
+
   public seeDeleted = signal(false);
   private searchQuery = signal('');
-  private filters = signal<ProductFilters>({
-    categories: [],
-    providers: [],
-    prices: [MIN_PRICE, MAX_PRICE]
-  });
+  private filters = signal<ProductFilters | undefined>(undefined);
 
   public products = computed(() => {
-    const products = this.filterProducts(this.filters(), this.seeDeleted());
+    const products = this.filterProducts(this.filters()!, this.seeDeleted());
 
     return products.filter(product => product.title.toLowerCase().includes(this.searchQuery()));
   });
@@ -62,12 +62,28 @@ export class ProductDashboardComponent {
   private filterProducts(filters: ProductFilters, seeDeleted: boolean) {
     let filteredProducts = seeDeleted ? this.productStore.deletedEntities() : this.productStore.enabledEntities();
 
-    filteredProducts = filteredProducts.filter(product =>
-      (filters.categories.length === 0 || filters.categories.includes(product.category.id)) &&
-      (filters.providers.length === 0 || filters.providers.includes(product.provider.id)) &&
-      (filters.prices.length === 0 || (Number(product.price) > filters.prices[0] && Number(product.price) < filters.prices[1]))
-    );
+    if (filters) {
+      return filteredProducts.filter(product =>
+        (filters.categories.length === 0 || filters.categories.includes(product.category.id)) &&
+        (filters.providers.length === 0 || filters.providers.includes(product.provider.id)) &&
+        (filters.prices.length === 0 || (Number(product.price) > filters.prices[0] && Number(product.price) < filters.prices[1]))
+      );
+    }
     return filteredProducts;
+  }
+
+  private getMinValue(products: ProductResponse[]) {
+    if (products.length > 0)
+      return Number(products.reduce((min, current) => Number(current.price) < Number(min.price) ? current : min).price);
+    else
+      return 0;
+  }
+
+  private getMaxValue(products: ProductResponse[]) {
+    if (products.length > 0)
+      return Number(products.reduce((max, current) => Number(current.price) > Number(max.price) ? current : max).price);
+    else
+      return 0;
   }
 
 }

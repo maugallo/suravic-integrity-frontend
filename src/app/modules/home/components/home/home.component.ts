@@ -11,28 +11,30 @@ import { TokenUtility } from 'src/app/shared/utils/token.utility';
 import { MarkAttendanceModalComponent } from 'src/app/modules/attendances/components/mark-attendance-modal/mark-attendance-modal.component';
 
 @Component({
-    selector: 'app-home',
-    templateUrl: './home.component.html',
-    styleUrls: ['./home.component.scss'],
-    imports: [IonContent, OptionComponent, MarkAttendanceModalComponent],
-standalone: true
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss'],
+  imports: [IonContent, OptionComponent, MarkAttendanceModalComponent],
+  standalone: true
 })
 export class HomeComponent {
 
   private router = inject(Router);
   private storageService = inject(StorageService);
 
-  public duenoOptions: Option[] = DUENO_OPTIONS;
-  public encargadoOptions: Option[] = ENCARGADO_OPTIONS;
-
   public role = toSignal(this.router.events.pipe(
-    filter((event) => (event instanceof NavigationEnd && event.url == '/tabs/home')),
-      switchMap(() => this.storageService.getStorage(StorageType.TOKEN)), // El observable previo emite un nuevo valor, uso switchMap para cambiar a un nuevo observable.
-      tap((token) => token ?? this.router.navigate(['welcome'])),
-      map((token) => TokenUtility.getRoleFromToken(token)) // Este nuevo observable emite un valor, lo mapeo para hacer lo que quiero (en este caso lo uso para obtener el rol).
-    )
-  );
+    filter((event) => event instanceof NavigationEnd),
+    switchMap(() => this.storageService.getStorage(StorageType.TOKEN)),
+    tap((token) => token ?? this.router.navigate(['welcome'])),
+    map((token) => TokenUtility.getRoleFromToken(token))
+  ));
 
-  public options = computed(() => this.role() === 'ROLE_DUENO' ? this.duenoOptions : this.encargadoOptions);
+  public options = computed(() => {
+    if (this.role()) {
+      if (this.role() === 'ROLE_DUENO') return DUENO_OPTIONS;
+      if (this.role() === 'ROLE_ENCARGADO') return ENCARGADO_OPTIONS;
+    }
+    return [];
+  });
 
 }

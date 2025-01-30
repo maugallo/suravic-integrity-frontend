@@ -21,6 +21,7 @@ export class EmployeeItemComponent {
   public router = inject(Router);
 
   public employee: any = input<EmployeeResponse>();
+  public role = input();
 
   public openDeleteOrRecoverEmployeeAlert() {
     const action = this.employee().isEnabled ? 'eliminar' : 'recuperar';
