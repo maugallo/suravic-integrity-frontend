@@ -62,7 +62,7 @@ export class MarkAttendanceModalComponent {
   }
 
   private handleSuccess(message: string) {
-    if (message.includes("no corresponde")) this.alertService.getWarningAlert('Atención', message);
+    if (message.includes("no corresponde") || message.includes("ya marcó")) this.alertService.getWarningAlert('Atención', message);
     else this.alertService.getSuccessAlert(message);
   }
 

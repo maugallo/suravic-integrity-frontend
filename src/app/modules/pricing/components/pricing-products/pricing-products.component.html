@@ -5,9 +5,9 @@
     <div class="percentages-container">
        <!-- Provider Input -->
       <app-select-input class="my-8" inputName="providersSelect" label="Seleccionar Proveedor"  
-      [options]="providers()" [(bindedObject)]="selectedProviderId" [required]="false">
+      [(bindedObject)]="selectedProviderId" [required]="false">
         @for (provider of providers(); track $index) {
-            <ion-select-option [value]="provider.id">{{ provider.companyName }}</ion-select-option>
+            <ion-select-option #option [value]="provider.id">{{ provider.companyName }}</ion-select-option>
         }
       </app-select-input>
 

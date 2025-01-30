@@ -30,9 +30,9 @@
 
           <!-- Sector Select Input -->
           <app-select-input #formInput class="mb-8" inputName="sectorSelect" [(bindedObject)]="provider()!.sectorId"
-          label="Rubro" [options]="sectors" [disabled]="(idParam() !== undefined && [1,2].includes(providerId))">
+          label="Rubro" [disabled]="(idParam() !== undefined && [1,2].includes(providerId))">
             @for (sector of sectors; track $index) {
-              <ion-select-option [value]="sector.id">{{ sector.name }}</ion-select-option>
+              <ion-select-option #option [value]="sector.id">{{ sector.name }}</ion-select-option>
             }
           </app-select-input>
 
@@ -43,19 +43,19 @@
 
           <!-- Vat Condition Select Input -->
           <app-select-input #formInput class="mb-8" inputName="vatConditionSelect" [(bindedObject)]="provider()!.vatCondition"
-          label="Condición IVA" [options]="vatConditions">
+          label="Condición IVA">
             @for (condition of vatConditions; track $index) {
-              <ion-select-option [value]="condition.value">{{ condition.title }}</ion-select-option>
+              <ion-select-option #option [value]="condition.value">{{ condition.title }}</ion-select-option>
             }
           </app-select-input>
 
           <p class="section-title pb-2 mt-6">INFORMACIÓN FINANCIERA</p>
           <!-- Vat Percentage Input -->
            <app-select-input #formInput class="mb-8" inputName="vatPercentageSelect" [(bindedObject)]="provider()!.percentages.vatPercentage"
-           label="Porcentaje de IVA" [options]="[21, 10.5, 0]">
-            <ion-select-option [value]="21">21</ion-select-option>
-            <ion-select-option [value]="10.5">10,5</ion-select-option>
-            <ion-select-option value="0">0</ion-select-option>
+           label="Porcentaje de IVA">
+            <ion-select-option #option [value]="21">21</ion-select-option>
+            <ion-select-option #option [value]="10.5">10,5</ion-select-option>
+            <ion-select-option #option value="0">0</ion-select-option>
           </app-select-input>
 
           <!-- Profit Percentage Input -->

@@ -1,5 +1,5 @@
-import { Component, computed, inject } from '@angular/core';
-import { IonContent, IonButton, IonList } from "@ionic/angular/standalone";
+import { Component, computed, inject, signal } from '@angular/core';
+import { IonContent, IonButton, IonList, IonSelectOption } from "@ionic/angular/standalone";
 import { HeaderComponent } from 'src/app/shared/components/header/header.component';
 import { CurrencyPipe, UpperCasePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,13 +11,14 @@ import { EmployeeStore } from 'src/app/modules/employees/stores/employee.store';
 import { OperationStore } from '../../store/operation.store';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { watchState } from '@ngrx/signals';
+import { SelectInputComponent } from "../../../../shared/components/form/select-input/select-input.component";
 
 @Component({
   selector: 'app-operation-dashboard',
   templateUrl: './operation-dashboard.component.html',
   styleUrls: ['./operation-dashboard.component.scss'],
   
-  imports: [IonList, IonButton, IonContent, HeaderComponent, UpperCasePipe, CurrencyPipe, NotFoundComponent, OperationItemComponent],
+  imports: [IonList, IonButton, IonContent, HeaderComponent, UpperCasePipe, CurrencyPipe, NotFoundComponent, OperationItemComponent, SelectInputComponent, IonSelectOption],
   standalone: true
 })
 export class OperationDashboardComponent {
@@ -28,7 +29,14 @@ export class OperationDashboardComponent {
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
 
-  public operations = computed(() => this.operationStore.enabledEntities());
+  public operationType = signal('todos');
+
+  public operations = computed(() => {
+    if (this.operationType() !== 'todos') {
+      return this.operationStore.enabledEntities().filter(operation => operation.type === this.operationType());
+    }
+    return this.operationStore.enabledEntities();
+  });
 
   public idParam = toSignal(this.activatedRoute.paramMap.pipe(
     switchMap((params) => of(Number(params.get('employeeId')) || undefined))

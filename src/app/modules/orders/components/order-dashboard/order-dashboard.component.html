@@ -8,7 +8,7 @@
       <!-- Filter Button -->
       <ion-button id="order-content" (click)="openFilterMenu()"><i class="fa-solid fa-filter fa-2x py-0"></i></ion-button>
       <!-- Filter Menu -->
-      <app-order-filter (filtersEmitter)="receiveFilters($event)" ></app-order-filter>
+      <app-order-filter (filtersEmitter)="receiveFilters($event)" [minTotal]="minTotal()" [maxTotal]="maxTotal()" ></app-order-filter>
     </div>
     
     <div class="options-container">

@@ -9,10 +9,9 @@
       <form #licenseForm="ngForm" id="licenseForm" (ngSubmit)="onSubmit()">
           
         <!-- Employee Select Input -->
-        <app-select-input #formInput class="my-10" label="Empleado" [(bindedObject)]="license()!.employeeId"
-        [options]="employees()">
+        <app-select-input #formInput class="my-10" label="Empleado" [(bindedObject)]="license()!.employeeId">
           @for (employee of employees(); track $index) {
-            <ion-select-option [value]="employee.id">{{ employee.firstName | titlecase }} {{ employee.lastName | titlecase }}</ion-select-option>
+            <ion-select-option #option [value]="employee.id">{{ employee.firstName | titlecase }} {{ employee.lastName | titlecase }}</ion-select-option>
           }
         </app-select-input>
 
@@ -23,13 +22,13 @@
         <app-wheel-date-input class="mb-10" inputName="endDateInput" label="Fecha de Fin" [(bindedObject)]="license()!.endDate"></app-wheel-date-input>
 
         <!-- License Type Input -->
-        <app-select-input #formInput class="mb-10" label="Tipo" [(bindedObject)]="license()!.type" [options]="['']">
-          <ion-select-option [value]="licenseType.LICENCIA_MEDICA">Licencia Médica</ion-select-option>
-          <ion-select-option [value]="licenseType.LICENCIA_POR_RAZONES_FAMILIARES">Licencia por Razones Familiares</ion-select-option>
-          <ion-select-option [value]="licenseType.LICENCIA_POR_MATRIMONIO">Licencia por Matrimonio</ion-select-option>
-          <ion-select-option [value]="licenseType.LICENCIA_POR_ESTUDIO">Licencia por Estudio</ion-select-option>
-          <ion-select-option [value]="licenseType.LICENCIA_POR_VACACIONES">Licencia por Vacaciones</ion-select-option>
-          <ion-select-option [value]="licenseType.LICENCIA_ESPECIAL">Licencia Especial</ion-select-option>
+        <app-select-input #formInput class="mb-10" label="Tipo" [(bindedObject)]="license()!.type">
+          <ion-select-option #option [value]="licenseType.LICENCIA_MEDICA">Licencia Médica</ion-select-option>
+          <ion-select-option #option [value]="licenseType.LICENCIA_POR_RAZONES_FAMILIARES">Licencia por Razones Familiares</ion-select-option>
+          <ion-select-option #option [value]="licenseType.LICENCIA_POR_MATRIMONIO">Licencia por Matrimonio</ion-select-option>
+          <ion-select-option #option [value]="licenseType.LICENCIA_POR_ESTUDIO">Licencia por Estudio</ion-select-option>
+          <ion-select-option #option [value]="licenseType.LICENCIA_POR_VACACIONES">Licencia por Vacaciones</ion-select-option>
+          <ion-select-option #option [value]="licenseType.LICENCIA_ESPECIAL">Licencia Especial</ion-select-option>
         </app-select-input>
     
         <app-submit-button [isEdit]="idParam() !== undefined"></app-submit-button>

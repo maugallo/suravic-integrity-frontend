@@ -129,4 +129,84 @@ export class AlertService {
     });
   }
 
+  public getDualButtonAlert(title: string, confirmButtonText: string, cancelButtonText: string) {
+    return Swal.fire({
+      title,
+      showCancelButton: true,
+      confirmButtonText,
+      cancelButtonText,
+      heightAuto: false,
+      customClass: {
+        title: 'sweet-modal-title',
+        confirmButton: 'sweet-modal-button-2',
+        cancelButton: 'sweet-modal-cancel-button-2'
+      }
+    });
+  }
+
+  public getSelectAlert(title: string, confirmButtonText: string, inputPlaceholder: string, options: any[]) {
+    return Swal.fire({
+      title,
+      input: 'select',
+      inputOptions: options,
+      inputPlaceholder,
+      confirmButtonText,
+      heightAuto: false,
+      customClass: {
+        title: 'sweet-modal-title',
+        input: 'sweet-modal-input',
+        confirmButton: 'sweet-modal-button-3'
+      },
+      preConfirm: (value) => {
+        if (!value) {
+          Swal.showValidationMessage('Debes seleccionar un elemento');
+        } else {
+          return value;
+        }
+      },
+    });
+  }
+
+  public getMultipleSelectAlert(title: string, confirmButtonText: string,
+    firstPlaceholder: string, secondPlaceholder: string,
+    firstOptions: any[], secondOptions: any[]) {
+    const firstSelect = firstOptions.map(opcion => `<option value="${opcion.value}">${opcion.label}</option>`).join('');
+    const secondSelect = secondOptions.map(opcion => `<option value="${opcion.value}">${opcion.label}</option>`).join('');
+
+    return Swal.fire({
+      title,
+      html: `
+      <label for="first-select">${firstPlaceholder}</label>
+      <select id="first-select" class="swal2-select">
+        ${firstSelect}
+      </select>
+      <br><br>
+      <label for="second-select">${secondPlaceholder}</label>
+      <select id="second-select" class="swal2-select">
+        ${secondSelect}
+      </select>
+    `,
+      heightAuto: false,
+      confirmButtonText,
+      customClass: {
+        title: 'sweet-modal-title',
+        confirmButton: 'sweet-modal-button-3'
+      },
+      preConfirm: () => {
+        const firstSelectValue = (document.getElementById('first-select') as HTMLSelectElement).value;
+        const secondSelectValue = (document.getElementById('second-select') as HTMLSelectElement).value;
+
+        if (!firstSelectValue || !secondSelectValue) {
+          Swal.showValidationMessage('Debes seleccionar una opción en ambos campos.');
+          return false;
+        }
+
+        return {
+          firstSelect: firstSelectValue,
+          secondSelect: secondSelectValue,
+        };
+      }
+    });
+  }
+
 }

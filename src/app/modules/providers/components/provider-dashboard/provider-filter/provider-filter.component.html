@@ -4,9 +4,9 @@
       <!-- Sectors filter -->
       <p class="filter-subtitle mb-3">Rubros</p>
       <app-select-input [(bindedObject)]="filters.sectors" label="Selecciona para filtrar"
-      [multiple]="true" [options]="sectors()" [required]="false">
+      [multiple]="true" [required]="false">
         @for (sector of sectors(); track $index) {
-          <ion-select-option [value]="sector.id">{{ sector.name }}</ion-select-option>
+          <ion-select-option #option [value]="sector.id">{{ sector.name }}</ion-select-option>
         }
       </app-select-input>
     </div>
@@ -15,9 +15,9 @@
       <!-- VAT conditions filter -->
       <p class="filter-subtitle mb-3">Condiciones IVA</p>
       <app-select-input [(bindedObject)]="filters.vatConditions" label="Selecciona para filtrar"
-      [multiple]="true" [options]="vatConditions" [required]="false">
+      [multiple]="true" [required]="false">
         @for (condition of vatConditions; track $index) {
-          <ion-select-option [value]="condition.value">{{ condition.title }}</ion-select-option>
+          <ion-select-option #option [value]="condition.value">{{ condition.title }}</ion-select-option>
         }
       </app-select-input>
     </div>

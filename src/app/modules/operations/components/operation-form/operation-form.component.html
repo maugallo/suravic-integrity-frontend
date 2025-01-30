@@ -9,10 +9,9 @@
     <form #operationForm="ngForm" id="userForm" (ngSubmit)="onSubmit()">
       @if (operation()) {
         <!-- Operation type Input -->
-        <app-select-input #formInput class="my-10" inputName="operationTypeSelect" label="Tipo" [(bindedObject)]="operation()!.type"
-        [options]="['Ticket', 'Adelanto']">
-        <ion-select-option [value]="operationType.TICKET">Ticket</ion-select-option>
-        <ion-select-option [value]="operationType.ADELANTO">Adelanto</ion-select-option>
+        <app-select-input #formInput class="my-10" inputName="operationTypeSelect" label="Tipo" [(bindedObject)]="operation()!.type">
+        <ion-select-option #option [value]="operationType.TICKET">Ticket</ion-select-option>
+        <ion-select-option #option [value]="operationType.ADELANTO">Adelanto</ion-select-option>
         </app-select-input>
 
         <!-- Receipt File Input -->

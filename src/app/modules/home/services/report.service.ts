@@ -1,6 +1,6 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -13,21 +13,28 @@ export class ReportService {
   private apiUrl = `${environment.apiUrl}/reports`;
 
   public getEmployeesReport(): Observable<Blob> {
-    return this.http.get(`${this.apiUrl}/employees`, { responseType: 'blob' })
-      .pipe(catchError(this.handleError));
+    return this.http.get(`${this.apiUrl}/employees`, { responseType: 'blob' });
   }
 
-  private handleError(error: HttpErrorResponse) {
-    switch (error.status) {
-      case 400:
-        return throwError(() => new Error(error.error));
-      case 403:
-        return throwError(() => new Error("No tienes los permisos para realizar esta acción"));
-      case 500:
-        return throwError(() => new Error("Ocurrió un error en el servidor"));
-      default:
-        return throwError(() => error);
-    }
+  public getAttendancesReport(month: ChosenMonth): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/attendances?month=${month}`, { responseType: 'blob' });
   }
 
+  public getTicketsReport(employeeId: number, month: ChosenMonth): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/tickets/${employeeId}?month=${month}`, { responseType: 'blob' });
+  }
+
+  public getPayAdvancesReport(employeeId: number, month: ChosenMonth): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/pay-advances/${employeeId}?month=${month}`, { responseType: 'blob' });
+  }
+
+  public getDebtsReport() {
+    return this.http.get(`${this.apiUrl}/debts`, { responseType: 'blob' });
+  }
+
+}
+
+export enum ChosenMonth {
+  CURRENT = 'current',
+  LAST = 'last'
 }

@@ -1,4 +1,4 @@
-import { Component, computed, inject, output } from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
 import { IonContent, IonMenu, IonSelectOption, IonButton, MenuController, IonLabel, IonRange } from "@ionic/angular/standalone";
 import { FormsModule } from '@angular/forms';
 import { CurrencyPipe } from '@angular/common';
@@ -24,9 +24,10 @@ export class OrderFilterComponent {
   public paymentMethods = computed(() => this.paymentMethodStore.entities());
   public providers = computed(() => this.providerStore.enabledEntities());
 
-  public MIN_TOTAL = MIN_TOTAL;
-  public MAX_TOTAL = MAX_TOTAL;
-  public totalRange = { lower: MIN_TOTAL, upper: MAX_TOTAL };
+  public minTotal = input(0);
+  public maxTotal = input(500000);
+
+  public totalRange = { lower: this.minTotal(), upper: this.maxTotal() };
 
   public filters: OrderFilters = {
     providers: [],
@@ -45,7 +46,7 @@ export class OrderFilterComponent {
       paymentMethods: [],
       totals: []
     }
-    this.totalRange = { lower: MIN_TOTAL, upper: MAX_TOTAL };
+    this.totalRange = { lower: this.minTotal(), upper: this.maxTotal() };
 
     this.filtersEmitter.emit(this.filters);
   }
@@ -55,9 +56,6 @@ export class OrderFilterComponent {
   }
 
 }
-
-export const MIN_TOTAL = 0;
-export const MAX_TOTAL = 100000;
 
 export interface OrderFilters {
   providers: number[],

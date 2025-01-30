@@ -9,11 +9,10 @@
       <div class="percentage-container mt-8 mb-4">
         <p class="percentage-label mb-3">IVA</p>
 
-        <app-select-input inputName="wedwe" [(bindedObject)]="product()!.vatPercentage" [options]="[21, 10.5, 0]"
-        [required]="false">
-          <ion-select-option [value]="21">21</ion-select-option>
-          <ion-select-option [value]="10.5">10,5</ion-select-option>
-          <ion-select-option [value]="0">0</ion-select-option>
+        <app-select-input inputName="wedwe" [(bindedObject)]="product()!.vatPercentage" [required]="false">
+          <ion-select-option #option [value]="21">21</ion-select-option>
+          <ion-select-option #option [value]="10.5">10,5</ion-select-option>
+          <ion-select-option #option [value]="0">0</ion-select-option>
         </app-select-input>
       </div>
 

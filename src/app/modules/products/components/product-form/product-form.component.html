@@ -23,18 +23,18 @@
 
       <!-- Provider Input -->
       <app-select-input #formInput class="mb-10" inputName="providerSelect" [(bindedObject)]="product().providerId"
-        label="Proveedor" [options]="providers" [disabled]="(idParam() !== undefined && (productId >= 1 && productId <= 35))">
+        label="Proveedor" [disabled]="(idParam() !== undefined && (productId >= 1 && productId <= 35))">
         @for (provider of providers; track $index) {
-          <ion-select-option [value]="provider.id">{{ provider.companyName }}</ion-select-option>
+          <ion-select-option #option [value]="provider.id">{{ provider.companyName }}</ion-select-option>
         }
       </app-select-input>
 
       <!-- Category Input -->
       <app-select-input #formInput class="mb-10" inputName="categorySelect" [(bindedObject)]="product().categoryId"
-        label="Categoría" [options]="categories" [disabled]="(idParam() !== undefined && (productId >= 1 && productId <= 35))">
+        label="Categoría" [disabled]="(idParam() !== undefined && (productId >= 1 && productId <= 35))">
         @if (categories) {
           @for (category of categories; track $index) {
-            <ion-select-option [value]="category.id">{{ category.name }}</ion-select-option>
+            <ion-select-option #option [value]="category.id">{{ category.name }}</ion-select-option>
           }
         }
       </app-select-input>

@@ -13,9 +13,9 @@
           [(bindedObject)]="publicHoliday()!.reason"></app-text-input>
 
           <app-select-input #formInput class="mb-10" inputName="shiftSelect" [(bindedObject)]="publicHoliday()!.shiftIds"
-          [multiple]="true" [options]="shifts()" label="Turnos">
+          [multiple]="true" label="Turnos">
               @for (shift of shifts(); track $index) {
-                <ion-select-option [value]="shift.id">{{ shift.name }}</ion-select-option>
+                <ion-select-option #option [value]="shift.id">{{ shift.name }}</ion-select-option>
               }
           </app-select-input>
     

@@ -51,21 +51,20 @@
           <p class="section-title pb-2 mt-6">INFORMACIÓN LABORAL</p>
 
           <!-- Role Select -->
-          <app-select-input #formInput class="mb-8" inputName="roleSelect" label="Rol" [(bindedObject)]="employee.role"
-          [options]="['']">
-            <ion-select-option [value]="employeeRoles.CAJERO">Cajero</ion-select-option>
-            <ion-select-option [value]="employeeRoles.VENDEDOR">Vendedor</ion-select-option>
-            <ion-select-option [value]="employeeRoles.CARNICERO">Carnicero</ion-select-option>
-            <ion-select-option [value]="employeeRoles.ELABORADOR">Elaborador</ion-select-option>
-            <ion-select-option [value]="employeeRoles.TROZADOR">Trozador</ion-select-option>
-            <ion-select-option [value]="employeeRoles.REPARTO">Reparto</ion-select-option>
+          <app-select-input #formInput class="mb-8" inputName="roleSelect" label="Rol" [(bindedObject)]="employee.role">
+            <ion-select-option #option [value]="employeeRoles.CAJERO">Cajero</ion-select-option>
+            <ion-select-option #option [value]="employeeRoles.VENDEDOR">Vendedor</ion-select-option>
+            <ion-select-option #option [value]="employeeRoles.CARNICERO">Carnicero</ion-select-option>
+            <ion-select-option #option [value]="employeeRoles.ELABORADOR">Elaborador</ion-select-option>
+            <ion-select-option #option [value]="employeeRoles.TROZADOR">Trozador</ion-select-option>
+            <ion-select-option #option [value]="employeeRoles.REPARTO">Reparto</ion-select-option>
           </app-select-input>
 
           <!-- Shifts Select -->
           <app-select-input #formInput class="mb-8" inputName="shiftsSelect" label="Turnos" [(bindedObject)]="employee.shiftIds"
-          [options]="shifts()" [multiple]="true">
+          [multiple]="true">
             @for (shift of shifts(); track $index) {
-              <ion-select-option [value]="shift.id">{{ shift.name }}</ion-select-option>
+              <ion-select-option #option [value]="shift.id">{{ shift.name }}</ion-select-option>
             }
           </app-select-input>
 

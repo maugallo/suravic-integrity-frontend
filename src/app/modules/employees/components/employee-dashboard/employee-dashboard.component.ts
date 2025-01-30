@@ -8,6 +8,8 @@ import { EmployeeItemComponent } from "./employee-item/employee-item.component";
 import { EmployeeStore } from '../../stores/employee.store';
 import { watchState } from '@ngrx/signals';
 import { AlertService } from 'src/app/shared/services/alert.service';
+import { LicenseStore } from 'src/app/modules/rests/licenses/store/licenses.store';
+import { DayOffStore } from 'src/app/modules/rests/days-off/store/days-off.store';
 
 @Component({
   selector: 'app-employee-dashboard',
@@ -20,6 +22,8 @@ export class EmployeeDashboardComponent {
 
   private alertService = inject(AlertService);
   private employeeStore = inject(EmployeeStore);
+  private licenseStore = inject(LicenseStore);
+  private dayOffStore = inject(DayOffStore);
   public router = inject(Router);
 
   public seeDeleted = signal(false);
@@ -33,7 +37,7 @@ export class EmployeeDashboardComponent {
 
   constructor() {
     watchState(this.employeeStore, () => {
-      if (this.employeeStore.success()) this.alertService.getSuccessToast(this.employeeStore.message());
+      if (this.employeeStore.success()) this.handleSuccess(this.employeeStore.message());
       if (this.employeeStore.error()) this.alertService.getErrorAlert(this.employeeStore.message());
     });
   }
@@ -41,6 +45,13 @@ export class EmployeeDashboardComponent {
   public searchForEmployees(event: any) {
     const query = event.target.value.toLowerCase();
     this.searchQuery.set(query);
+  }
+
+  private handleSuccess(message: string) {
+    if (message.includes('Eliminado') || message.includes('Recuperado')) {
+      this.licenseStore.updateEntitiesByEmployee(this.employeeStore.lastUpdatedEntity()!);
+    }
+    this.alertService.getSuccessToast(this.employeeStore.message());
   }
 
 }

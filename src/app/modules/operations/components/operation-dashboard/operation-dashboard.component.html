@@ -2,10 +2,20 @@
   <ion-content>
     <app-header title="CUENTA CORRIENTE DE {{ employee.firstName | uppercase }} {{ employee.lastName | uppercase }}" titleSize="title-small"></app-header>
 
-    <div class="balance-container mx-2 mt-2">
+    <div class="balance-container mx-2 my-2">
       <div><ion-button (click)="navigate(employee.creditAccount.id)"><i class="fa-solid fa-coin fa-2x ml-1 mt-1"></i></ion-button></div>
       <div class="ml-8"><h2>SALDO: <span class="balance">{{ employee.creditAccount.balance | currency }}</span></h2></div>
     </div>
+
+    <div class="mx-6 mb-2">
+      <!-- Filter Operation Select -->
+      <app-select-input label="Tipo" [(bindedObject)]="operationType" [required]="false">
+        <ion-select-option #option value="ADELANTO">Adelanto</ion-select-option>
+        <ion-select-option #option value="TICKET">Ticket</ion-select-option>
+        <ion-select-option #option value="todos">Todos</ion-select-option>
+      </app-select-input>
+    </div>
+
     @if (operations().length === 0) { <app-not-found></app-not-found> }
     <ion-list>
       @for (operation of operations(); track $index) {

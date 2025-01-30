@@ -4,9 +4,9 @@
       <!-- Categories filter -->
       <p class="filter-subtitle mb-3">Categorías</p>
       <app-select-input [(bindedObject)]="filters.categories" label="Selecciona para filtrar"
-      [multiple]="true" [options]="categories()" [required]="false">
+      [multiple]="true" [required]="false">
         @for (category of categories(); track $index) {
-          <ion-select-option [value]="category.id">{{ category.name }}</ion-select-option>
+          <ion-select-option #option [value]="category.id">{{ category.name }}</ion-select-option>
         }
       </app-select-input>
     </div>
@@ -15,9 +15,9 @@
       <!-- Providers filter -->
       <p class="filter-subtitle mb-3">Proveedores</p>
       <app-select-input [(bindedObject)]="filters.providers" label="Selecciona para filtrar"
-      [multiple]="true" [options]="providers()" [required]="false">
+      [multiple]="true" [required]="false">
         @for (provider of providers(); track $index) {
-          <ion-select-option [value]="provider.id">{{ provider.companyName }}</ion-select-option>
+          <ion-select-option #option [value]="provider.id">{{ provider.companyName }}</ion-select-option>
         }
       </app-select-input>
     </div>

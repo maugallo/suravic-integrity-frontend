@@ -5,7 +5,7 @@ import { IonContent, IonSearchbar, IonButton, IonList, MenuController } from "@i
 import { NotFoundComponent } from 'src/app/shared/components/not-found/not-found.component';
 import { OrderItemComponent } from "./order-item/order-item.component";
 import { OrderResponse } from '../../models/order.model';
-import { MAX_TOTAL, MIN_TOTAL, OrderFilterComponent, OrderFilters } from 'src/app/modules/orders/components/order-dashboard/order-filter/order-filter.component';
+import { OrderFilterComponent, OrderFilters } from 'src/app/modules/orders/components/order-dashboard/order-filter/order-filter.component';
 import { DeletedButtonComponent } from 'src/app/shared/components/deleted-button/deleted-button.component';
 import { OrderStore } from '../../stores/order.store';
 import { AlertService } from 'src/app/shared/services/alert.service';
@@ -25,18 +25,17 @@ export class OrderDashboardComponent {
   private menuController = inject(MenuController);
   public router = inject(Router);
 
+  public minTotal = computed(() => this.getMinValue(this.orderStore.enabledEntities()));
+  public maxTotal = computed(() => this.getMaxValue(this.orderStore.enabledEntities()));
+
   public seeDeleted = signal(false);
   private searchQuery = signal('');
-  private filters = signal<OrderFilters>({
-    providers: [],
-    paymentMethods: [],
-    totals: [MIN_TOTAL, MAX_TOTAL]
-  });
+  private filters = signal<OrderFilters | undefined>(undefined);
 
   public orders = computed(() => {
-    const orders = this.filterOrders(this.filters(), this.seeDeleted());
+    const orders = this.filterOrders(this.filters()!, this.seeDeleted());
 
-    return this.sortedByDate(orders.filter(order => order.provider.companyName.toLowerCase().includes(this.searchQuery())));
+    return this.sortedByDate(orders!.filter(order => order.provider.companyName.toLowerCase().includes(this.searchQuery())));
   });
 
   constructor() {
@@ -65,19 +64,37 @@ export class OrderDashboardComponent {
   }
 
   public receiveFilters(filters: OrderFilters) {
+    console.log(filters);
     this.filters.set({ ...filters });
   }
 
   private filterOrders(filters: OrderFilters, seeDeleted: boolean) {
     let filteredOrders = seeDeleted ? this.orderStore.deletedEntities() : this.orderStore.enabledEntities();
 
-    return filteredOrders.filter(order => {
-      const orderPaymentMethodsIds = order.paymentMethods.map(method => method.id);
-
-      return (filters.paymentMethods.length === 0 || filters.paymentMethods.some(id => orderPaymentMethodsIds.includes(id))) &&
+    if (filters) {
+      return filteredOrders.filter(order => {
+        const orderPaymentMethodsIds = order.paymentMethods.map(method => method.id);
+        
+        return (filters.paymentMethods.length === 0 || filters.paymentMethods.some(id => orderPaymentMethodsIds.includes(id))) &&
         (filters.providers.length === 0 || filters.providers.includes(order.provider.id)) &&
         (filters.totals.length === 0 || (Number(order.total) >= filters.totals[0] && Number(order.total) <= filters.totals[1]))
-    });
+      });
+    }
+    return filteredOrders;
+  }
+
+  private getMinValue(orders: OrderResponse[]) {
+    if (orders.length > 0)
+      return Number(orders.reduce((min, current) => Number(current.total) < Number(min.total) ? current : min).total);
+    else
+      return 0;
+  }
+
+  private getMaxValue(orders: OrderResponse[]) {
+    if (orders.length > 0)
+      return Number(orders.reduce((max, current) => Number(current.total) > Number(max.total) ? current : max).total) || 0;
+    else
+      return 0;
   }
 
 }

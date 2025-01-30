@@ -18,11 +18,10 @@
         placeHolder="$15000" [minValue]="0" [maxValue]="9999999"></app-number-input>
 
         <!-- Order status Input -->
-        <app-select-input #formInput class="select" inputName="statusSelect" label="Estado" [(bindedObject)]="order()!.status"
-        [options]="['Pendiente', 'Cancelado', 'Pago']">
-          <ion-select-option [value]="orderStatus.PENDIENTE">{{ orderStatus.PENDIENTE }}</ion-select-option>
-          <ion-select-option [value]="orderStatus.CANCELADO">{{ orderStatus.CANCELADO }}</ion-select-option>
-          <ion-select-option [value]="orderStatus.PAGO">{{ orderStatus.PAGO }}</ion-select-option>
+        <app-select-input #formInput class="select" inputName="statusSelect" label="Estado" [(bindedObject)]="order()!.status">
+          <ion-select-option #option [value]="orderStatus.PENDIENTE">{{ orderStatus.PENDIENTE }}</ion-select-option>
+          <ion-select-option #option [value]="orderStatus.CANCELADO">{{ orderStatus.CANCELADO }}</ion-select-option>
+          <ion-select-option #option [value]="orderStatus.PAGO">{{ orderStatus.PAGO }}</ion-select-option>
         </app-select-input>
       </div>
 
@@ -32,17 +31,17 @@
       <div class="provider-method-container mb-10">
         <!-- Provider Input -->
         <app-select-input #formInput class="select" inputName="providerSelect" [(bindedObject)]="order()!.providerId"
-        label="Proveedor" [options]="providers">
+        label="Proveedor">
           @for (provider of providers; track $index) {
-            <ion-select-option [value]="provider.id">{{ provider.companyName }}</ion-select-option>
+            <ion-select-option #option [value]="provider.id">{{ provider.companyName }}</ion-select-option>
           }
         </app-select-input>
         
         <!-- Payment Method Input -->
         <app-select-input #formInput class="select" inputName="paymentMethodSelect" label="Método de pago" [(bindedObject)]="order()!.paymentMethodIds"
-         [disabled]="(order()!.status !== orderStatus.PAGO)" [multiple]="true" [options]="paymentMethods" [required]="(order()!.status === orderStatus.PAGO)">
+         [disabled]="(order()!.status !== orderStatus.PAGO)" [multiple]="true" [required]="(order()!.status === orderStatus.PAGO)">
           @for (paymentMethod of paymentMethods; track $index) {
-            <ion-select-option [value]="paymentMethod.id">{{ paymentMethod.name }}</ion-select-option>
+            <ion-select-option #option [value]="paymentMethod.id">{{ paymentMethod.name }}</ion-select-option>
           }
         </app-select-input>
       </div>

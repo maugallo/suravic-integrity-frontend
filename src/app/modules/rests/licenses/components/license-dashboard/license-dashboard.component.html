@@ -6,12 +6,11 @@
       <!-- Add Shift Button -->
       <ion-button (click)="router.navigate(['licenses', 'form'])"><i class="fa-solid fa-id-badge fa-2x py-0"></i></ion-button>
       <!-- Filter Employee Select -->
-       <app-select-input label="Empleado" [(bindedObject)]="selectedEmployeeId" [options]="employees()"
-       [required]="false">
+       <app-select-input label="Empleado" [(bindedObject)]="selectedEmployeeId" [required]="false">
         @for (employee of employees(); track $index) {
-          <ion-select-option [value]="employee.id">{{ employee.firstName }} {{ employee.lastName }}</ion-select-option>
+          <ion-select-option #option [value]="employee.id">{{ employee.firstName }} {{ employee.lastName }}</ion-select-option>
         }
-        <ion-select-option [value]="-1">Todos</ion-select-option>
+        <ion-select-option #option [value]="-1">Todos</ion-select-option>
        </app-select-input>
     </div>
 

@@ -14,17 +14,17 @@
         <div class="selects-container mb-8">
           <!-- Employee Select -->
           <app-select-input #formInput inputName="roleSelect" [(bindedObject)]="dayOff.employeeId" 
-          label="Empleado" [options]="employees()" (bindedObjectChange)="changeEmployeeShifts()">
+          label="Empleado" (bindedObjectChange)="changeEmployeeShifts()">
             @for (employee of employees(); track $index) {
-              <ion-select-option [value]="employee.id">{{ employee.firstName }}  {{ employee.lastName }}</ion-select-option>
+              <ion-select-option #option [value]="employee.id">{{ employee.firstName }}  {{ employee.lastName }}</ion-select-option>
             }
           </app-select-input>
 
           <!-- Shifts Select -->
           <app-select-input #formInput inputName="shiftSelect" [(bindedObject)]="dayOff.shiftIds" 
-          label="Turno" [options]="employeeShifts" [multiple]="true" [disabled]="(dayOff.employeeId === 0)">
+          label="Turno" [multiple]="true" [disabled]="(dayOff.employeeId === 0)">
             @for (shift of employeeShifts; track $index) {
-              <ion-select-option [value]="shift.id">{{ shift.name }}</ion-select-option>
+              <ion-select-option #option [value]="shift.id">{{ shift.name }}</ion-select-option>
             }
           </app-select-input>
         </div>

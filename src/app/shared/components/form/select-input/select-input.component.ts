@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, contentChildren, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonSelect, IonNote } from "@ionic/angular/standalone";
 import { BaseInputComponent } from '../base-input/base-input.component';
@@ -12,11 +12,12 @@ standalone: true
 })
 export class SelectInputComponent extends BaseInputComponent {
 
-  public options = input<any[]>([]);
   public disabled = input<boolean>();
   public multiple = input<boolean>(false);
 
   public customInterfaceOptions: any = { cssClass: 'custom-select-options' };
+
+  public selectOptions = contentChildren('option');
 
   public isSelectValid(): boolean {
     if (this.multiple()) {

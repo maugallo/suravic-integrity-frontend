@@ -22,9 +22,9 @@
 
             <!-- Role selector input -->
             <app-select-input #formInput class="mb-10" inputName="roleSelect" [(bindedObject)]="user()!.role" 
-            label="Rol" [options]="userRoles" [disabled]="(idParam() !== undefined && userId === 1)">
+            label="Rol" [disabled]="(idParam() !== undefined && userId === 1)">
               @for (userRole of userRoles; track $index) {
-                <ion-select-option [value]="userRole.value">{{ userRole.title }}</ion-select-option>
+                <ion-select-option #option [value]="userRole.value">{{ userRole.title }}</ion-select-option>
               }
             </app-select-input>
       
