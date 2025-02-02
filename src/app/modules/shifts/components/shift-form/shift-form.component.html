@@ -10,6 +10,17 @@
             <app-text-input #formInput class="my-10" label="Nombre" pattern="^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$"
             [(bindedObject)]="shift().name"></app-text-input>
 
+            <app-select-input #formInput class="mb-10" inputName="activeDaysSelect" label="Días Activos" [(bindedObject)]="shift().activeDays"
+            [multiple]="true" [required]="true">
+                <ion-select-option #option value="MONDAY">Lunes</ion-select-option>
+                <ion-select-option #option value="TUESDAY">Martes</ion-select-option>
+                <ion-select-option #option value="WEDNESDAY">Miércoles</ion-select-option>
+                <ion-select-option #option value="THURSDAY">Jueves</ion-select-option>
+                <ion-select-option #option value="FRIDAY">Viernes</ion-select-option>
+                <ion-select-option #option value="SATURDAY">Sábado</ion-select-option>
+                <ion-select-option #option value="SUNDAY">Domingo</ion-select-option>
+            </app-select-input>
+
             <app-wheel-time-input class="mb-10" inputName="startTime" label="Horario de Entrada" [(bindedObject)]="shift().startTime" ></app-wheel-time-input>
 
             <app-wheel-time-input class="mb-10" inputName="endTime" label="Horario de Salida" [(bindedObject)]="shift().endTime" ></app-wheel-time-input>

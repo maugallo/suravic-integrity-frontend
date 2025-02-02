@@ -4,7 +4,7 @@
   <ion-modal #dateModal [keepContentsMounted]="true">
     <ng-template>
       <div class="mb-2 pb-2">
-        <ion-datetime [id]="inputName()" [name]="inputName()" presentation="date" [preferWheel]="true" [max]="today"
+        <ion-datetime [id]="inputName()" [name]="inputName()" presentation="date" [preferWheel]="true" [max]="max() ? today : undefined"
           [(ngModel)]="bindedObject"></ion-datetime>
       </div>
       <div class="date-button-container">

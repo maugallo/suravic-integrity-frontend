@@ -60,15 +60,12 @@ export class DayOffFormComponent {
     this.employeeShifts = this.shifts().filter(shift => employeeShiftsIds.includes(shift.id));
   }
 
-  public minDate: string = this.getStartOfWeek(new Date());
+  public minDate: string = this.getToday(new Date());
   public maxDate: string = this.getEndOfThreeWeeks(new Date());
 
-  private getStartOfWeek(date: Date): string {
-    const day = date.getDay();
-    const diff = date.getDate() - day + (day === 0 ? -6 : 1);
-    const startOfWeek = new Date(date.setDate(diff));
-    return startOfWeek.toISOString().split('T')[0];
-  }
+  private getToday(date: Date): string {
+    return date.toISOString().split('T')[0];
+  }  
 
   private getEndOfThreeWeeks(date: Date): string {
     const day = date.getDay();

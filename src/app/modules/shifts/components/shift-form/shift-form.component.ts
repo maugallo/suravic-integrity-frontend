@@ -1,6 +1,6 @@
 import { Component, computed, inject, QueryList, ViewChildren } from '@angular/core';
 import { HeaderComponent } from 'src/app/shared/components/header/header.component';
-import { IonContent } from "@ionic/angular/standalone";
+import { IonContent, IonSelectOption } from "@ionic/angular/standalone";
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { ValidationService } from 'src/app/shared/services/validation.service';
@@ -15,12 +15,13 @@ import { ShiftMapper } from 'src/app/shared/mappers/shift.mapper';
 import { ShiftStore } from '../../store/shift.store';
 import { watchState } from '@ngrx/signals';
 import { EmployeeStore } from 'src/app/modules/employees/stores/employee.store';
+import { SelectInputComponent } from "../../../../shared/components/form/select-input/select-input.component";
 
 @Component({
   selector: 'app-shift-form',
   templateUrl: './shift-form.component.html',
   styleUrls: ['./shift-form.component.scss'],
-  imports: [IonContent, HeaderComponent, SubmitButtonComponent, FormsModule, WheelTimeInputComponent, TextInputComponent],
+  imports: [IonContent, HeaderComponent, SubmitButtonComponent, FormsModule, WheelTimeInputComponent, TextInputComponent, SelectInputComponent, IonSelectOption],
   standalone: true
 })
 export class ShiftFormComponent {

@@ -4,6 +4,7 @@ export interface ShiftRequest extends BaseEntity {
     name: string,
     startTime: string,
     endTime: string
+    activeDays: string[]
 }
 
 export interface ShiftResponse extends BaseEntity {
@@ -11,5 +12,6 @@ export interface ShiftResponse extends BaseEntity {
     name: string,
     startTime: string,
     endTime: string,
+    activeDays: string[],
     isEnabled: boolean
 }

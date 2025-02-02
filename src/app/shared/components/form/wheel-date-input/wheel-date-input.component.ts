@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonDatetimeButton, IonModal, IonDatetime, IonButton, IonNote } from "@ionic/angular/standalone";
 import { BaseInputComponent } from '../base-input/base-input.component';
@@ -11,6 +11,8 @@ import { BaseInputComponent } from '../base-input/base-input.component';
 standalone: true
 })
 export class WheelDateInputComponent extends BaseInputComponent {
+
+  public max = input(true);
 
   public today = new Date().toISOString().split('T')[0];
 

@@ -19,7 +19,8 @@
         <app-wheel-date-input class="mb-10" inputName="startDateInput" label="Fecha de Inicio" [(bindedObject)]="license()!.startDate"></app-wheel-date-input>
 
         <!-- End Date Input -->
-        <app-wheel-date-input class="mb-10" inputName="endDateInput" label="Fecha de Fin" [(bindedObject)]="license()!.endDate"></app-wheel-date-input>
+        <app-wheel-date-input class="mb-10" inputName="endDateInput" label="Fecha de Fin" [(bindedObject)]="license()!.endDate"
+        [max]="false"></app-wheel-date-input>
 
         <!-- License Type Input -->
         <app-select-input #formInput class="mb-10" label="Tipo" [(bindedObject)]="license()!.type">

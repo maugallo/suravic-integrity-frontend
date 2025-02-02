@@ -5,7 +5,8 @@ export class ShiftMapper {
         return {
             name: shift.name,
             startTime: shift.startTime,
-            endTime: shift.endTime
+            endTime: shift.endTime,
+            activeDays: shift.activeDays 
         };
     }
 
