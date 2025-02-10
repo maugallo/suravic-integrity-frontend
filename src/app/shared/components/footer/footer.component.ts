@@ -4,7 +4,7 @@ import { AuthService } from 'src/app/modules/auth/services/auth.service';
 import { AlertService } from '../../services/alert.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter, map, switchMap, tap } from 'rxjs';
+import { filter, map, of, switchMap, tap } from 'rxjs';
 import { StorageService, StorageType } from '../../services/storage.service';
 import { TokenUtility } from '../../utils/token.utility';
 
@@ -24,8 +24,12 @@ export class FooterComponent {
 
   public role = toSignal(this.router.events.pipe(
     filter((event) => event instanceof NavigationEnd),
-    switchMap(() => this.storageService.getStorage(StorageType.TOKEN)),
-    tap((token) => token ?? this.router.navigate(['welcome'])),
+    switchMap(() => {
+      if (this.router.url.includes('welcome')) {
+        return of(null);
+      }
+      return this.storageService.getStorage(StorageType.TOKEN)
+    }),
     map((token) => TokenUtility.getRoleFromToken(token))
   ));
 
