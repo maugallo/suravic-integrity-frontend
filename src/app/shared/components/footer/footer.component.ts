@@ -25,9 +25,8 @@ export class FooterComponent {
   public role = toSignal(this.router.events.pipe(
     filter((event) => event instanceof NavigationEnd),
     switchMap(() => {
-      if (this.router.url.includes('welcome')) {
+      if (this.router.url.includes('welcome'))
         return of(null);
-      }
       return this.storageService.getStorage(StorageType.TOKEN)
     }),
     map((token) => TokenUtility.getRoleFromToken(token))
