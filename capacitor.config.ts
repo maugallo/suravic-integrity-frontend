@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'suravic-integrity-frontend',
+  appId: 'com.suravic.integrity',
+  appName: 'Suravic Integrity',
   webDir: 'www'
 };
 

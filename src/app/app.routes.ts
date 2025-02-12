@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { authGuard } from './shared/guards/auth.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' }, // Si el path es exactamente vacío, redirecciona a home.
+  { path: '', redirectTo: '/welcome', pathMatch: 'full' }, // Si el path es exactamente vacío, redirecciona a home.
   { path: '', loadChildren: () => import('./modules/auth/auth.routes').then(m => m.AUTH_ROUTES), canActivate: [authGuard] },
   { path: '', loadChildren: () => import('./shared/components/footer/tabs.routes').then(m => m.TABS_ROUTES), canActivate: [authGuard] },
   { path: '', loadChildren: () => import('./modules/users/users.routes').then(m => m.USERS_ROUTES), canActivate: [authGuard] },
