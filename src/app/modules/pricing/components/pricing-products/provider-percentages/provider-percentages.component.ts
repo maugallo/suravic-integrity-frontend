@@ -8,6 +8,7 @@ import { AlertService } from 'src/app/shared/services/alert.service';
 import { ProviderMapper } from 'src/app/shared/mappers/provider.mapper';
 import { ProviderStore } from 'src/app/modules/providers/stores/provider.store';
 import { watchState } from '@ngrx/signals';
+import { ProductStore } from 'src/app/modules/products/store/product.store';
 
 @Component({
   selector: 'app-provider-percentages',
@@ -20,13 +21,14 @@ export class ProviderPercentagesComponent {
 
   private alertService = inject(AlertService);
   private providerStore = inject(ProviderStore);
+  private productStore = inject(ProductStore);
   private menuController = inject(MenuController);
 
   public provider = model<ProviderResponse>();
 
   constructor() {
     watchState(this.providerStore, () => {
-      if (this.providerStore.success()) this.alertService.getSuccessToast(this.providerStore.message());
+      if (this.providerStore.success()) this.handleSuccess(this.providerStore.message());
       if (this.providerStore.error()) this.alertService.getErrorAlert(this.providerStore.message());
     });
   }
@@ -44,6 +46,13 @@ export class ProviderPercentagesComponent {
 
     this.providerStore.editEntity({ id: provider.id!, entity: providerRequest });
     this.menuController.close('provider-percentages-menu');
+  }
+
+  private handleSuccess(message: string) {
+    if (message.includes('Modificado')) {
+      this.productStore.updateEntitiesByProvider(this.providerStore.lastUpdatedEntity()!);
+    }
+    this.alertService.getSuccessToast(this.providerStore.message());
   }
 
 }

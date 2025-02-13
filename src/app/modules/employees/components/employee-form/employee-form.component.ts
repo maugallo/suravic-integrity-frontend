@@ -20,6 +20,8 @@ import { EmployeeRole } from '../../models/employee-role.enum';
 import { EmployeeStore } from '../../stores/employee.store';
 import { watchState } from '@ngrx/signals';
 import { ShiftStore } from 'src/app/modules/shifts/store/shift.store';
+import { DayOffStore } from 'src/app/modules/rests/days-off/store/days-off.store';
+import { LicenseStore } from 'src/app/modules/rests/licenses/store/licenses.store';
 
 @Component({
   selector: 'app-employee-form',
@@ -34,6 +36,8 @@ export class EmployeeFormComponent {
   private validationService = inject(ValidationService);
   private shiftStore = inject(ShiftStore);
   private employeeStore = inject(EmployeeStore);
+  private dayOffStore = inject(DayOffStore);
+  private licenseStore = inject(LicenseStore);
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
 
@@ -82,6 +86,11 @@ export class EmployeeFormComponent {
   }
 
   private handleSuccess(message: string) {
+    if (message.includes('Modificado')) {
+      this.dayOffStore.updateEntitiesByEmployee(this.employeeStore.lastUpdatedEntity()!);
+      this.licenseStore.updateEntitiesByEmployee(this.employeeStore.lastUpdatedEntity()!);
+    }
+
     this.alertService.getSuccessToast(message);
     this.router.navigate(['employees', 'dashboard']);
   }

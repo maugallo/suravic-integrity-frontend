@@ -9,7 +9,7 @@
     <form #productForm="ngForm" id="productForm" (ngSubmit)="onSubmit()">
       <!-- Title Input -->
       <app-text-input #formInput class="my-10" inputName="titleInput" [(bindedObject)]="product().title" label="Nombre"
-        placeHolder="Ingrese el nombre" pattern="^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$"></app-text-input>
+        placeHolder="Ingrese el nombre" pattern="^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$" [maxlength]="40"></app-text-input>
 
       <div class="price-plu-container mb-10">
         <!-- Price Input -->

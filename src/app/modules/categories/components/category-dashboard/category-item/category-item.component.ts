@@ -29,7 +29,7 @@ export class CategoryItemComponent {
   public openEditCategoryAlert() {
     this.turnInert.emit(true);
     this.alertService.showInputAlert(
-      'EDITAR CATEGORÍA <i class="fa-solid fa-pen-to-square fa-1x"></i>', 'Ingrese un nombre',
+      'MODIFICAR CATEGORÍA <i class="fa-solid fa-pen-to-square fa-1x"></i>', 'Ingrese un nombre',
       'EDITAR', this.handleValidations()
     ).finally(() => this.turnInert.emit(false));
   }

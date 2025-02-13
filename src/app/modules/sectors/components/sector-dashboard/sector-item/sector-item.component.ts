@@ -25,8 +25,8 @@ export class SectorItemComponent {
   public openEditSectorAlert() {
     this.turnInert.emit(true);
     this.alertService.showInputAlert(
-      'EDITAR RUBRO <i class="fa-solid fa-pen-to-square fa-1x"></i>', 'Ingrese un nombre',
-      'AGREGAR', this.handleValidations()
+      'MODIFICAR RUBRO <i class="fa-solid fa-pen-to-square fa-1x"></i>', 'Ingrese un nombre',
+      'EDITAR', this.handleValidations()
     ).finally(() => this.turnInert.emit(false));
   }
 

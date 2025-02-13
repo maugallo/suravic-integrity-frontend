@@ -18,7 +18,7 @@ export const DayOffStore = signalStore(
             patchState(store, (state) => ({
                 entities: state.entities.map(entity =>
                     entity.employee.id === employee.id ?
-                        { ...entity, isEnabled: employee.isEnabled } :
+                        { ...entity, isEnabled: employee.isEnabled, employee } :
                         entity
                 )
             }))

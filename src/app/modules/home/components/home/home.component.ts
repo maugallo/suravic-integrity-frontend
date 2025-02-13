@@ -4,7 +4,7 @@ import { OptionComponent } from "./option/option.component";
 import { DUENO_OPTIONS, ENCARGADO_OPTIONS, Option } from '../../models/home-options.constant';
 import { NavigationEnd, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { filter, map, switchMap, tap } from 'rxjs';
+import { filter, map, of, switchMap, tap } from 'rxjs';
 import { StorageService } from 'src/app/shared/services/storage.service';
 import { StorageType } from 'src/app/shared/services/storage.service';
 import { TokenUtility } from 'src/app/shared/utils/token.utility';
@@ -24,11 +24,17 @@ export class HomeComponent {
 
   public role = toSignal(this.router.events.pipe(
     filter((event) => event instanceof NavigationEnd),
-    switchMap(() => this.storageService.getStorage(StorageType.TOKEN)),
-    tap((token) => token ?? this.router.navigate(['welcome'])),
-    map((token) => TokenUtility.getRoleFromToken(token))
+    switchMap(() => {
+      if (this.router.url.includes('welcome') || this.router.url.includes('login'))
+        return of(null);
+      return this.storageService.getStorage(StorageType.TOKEN)
+    }),
+    map((token) => { 
+      if(token) return TokenUtility.getRoleFromToken(token);
+      return undefined;
+    })
   ));
-
+  
   public options = computed(() => {
     if (this.role()) {
       if (this.role() === 'ROLE_DUENO') return DUENO_OPTIONS;

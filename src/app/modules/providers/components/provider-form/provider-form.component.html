@@ -60,15 +60,15 @@
 
           <!-- Profit Percentage Input -->
           <app-number-input #formInput class="mb-8" inputName="profitPercentageInput" [(bindedObject)]="provider()!.percentages.profitPercentage" 
-          label="Porcentaje de Ganancia" placeHolder="35%" [minValue]="-1" [maxValue]="9999999"></app-number-input>
+          label="Porcentaje de Ganancia" placeHolder="35%" [minValue]="-1" [maxValue]="100"></app-number-input>
 
           <!-- Perception Percentage Input -->
           <app-number-input #formInput class="mb-8" inputName="perceptionPercentageInput" [(bindedObject)]="provider()!.percentages.perceptionPercentage" 
-          label="Porcentaje de Percepción" placeHolder="4%" [minValue]="-1" [maxValue]="9999999"></app-number-input>
+          label="Porcentaje de Percepción" placeHolder="4%" [minValue]="-1" [maxValue]="100"></app-number-input>
 
           <!-- Gross Income Percentage Input -->
           <app-number-input #formInput class="mb-8" inputName="grossIncomePercentageInput" [(bindedObject)]="provider()!.percentages.grossIncomePercentage" 
-          label="Porcentaje de Ingresos Brutos" placeHolder="3%" [minValue]="-1" [maxValue]="9999999"></app-number-input>
+          label="Porcentaje de Ingresos Brutos" placeHolder="3%" [minValue]="-1" [maxValue]="100"></app-number-input>
     
           <app-submit-button class="mb-5" [isEdit]="idParam() !== undefined"></app-submit-button>
       </form>

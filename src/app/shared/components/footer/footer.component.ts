@@ -25,11 +25,14 @@ export class FooterComponent {
   public role = toSignal(this.router.events.pipe(
     filter((event) => event instanceof NavigationEnd),
     switchMap(() => {
-      if (this.router.url.includes('welcome'))
+      if (this.router.url.includes('welcome') || this.router.url.includes('login'))
         return of(null);
       return this.storageService.getStorage(StorageType.TOKEN)
     }),
-    map((token) => TokenUtility.getRoleFromToken(token))
+    map((token) => { 
+      if(token) return TokenUtility.getRoleFromToken(token);
+      return undefined;
+    })
   ));
 
   public logout() {

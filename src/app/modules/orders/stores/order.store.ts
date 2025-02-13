@@ -26,7 +26,7 @@ export const OrderStore = signalStore(
         getInvoiceFile: rxMethod<number>(pipe(
             switchMap((id) => service.getInvoiceFile(id).pipe(
                 tapResponse({
-                    next: async (invoice) => patchState(store, { invoice: await parseFile(invoice, 'archivo') }),
+                    next: async (invoice) => patchState(store, { invoice: await parseFile(invoice, 'factura') }),
                     error: (error: HttpErrorResponse) => patchState(store, setError(error.message)),
                     finalize: () => patchState(store, setCompleted())
                 })
@@ -35,7 +35,7 @@ export const OrderStore = signalStore(
         getPaymentReceiptFile: rxMethod<number>(pipe(
             switchMap((id) => service.getPaymentReceiptFile(id).pipe(
                 tapResponse({
-                    next: async (paymentReceipt) => patchState(store, { paymentReceipt: await parseFile(paymentReceipt, 'archivo') }),
+                    next: async (paymentReceipt) => patchState(store, { paymentReceipt: await parseFile(paymentReceipt, 'comprobante') }),
                     error: (error: HttpErrorResponse) => patchState(store, setError(error.message)),
                     finalize: () => patchState(store, setCompleted())
                 })
