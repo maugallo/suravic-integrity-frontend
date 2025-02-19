@@ -1,4 +1,4 @@
-<ion-modal [inert]="isInert" trigger="open-sector-modal" [initialBreakpoint]="1" [breakpoints]="[0, 1]" handleBehavior="cycle">
+<ion-modal [inert]="false" trigger="open-sector-modal" [initialBreakpoint]="1" [breakpoints]="[0, 1]" handleBehavior="cycle">
   <ng-template>
     <ion-content>
       <app-sector-dashboard (turnInert)="setInert($event)" ></app-sector-dashboard>

@@ -13,6 +13,7 @@ standalone: true
 export class WheelDateInputComponent extends BaseInputComponent {
 
   public max = input(true);
+  public min = input(false);
 
   public today = new Date().toISOString().split('T')[0];
 

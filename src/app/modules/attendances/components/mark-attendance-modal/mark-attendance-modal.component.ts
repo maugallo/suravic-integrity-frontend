@@ -39,12 +39,11 @@ export class MarkAttendanceModalComponent {
         quality: 90,
         allowEditing: false,
         resultType: CameraResultType.DataUrl,
-        source: CameraSource.Camera, // Esto fuerza a abrir la cámara sin opciones adicionales
-        direction: CameraDirection.Front // Configura la cámara frontal
+        source: CameraSource.Camera,
+        direction: CameraDirection.Front
       });
-
+  
       console.log('Imagen seleccionada:', image);
-
       this.submitImage(image);
     } catch (error) {
       console.error('Error al obtener la imagen:', error);

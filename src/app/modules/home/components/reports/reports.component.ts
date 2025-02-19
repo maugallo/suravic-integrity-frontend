@@ -101,52 +101,52 @@ export class ReportsComponent {
     });
   }
 
-  /*   private async downloadFile(response: Blob) { // Smartphone
-      try {
-        // Guardar archivo en dispositivo.
-        const base64Data = await FileUtility.blobToBase64(response);
-        const savedFile = await Filesystem.writeFile({
-          path: `Download/empleados_${new Date().getTime()}.pdf`,
-          data: base64Data,
-          directory: Directory.Documents,
-          recursive: true
-        });
-  
-        // Abrir archivo.
-        const options: FileOpenerOptions = {
-          filePath: savedFile.uri,
-          contentType: 'application/pdf',
-          openWithDefault: true,
-        };
-        await FileOpener.open(options);
-  
-        console.log('Archivo descargado y abierto:', savedFile.uri);
-      } catch (error) {
-        console.error('Error al descargar y abrir el archivo:', error);
-      }
-    } */
-
-  private downloadFile(response: Blob, name: string) { // PC
+  private async downloadFile(response: Blob, name: string) { // Smartphone
     try {
-      // Crear un objeto URL desde el blob
-      const url = window.URL.createObjectURL(response);
-      const fileName = `${name}_${new Date().getTime()}.pdf`;
+      // Guardar archivo en dispositivo.
+      const base64Data = await FileUtility.blobToBase64(response);
+      const savedFile = await Filesystem.writeFile({
+        path: `Download/${name}_${new Date().getTime()}.pdf`,
+        data: base64Data,
+        directory: Directory.Documents,
+        recursive: true
+      });
 
-      // Crear un enlace de descarga temporal
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = fileName;
+      // Abrir archivo.
+      const options: FileOpenerOptions = {
+        filePath: savedFile.uri,
+        contentType: 'application/pdf',
+        openWithDefault: true,
+      };
+      await FileOpener.open(options);
 
-      // Simular el clic para iniciar la descarga
-      link.click();
-
-      // Liberar el objeto URL una vez que no sea necesario
-      window.URL.revokeObjectURL(url);
-
-      console.log('Archivo descargado:', fileName);
+      console.log('Archivo descargado y abierto:', savedFile.uri);
     } catch (error) {
-      console.error('Error al descargar el archivo:', error);
+      console.error('Error al descargar y abrir el archivo:', error);
     }
   }
+
+  /*   private downloadFile(response: Blob, name: string) { // PC
+      try {
+        // Crear un objeto URL desde el blob
+        const url = window.URL.createObjectURL(response);
+        const fileName = `${name}_${new Date().getTime()}.pdf`;
+  
+        // Crear un enlace de descarga temporal
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName;
+  
+        // Simular el clic para iniciar la descarga
+        link.click();
+  
+        // Liberar el objeto URL una vez que no sea necesario
+        window.URL.revokeObjectURL(url);
+  
+        console.log('Archivo descargado:', fileName);
+      } catch (error) {
+        console.error('Error al descargar el archivo:', error);
+      }
+    } */
 
 }

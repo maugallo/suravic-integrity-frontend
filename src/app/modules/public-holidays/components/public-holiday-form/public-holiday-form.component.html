@@ -8,7 +8,7 @@
   <div class="px-10">
       <form #publicHolidayForm="ngForm" id="publicHolidayForm" (ngSubmit)="onSubmit()">
           <app-wheel-date-input class="my-10" inputName="date" label="Fecha" [(bindedObject)]="publicHoliday()!.date" 
-          [max]="false"></app-wheel-date-input>
+          [min]="true" [max]="false"></app-wheel-date-input>
 
           <app-text-input #formInput class="mb-10" label="Razón" pattern="^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$"
           [(bindedObject)]="publicHoliday()!.reason" [maxlength]="100"></app-text-input>

@@ -25,7 +25,7 @@ export class UserDashboardComponent {
   private searchQuery = signal('');
 
   public searchBarResult: Signal<UserResponse[]> = computed(() => 
-    this.userStore.entities().filter(user => user.username.toLowerCase().indexOf(this.searchQuery()) > -1));
+    this.userStore.enabledEntities().filter(user => user.username.toLowerCase().indexOf(this.searchQuery()) > -1));
 
   constructor() {
     watchState(this.userStore, () => {
